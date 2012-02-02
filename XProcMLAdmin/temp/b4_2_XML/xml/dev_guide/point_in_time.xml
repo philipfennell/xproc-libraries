@@ -1,0 +1,734 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="point_in_time.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1053802"></A>
+<A ID="65723"></A>
+ Point-In-Time Queries</Heading-1>
+<pagenum>
+<A ID="pgfId-1053806"></A>
+124</pagenum>
+<Body>
+<A ID="pgfId-1049471"></A>
+You can configure MarkLogic Server to retain old versions of documents, allowing you to evaluate a query statement as if you had travelled back to a point-in-time in the past. When you specify a timestamp at which a query statement should evaluate, that statement will evaluate against the newest version of the database up to (but not beyond) the specified timestamp. </Body>
+<Body>
+<A ID="pgfId-1053733"></A>
+This chapter describes point-in-time queries and forest rollbacks to a point-in-time, and includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1053734"></A>
+<A href="point_in_time.xml#id(47946)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Understanding Point-In-Time Queries</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053738"></A>
+<A href="point_in_time.xml#id(41476)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Using Timestamps in Queries</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053739"></A>
+<A href="point_in_time.xml#id(32038)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Specifying Point-In-Time Queries in xdmp:eval, xdmp:invoke, xdmp:spawn, and XCC</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054576"></A>
+<A href="point_in_time.xml#id(57182)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Keeping Track of System Timestamps</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1058899"></A>
+<A href="point_in_time.xml#id(84726)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Rolling Back a Forest to a Particular Timestamp</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1053740"></A>
+<A ID="47946"></A>
+Understanding Point-In-Time Queries</Heading-2>
+<Body>
+<A ID="pgfId-1054003"></A>
+To best understand point-in-time queries, you need to understand a little about how different versions of fragments are stored and merged out of MarkLogic Server. This section describes some details of how fragments are stored and how that enables point-in-time queries, as well as lists some other details important to understanding what you can and cannot do with point-in-time queries:</Body>
+<Body-bullet>
+<A ID="pgfId-1053971"></A>
+<A href="point_in_time.xml#id(99244)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Fragments Stored in Log-Structured Database</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054014"></A>
+<A href="point_in_time.xml#id(37708)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+System Timestamps and Merge Timestamps</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054037"></A>
+<A href="point_in_time.xml#id(22657)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+How the Fragments for Point-In-Time Queries are Stored</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054042"></A>
+<A href="point_in_time.xml#id(38460)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Only Available on Query Statements, Not on Update Statements</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054047"></A>
+<A href="point_in_time.xml#id(45299)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+All Auxiliary Databases Use Latest Version</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055350"></A>
+<A href="point_in_time.xml#id(71653)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Database Configuration Changes Do Not Apply to Point-In-Time Fragments</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1054308"></A>
+For more information on how merges work, see the 'Understanding and Controlling Database Merges' chapter of the <Emphasis>
+Administrator's Guide</Emphasis>
+. For background material for this chapter, see <A href="transactions.xml#id(44680)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Understanding Transactions in MarkLogic Server' on page&#160;12</A>.</Body>
+<Heading-3>
+<A ID="pgfId-1054015"></A>
+<A ID="99244"></A>
+Fragments Stored in Log-Structured Database</Heading-3>
+<Body>
+<A ID="pgfId-1054010"></A>
+A MarkLogic Server database consists of one or more forests. Each forest is made up of one or more stands. Each stand contains one or more fragments. The number of fragments are determined by several factors, including the number of documents and the fragment roots defined in the database configuration. </Body>
+<Body>
+<A ID="pgfId-1055229"></A>
+To maximize efficiency and improve performance, the fragments are maintained using a method analagous to a <Emphasis>
+log-structured filesystem</Emphasis>
+. A log-structured filesystem is a very efficient way of adding, deleting, and modifying files, with a garbage collection process that periodically removes obsolete versions of the files. In MarkLogic Server, fragments are stored in a log-structured database. MarkLogic Server periodically merges two or more stands together to form a single stand. This merge process is equivalent to the garbage collection of log-structured filesystems.</Body>
+<Body>
+<A ID="pgfId-1053975"></A>
+When you modify or delete an existing document or node, it affects one or more fragments. In the case of modifying a document (for example, an <code>
+xdmp:node-replace</code>
+ operation), MarkLogic Server creates new versions of the fragments involved in the operation. The old versions of the fragments are marked as obsolete, but they are not yet deleted. Similarly, if a fragment is deleted, it is simply marked as obsolete, but it is not immediately deleted from disk (although you will no longer be able to query it without a point-in-time query).</Body>
+<Heading-3>
+<A ID="pgfId-1053995"></A>
+<A ID="37708"></A>
+System Timestamps and Merge Timestamps</Heading-3>
+<Body>
+<A ID="pgfId-1053839"></A>
+When a merge occurs, it recovers disk space occupied by obsolete fragments. The system maintains a <Emphasis>
+system timestamp</Emphasis>
+, which is a number that increases everytime anything maintained by MarkLogic Server is changed. In the default case, the new stand is marked with the current timestamp at the time in which the merge completes (the <Emphasis>
+merge timestamp</Emphasis>
+). Any fragments that became obsolete prior to the merge timestamp (that is, any old versions of fragments or deleted fragments) are eliminated during the merge operation.</Body>
+<Body>
+<A ID="pgfId-1053869"></A>
+There is a control at the database level called the <code>
+merge timestamp</code>
+, set via the Admin Interface. By default, the <code>
+merge timestamp</code>
+ is set to 0, which sets the timestamp of a merge to the timestamp corresponding to when the merge completes. To use point-in-time queries, you can set the <code>
+merge timestamp</code>
+ to a static value corresponding to a particular time. Then, any merges that occur after that time will preserve all fragments, including obsolete fragments, whose timestamps are equal to or later than the specified <code>
+merge timestamp</code>
+.</Body>
+<Body>
+<A ID="pgfId-1053896"></A>
+The effect of preserving obsolete fragments is that you can perform queries that look at an older view of the database, as if you are querying the database from a point-in-time in the past. For details on setting the merge timestamp, see <A href="point_in_time.xml#id(32468)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Enabling Point-In-Time Queries in the Admin Interface' on page&#160;115</A>.</Body>
+<Heading-3>
+<A ID="pgfId-1053773"></A>
+<A ID="22657"></A>
+How the Fragments for Point-In-Time Queries are Stored</Heading-3>
+<Body>
+<A ID="pgfId-1053777"></A>
+Just like any fragments, fragments with an older timestamp are stored in stands, which in turn are stored in forests. The only difference is that they have an older timestamp associated with them. Different versions of fragments can be stored in different stands or in the same stand, depending on if they have been merged into the same stand. </Body>
+<Body>
+<A ID="pgfId-1053950"></A>
+The following figure shows a stand with a merge timestamp of 100. Fragment 1 is a version that was changed at timestamp 110, and fragment 2 is a version of the same fragment that was changed at timestamp 120. </Body>
+<Body>
+<A ID="pgfId-1053915"></A>
+<IMAGE xml:link="simple" href="point_in_time-1.gif" show="embed" actuate="auto"/>
+</Body>
+<Body>
+<A ID="pgfId-1053951"></A>
+In this scenario, if you assume that the current time is timestamp 200, then a query at the current time will see Fragment 2, but not Fragment 1. If you perform a point-in-time query at timestamp&#160;115, you will see Fragment 1, but not Fragment 2 (because Fragment 2 did not yet exist at timestamp 115).</Body>
+<Body>
+<A ID="pgfId-1053952"></A>
+There is no limit to the number of different versions that you can keep around. If the <code>
+merge timestamp</code>
+ is set to the current time or a time in the past, then all subsequently modified fragments will remain in the database, available for point-in-time queries.</Body>
+<Heading-3>
+<A ID="pgfId-1053778"></A>
+<A ID="38460"></A>
+Only Available on Query Statements, Not on Update Statements</Heading-3>
+<Body>
+<A ID="pgfId-1053783"></A>
+You can only specify a point-in-time query statement; attempts to specify a point-in-time query for an update statement will throw an exception. An update statement is any XQuery issued against MarkLogic Server that includes an update function (<code>
+xdmp:document-load</code>
+, <code>
+xdmp:node-replace</code>
+, and so on). For more information on what constitutes query statements and update statements, see <A href="transactions.xml#id(44680)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Understanding Transactions in MarkLogic Server' on page&#160;12</A>.</Body>
+<Heading-3>
+<A ID="pgfId-1053782"></A>
+<A ID="45299"></A>
+All Auxiliary Databases Use Latest Version</Heading-3>
+<Body>
+<A ID="pgfId-1053815"></A>
+The auxiliary databases associated with a database request (that is, the Security, Schemas, Modules, and Triggers databases) all operate at the latest timestamp, even during a point-in-time query. Therefore, any changes made to security objects, schemas, and so on since the time specified in the point-in-time query are <Emphasis>
+not</Emphasis>
+ reflected in the query. </Body>
+<Heading-3>
+<A ID="pgfId-1055351"></A>
+<A ID="71653"></A>
+Database Configuration Changes Do Not Apply to Point-In-Time Fragments </Heading-3>
+<Body>
+<A ID="pgfId-1055355"></A>
+If you make configuration changes to a database (for example, changing database index settings), those changes only apply to the latest versions of fragments. For example, if you make index option changes and reindex a database that has old versions of fragments retained, only the latest versions of the fragments are reindexed. The older versions of fragments, used for point-in-time queries, retain the indexing properties they had at the timestamp in which they became invalid (that is, from the timestamp when an update or delete occured on the fragments). MarkLogic recommends that you do not change database settings and reindex a database that has the <code>
+merge timestamp</code>
+ database parameter set to anything but 0. </Body>
+<Heading-2>
+<A ID="pgfId-1053745"></A>
+<A ID="41476"></A>
+Using Timestamps in Queries</Heading-2>
+<Body>
+<A ID="pgfId-1053759"></A>
+By default, query statements are run at the system timestamp in effect when the statement initiates. To run a query statement at a different system timestamp, you must set up your system to store older versions of documents and then specify the timestamp when you issue a point-in-time query statement. This section describes this general process and includes the following parts:</Body>
+<Body-bullet>
+<A ID="pgfId-1054326"></A>
+<A href="point_in_time.xml#id(32468)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Enabling Point-In-Time Queries in the Admin Interface</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054330"></A>
+<A href="point_in_time.xml#id(93602)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+The xdmp:request-timestamp Function</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055196"></A>
+<A href="point_in_time.xml#id(11510)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Requires the xdmp:timestamp Execute Privilege</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054331"></A>
+<A href="point_in_time.xml#id(74234)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+The Timestamp Parameter to xdmp:eval, xdmp:invoke, xdmp:spawn</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054847"></A>
+<A href="point_in_time.xml#id(85800)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Timestamps on Requests in XCC</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054333"></A>
+<A href="point_in_time.xml#id(89788)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Scoring Considerations</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1053760"></A>
+<A ID="32468"></A>
+Enabling Point-In-Time Queries in the Admin Interface</Heading-3>
+<Body>
+<A ID="pgfId-1053823"></A>
+In order to use point-in-time queries in a database, you must set up merges to preserve old versions of fragments. By default, old versions of fragments are deleted from the database after a merge. For more information on how merges work, see the 'Understanding and Controlling Database Merges' chapter of the <Emphasis>
+Administrator's Guide</Emphasis>
+.</Body>
+<Body>
+<A ID="pgfId-1055312"></A>
+In the Merge Policy Configuration page of the Admin Interface, there is a <code>
+merge timestamp</code>
+ parameter. When this parameter is set to 0 (the default) and merges are enabled, point-in-time queries are effectively disabled. To access the Merge Policy Configuration page, click the Databases &gt; <Emphasis>
+db_name</Emphasis>
+ &gt; Merge Policy link from the tree menu of the Admin Interface.</Body>
+<Body>
+<A ID="pgfId-1055317"></A>
+<IMAGE xml:link="simple" href="images/merge_timestamp.gif" show="embed" actuate="auto"/>
+</Body>
+<Body>
+<A ID="pgfId-1055318"></A>
+When deciding the value at which to set the <code>
+merge timestamp</code>
+ parameter, the most likely value to set it to is the current system timestamp. Setting the value to the current system timestamp will preserve any versions of fragments from the current time going forward. To set the <code>
+merge timestamp</code>
+ parameter to the current timestamp, click the <code>
+get current timestamp</code>
+ button on the Merge Control Configuration page and then Click OK.</Body>
+<Body>
+<A ID="pgfId-1054581"></A>
+If you set a value for the <code>
+merge timestamp</code>
+ parameter higher than the current timestamp, MarkLogic Server will use the current timestamp when it merges (the same behavior as when set to the default of 0). When the system timestamp grows past the specified <code>
+merge timestamp</code>
+ number, it will then start using the <code>
+merge timestamp</code>
+ specified. Similarly, if you set a <code>
+merge timestamp</code>
+ lower than the lowest timestamp preserved in a database, MarkLogic Server will use the lowest timestamp of any preserved fragments in the database, or the current timestamp, whichever is lower.</Body>
+<Body>
+<A ID="pgfId-1054765"></A>
+You might want to keep track of your system timestamps over time, so that when you go to run point-in-time queries, you can map actual time with system timestamps. For an example of how to create such a timestamp record, see <A href="point_in_time.xml#id(57182)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Keeping Track of System Timestamps' on page&#160;120</A>.</Body>
+<Note>
+<A ID="pgfId-1054607"></A>
+After the system merges when the <code>
+merge timestamp</code>
+ is set to 0, all obsolete versions of fragments will be deleted; that is, only the latest versions of fragments will remain in the database. If you set the <code>
+merge timestamp</code>
+ to a value lower than the current timestamp, any obsolete versions of fragments will not be available (because they no longer exist in the database). Therefore, if you want to preserve versions of fragments, you must configure the system to do so before you update the content.</Note>
+<Heading-3>
+<A ID="pgfId-1054373"></A>
+<A ID="93602"></A>
+The xdmp:request-timestamp Function</Heading-3>
+<Body>
+<A ID="pgfId-1053767"></A>
+MarkLogic Server has an XQuery built-in function, <code>
+xdmp:request-timestamp</code>
+, which returns the system timestamp for the current request. MarkLogic Server uses the system timestamp values to keep track of versions of fragments, and you use the system timestamp in the <code>
+merge timestamp</code>
+ parameter (described in <A href="point_in_time.xml#id(32468)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Enabling Point-In-Time Queries in the Admin Interface' on page&#160;115</A>) to specify which versions of fragments remain in the database after a merge. For more details on the <code>
+xdmp:request-timestamp</code>
+ function, see the <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1053768"></A>
+<A ID="11510"></A>
+Requires the xdmp:timestamp Execute Privilege</Heading-3>
+<Body>
+<A ID="pgfId-1055170"></A>
+In order to run a query at a timestamp other than the current timestamp, the user who runs the query must belong to a group that has the <code>
+xdmp:timestamp</code>
+ execute privilege. For details on security and execute privileges, see <Emphasis>
+Understanding and Using Security Guide</Emphasis>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1055169"></A>
+<A ID="74234"></A>
+The Timestamp Parameter to xdmp:eval, xdmp:invoke, xdmp:spawn</Heading-3>
+<Body>
+<A ID="pgfId-1054332"></A>
+The <code>
+xdmp:eval</code>
+, <code>
+xdmp:invoke</code>
+, and <code>
+xdmp:spawn</code>
+ functions all take an <code>
+options</code>
+ node as the optional third parameter. The options node must be in the <code>
+xdmp:eval</code>
+ namespace. The options node has a <code>
+timestamp</code>
+ element which allows you to specify a system timestamp at which the query should run. When you specify a <code>
+timestamp</code>
+ value earlier than the current timestamp, you are specifying a point-in-time query.</Body>
+<Body>
+<A ID="pgfId-1054694"></A>
+The timestamp you specify must be valid for the database. If you specify a system timestamp that is less than the oldest timestamp preserved in the database, the statement will throw an <code>
+XDMP-OLDSTAMP</code>
+ exception. If you specify a timestamp that is newer than the current timestamp, the statement will throw an <code>
+XDMP-NEWSTAMP</code>
+ exception. </Body>
+<Note>
+<A ID="pgfId-1054722"></A>
+If the merge timestamp is set to the default of 0, and if the database has completed all merges since the last updates or deletes, query statements that specify any timestamp older than the current system timestamp will throw the <code>
+XDMP-OLDSTAMP</code>
+ exception. This is because the merge timestamp value of 0 specifies that no obsolete fragments are to be retained.</Note>
+<Body>
+<A ID="pgfId-1054745"></A>
+The following example shows an <code>
+xdmp:eval</code>
+ statement with a <code>
+timestamp</code>
+ parameter:</Body>
+<Code>
+<A ID="pgfId-1054749"></A>
+xdmp:eval(&quot;doc('/docs/mydocument.xml')&quot;, (),
+&#160;&#160;&lt;options xmlns=&quot;xdmp:eval&quot;&gt;
+&#160;&#160;&#160;&#160;&lt;timestamp&gt;99225&lt;/timestamp&gt;
+&#160;&#160;&lt;/options&gt;)</Code>
+<Body>
+<A ID="pgfId-1054750"></A>
+This statement will return the version of the <code>
+/docs/mydocument.xml</code>
+ document that existed at system timestamp 99225.</Body>
+<Heading-3>
+<A ID="pgfId-1053912"></A>
+<A ID="85800"></A>
+Timestamps on Requests in XCC</Heading-3>
+<Body>
+<A ID="pgfId-1054843"></A>
+The <code>
+xdmp:eval</code>
+, <code>
+xdmp:invoke</code>
+, and <code>
+xdmp:spawn</code>
+ functions allow you to specify timestamps for a query statement at the XQuery level. If you are using the XML Content Connector (XCC) libraries to communicate with MarkLogic Server, you can also specify timestamps at the Java or .NET level. </Body>
+<Body>
+<A ID="pgfId-1054863"></A>
+In XCC for Java, you can set options to requests with the <code>
+RequestOptions</code>
+ class, which allows you to modify the environment in which a request runs. The <code>
+setEffectivePointInTime</code>
+ method sets the timestamp in which the request runs. The core design pattern is to set up options for your requests and then use those options when the requests are submitted to MarkLogic Server for evaluation. You can also set request options on the <code>
+Session</code>
+ object. The following Java code snippet shows the basic design pattern:</Body>
+<Code>
+<A ID="pgfId-1055161"></A>
+// create a class and methods that use code similar to 
+// the following to set the system timestamp for requests 
+
+Session session = getSession();
+		BigInteger timestamp = session.getCurrentServerPointInTime();
+		RequestOptions options = new RequestOptions();
+
+		options.setEffectivePointInTime (timestamp);
+		session.setDefaultRequestOptions (options);</Code>
+<Body>
+<A ID="pgfId-1054878"></A>
+For an example of how you might use a Java environment to run point-in-time queries, see <A href="point_in_time.xml#id(88570)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Example: Query Old Versions of Documents Using XCC' on page&#160;119</A>.</Body>
+<Heading-3>
+<A ID="pgfId-1054842"></A>
+<A ID="89788"></A>
+Scoring Considerations</Heading-3>
+<Body>
+<A ID="pgfId-1053772"></A>
+When you store multiple versions of fragments in a database, it will subtly effect the scores returned with <code>
+cts:search</code>
+ results. The scores are calculated using document frequency as a variable in the scoring formula (for the default <code>
+score-logtfidf</code>
+ scoring method). The amount of effect preserving older versions of fragments has depends on two factors:</Body>
+<Body-bullet>
+<A ID="pgfId-1054922"></A>
+How many fragments have multiple versions.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054931"></A>
+How many total fragments are in the database.</Body-bullet>
+<Body>
+<A ID="pgfId-1054932"></A>
+If the number of fragments with multiple versions is small compared with the total number of fragments in the database, then the effect will be relatively small. If that ratio is large, then the effect on scores will be higher.</Body>
+<Body>
+<A ID="pgfId-1054916"></A>
+For more details on scores and the scoring methods, see <A href="../search-dev-guide/relevance.xml#id(86523)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Relevance Scores: Understanding and Customizing</Hyperlink>
+</A> in the <Emphasis>
+Search Developer's Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1053758"></A>
+<A ID="32038"></A>
+Specifying Point-In-Time Queries in xdmp:eval, xdmp:invoke, xdmp:spawn, and XCC</Heading-2>
+<Body>
+<A ID="pgfId-1054423"></A>
+As desribed earlier, specifying a valid <code>
+timestamp</code>
+ element in the <code>
+options</code>
+ node of the <code>
+xdmp:eval</code>
+, <code>
+xdmp:invoke</code>
+, or <code>
+xdmp:spawn</code>
+ functions initiates a point-in-time query. Also, you can use XCC to specify entire XCC requests as point-in-time queries. The query runs at the specified timestamp, seeing a version of the database that existed at the point in time corresponding to the specified timestamp. This section shows some example scenarios for point-in-time queries, and includes the following parts:</Body>
+<Body-bullet>
+<A ID="pgfId-1054820"></A>
+<A href="point_in_time.xml#id(88570)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Example: Query Old Versions of Documents Using XCC</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054825"></A>
+<A href="point_in_time.xml#id(69757)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Example: Querying Deleted Documents</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1054829"></A>
+<A ID="88570"></A>
+Example: Query Old Versions of Documents Using XCC</Heading-3>
+<Body>
+<A ID="pgfId-1054834"></A>
+When making updates to content in your system, you might want to add and test new versions of the content before exposing the new content to your users. During this testing time, the users will still see the old version of the content. Then, when the new content has been sufficiently tested, you can switch the users over to the new content.</Body>
+<Body>
+<A ID="pgfId-1054892"></A>
+Point-in-time queries allow you to do this all within the same database. The only thing that you need to change in the application is the timestamps at which the query statements run. XCC provides a convenient mechanism for accomplishing this goal.</Body>
+<Heading-3>
+<A ID="pgfId-1054946"></A>
+<A ID="69757"></A>
+Example: Querying Deleted Documents</Heading-3>
+<Body>
+<A ID="pgfId-1054947"></A>
+When you delete a document, the fragments for that document are marked as obsolete. The fragments are not actually deleted from disk until a merge completes. Also, if the <code>
+merge timestamp</code>
+ is set to a timestamp earlier than the timestamp corresponding to when the document was deleted, the merge will preserve the obsolete fragments. </Body>
+<Body>
+<A ID="pgfId-1054971"></A>
+This example demonstrates how you can query deleted documents with point-in-time queries. For simplicity, assume that no other query or update activity is happening on the system for the duration of the example. To follow along in the example, run the following code samples in the order shown below.</Body>
+<Number1>
+<A ID="pgfId-1054974"></A>
+First, create a document:</Number1>
+<Code>
+<A ID="pgfId-1054989"></A>
+xdmp:document-insert(&quot;/docs/test.xml&quot;, &lt;a&gt;hello&lt;/a&gt;))</Code>
+<NumberList>
+<Number>
+<A ID="pgfId-1054990"></A>
+When you query the document, it returns the node you inserted:</Number>
+</NumberList>
+<Code>
+<A ID="pgfId-1055004"></A>
+doc(&quot;/docs/test.xml&quot;)
+(: returns the node &lt;a&gt;hello&lt;/a&gt; :)</Code>
+<NumberList>
+<Number>
+<A ID="pgfId-1055006"></A>
+Delete the document:</Number>
+</NumberList>
+<Code>
+<A ID="pgfId-1055022"></A>
+xdmp:document-delete(&quot;/docs/test.xml&quot;)</Code>
+<NumberList>
+<Number>
+<A ID="pgfId-1055005"></A>
+Query the document again. It returns the empty sequence because it was just deleted.</Number>
+<Number>
+<A ID="pgfId-1055030"></A>
+Run a point-in-time query, specifying the current timestamp (this is semantically the same as querying the document without specifying a timestamp):</Number>
+</NumberList>
+<Code>
+<A ID="pgfId-1055037"></A>
+xdmp:eval(&quot;doc('/docs/test.xml')&quot;, (),
+&lt;options xmlns=&quot;xdmp:eval&quot;&gt;
+&#160;&#160;&lt;timestamp&gt;{xdmp:request-timestamp()}&lt;/timestamp&gt;
+&lt;/options&gt;)
+(: returns the empty sequence because the document has been deleted :)</Code>
+<NumberList>
+<Number>
+<A ID="pgfId-1055031"></A>
+Run the point-in-time query at one less than the current timestamp, which is the old timestamp in this case because only one change has happened to the database. The following query statement returns the old document.</Number>
+</NumberList>
+<Code>
+<A ID="pgfId-1055060"></A>
+xdmp:eval(&quot;doc('/docs/test.xml')&quot;, (),
+&lt;options xmlns=&quot;xdmp:eval&quot;&gt;
+&#160;&#160;&lt;timestamp&gt;{xdmp:request-timestamp()-1}&lt;/timestamp&gt;
+&lt;/options&gt;)
+(: returns the deleted version of the document :)</Code>
+<Heading-2>
+<A ID="pgfId-1053749"></A>
+<A ID="57182"></A>
+Keeping Track of System Timestamps</Heading-2>
+<Body>
+<A ID="pgfId-1054424"></A>
+The system timestamp does not record the actual time in which updates occur; it is simply a number that is incremented by 1 each time an update or configuration change occurs in the system. If you want to map system timestamps with actual time, you need to store that information somewhere. This section shows a design pattern, including some sample code, of the basic principals for creating an application that archives the system timestamp at actual time intervals.</Body>
+<Note>
+<A ID="pgfId-1054441"></A>
+It might not be important to your application to map system timestamps to actual time. For example, you might simply set up your merge timestamp to the current timestamp, and know that all versions from then on will be preserved. If you do not need to keep track of the system timestamp, you do not need to create this application.</Note>
+<Body>
+<A ID="pgfId-1054442"></A>
+The first step is to create a document in which the timestamps are stored, with an initial entry of the current timestamp. To avoid possible confusion of future point-in-time queries, create this document in a different database than the one in which you are running point-in-time queries. You can create the document as follows:</Body>
+<Code>
+<A ID="pgfId-1054457"></A>
+xdmp:document-insert(&quot;/system/history.xml&quot;, 
+&lt;timestamp-history&gt;
+&#160;&#160;&lt;entry&gt;
+&#160;&#160;&#160;&#160;&lt;datetime&gt;{fn:current-dateTime()}&lt;/datetime&gt;
+&#160;&#160;&#160;&#160;&lt;system-timestamp&gt;{
+(: use eval because this is an update statement :)
+&#160;&#160;&#160;&#160;&#160;&#160;xdmp:eval(&quot;xdmp:request-timestamp()&quot;)}
+&#160;&#160;&#160;&#160;&lt;/system-timestamp&gt;
+&#160;&#160;&lt;/entry&gt;
+&lt;/timestamp-history&gt;)</Code>
+<Body>
+<A ID="pgfId-1054452"></A>
+This results in a document similar to the following:</Body>
+<Code>
+<A ID="pgfId-1054487"></A>
+&lt;timestamp-history&gt;
+&#160;&#160;&lt;entry&gt;
+&#160;&#160;&#160;&#160;&lt;datetime&gt;2006-04-26T19:35:51.325-07:00&lt;/datetime&gt;
+&#160;&#160;&#160;&#160;&lt;system-timestamp&gt;92883&lt;/system-timestamp&gt;
+&#160;&#160;&lt;/entry&gt;
+&lt;/timestamp-history&gt;</Code>
+<Body>
+<A ID="pgfId-1054488"></A>
+Note that the code uses <code>
+xdmp:eval</code>
+ to get the current timestamp. It must use <code>
+xdmp:eval</code>
+ because the statement is an update statement, and update statements always return the empty sequence for calls to <code>
+xdmp:request-timestamp</code>
+. For details, see <A href="transactions.xml#id(44680)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Understanding Transactions in MarkLogic Server' on page&#160;12</A>.</Body>
+<Body>
+<A ID="pgfId-1054542"></A>
+Next, set up a process to run code similar to the following at periodic intervals. For example, you might run the following every 15 minutes:</Body>
+<Code>
+<A ID="pgfId-1054504"></A>
+xdmp:node-insert-child(doc(&quot;/system/history.xml&quot;)/timestamp-history,
+&lt;entry&gt;
+&#160;&#160;&lt;datetime&gt;{fn:current-dateTime()}&lt;/datetime&gt;
+&#160;&#160;&lt;system-timestamp&gt;{
+(: use eval because this is an update statement :)
+&#160;&#160;&#160;xdmp:eval(&quot;xdmp:request-timestamp()&quot;)}
+&#160;&#160;&lt;/system-timestamp&gt;
+&lt;/entry&gt;)</Code>
+<Body>
+<A ID="pgfId-1054561"></A>
+This results in a document similar to the following:</Body>
+<Code>
+<A ID="pgfId-1054524"></A>
+&lt;timestamp-history&gt;
+&#160;&#160;&lt;entry&gt;
+&#160;&#160;&#160;&#160;&lt;datetime&gt;2006-04-26T19:35:51.325-07:00&lt;/datetime&gt;
+&#160;&#160;&#160;&#160;&lt;system-timestamp&gt;92883&lt;/system-timestamp&gt;
+&#160;&#160;&lt;/entry&gt;
+&#160;&#160;&lt;entry&gt;
+&#160;&#160;&#160;&#160;&lt;datetime&gt;2006-04-26T19:46:13.225-07:00&lt;/datetime&gt;
+&#160;&#160;&#160;&#160;&lt;system-timestamp&gt;92884&lt;/system-timestamp&gt;
+&#160;&#160;&lt;/entry&gt;
+&lt;/timestamp-history&gt;</Code>
+<Body>
+<A ID="pgfId-1054525"></A>
+To call this code at periodic intervals, you can set up a cron job, write a shell script, write a Java or dotnet program, or use any method that works in your environment. Once you have the document with the timestamp history, you can easily query it to find out what the system timestamp was at a given time.</Body>
+<Heading-2>
+<A ID="pgfId-1058910"></A>
+<A ID="84726"></A>
+Rolling Back a Forest to a Particular Timestamp</Heading-2>
+<Body>
+<A ID="pgfId-1058929"></A>
+In addition to allowing you to query the state of the database at a given point in time, setting a merge timestamp and preserving deleted fragments also allows you to roll back the state of one or more forests to a timestamp that is preserved. To roll back one or more forests to a given timestamp, use the <code>
+xdmp:forest-rollback</code>
+ function. This section covers the following topics about using xdmp:forest-rollback to roll back the state of one or more forests:</Body>
+<Body-bullet>
+<A ID="pgfId-1059043"></A>
+<A href="point_in_time.xml#id(48750)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Tradeoffs and Scenarios to Consider For Rolling Back Forests</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059057"></A>
+<A href="point_in_time.xml#id(75644)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Setting the Merge Timestamp</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059064"></A>
+<A href="point_in_time.xml#id(16264)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Notes About Performing an xdmp:forest-rollback Operation</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059647"></A>
+<A href="point_in_time.xml#id(14388)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+General Steps for Rolling Back One or More Forests</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1059071"></A>
+<A ID="48750"></A>
+Tradeoffs and Scenarios to Consider For Rolling Back Forests</Heading-3>
+<Body>
+<A ID="pgfId-1059119"></A>
+In order to roll a forest back to a previous timestamp, you need to have previously set a merge timestamp that preserved older versions of fragments in your database. Keeping deleted fragments around will make your database grow in size faster, using more disk space and other system resources. The advantage of keeping old fragments around is that you can query the older fragments (using point-in-time queries as described in the previous sections) and also that you can roll back the database to a previous timestamp. You should consider the advantages (the convenience and speed of bringing the state of your forests to a previous time) and the costs (disk space and system resources, keeping track of your system timestamps, and so on) when deciding if it makes sense for your system.</Body>
+<Body>
+<A ID="pgfId-1059140"></A>
+A typical use case for forest rollbacks is to guard against some sort of data-destroying event, providing the ability to get back to the point in time before that event without doing a full database restore. If you wanted to allow your application to go back to some state within the last week, for example, you can create a process whereby you update the merge timestamp every day to the system timestamp from 7 days ago. This would allow you to go back any point in time in the last 7 days. To set up this process, you would need to do the following:</Body>
+<Body-bullet>
+<A ID="pgfId-1059180"></A>
+Maintain a mapping between the system timestamp and the actual time, as described in <A href="point_in_time.xml#id(57182)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Keeping Track of System Timestamps' on page&#160;120</A>.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059197"></A>
+Create a script (either a manual process or an XQuery script using the Admin API) to update the merge timestamp for your database once every 7 days. The script would update the merge timestamp to the system timestamp that was active 7 days earlier.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059204"></A>
+If a rollback was needed, roll back all of the forests in the database to a time between the current timestamp and the merge timestamp. For example:</Body-bullet>
+<Code>
+<A ID="pgfId-1059211"></A>
+xdmp:forest-rollback(
+&#160;&#160;&#160;&#160;&#160;xdmp:database-forests(xdmp:database(&quot;my-db&quot;)), 
+&#160;&#160;&#160;&#160;&#160;3248432)
+(: where 3248432 is the timestamp to which you want to roll back :)</Code>
+<Body>
+<A ID="pgfId-1059287"></A>
+Another use case to set up an environment for using forest rollback operations is if you are pushing a new set of code and/or content out to your application, and you want to be able to roll it back to the previous state. To set up this scenario, you would need to do the following:</Body>
+<Body-bullet>
+<A ID="pgfId-1059280"></A>
+When your system is in a steady state before pushing the new content/code, set the merge timestamp to the current timestamp.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059301"></A>
+Load your new content/code.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059308"></A>
+Are you are happy with your changes?</Body-bullet>
+<Body-bullet-2>
+<A ID="pgfId-1059324"></A>
+If yes, then you can set the merge timestamp back to 0, which will eventually merge out your old content/code (because they are deleted fragments).</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1059335"></A>
+If no, then roll all of the forests in the database back to the timestamp that you set in the merge timestamp.</Body-bullet-2>
+<Heading-3>
+<A ID="pgfId-1059281"></A>
+<A ID="75644"></A>
+Setting the Merge Timestamp</Heading-3>
+<Body>
+<A ID="pgfId-1059081"></A>
+As described above, you cannot roll back forests in which the database merge timestamp has not been set. By default, the merge timestamp is set to 0, which will delete old versions of fragments during merge operations. For details, see <A href="point_in_time.xml#id(37708)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'System Timestamps and Merge Timestamps' on page&#160;113</A>.</Body>
+<Heading-3>
+<A ID="pgfId-1059088"></A>
+<A ID="16264"></A>
+Notes About Performing an xdmp:forest-rollback Operation</Heading-3>
+<Body>
+<A ID="pgfId-1059017"></A>
+This section describes some of the behavior of <code>
+xdmp:forest-rollback</code>
+ that you should understand before setting up an environment in which you can roll back your forests. Note the following about <code>
+xdmp:forest-rollback</code>
+ operations:</Body>
+<Body-bullet>
+<A ID="pgfId-1059404"></A>
+An <code>
+xdmp:forest-rollback</code>
+ will restart the specified forest(s). As a consequence, any failed over forests will attempt to mount their primary host; that is, it will result in an un-failover operation if the forest is failed over. For details on failover, see <A href="../cluster/failover.xml#id(82157)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+High Availability of Data Nodes With Failover</Hyperlink>
+</A> in the <Emphasis>
+Scalability, Availability, and Failover Guide</Emphasis>
+ guide.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059418"></A>
+Use caution when rolling back one or more forests that are in the context database (that is, forests that belong to the database against which your query is evaluating against). When in a forest in the context database, the <code>
+xdmp:forest-rollback</code>
+ operation is run asyncronously. The new state of the forest is not seen until the forest restart occurs, Before the forest is unmounted, the old state will still be reflected. Additionally, any errors that might occur as part of the rollback operation are not reported back to the query that performs the operation (although, if possible, they are logged to the <code>
+ErrorLog.txt</code>
+ file). As a best practice, MarkLogic recommends running <code>
+xdmp:forest-rollback</code>
+ operations against forests not attached to the context database.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059473"></A>
+If you do not specify all of the forests in a database to roll back, you might end up in a state where the rolled back forest is not in a consistent state with the other forests. In most cases, it is a good idea to roll back all of the forests in a database, unless you are sure that the content of the forest being rolled back will not become inconsistent if other forests are not rolled back to the same state (for example, if you know that all of content you are rolling back is only in one forest).</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059671"></A>
+If your database indexing configuration has changed since the point in time to which you are rolling back, and if you have reindexing enabled, a rollback operation will begin reindexing as soon as the rollback operation completes. If reindexing is not enabled, then the rolled backed fragments will remain indexed as they were at the time they were last updated, which might be inconsistent with the current database configuration. </Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059660"></A>
+As a best practice, MarkLogic recommends running a rollback operation only on forests that have no update activitiy at the time of the operation (that is, the forests should be quiesced).</Body-bullet>
+<Heading-3>
+<A ID="pgfId-1059098"></A>
+<A ID="14388"></A>
+General Steps for Rolling Back One or More Forests</Heading-3>
+<Body>
+<A ID="pgfId-1058959"></A>
+To roll back the state of one or more forests, perform the following general steps:</Body>
+<Number1>
+<A ID="pgfId-1058966"></A>
+At the state of the database to which you want to be able to roll back, set the merge timestamp to the current timestamp. </Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1059492"></A>
+Keep track of your system timestamps, as desribed in <A href="point_in_time.xml#id(37708)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'System Timestamps and Merge Timestamps' on page&#160;113</A>.</Number>
+<Number>
+<A ID="pgfId-1058976"></A>
+Perform updates to your application as usual. Old version of document will remain in the database. </Number>
+<Number>
+<A ID="pgfId-1059528"></A>
+If you know you will not need to roll back to a time earlier, than the present, go back to step&#160;1.</Number>
+<Number>
+<A ID="pgfId-1058983"></A>
+If you want to roll back, you can roll back to any time between the merge timestamp and the current timestamp. When you perform the rollback, it is a good idea to do so from the context of a different database. For example, to roll back all of the forests in the <code>
+my-db</code>
+ database, perform an operation similar to the following, which sets the database context to a different one than the forests that are being rolled back:</Number>
+</NumberList>
+<Code>
+<A ID="pgfId-1059551"></A>
+xdmp:eval(
+ 'xdmp:forest-rollback(
+    xdmp:database-forests(xdmp:database(&quot;my-db&quot;)), 
+    3248432)
+ (: where 3248432 is the timestamp to which you want 
+    to roll back :)', 
+ (), 
+ &lt;options xmlns=&quot;xdmp:eval&quot;&gt;
+   &lt;database&gt;{xdmp:database(&quot;Documents&quot;)}&lt;/database&gt;
+ &lt;/options&gt;)</Code>
+</XML>

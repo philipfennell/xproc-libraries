@@ -1,0 +1,891 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="usingAPI.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1038002"></A>
+<A ID="87529"></A>
+Using the Admin API</Heading-1>
+<pagenum>
+<A ID="pgfId-1038417"></A>
+20</pagenum>
+<Body>
+<A ID="pgfId-1038003"></A>
+MarkLogic Server includes an Admin Library Module that provides XQuery functions that enable you to perform many administrative tasks on MarkLogic Server. With the Admin API, you can write XQuery programs to create or modify databases, forests, App Servers, and perform all kinds of administrative and configuration tasks on MarkLogic Server.</Body>
+<Body>
+<A ID="pgfId-1050187"></A>
+The Admin API is different from the other administrative APIs listed in <A href="intro.xml#id(56943)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'The Administration APIs' on page&#160;7</A> in that the Admin API functions operate on an in-memory cluster configuration that is extracted from and then saved to the configuration files on the server's file system. This design impacts what configuration tasks you can accomplish within a single transaction, as described in <A href="usingAPI.xml#id(71075)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Transactional Considerations When Using the Admin API' on page&#160;10</A> and <A href="usingAPI.xml#id(15074)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Techniques for Making Multiple Changes to a Configuration' on page&#160;12</A>.</Body>
+<Body>
+<A ID="pgfId-1050178"></A>
+This chapter describes how you can use the Admin API to perform administrative tasks for MarkLogic Server, and includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1042055"></A>
+<A href="usingAPI.xml#id(99284)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Tasks You Can Perform Using the Admin API</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1042063"></A>
+<A href="usingAPI.xml#id(71075)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Transactional Considerations When Using the Admin API</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1046621"></A>
+<A href="usingAPI.xml#id(99846)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Privileges Required For Running Admin APIs</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1042067"></A>
+<A href="usingAPI.xml#id(41402)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+General Steps for Scripting Administrative Tasks</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1052280"></A>
+<A href="usingAPI.xml#id(15074)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Techniques for Making Multiple Changes to a Configuration</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1052546"></A>
+<A href="usingAPI.xml#id(26239)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Sequence for Creating Server and Security Objects</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1052572"></A>
+<A href="usingAPI.xml#id(18924)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Sequence for Deleting Server and Security Objects</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1052666"></A>
+<A href="usingAPI.xml#id(82435)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Executing Queries in Select Databases</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1042051"></A>
+<A ID="99284"></A>
+Tasks You Can Perform Using the Admin API</Heading-2>
+<Body>
+<A ID="pgfId-1038004"></A>
+The Admin API provides an alternative way to make configuration changes to MarkLogic Server compared to using the Admin Interface. The Admin API is a large library of XQuery functions, providing a programmatic interface to do most things that the Admin Interface does, including:</Body>
+<Body-bullet>
+<A ID="pgfId-1043270"></A>
+Creating and modifying databases</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1043277"></A>
+Creating and modifying forests</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1043278"></A>
+Creating and modifying groups</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1043279"></A>
+Creating and modifying app servers</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1043280"></A>
+Modifying host configurations</Body-bullet>
+<Heading-2>
+<A ID="pgfId-1038075"></A>
+<A ID="71075"></A>
+Transactional Considerations When Using the Admin API</Heading-2>
+<Body>
+<A ID="pgfId-1043123"></A>
+The Admin API modifies MarkLogic Server configuration files that are stored on the file system, not in a database. Because the configuration files are not stored in a database, database-level locking does not occur on the configuration files and the transactional semantics are different from updates to a database. For this reason, only one process should update the configuration files at a time:</Body>
+<Body-bullet>
+<A ID="pgfId-1043124"></A>
+Only run one Admin API script that modifies the configuration at a time; do not have concurrent users simultaneously modifying the configuration.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1043335"></A>
+No other session should modify the configuration with the Admin Interface concurrent to modifying the configuration with the Admin API.</Body-bullet>
+<Body>
+<A ID="pgfId-1043336"></A>
+Additionally, avoid doing multiple save operations to the configuration files in the same transaction. Instead, perform each step in memory before passing the changed configuration to the next function, as described in <A href="usingAPI.xml#id(15074)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Techniques for Making Multiple Changes to a Configuration' on page&#160;12</A>.</Body>
+<Heading-2>
+<A ID="pgfId-1043338"></A>
+<A ID="99846"></A>
+Privileges Required For Running Admin APIs</Heading-2>
+<Body>
+<A ID="pgfId-1046623"></A>
+The APIs in the Admin Library module are protected by the following two execute privileges:</Body>
+<Body-bullet>
+<A ID="pgfId-1046624"></A>
+<code>
+http://marklogic.com/xdmp/privileges/admin-module-read</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1046636"></A>
+<code>
+http://marklogic.com/xdmp/privileges/admin-module-write</code>
+</Body-bullet>
+<Body>
+<A ID="pgfId-1046641"></A>
+Any user who runs XQuery code containing the Admin API functions needs the to have the first privilege (via a role) for reading anything in the configuration and needs both privileges for writing anything to the configuration. This allows you control access to your configuration information. For details about security in MarkLogic Server, see <Emphasis>
+Understanding and Using Security Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1046622"></A>
+<A ID="41402"></A>
+General Steps for Scripting Administrative Tasks</Heading-2>
+<Body>
+<A ID="pgfId-1043339"></A>
+Because the Admin API is implemented as an XQuery module, you can write XQuery programs which will modify your MarkLogic Server configuration. Without using the Admin API, you must use the Admin Interface to perform most administrative tasks.</Body>
+<Body>
+<A ID="pgfId-1042892"></A>
+This section outlines the general steps needed to execute functions in the Admin API. These steps assume you are running against either an HTTP App Server or an XDBC App Server using XCC to issue the XQuery requests. This section includes the following parts:</Body>
+<Body-bullet>
+<A ID="pgfId-1042899"></A>
+<A href="usingAPI.xml#id(39091)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Importing the Admin Library Module</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1042903"></A>
+<A href="usingAPI.xml#id(66864)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Getting the Current Configuration in Memory</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1043292"></A>
+<A href="usingAPI.xml#id(15074)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Techniques for Making Multiple Changes to a Configuration</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1043297"></A>
+<A href="usingAPI.xml#id(14109)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Saving the Configuration Changes</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1047551"></A>
+<A href="usingAPI.xml#id(42251)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+When Separate Transactions are Needed</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1042874"></A>
+<A ID="39091"></A>
+Importing the Admin Library Module</Heading-3>
+<Body>
+<A ID="pgfId-1042907"></A>
+Because the Admin API is an XQuery library module, you must import it into your XQuery program. The Admin API is installed in the <code>
+&lt;</code>
+<Emphasis>
+marklogic-dir</Emphasis>
+<code>
+&gt;/Modules/MarkLogic/admin.xqy</code>
+ file. To import the Admin API module, include the following in your XQuery prolog:</Body>
+<Code>
+<A ID="pgfId-1046709"></A>
+xquery version &quot;1.0-ml&quot;;
+import module namespace admin = &quot;http://marklogic.com/xdmp/admin&quot; 
+&#160;&#160;&#160;at &quot;/MarkLogic/admin.xqy&quot;;</Code>
+<Heading-3>
+<A ID="pgfId-1042908"></A>
+<A ID="66864"></A>
+Getting the Current Configuration in Memory</Heading-3>
+<Body>
+<A ID="pgfId-1042912"></A>
+The <code>
+admin:get-configuration</code>
+ function gets an in-memory representation of the configuration for the purpose of modifying the configuration. It is designed to only be used with the Admin API, not to get the configuration for other purposes. To optimize performance, the <code>
+admin:get-configuration</code>
+ function gets only the configuration information it needs to process configuration information in a given XQuery request. The configuration information is an XML structure, and it is designed to be used in conjunction with the other Admin API functions; do not try and use the <code>
+admin:get-configuration</code>
+ function outside of the scope of the Admin API.</Body>
+<Body>
+<A ID="pgfId-1043113"></A>
+The typical design pattern to get the configuration is to get the configuration once per XQuery request and bind its value to a variable (for example, in the <code>
+let</code>
+ clause of a <code>
+FLWOR</code>
+ expression). Then you can use that variable through the query to refer to the configuration. Do not try and change the XML representation returned from the <code>
+admin:get-configuration</code>
+ function.</Body>
+<Note>
+<A ID="pgfId-1043231"></A>
+Because it is optimized to only get the parts of the configuration it needs to make a set of changes, you might find that the <code>
+admin:get-configuration</code>
+ function sometimes returns an empty element if you run it without performing any other functions. It is designed to be used only with the Admin API functions.</Note>
+<Heading-3>
+<A ID="pgfId-1048047"></A>
+<A ID="14109"></A>
+Saving the Configuration Changes</Heading-3>
+<Body>
+<A ID="pgfId-1048048"></A>
+Once you use the various APIs to modify the configuration, you must save the configuration to make it take effect in the MarkLogic Server cluster. There are two APIs to save the configuration:</Body>
+<Body-bullet>
+<A ID="pgfId-1048052"></A>
+<code>
+admin:save-configuration</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1048053"></A>
+<code>
+admin:save-configuration-without-restart</code>
+</Body-bullet>
+<Body>
+<A ID="pgfId-1048054"></A>
+Both functions take a configuration element, and then save that element to the configuration files. The configuration file changes are propagated to the entire cluster. The difference between the two functions is that the first one will automatically restart any MarkLogic Server instances when the configuration changes are 'cold' and require a restart. The <code>
+admin:save-configuration-without-restart</code>
+ function does not automatically restart MarkLogic Server; if a restart is needed for the changes to take effect, it returns the host IDs of the hosts needing a restart; if no restart is required, it returns the empty sequence.</Body>
+<Body>
+<A ID="pgfId-1051928"></A>
+You should only call these functions (one or the other of two) once per XQuery program (that is, once per transaction). </Body>
+<Heading-2>
+<A ID="pgfId-1052010"></A>
+<A ID="15074"></A>
+Techniques for Making Multiple Changes to a Configuration</Heading-2>
+<Body>
+<A ID="pgfId-1052011"></A>
+When writing a program that creates an entire configuration, it is most efficient to write modules that create and configure multiple server objects. This section describes some useful techniques to use when writing modules that make multiple changes to a configuration. The topics are:</Body>
+<Body-bullet>
+<A ID="pgfId-1051943"></A>
+<A href="usingAPI.xml#id(62992)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Saving versus Passing the Configuration</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1052032"></A>
+<A href="usingAPI.xml#id(62829)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating and Configuring Objects in a Single Transaction</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1051963"></A>
+<A href="usingAPI.xml#id(92935)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Making Transactions Idempotent</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1052715"></A>
+<A href="usingAPI.xml#id(42251)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+When Separate Transactions are Needed</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1052717"></A>
+<A ID="62992"></A>
+Saving versus Passing the Configuration</Heading-3>
+<Body>
+<A ID="pgfId-1052718"></A>
+There are a number of ways to manage multiple changes to the configuration. The simplest, but most cumbersome, approach is to get and save the configuration for each admin function in a separate transaction. For example:</Body>
+<Code>
+<A ID="pgfId-1047258"></A>
+xquery version &quot;1.0-ml&quot;;</Code>
+<Code>
+<A ID="pgfId-1047259"></A>
+import module namespace admin = &quot;http://marklogic.com/xdmp/admin&quot; 
+         at &quot;/MarkLogic/admin.xqy&quot;;</Code>
+<Code>
+<A ID="pgfId-1048251"></A>
+let $config := admin:get-configuration()
+return admin:save-configuration(admin:function-call-1($config, ....));</Code>
+<Code>
+<A ID="pgfId-1048359"></A>
+xquery version &quot;1.0-ml&quot;;</Code>
+<Code>
+<A ID="pgfId-1048360"></A>
+import module namespace admin = &quot;http://marklogic.com/xdmp/admin&quot; 
+         at &quot;/MarkLogic/admin.xqy&quot;;</Code>
+<Code>
+<A ID="pgfId-1048310"></A>
+let $config := admin:get-configuration()
+return admin:save-configuration(admin:function-call-2($config, ....));</Code>
+<Body>
+<A ID="pgfId-1047262"></A>
+Another approach is to pass the configuration returned from a previous admin function to the next admin function. For example, in the following pseudo-code example, the <code>
+$config</code>
+ variable returned from <code>
+admin:get-configuration </code>
+holds the initial configuration of MarkLogic Server. The <code>
+$config </code>
+variable is progressively updated as it is returned from each admin function and passed as input to the next admin function. The final <code>
+$config </code>
+variable holds the configuration from all of the admin function calls and is saved by admin:save-configuration.</Body>
+<Code>
+<A ID="pgfId-1047263"></A>
+xquery version &quot;1.0-ml&quot;;</Code>
+<Code>
+<A ID="pgfId-1047264"></A>
+import module namespace admin = &quot;http://marklogic.com/xdmp/admin&quot; 
+         at &quot;/MarkLogic/admin.xqy&quot;;</Code>
+<Code>
+<A ID="pgfId-1047265"></A>
+(: Get the configuration :)
+let $config := admin:get-configuration()</Code>
+<Code>
+<A ID="pgfId-1047266"></A>
+(: Update the configuration :)
+let $config := admin:function-call-1($config, ....)
+let $config := admin:function-call-2($config, ....)
+(: etc....... :)</Code>
+<Code>
+<A ID="pgfId-1050235"></A>
+(: Save the configuration :)
+return admin:save-configuration($config5)</Code>
+<Heading-3>
+<A ID="pgfId-1048001"></A>
+<A ID="62829"></A>
+Creating and Configuring Objects in a Single Transaction</Heading-3>
+<Body>
+<A ID="pgfId-1048002"></A>
+The <code>
+admin:</code>
+<Emphasis>
+object</Emphasis>
+<code>
+-get-id </code>
+functions (<code>
+admin:forest-get-id</code>
+, <code>
+admin:database-get-id</code>
+, <code>
+admin:group-get-id</code>
+, <code>
+admin:appserver-get-id</code>
+, <code>
+admin:host-get-id</code>
+) allow you to create and configure a server object in a single transaction. The main difference between the <code>
+admin:</code>
+<Emphasis>
+object</Emphasis>
+<code>
+-get-id </code>
+functions and their <code>
+xdmp:object </code>
+counterparts is that the <code>
+admin:</code>
+<Emphasis>
+object</Emphasis>
+<code>
+-get-id </code>
+functions return object IDs from the configuration, whether it has been saved or not, whereas their <code>
+xdmp:</code>
+<Emphasis>
+object</Emphasis>
+<code>
+ </code>
+counterparts return the object IDs of existing objects in MarkLogic Server. In this way, the <code>
+admin:</code>
+<Emphasis>
+object</Emphasis>
+<code>
+-get-id </code>
+functions provide a faster alternative to what would otherwise be a need to create the object, save the configuration, configure the object, and save the configuration. </Body>
+<Body>
+<A ID="pgfId-1050407"></A>
+For example, the following is an abbreviated version of the code shown in <A href="configure.xml#id(66927)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Creating and Configuring Databases in a Single Transaction' on page&#160;26</A> :</Body>
+<Code>
+<A ID="pgfId-1050337"></A>
+xquery version &quot;1.0-ml&quot;;</Code>
+<Code>
+<A ID="pgfId-1050338"></A>
+import module namespace admin = &quot;http://marklogic.com/xdmp/admin&quot; 
+         at &quot;/MarkLogic/admin.xqy&quot;;</Code>
+<Code>
+<A ID="pgfId-1050339"></A>
+(: Get the configuration :)
+let $config := admin:get-configuration()</Code>
+<Code>
+<A ID="pgfId-1050340"></A>
+(: Add new database to the configuration :)</Code>
+<Code>
+<A ID="pgfId-1050341"></A>
+let $config := admin:database-create(
+&#160;&#160;&#160;&#160;$config, 
+&#160;&#160;&#160;&#160;&quot;Sample-Database&quot;,
+&#160;&#160;&#160;&#160;xdmp:database(&quot;Security&quot;),
+&#160;&#160;&#160;&#160;xdmp:database(&quot;Schemas&quot;))</Code>
+<Code>
+<A ID="pgfId-1050343"></A>
+(: Obtain the database ID of 'Sample-Database' :)</Code>
+<Code>
+<A ID="pgfId-1050344"></A>
+let $Sample-Database := admin:database-get-id(
+&#160;&#160;&#160;&#160;$config, 
+&#160;&#160;&#160;&#160;&quot;Sample-Database&quot;)</Code>
+<Code>
+<A ID="pgfId-1050346"></A>
+(: Attach the &quot;SampleDB-Forest&quot; forest to 'Sample-Database' :)</Code>
+<Code>
+<A ID="pgfId-1050347"></A>
+let $config := admin:database-attach-forest(
+&#160;&#160;&#160;&#160;$config,
+&#160;&#160;&#160;&#160;$Sample-Database,
+&#160;&#160;&#160;&#160;xdmp:forest(&quot;SampleDB-Forest&quot;))</Code>
+<Code>
+<A ID="pgfId-1050355"></A>
+(: Add an index to 'Sample-Database' :)</Code>
+<Code>
+<A ID="pgfId-1050356"></A>
+let $rangespec := admin:database-range-element-index(
+&#160;&#160;&#160;&#160;&quot;string&quot;, 
+&#160;&#160;&#160;&#160;&quot;http://marklogic.com/wikipedia&quot;,
+&#160;&#160;&#160;&#160;&quot;name&quot;, 
+&#160;&#160;&#160;&#160;&quot;http://marklogic.com/collation/&quot;,
+&#160;&#160;&#160;&#160;fn:false() )</Code>
+<Code>
+<A ID="pgfId-1050357"></A>
+let $config := admin:database-add-range-element-index(
+&#160;&#160;&#160;&#160;$config, 
+&#160;&#160;&#160;&#160;$Sample-Database, 
+&#160;&#160;&#160;&#160;$rangespec)</Code>
+<Code>
+<A ID="pgfId-1050363"></A>
+return
+&#160;&#160;&#160;admin:save-configuration($config)</Code>
+<Note>
+<A ID="pgfId-1048534"></A>
+The IDs returned by the <code>
+admin:</code>
+<Emphasis>
+object</Emphasis>
+<code>
+-get-id </code>
+functions should only be passed to other functions in the Admin library because they operate on the configuration of objects, rather than the existing objects in MarkLogic Server. Functions outside the Admin library only understand the existing objects in MarkLogic Server. </Note>
+<Heading-3>
+<A ID="pgfId-1050259"></A>
+<A ID="92935"></A>
+Making Transactions Idempotent</Heading-3>
+<Body>
+<A ID="pgfId-1050269"></A>
+There may be circumstances in which you want to modify a configuration without the need to uninstall it first. For example, you may want to update your configuration program to change an App Server setting or add an index to a database without removing and reinstalling the entire configuration. To enable this option, you need to write idempotent transactions, so that the transaction doesn't fail if some of the objects already exist or have already been deleted.</Body>
+<Body>
+<A ID="pgfId-1052128"></A>
+For example, the transaction that creates and configures a database shown above in <A href="usingAPI.xml#id(62829)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Creating and Configuring Objects in a Single Transaction' on page&#160;13</A> will fail if any of the objects it attempts to create already exist. To make this transaction idempotent, you need to check for the existence of objects before creating them. If an object exists, then no change is made to the configuration. This allows you to modify the transaction later to create, modify, or delete individual objects without the entire transaction failing.</Body>
+<Code>
+<A ID="pgfId-1051592"></A>
+xquery version &quot;1.0-ml&quot;;</Code>
+<Code>
+<A ID="pgfId-1051593"></A>
+import module namespace admin = &quot;http://marklogic.com/xdmp/admin&quot; 
+         at &quot;/MarkLogic/admin.xqy&quot;;</Code>
+<Code>
+<A ID="pgfId-1051652"></A>
+declare namespace xdmpdb = &quot;http://marklogic.com/xdmp/database&quot;;</Code>
+<Code>
+<A ID="pgfId-1051594"></A>
+(: Get the configuration :)
+let $config := admin:get-configuration()</Code>
+<Code>
+<A ID="pgfId-1050624"></A>
+(: Get all of the existing databases :)</Code>
+<Code>
+<A ID="pgfId-1050789"></A>
+let $ExistingDatabases :=
+&#160;&#160;&#160;&#160;for $id in admin:get-database-ids($config)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;return admin:database-get-name($config, $id)</Code>
+<Code>
+<A ID="pgfId-1050790"></A>
+(: Check to see if &quot;Sample-Database&quot; already exists. 
+&#160;&#160;&#160;If not, create new database :)</Code>
+<Code>
+<A ID="pgfId-1050692"></A>
+let $config :=
+&#160;&#160;&#160;&#160;if (&quot;Sample-Database&quot; = $ExistingDatabases) 
+&#160;&#160;&#160;&#160;then $config
+&#160;&#160;&#160;&#160;else  
+&#160;&#160;&#160;&#160;&#160;&#160;admin:database-create(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config, 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Sample-Database&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;xdmp:database(&quot;Security&quot;),
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;xdmp:database(&quot;Schemas&quot;))</Code>
+<Code>
+<A ID="pgfId-1050803"></A>
+(: Obtain the database ID of 'Sample-Database' :)</Code>
+<Code>
+<A ID="pgfId-1050804"></A>
+let $Sample-Database := admin:database-get-id(
+&#160;&#160;&#160;&#160;$config, 
+&#160;&#160;&#160;&#160;&quot;Sample-Database&quot;)</Code>
+<Code>
+<A ID="pgfId-1050962"></A>
+(: Get all of the forests attached to 'Sample-Database' :)</Code>
+<Code>
+<A ID="pgfId-1050969"></A>
+let $AttachedForests :=
+&#160;&#160;&#160;&#160;admin:forest-get-name( 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config, 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;(admin:database-get-attached-forests(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config, 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$Sample-Database) ))</Code>
+<Code>
+<A ID="pgfId-1051098"></A>
+(: Check to see if the &quot;SampleDB-Forest&quot; forest is already attached 
+&#160;&#160;&#160;to 'Sample-Database'. If not, attach the forest to the database :)</Code>
+<Code>
+<A ID="pgfId-1051112"></A>
+let $config :=
+&#160;&#160;&#160;&#160;if (&quot;SampleDB-Forest&quot; = $AttachedForests) 
+&#160;&#160;&#160;&#160;then $config
+&#160;&#160;&#160;&#160;else
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;admin:database-attach-forest(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$Sample-Database,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;xdmp:forest(&quot;SampleDB-Forest&quot;))</Code>
+<Code>
+<A ID="pgfId-1050807"></A>
+(: Define a new range element index :)</Code>
+<Code>
+<A ID="pgfId-1050808"></A>
+let $rangespec := admin:database-range-element-index(
+&#160;&#160;&#160;&#160;&quot;string&quot;, 
+&#160;&#160;&#160;&#160;&quot;http://marklogic.com/wikipedia&quot;,
+&#160;&#160;&#160;&#160;&quot;name&quot;, 
+&#160;&#160;&#160;&#160;&quot;http://marklogic.com/collation/&quot;,
+&#160;&#160;&#160;&#160;fn:false() )</Code>
+<Code>
+<A ID="pgfId-1051261"></A>
+(: Get the existing range element indexes for 'Sample-Database' :)</Code>
+<Code>
+<A ID="pgfId-1051262"></A>
+let $ExistingREindexes :=
+&#160;&#160;&#160;&#160;fn:data(admin:database-get-range-element-indexes(
+&#160;&#160;&#160;&#160;&#160;&#160;$config, 
+&#160;&#160;&#160;&#160;&#160;&#160;$Sample-Database)/xdmpdb:localname)</Code>
+<Code>
+<A ID="pgfId-1051445"></A>
+(: Check to see if the 'name' range element index already exists 
+&#160;&#160;&#160;for &quot;Sample-Database&quot;. If not, add the index :)</Code>
+<Code>
+<A ID="pgfId-1051469"></A>
+let $config :=
+&#160;&#160;&#160;&#160;if (&quot;name&quot; = $ExistingREindexes) 
+&#160;&#160;&#160;&#160;then $config
+&#160;&#160;&#160;&#160;else 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;admin:database-add-range-element-index(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config, 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$Sample-Database, 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$rangespec)</Code>
+<Code>
+<A ID="pgfId-1050810"></A>
+return
+&#160;&#160;&#160;admin:save-configuration($config)</Code>
+<Heading-3>
+<A ID="pgfId-1048818"></A>
+<A ID="42251"></A>
+When Separate Transactions are Needed</Heading-3>
+<Body>
+<A ID="pgfId-1049936"></A>
+There are cases where you must make configuration changes in separate transactions. If you are creating a new object that is to be used by another object, each task must be done in a separate transaction. For example, to create a forest and attach it to a database, you must first create the forest and save the configuration in one transaction, then attach the forest to the database and save the configuration in a separate transaction. Similarly, if you are deleting an object and then deleting an object that uses that object, the deletes must occur and the configuration must be saved in separate transactions. </Body>
+<Body>
+<A ID="pgfId-1050125"></A>
+You can define separate transactions in a single module by separating the transactions with semi-colons. Alternatively you can create separate modules for each transaction or execute each admin create/delete function using a <code>
+different-transaction</code>
+ isolation of an <code>
+xdmp:eval</code>
+ or <code>
+xdmp:invoke</code>
+.</Body>
+<Body>
+<A ID="pgfId-1050117"></A>
+Specifically, for the following functions, the forest/database/group must first exist or be deleted/reassigned before calling the function or an exception is thrown:</Body>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1050007"></A>
+Function </CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1050009"></A>
+ Object Dependency</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050011"></A>
+<code>
+admin:database-attach-forest </code>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050013"></A>
+Forest must exist.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050015"></A>
+<code>
+admin:appserver-set-database </code>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050017"></A>
+Content database must exist.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050019"></A>
+<code>
+admin:appserver-set-modules-database</code>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050021"></A>
+Modules database must exist.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050023"></A>
+<code>
+admin:host-set-group </code>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050025"></A>
+Group must exist.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050027"></A>
+<code>
+admin:http-server-create </code>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050029"></A>
+Group and databases must exist.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050031"></A>
+<code>
+admin:xdbc-server-create </code>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050033"></A>
+Group and databases must exist.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050035"></A>
+<code>
+admin:webdav-server-create </code>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050037"></A>
+Group and databases must exist.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050039"></A>
+<code>
+admin:group-delete </code>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050041"></A>
+All hosts must be reassigned to another group.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050043"></A>
+<code>
+admin:database-delete </code>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050045"></A>
+All app servers that use the database must be deleted or reassigned another database.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050047"></A>
+<code>
+admin:forest-delete</code>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050053"></A>
+All databases that attach the forest must be deleted or attached to another forest.</CellBody>
+</CELL>
+</ROW>
+</TABLE>
+<Body>
+<A ID="pgfId-1048220"></A>
+See <A href="usingAPI.xml#id(26239)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Sequence for Creating Server and Security Objects' on page&#160;18</A> and <A href="usingAPI.xml#id(18924)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Sequence for Deleting Server and Security Objects' on page&#160;19</A> for the specific order in which objects should be created and deleted. For details on transactions, see <A href="../dev_guide/transactions.xml#id(44680)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Understanding Transactions in MarkLogic Server</Hyperlink>
+</A> in the <Emphasis>
+Application Developer's Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1052484"></A>
+<A ID="26239"></A>
+Sequence for Creating Server and Security Objects</Heading-2>
+<Body>
+<A ID="pgfId-1052485"></A>
+When configuring a complete MarkLogic application environment, certain server objects must exist before others can be created. The sequence for creating server objects is shown in the <code>
+configure-server </code>
+function in the <code>
+configure-server.xqy</code>
+ module in the sample configuration program. The sequence for creating security objects is shown in the <code>
+install.xqy</code>
+ module. </Body>
+<Body>
+<A ID="pgfId-1052486"></A>
+In general, the sequence for creating new server objects is:</Body>
+<Number1>
+<A ID="pgfId-1052487"></A>
+Create and configure forests</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1052488"></A>
+Save configuration</Number>
+<Number>
+<A ID="pgfId-1052489"></A>
+Create and configure databases</Number>
+<Number>
+<A ID="pgfId-1052490"></A>
+Save configuration</Number>
+<Number>
+<A ID="pgfId-1052491"></A>
+Create and configure App Servers</Number>
+<Number>
+<A ID="pgfId-1052492"></A>
+Save configuration</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1052493"></A>
+You can create the security objects before, after or anything in between creating the server objects.</EndList-root>
+<Body>
+<A ID="pgfId-1052494"></A>
+If you are creating new roles and assigning them to new users, the sequence for creating the new security objects is:</Body>
+<Number1>
+<A ID="pgfId-1052495"></A>
+Create roles</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1052496"></A>
+Create users</Number>
+</NumberList>
+<Heading-2>
+<A ID="pgfId-1052498"></A>
+<A ID="18924"></A>
+Sequence for Deleting Server and Security Objects</Heading-2>
+<Body>
+<A ID="pgfId-1052499"></A>
+The sequence for deleting server objects is demonstrated in the <code>
+remove-server </code>
+function in the <code>
+configure-server.xqy</code>
+ module. The security objects, roles and users, can be deleted in any order.</Body>
+<Body>
+<A ID="pgfId-1052500"></A>
+In general, the sequence for deleting server objects is the reverse order in which they were created. </Body>
+<Note>
+<A ID="pgfId-1052504"></A>
+Deleting an App Server automatically restarts MarkLogic Server. The <code>
+remove-server </code>
+function uses the <code>
+admin:save-configuration-without-restart </code>
+function to defer the server restart until all of the operations in the <code>
+remove-server </code>
+have completed.</Note>
+<NumberList>
+<Number>
+<A ID="pgfId-1052505"></A>
+Delete App Servers</Number>
+<Number>
+<A ID="pgfId-1052506"></A>
+Save configuration without restarting server</Number>
+<Number>
+<A ID="pgfId-1052507"></A>
+Delete Databases</Number>
+<Number>
+<A ID="pgfId-1052508"></A>
+Save configuration without restarting server</Number>
+<Number>
+<A ID="pgfId-1052509"></A>
+Delete forests</Number>
+<Number>
+<A ID="pgfId-1052510"></A>
+Save configuration and restart server</Number>
+</NumberList>
+<Heading-2>
+<A ID="pgfId-1052616"></A>
+<A ID="82435"></A>
+Executing Queries in Select Databases</Heading-2>
+<Body>
+<A ID="pgfId-1052617"></A>
+By default, queries are executed in the database set for your App Server. For example, if you configure your App Server as shown in <A href="SampleProgram.xml#id(27650)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'How to Execute the Sample Configuration Program' on page&#160;40</A>, your queries are executed in the Documents database.</Body>
+<Body>
+<A ID="pgfId-1052621"></A>
+You can use the <code>
+xdmp:eval </code>
+or <code>
+xdmp:invoke </code>
+function to execute queries in a database other than the database set for your App Server. The use of the <code>
+xdmp:eval </code>
+function to execute queries in the Security and Sample-Modules databases is demonstrated in the <code>
+install.xqy</code>
+ module in the sample configuration program. </Body>
+<Body>
+<A ID="pgfId-1052622"></A>
+For example, you can create a module, named <code>
+create-role.xqy</code>
+, with the contents:</Body>
+<Code>
+<A ID="pgfId-1052623"></A>
+xquery version &quot;1.0-ml&quot;;</Code>
+<Code>
+<A ID="pgfId-1052624"></A>
+module namespace &#160;&#160;create-role=&quot;http://marklogic.com/sampleConfig/create-role&quot;;</Code>
+<Code>
+<A ID="pgfId-1052625"></A>
+import module namespace sec=&quot;http://marklogic.com/xdmp/security&quot; 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;at &quot;/MarkLogic/security.xqy&quot;;</Code>
+<Code>
+<A ID="pgfId-1052626"></A>
+declare function configure-roles()
+{
+&#160;&#160;sec:create-role(
+&#160;&#160;&#160;&#160;&quot;Temporary&quot;,
+&#160;&#160;&#160;&#160;&quot;Temporary worker access&quot;,
+&#160;&#160;&#160;&#160;(&quot;filesystem-access&quot;),
+&#160;&#160;&#160;&#160;(),
+&#160;&#160;&#160;&#160;(&quot;testDocument&quot;))
+};</Code>
+<Body>
+<A ID="pgfId-1052627"></A>
+You can then call the <code>
+create-role.xqy </code>
+module from the main module within an <code>
+xdmp:eval </code>
+function with the <code>
+&lt;database&gt;</code>
+ option that specifies the Security database.</Body>
+<Code>
+<A ID="pgfId-1052629"></A>
+xdmp:eval(
+&#160;&#160;'xquery version &quot;1.0-ml&quot;;
+&#160;&#160;import module namespace create-role= &#160;&#160;&#160;&#160;&quot;http://marklogic.com/sampleConfig/create-role&quot; 
+&#160;&#160;&#160;&#160;&#160;&#160;at &quot;create-role.xqy&quot;;
+&#160;&#160;create-role:configure-roles()',
+&#160;&#160;(),
+&#160;&#160;&lt;options xmlns=&quot;xdmp:eval&quot;&gt;
+&#160;&#160;&#160;&#160;&lt;database&gt;{xdmp:database(&quot;Security&quot;)}&lt;/database&gt;
+&#160;&#160;&lt;/options&gt;)</Code>
+<Body>
+<A ID="pgfId-1052630"></A>
+</Body>
+</XML>

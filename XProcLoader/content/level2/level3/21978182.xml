@@ -1,0 +1,73 @@
+<MedlineCitation Owner="NLM" Status="Completed">
+		<MedlineID>21978182</MedlineID>
+		<PMID>10222925</PMID>
+		<DateCreated>
+			   <Year>2002</Year>
+			   <Month>05</Month>
+			   <Day>01</Day>
+		</DateCreated>
+		<DateCompleted>
+			   <Year>2002</Year>
+			   <Month>05</Month>
+			   <Day>15</Day>
+		</DateCompleted>
+		<Article>
+			   <Journal>
+				     <ISSN>1084-628X</ISSN>
+				     <JournalIssue>
+					       <Volume>4</Volume>
+					       <Issue>1</Issue>
+					       <PubDate>
+						         <Year>1999</Year>
+						         <Month>Feb</Month>
+					       </PubDate>
+				     </JournalIssue>
+			   </Journal>
+			   <ArticleTitle>Infection control in the home setting.</ArticleTitle>
+			   <Pagination>
+				     <MedlinePgn>4</MedlinePgn>
+			   </Pagination>
+			   <AuthorList CompleteYN="Y">
+				     <Author>
+					       <LastName>Keating</LastName>
+					       <ForeName>S B</ForeName>
+					       <Initials>SB</Initials>
+				     </Author>
+			   </AuthorList>
+			   <Language>eng</Language>
+			   <PublicationTypeList>
+				     <PublicationType>Editorial</PublicationType>
+			   </PublicationTypeList>
+		</Article>
+		<MedlineJournalInfo>
+			   <Country>United States</Country>
+			   <MedlineTA>Home Care Provid</MedlineTA>
+			   <NlmUniqueID>9605410</NlmUniqueID>
+		</MedlineJournalInfo>
+		<CitationSubset>N</CitationSubset>
+		<MeshHeadingList>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="N">Community Health Nursing</DescriptorName>
+				     <QualifierName MajorTopicYN="Y">standards</QualifierName>
+				     <QualifierName MajorTopicYN="N">trends</QualifierName>
+			   </MeshHeading>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="N">Home Care Services</DescriptorName>
+				     <QualifierName MajorTopicYN="Y">standards</QualifierName>
+				     <QualifierName MajorTopicYN="N">trends</QualifierName>
+			   </MeshHeading>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="N">Human</DescriptorName>
+			   </MeshHeading>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="N">Infection Control</DescriptorName>
+				     <QualifierName MajorTopicYN="Y">methods</QualifierName>
+			   </MeshHeading>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="N">Quality of Health Care</DescriptorName>
+			   </MeshHeading>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="N">United States</DescriptorName>
+			   </MeshHeading>
+		</MeshHeadingList>
+	</MedlineCitation>

@@ -1,0 +1,759 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="SSL.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1054921"></A>
+<A ID="85783"></A>
+Configuring SSL on App Servers</Heading-1>
+<pagenum>
+<A ID="pgfId-1054925"></A>
+83</pagenum>
+<Body>
+<A ID="pgfId-1038003"></A>
+This chapter describes SSL support in the MarkLogic Server, and includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1046440"></A>
+<A href="SSL.xml#id(58562)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Understanding SSL</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054101"></A>
+<A href="SSL.xml#id(42684)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+General Procedure for Setting up SSL for an App Server</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1046444"></A>
+<A href="SSL.xml#id(46797)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Procedures for Enabling SSL on App Servers</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059149"></A>
+<A href="SSL.xml#id(27504)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Accessing an SSL-Enabled Server from a Browser or WebDAV Client</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1052616"></A>
+<A href="SSL.xml#id(88171)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Procedures for Obtaining a Signed Certificate</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054975"></A>
+<A href="SSL.xml#id(44800)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Viewing Trusted Certificate Authorities</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1061871"></A>
+<A href="SSL.xml#id(66821)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Importing a Certificate Revocation List into MarkLogic Server</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1062636"></A>
+<A href="SSL.xml#id(56112)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Deleting a Certificate Template</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1062637"></A>
+This chapter describes how to use the Admin Interface to configure SSL on App Servers. For details on how to configure SSL programmatically, see <A href="../AdminAPI/maintenance.xml#id(55408)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Enabling SSL on an App Server</Hyperlink>
+</A> in the <Emphasis>
+Scripting Administrative Tasks Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1051706"></A>
+<A ID="58562"></A>
+Understanding SSL</Heading-2>
+<Body>
+<A ID="pgfId-1053625"></A>
+SSL (Secure Sockets Layer) is a transaction security standard that provides encrypted protection between browsers and App Servers. When SSL is enabled for an App Server, browsers communicate with the App Server by means of an HTTPS connection, which is HTTP over an encrypted Secure Sockets Layer. HTTPS connections are widely used by banks and web vendors for secure transactions over the web. </Body>
+<Body>
+<A ID="pgfId-1054147"></A>
+A browser and App Server create a secure HTTPS connection by using a handshaking procedure. When browser connects to an SSL-enabled App Server, the App Server sends back its identification in the form of a digital certificate that contains the server name, the trusted certificate authority, and the server's public encryption key. The browser uses the server's public encryption key from the digital certificate to encrypt a random number and sends the result to the server. From the random number, both the browser and App Server generate a <Emphasis>
+session key</Emphasis>
+. The session key is used for the rest of the session to encrypt/decrypt all transmissions between the browser and App Server, enabling them to verify that the data didn't change in route.</Body>
+<Body>
+<A ID="pgfId-1055541"></A>
+The end result of the handshaking procedure described above is that only the server is authenticated. The client can trust the server, but the client remains unauthenticated. MarkLogic Server supports mutual authentication, in which the client also holds a digital certificate that it sends to the server. When mutual authentication is enabled, both the client and the server are authenticated and mutually trusted.</Body>
+<Body>
+<A ID="pgfId-1054139"></A>
+MarkLogic Server uses OpenSSL to implement the Secure Sockets Layer (SSL v3) and Transport Layer Security (TLS v1) protocols.</Body>
+<Body>
+<A ID="pgfId-1051708"></A>
+The following are the definitions for the SSL terms used in this chapter:</Body>
+<Body-bullet>
+<A ID="pgfId-1052700"></A>
+A certificate, or more precisely, a public key certificate, is an electronic document that incorporates a digital signature to bind together a public key with identity information, such as the name of a person or an organization, address, and so on. The certificate can be used to verify that a public key belongs to an individual or organization. In a typical public key infrastructure (PKI) scheme, the signature will be that of a certificate authority.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053045"></A>
+A certificate authority (CA) is a trusted third party that certifies the identity of entities, such as users, databases, administrators, clients, and servers. When an entity requests certification, the CA verifies its identity and grants a certificate, which is signed with the CA's private key. If the CA is trusted, then any certificate it issues is trusted unless it has been revoked.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053046"></A>
+A certificate request is a request data structure containing a subset of the information that will ultimately end up in the certificate. A certificate request is sent to a certificate authority for certification.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1062019"></A>
+A key is a piece of information that determines the output of a cipher. SSL/TLS communications begin with a public/private key pair that allow the client and server to securely agree on a session key. The public/private key pair is also used to validate the identity of the server and can optionally be used to verify the identity of the client.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053694"></A>
+A certificate template is a MarkLogic construct that is used to generate certificate requests for the various hosts in a cluster. The template defines the name of the certificate, a description, and identity information about the owner of the certificate.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053169"></A>
+A cipher is an algorithm for encrypting information so that it's only readable by someone with a key. A cipher can be either symmetric and asymmetric. Symmetric ciphers use the same key for both encryption and decryption. Asymmetric ciphers use a public and private key. </Body-bullet>
+<Heading-2>
+<A ID="pgfId-1054054"></A>
+<A ID="42684"></A>
+General Procedure for Setting up SSL for an App Server</Heading-2>
+<Body>
+<A ID="pgfId-1054055"></A>
+This section describes the general procedure for setting up SSL on an App Server. The general steps are:</Body>
+<Body-bullet>
+<A ID="pgfId-1054058"></A>
+Create a certificate template, as described in <A href="SSL.xml#id(35140)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Creating a Certificate Template' on page&#160;61</A>. </Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054063"></A>
+Enable SSL for the App Server, as described in <A href="SSL.xml#id(37057)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Enabling SSL for an App Server' on page&#160;63</A>. </Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054064"></A>
+Access the SSL-enabled server from a browser, as described in <A href="SSL.xml#id(27504)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Accessing an SSL-Enabled Server from a Browser or WebDAV Client' on page&#160;64</A>. </Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054068"></A>
+Generate a certificate request and send it off to a certificate authority, as described in <A href="SSL.xml#id(20505)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Generating and Downloading Certificate Requests' on page&#160;78</A>. </Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1062563"></A>
+When you receive the signed certificate from the certificate authority, import it into MarkLogic Server for use by your App Server, as described in <A href="SSL.xml#id(21259)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Importing a Signed Certificate into MarkLogic Server' on page&#160;79</A>. </Body-bullet>
+<Note>
+<A ID="pgfId-1062570"></A>
+Certificate templates, requests, and the resulting signed certificates are only valid within a single cluster.</Note>
+<Heading-2>
+<A ID="pgfId-1062573"></A>
+<A ID="46797"></A>
+<A ID="90097"></A>
+Procedures for Enabling SSL on App Servers</Heading-2>
+<Body>
+<A ID="pgfId-1052026"></A>
+The following sections describe how to enable SSL for an App Server:</Body>
+<Body-bullet>
+<A ID="pgfId-1053962"></A>
+<A href="SSL.xml#id(35140)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating a Certificate Template</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1052054"></A>
+<A href="SSL.xml#id(37057)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Enabling SSL for an App Server</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1053577"></A>
+<A ID="78554"></A>
+<A ID="35140"></A>
+Creating a Certificate Template</Heading-3>
+<Body>
+<A ID="pgfId-1053578"></A>
+Access to an SSL-enabled server is managed by a public key in a signed certificate obtained from a certificate authority. The first step in producing a request for a signed certificate is to define a certificate template. This procedure will produce a self-signed certificate that your browser can temporarily use to access an SSL-enabled server until you receive a signed certificate from a certificate authority.</Body>
+<Number1>
+<A ID="pgfId-1051405"></A>
+Click the Security icon in the left frame.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1051423"></A>
+Click the Certificate Templates icon on the left tree menu.</Number>
+<Number>
+<A ID="pgfId-1051464"></A>
+Click the Create tab. The Create Certificate Template page will display:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1051491"></A>
+<IMAGE xml:link="simple" href="images/certificate_template_blank.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1051501"></A>
+In the Template Name field, enter a shorthand name for this certificate template. MarkLogic Server will use this name to refer to this template on display screens in the Admin Interface.</Number>
+<Number>
+<A ID="pgfId-1051625"></A>
+You can enter an optional description for the certificate template.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1051508"></A>
+<IMAGE xml:link="simple" href="images/certificate_template1.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1051590"></A>
+Enter the name of your company or organization in the Organization Name field. </Number>
+<Number>
+<A ID="pgfId-1058510"></A>
+You can optionally fill in subject information, such as your country, state, locale, and email address. Country Name must be two characters, such as US, UK, DE, FR, ES, etc.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1051597"></A>
+<IMAGE xml:link="simple" href="images/certificate_template2.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1058446"></A>
+When you have finished filling in the fields, click OK. MarkLogic Server automatically generates a Self-Signed Certificate Authority, which in turn automatically creates a signed certificate from the certificate template for each host. For details on how to view the Certificate Authority and signed certificate, see <A href="SSL.xml#id(44800)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Viewing Trusted Certificate Authorities' on page&#160;80</A>.</Number>
+</NumberList>
+<Heading-3>
+<A ID="pgfId-1051233"></A>
+<A ID="37057"></A>
+Enabling SSL for an App Server</Heading-3>
+<Body>
+<A ID="pgfId-1062298"></A>
+After creating a certificate template, you can enable SSL for an HTTP, WebDAV, or XDBC server.</Body>
+<Number1>
+<A ID="pgfId-1062299"></A>
+Click the Groups icon in the left frame.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1062300"></A>
+Click the group in which you want to define the HTTP server (for example, Default).</Number>
+<Number>
+<A ID="pgfId-1051388"></A>
+Click the App Servers icon on the left tree menu.</Number>
+<Number>
+<A ID="pgfId-1051913"></A>
+Either create a new server by clicking on one of the Create server_type tabs or select an existing server from the left tree menu. </Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1051930"></A>
+The SSL fields are located at the bottom of the server specification page.</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1051967"></A>
+In the SSL Certificate Template field, select the certificate template you created in <A href="SSL.xml#id(35140)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Creating a Certificate Template' on page&#160;61</A>. Selecting a certificate template implicitly enables SSL for the App Server.</Number>
+<Number>
+<A ID="pgfId-1051988"></A>
+(Optional) The SSL Hostname field should only be filled in when a proxy or load balancer is used to represent multiple servers. In this case, you can specify an SSL hostname here and all instances of the application server will identify themselves as that host.</Number>
+<Number>
+<A ID="pgfId-1051989"></A>
+(Optional) In the SSL Ciphers field, you can either use the default (<code>
+ALL:!LOW:@STRENGTH</code>
+) or one or more of the SSL ciphers defined in <code>
+<A href="http://www.openssl.org/docs/apps/ciphers.html" xml:link="simple" show="replace" actuate="user" CLASS="URL">http://www.openssl.org/docs/apps/ciphers.html</A></code>
+.</Number>
+</NumberList>
+<Body>
+<A ID="pgfId-1062318"></A>
+<IMAGE xml:link="simple" href="images/SSL_server_settings.gif" show="embed" actuate="auto"/>
+</Body>
+<NumberList>
+<Number>
+<A ID="pgfId-1062440"></A>
+(Optional) If you want SSL to require clients to provide a certificate, select True for SSL Require Client Certificate. Then select Show under SSL Client Certificate Authorities and which certificate authority is to be used to sign client certificates for the server:</Number>
+</NumberList>
+<Body>
+<A ID="pgfId-1062449"></A>
+<IMAGE xml:link="simple" href="images/ssl_client_cert_auths.gif" show="embed" actuate="auto"/>
+</Body>
+<Heading-2>
+<A ID="pgfId-1051029"></A>
+<A ID="27504"></A>
+Accessing an SSL-Enabled Server from a Browser or WebDAV Client</Heading-2>
+<Body>
+<A ID="pgfId-1052099"></A>
+When you create a certificate template and set it in your App Server, MarkLogic Server automatically generates a temporary self-signed MarkLogic certificate authority that signs host certificates. If you have not yet received a signed certificate for your SSL-enabled App Server from a certificate authority, your browser must accept the temporary self-signed certificate authority before it can access the App Server. There are two alternative ways to do this, both of which are browser-dependent and described below. </Body>
+<Body>
+<A ID="pgfId-1061053"></A>
+To enable WebDAV clients to access an SSL-enabled App Server, you must follow the procedure described in <A href="SSL.xml#id(48604)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Importing a Self-Signed Certificate Authority into Windows' on page&#160;70</A>.</Body>
+<Body>
+<A ID="pgfId-1060820"></A>
+To enable a single browser to access the SSL-enabled App Server, you can create a security exception for the self-signed certificate in your browser, as described in the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1060824"></A>
+<A href="SSL.xml#id(67221)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating a Security Exception in Internet Explorer</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1060828"></A>
+<A href="SSL.xml#id(14885)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating a Security Exception in Mozilla Firefox</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1061475"></A>
+If you need to enable a number of browsers to access the SSL-enabled App Server, you might want each browser to import the self-signed certificate authority for the certificate template. Once this is done, all certificates signed by the certificate authority will be trusted by the browser, so you can distribute new certificates without requiring each browser to create new security exceptions. The following sections describe how to import the self-signed MarkLogic certificate authority:</Body>
+<Body-bullet>
+<A ID="pgfId-1061479"></A>
+<A href="SSL.xml#id(48604)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Importing a Self-Signed Certificate Authority into Windows</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1060790"></A>
+<A href="SSL.xml#id(73911)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Importing a Self-Signed Certificate Authority into Mozilla Firefox</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1059499"></A>
+<A ID="67221"></A>
+Creating a Security Exception in Internet Explorer</Heading-3>
+<Body>
+<A ID="pgfId-1059520"></A>
+If you have not imported the certificate authority for the certificate template into Windows, when you first access an SSL-enabled server with your IE browser, you will receive an error notifying you that there is a problem with this website's security certificate. You can bypass this security exception by accepting the certificate. For example, if you enabled SSL on the HTTP server, Docs, each host can accept the self-signed certificate as described below.</Body>
+<Number1>
+<A ID="pgfId-1059521"></A>
+Access the server with the URL:</Number1>
+<Code>
+<A ID="pgfId-1059522"></A>
+https://hp6910-624v64b:8000/</Code>
+<Note>
+<A ID="pgfId-1059523"></A>
+Remember to start your URL with HTTPS, rather than HTTP. Otherwise, the browser will return an error.</Note>
+<NumberList>
+<Number>
+<A ID="pgfId-1059550"></A>
+The server responds with a 'There is a problem with this website's security certificate' notification similar to:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1059583"></A>
+<IMAGE xml:link="simple" href="images/IE_Exception1.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1059592"></A>
+Click on 'Continue to this website (not recommended)'</Number>
+<Number>
+<A ID="pgfId-1059602"></A>
+Enter your MarkLogic Server username and password at the prompt.</Number>
+</NumberList>
+<Heading-3>
+<A ID="pgfId-1059553"></A>
+<A ID="14885"></A>
+Creating a Security Exception in Mozilla Firefox</Heading-3>
+<Body>
+<A ID="pgfId-1058382"></A>
+If you have not imported the MarkLogic certificate authority into your Firefox browser, when you first access an SSL-enabled server, you will receive an error notifying you that you have accessed an untrusted server. You can bypass this security exception by accepting the certificate. For example, if you enabled SSL on the HTTP server, Docs, you can accept the self-signed certificate as described below.</Body>
+<Number1>
+<A ID="pgfId-1054331"></A>
+Access the server with the URL:</Number1>
+<Code>
+<A ID="pgfId-1054288"></A>
+https://hp6910-624v64b:8000/</Code>
+<Note>
+<A ID="pgfId-1054300"></A>
+Remember to start your URL with HTTPS, rather than HTTP. Otherwise, the browser will return an error.</Note>
+<NumberList>
+<Number>
+<A ID="pgfId-1054312"></A>
+The server responds with an 'Secure Connection failed' notification similar to:</Number>
+</NumberList>
+<Body>
+<A ID="pgfId-1054737"></A>
+<IMAGE xml:link="simple" href="images/secure_connection_failed_error.gif" show="embed" actuate="auto"/>
+</Body>
+<Note>
+<A ID="pgfId-1054750"></A>
+If you see another type of error message, see <A href="SSL.xml#id(52603)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'What to do if you don't get an ‘Or you can add an exception' Prompt' on page&#160;68</A>.</Note>
+<NumberList>
+<Number>
+<A ID="pgfId-1054230"></A>
+Click 'Or you can add an exception.'</Number>
+<Number>
+<A ID="pgfId-1054598"></A>
+In the Add Security Exception page, click Get Certificate and click Confirm Security Exception.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1054246"></A>
+<IMAGE xml:link="simple" href="images/confirm_security_exception.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1054618"></A>
+In the Certificate Manager page, click OK.</Number>
+<Number>
+<A ID="pgfId-1054197"></A>
+The server then prompts you for a username and password before connecting you to the server.</Number>
+</NumberList>
+<Heading-4>
+<A ID="pgfId-1054405"></A>
+<A ID="52603"></A>
+What to do if you don't get an ‘Or you can add an exception' Prompt</Heading-4>
+<Body>
+<A ID="pgfId-1054702"></A>
+When using Mozilla Firefox, you may encounter an error message that does not allow you the option to add an exception for the self-signed certificate. This type of error looks like:</Body>
+<Body-indent>
+<A ID="pgfId-1054463"></A>
+<IMAGE xml:link="simple" href="images/cert_invalid_error.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<Body>
+<A ID="pgfId-1054481"></A>
+In this case, click OK and follow this procedure:</Body>
+<Number1>
+<A ID="pgfId-1054503"></A>
+In your browser, navigate to Tools &gt; Options.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1054652"></A>
+Click Advanced and click the Encryption tag.</Number>
+<Number>
+<A ID="pgfId-1054663"></A>
+Click View Certificates.</Number>
+<Number>
+<A ID="pgfId-1054513"></A>
+In the Certificate Manager, click the Servers tab.</Number>
+<Number>
+<A ID="pgfId-1054520"></A>
+In the Add Security Exception page, click Add Exception </Number>
+<Number>
+<A ID="pgfId-1054687"></A>
+Enter the URL, including the host and port, to the SSL-enabled server in the Location field.</Number>
+<Number>
+<A ID="pgfId-1054527"></A>
+Click Get Certificate and click Confirm Security Exception.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1054572"></A>
+<IMAGE xml:link="simple" href="images/add_security_exception.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1054540"></A>
+In the Certificate Manager, click OK.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1054562"></A>
+You should now be able to access the SSL-enabled server.</EndList-root>
+<Heading-3>
+<A ID="pgfId-1061320"></A>
+<A ID="48604"></A>
+Importing a Self-Signed Certificate Authority into Windows</Heading-3>
+<Body>
+<A ID="pgfId-1061321"></A>
+This section describes how to import the Certificate Authority into Windows for use by the Internet Explorer browser and WebDAV clients. </Body>
+<Number1>
+<A ID="pgfId-1061322"></A>
+Open the Admin interface in your Internet Explorer browser.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1061323"></A>
+Click the Security icon in the left frame.</Number>
+<Number>
+<A ID="pgfId-1061324"></A>
+Click the Certificate Templates icon on the left tree menu.</Number>
+<Number>
+<A ID="pgfId-1061325"></A>
+Click the certificate template name on the left tree menu. The Configure certificate template page will display.</Number>
+<Number>
+<A ID="pgfId-1061326"></A>
+Click the Status tab to display the certificate template Status page. </Number>
+<Number>
+<A ID="pgfId-1061327"></A>
+Click on Import. </Number>
+</NumberList>
+<Body>
+<A ID="pgfId-1061331"></A>
+<IMAGE xml:link="simple" href="images/cert_template_status.gif" show="embed" actuate="auto"/>
+</Body>
+<NumberList>
+<Number>
+<A ID="pgfId-1061332"></A>
+In the 'Do you want to open or save this file?' window, click Open.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1061336"></A>
+<IMAGE xml:link="simple" href="images/IE_import1.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1061337"></A>
+In the 'Certificate Information' window, click Install Certificate.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1061341"></A>
+<IMAGE xml:link="simple" href="images/IE_import2.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1061342"></A>
+In the Certificate Import Wizard window, select 'Place all certificates in the following store' and click Browse.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1061346"></A>
+<IMAGE xml:link="simple" href="images/IE_import3.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1061347"></A>
+In the Select Certificate Store window, select 'Trusted Root Certification Authorities' and click OK.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1061351"></A>
+<IMAGE xml:link="simple" href="images/IE_import4.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1061352"></A>
+In the Certificate Import Wizard window, click Next.</Number>
+<Number>
+<A ID="pgfId-1061353"></A>
+On the Completing the Certificate Import Wizard page, select 'Certificate Store Selected by User' and click Finish</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1061357"></A>
+<IMAGE xml:link="simple" href="images/IE_import5.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1061358"></A>
+In the Security Warning page, click Yes.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1061362"></A>
+<IMAGE xml:link="simple" href="images/IE_import6.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1061363"></A>
+When you see 'The import was successful prompt,' click OK.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1061367"></A>
+<IMAGE xml:link="simple" href="images/IE_import7.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1061368"></A>
+In the Certificate Information window, click OK to exit.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1061369"></A>
+You should now be able to access the SSL-enabled server from your Internet Explorer browser or WebDAV client.</EndList-root>
+<Heading-3>
+<A ID="pgfId-1060742"></A>
+<A ID="73911"></A>
+Importing a Self-Signed Certificate Authority into Mozilla Firefox</Heading-3>
+<Body>
+<A ID="pgfId-1060743"></A>
+This section describes how to import the Certificate Authority into your Mozilla Firefox browser. </Body>
+<Number1>
+<A ID="pgfId-1060744"></A>
+Open the Admin interface in your Firefox browser.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1060745"></A>
+Click the Security icon in the left frame.</Number>
+<Number>
+<A ID="pgfId-1060746"></A>
+Click the Certificate Templates icon on the left tree menu.</Number>
+<Number>
+<A ID="pgfId-1060747"></A>
+Click the certificate template name on the left tree menu. The Configure certificate template page will display.</Number>
+<Number>
+<A ID="pgfId-1060748"></A>
+Click the Status tab to display the certificate template Status page. </Number>
+<Number>
+<A ID="pgfId-1060749"></A>
+Click on Import. </Number>
+</NumberList>
+<Body>
+<A ID="pgfId-1060754"></A>
+<A ID="92047"></A>
+<IMAGE xml:link="simple" href="images/cert_template_status.gif" show="embed" actuate="auto"/>
+</Body>
+<NumberList>
+<Number>
+<A ID="pgfId-1060755"></A>
+Select 'Trust this CA to identify web sites' in the 'Downloading Certificate' window and click OK:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1060759"></A>
+<IMAGE xml:link="simple" href="images/Firefox_import.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<EndList-root>
+<A ID="pgfId-1060760"></A>
+You should now be able to access the SSL-enabled server from your Mozilla Firefox browser.</EndList-root>
+<Heading-2>
+<A ID="pgfId-1052165"></A>
+<A ID="88171"></A>
+Procedures for Obtaining a Signed Certificate</Heading-2>
+<Body>
+<A ID="pgfId-1052175"></A>
+Use the following procedures to obtain a signed certificate and import into your server:</Body>
+<Body-bullet>
+<A ID="pgfId-1052314"></A>
+<A href="SSL.xml#id(20505)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Generating and Downloading Certificate Requests</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1052322"></A>
+<A href="SSL.xml#id(21259)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Importing a Signed Certificate into MarkLogic Server</Hyperlink>
+</A></Body-bullet>
+<Note>
+<A ID="pgfId-1052225"></A>
+No outside authority is used to sign certificates used between servers communicating over the internal XDQP connections in a cluster. Such certificates are self-signed and trusted by each server in the cluster. For details, see <A href="groups.xml#id(82620)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Enabling SSL communication over XDQP' on page&#160;29</A>.</Note>
+<Heading-3>
+<A ID="pgfId-1052152"></A>
+<A ID="20505"></A>
+Generating and Downloading Certificate Requests</Heading-3>
+<Body>
+<A ID="pgfId-1052139"></A>
+Once the server is created or modified with SSL enabled, you can generate one or more PEM-encoded certificate requests.</Body>
+<Note>
+<A ID="pgfId-1062504"></A>
+You must first assign the certificate template to an App Server, as described in <A href="SSL.xml#id(37057)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Enabling SSL for an App Server' on page&#160;63</A>, before you can generate a certificate request.</Note>
+<Number1>
+<A ID="pgfId-1052401"></A>
+Click the Security icon in the left frame.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1052402"></A>
+Click the Certificate Templates icon on the left tree menu.</Number>
+<Number>
+<A ID="pgfId-1061243"></A>
+Click the certificate template name on the left tree menu. The Configure certificate template page will display.</Number>
+<Number>
+<A ID="pgfId-1052403"></A>
+Click the Request tab. The Generate Certificate Request page will display:</Number>
+</NumberList>
+<Body>
+<A ID="pgfId-1052886"></A>
+<IMAGE xml:link="simple" href="images/generate_certificate_request.gif" show="embed" actuate="auto"/>
+</Body>
+<NumberList>
+<Number>
+<A ID="pgfId-1058606"></A>
+Select either 'All' or 'Only those that are needed for missing, expired, self-signed, or out of date certificates that are not already pending,' then click OK.</Number>
+<Number>
+<A ID="pgfId-1058607"></A>
+The certificate template Status page will display. Click on Download to download the certificate request to your file system. </Number>
+</NumberList>
+<Body>
+<A ID="pgfId-1052466"></A>
+<IMAGE xml:link="simple" href="images/download_certificate_request.gif" show="embed" actuate="auto"/>
+</Body>
+<NumberList>
+<Number>
+<A ID="pgfId-1053220"></A>
+If the file does not already have a ‘zip' extension, rename the file by replacing the ‘xqy' extension with ‘zip'.</Number>
+<Number>
+<A ID="pgfId-1052497"></A>
+Send the zip file containing the certificate requests to a Certificate Authority, such as Verisign.</Number>
+</NumberList>
+<Heading-3>
+<A ID="pgfId-1052258"></A>
+<A ID="21259"></A>
+Importing a Signed Certificate into MarkLogic Server</Heading-3>
+<Body>
+<A ID="pgfId-1052361"></A>
+When you receive the file containing signed certificate(s) from the certification authority, import the signed certificate into MarkLogic Server.</Body>
+<Note>
+<A ID="pgfId-1061484"></A>
+Because the signed certificate is from a trusted certification authority, browsers are already configured to trust the certificate.</Note>
+<Number1>
+<A ID="pgfId-1052544"></A>
+Click the Security icon in the left frame.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1052545"></A>
+Click the Certificate Templates icon on the left tree menu.</Number>
+<Number>
+<A ID="pgfId-1061264"></A>
+Click the certificate template name on the left tree menu. The Configure certificate template page will display.</Number>
+<Number>
+<A ID="pgfId-1052562"></A>
+Click the Import tab. The Import Certificates page will display:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1052529"></A>
+<IMAGE xml:link="simple" href="images/import_certificates.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1059339"></A>
+Click on Browse to locate the file containing the signed certificate(s) and select OK. Zip files can be uploaded directly without the need to unzip them. Alternatively, you can paste an individual certificate into the text area.</Number>
+</NumberList>
+<Heading-2>
+<A ID="pgfId-1059342"></A>
+<A ID="44800"></A>
+Viewing Trusted Certificate Authorities</Heading-2>
+<Body>
+<A ID="pgfId-1054952"></A>
+You can list all of the certificate authorities that are known to and trusted by the server in the Certificate Authority page. Each CA in the list links to the corresponding Certificate Authority page for that CA.</Body>
+<Body>
+<A ID="pgfId-1054953"></A>
+The Certificate Authority page provides detailed information on the CA, a list of revoked certificates, the option to manually revoke a certificate by ID, and the ability to delete the CA from the server.</Body>
+<Number1>
+<A ID="pgfId-1055035"></A>
+Click the Security icon in the left frame.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1055036"></A>
+Click the Certificate Authority icon on the left tree menu.</Number>
+<Number>
+<A ID="pgfId-1055063"></A>
+The Certificate Authority Summary page displays the list of trusted CAs:</Number>
+</NumberList>
+<Body>
+<A ID="pgfId-1055136"></A>
+<IMAGE xml:link="simple" href="images/CA_Summary.gif" show="embed" actuate="auto"/>
+</Body>
+<NumberList>
+<Number>
+<A ID="pgfId-1055143"></A>
+Click on a CA in the list to display the details on the CA:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1055114"></A>
+<IMAGE xml:link="simple" href="images/CA_Details.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<Heading-2>
+<A ID="pgfId-1061727"></A>
+<A ID="66821"></A>
+Importing a Certificate Revocation List into MarkLogic Server</Heading-2>
+<Body>
+<A ID="pgfId-1061719"></A>
+A Certificate Revocation List (CRL) is a list of certificate serial numbers that have been revoked by a certificate authority. The CRL is signed by the certificate authority to verify its accuracy. The CRL contains the revocation date of each certificate, along with the date the CRL was published and the date it will next be published, which is useful in determining whether a newer CRL should be fetched.</Body>
+<Body>
+<A ID="pgfId-1061695"></A>
+You can use the <code>
+pki:insert-certificate-revocation-list</code>
+ function to import a CRL into the Security database. certificate authorities typically allow the CRL to be downloaded via HTTP. The document URL in the database is derived from the URL passed in to the function, so Inserting a newer CRL retrieved from the same URL will replace the previous one in the database. </Body>
+<Body>
+<A ID="pgfId-1061785"></A>
+For example, the following script imports a PEM- or DER-encoded CRL from Verisign into the Security database:</Body>
+<Code>
+<A ID="pgfId-1061786"></A>
+xquery version &quot;1.0-ml&quot;; 
+import module namespace pki = &quot;http://marklogic.com/xdmp/pki&quot; 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;at &quot;/MarkLogic/pki.xqy&quot;;</Code>
+<Code>
+<A ID="pgfId-1061787"></A>
+let $URI := &quot;http://crl.verisign.com/pca3.crl&quot;</Code>
+<Code>
+<A ID="pgfId-1061788"></A>
+return
+&#160;&#160;&#160;&#160;pki:insert-certificate-revocation-list(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$URI,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;xdmp:document-get($URI)/binary() )</Code>
+<Heading-2>
+<A ID="pgfId-1052276"></A>
+<A ID="56112"></A>
+Deleting a Certificate Template</Heading-2>
+<Body>
+<A ID="pgfId-1053359"></A>
+Deleting a template deletes all signed certificates and pending requests for the template. Before deleting a certificate template, ensure that a certificate with that name is not in use by a server. If a certificate with the same name as the certificate template is in use by a server, the delete operation returns an 'Invalid input' error.</Body>
+<Body>
+<A ID="pgfId-1053479"></A>
+To delete an unused certificate template:</Body>
+<Number1>
+<A ID="pgfId-1053323"></A>
+Click the Security icon in the left frame.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1053324"></A>
+Click the Certificate Templates icon on the left tree menu.</Number>
+<Number>
+<A ID="pgfId-1053388"></A>
+Click the certificate template name on the left tree menu. </Number>
+<Number>
+<A ID="pgfId-1053389"></A>
+On the Certificate Template page, click Delete:</Number>
+</NumberList>
+<Body>
+<A ID="pgfId-1053428"></A>
+<IMAGE xml:link="simple" href="images/certificate_template_delete.gif" show="embed" actuate="auto"/>
+</Body>
+<NumberList>
+<Number>
+<A ID="pgfId-1053441"></A>
+In the confirmation page, select OK.</Number>
+</NumberList>
+</XML>

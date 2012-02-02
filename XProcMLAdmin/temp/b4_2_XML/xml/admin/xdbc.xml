@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="xdbc.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1038002"></A>
+<A ID="11456"></A>
+XDBC Servers</Heading-1>
+<pagenum>
+<A ID="pgfId-1038364"></A>
+44</pagenum>
+<Body>
+<A ID="pgfId-1041883"></A>
+This chapter describes XDBC servers and provides procedures for configuring them. The following sections are included:</Body>
+<Body-bullet>
+<A ID="pgfId-1041892"></A>
+<A href="xdbc.xml#id(80535)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+XDBC Server Overview</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1041896"></A>
+<A href="xdbc.xml#id(63996)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Procedures for Creating and Managing XDBC Servers</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1047156"></A>
+This chapter describes how to use the Admin Interface to create and configure XDBC servers. For details on how to create and configure XDBC servers programmatically, see <A href="../AdminAPI/configure.xml#id(18698)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating and Configuring App Servers</Hyperlink>
+</A> in the <Emphasis>
+Scripting Administrative Tasks Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1041897"></A>
+<A ID="80535"></A>
+XDBC Server Overview</Heading-2>
+<Body>
+<A ID="pgfId-1042867"></A>
+XDBC (XML Database Connector) servers are defined at the group level and are accessible by all hosts within the group. Each XDBC server provides access to a specific forest, and to a library&#160;(root) of XQuery programs that reside within a specified directory structure. Applications execute by default against the database that is connected to the XDBC server. </Body>
+<Body>
+<A ID="pgfId-1042874"></A>
+XDBC Servers allow XML Contentbase Connector (XCC) applications to communicate with MarkLogic Server. XCC is an API used to communicate with MarkLogic Server from Java or .NET middleware applications. XDBC servers also allow old-style XDBC applications to communicate with MarkLogic Server, although XDBC applications cannot use certain 3.1 and newer features (such as point-in-time queries). Both XCC and XDBC applications use the same wire protocol.</Body>
+<Body>
+<A ID="pgfId-1042892"></A>
+XQuery requests submitted via XCC return results as specified by the XQuery code. These results can include XML and a variety of other data types. It is the XCC application's responsibility to parse, process and interpret these results in a manner appropriate to the variety of data types available. There are a number of publicly available libraries for assisting with this task, or you may write your own code. In order to accept connections from XCC-enabled applications, MarkLogic Server must be configured with an XDBC Server listening on the designated port. Each XDBC Server connects by default to a specific database within MarkLogic Server, but XCC provides the ability to communicate with any database in the MarkLogic Server cluster to which your application connects (and for which you have the necessary permissions and privileges).</Body>
+<Body>
+<A ID="pgfId-1038007"></A>
+XDBC servers follow the MarkLogic Server security model, as do HTTP and WebDAV servers. The server authenticates access to those programs using user IDs and passwords stored in the security database for that XDBC server. (Each XDBC server is connected to a database, and each database is in turn connected to a security database in which security objects such as users are stored.)</Body>
+<Body>
+<A ID="pgfId-1038008"></A>
+Granular access control to the system and to the data is achieved through the use of privileges and permissions. For details on configuring security objects in MarkLogic Server, see <A href="security.xml#id(73923)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Security Administration' on page&#160;187</A>. For conceptual information on the MarkLogic Server security model, see <Emphasis>
+Understanding and Using Security Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1041902"></A>
+<A ID="63996"></A>
+Procedures for Creating and Managing XDBC Servers</Heading-2>
+<Body>
+<A ID="pgfId-1041907"></A>
+Use the following procedures to create and manage XDBC servers:</Body>
+<Body-bullet>
+<A ID="pgfId-1038013"></A>
+<A href="xdbc.xml#id(21458)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating a New XDBC Server</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1038017"></A>
+<A href="xdbc.xml#id(79815)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Viewing XDBC Server Settings</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1038021"></A>
+<A href="xdbc.xml#id(87557)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Deleting an XDBC Server</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1042912"></A>
+For the procedure to cancel a running request on an XDBC server, see <A href="http.xml#id(72344)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Canceling a Request' on page&#160;37</A>.</Body>
+<Heading-3>
+<A ID="pgfId-1038022"></A>
+<A ID="21458"></A>
+Creating a New XDBC Server</Heading-3>
+<Body>
+<A ID="pgfId-1038023"></A>
+To create a new server, complete the following steps:</Body>
+<Number1>
+<A ID="pgfId-1038024"></A>
+Click the Groups icon.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1038025"></A>
+Click the group in which you want to define the XDBC server (for example, Default).</Number>
+<Number>
+<A ID="pgfId-1038026"></A>
+Click the App Servers icon on the left tree menu.</Number>
+<Number>
+<A ID="pgfId-1038027"></A>
+Click the Create XDBC tab at the top right. The Create XDBC Server page displays.</Number>
+</NumberList>
+<Body>
+<A ID="pgfId-1038032"></A>
+<IMAGE xml:link="simple" href="images/xdbc_create.gif" show="embed" actuate="auto"/>
+</Body>
+<NumberList>
+<Number>
+<A ID="pgfId-1038033"></A>
+In the XDBC Server Name field, enter a shorthand name for this XDBC server. MarkLogic Server will use this name to refer to this server on display screens in the Admin Interface.</Number>
+<Number>
+<A ID="pgfId-1046216"></A>
+In the Root directory field, enter the name of the directory in which you will store your XQuery programs. If the Modules field is set to a database, then the root must be a directory URI in the specified modules database. </Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1046217"></A>
+If the Modules field is set to file system, then the root directory is either a fully-qualified pathname or is relative to the directory in which MarkLogic Server is installed. The following table shows the default installation directory for each platform:</Body-indent>
+<TableAnchor>
+<A ID="pgfId-1042107"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1042092"></A>
+Platform</CellHeading>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1042094"></A>
+Program Directory</CellHeading>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1042096"></A>
+Microsoft Windows</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1042098"></A>
+C:\Program Files\MarkLogic</CodeLeft>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1042100"></A>
+Red Hat Linux</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1042102"></A>
+/opt/MarkLogic</CodeLeft>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1042104"></A>
+Sun Solaris</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1042106"></A>
+/opt/MARKlogic</CodeLeft>
+</CELL>
+</ROW>
+</TABLE>
+<Note>
+<A ID="pgfId-1046228"></A>
+Unless you specify a shared drive, all hosts in the group will need to have a copy of the XQuery programs in the directory specified above.</Note>
+<WarningList>
+<Warning>
+<A ID="pgfId-1042130"></A>
+Do not create XDBC server root directories named Docs, Data or Admin. These directories are reserved by MarkLogic Server for other purposes. Creating XDBC server root directories with these names can result in unpredictable behavior of the server and may also complicate the software upgrade process.</Warning>
+<Number>
+<A ID="pgfId-1042081"></A>
+In the Port field, enter the port number through which you want to make this XDBC server available.</Number>
+</WarningList>
+<Body-indent>
+<A ID="pgfId-1038061"></A>
+The port number must not be assigned to any other XDBC, HTTP, or WebDAV server.</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1046263"></A>
+In the Modules field, select the database to use as the modules database for your XQuery documents, or leave it at the default of storing your XQuery modules on the file system. For information on what a modules database is, see <A href="databases.xml#id(38484)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Modules Database' on page&#160;97</A>.</Number>
+<Number>
+<A ID="pgfId-1038062"></A>
+In the Database field, select the database to be accessed by this XDBC server. Multiple HTTP, XDBC, and WebDAV servers can access the same database.</Number>
+<Number>
+<A ID="pgfId-1042157"></A>
+Scroll to the Privilege field near the bottom of the screen. This field represents the privilege needed to access (login to) the server. You may leave this field blank.   </Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1042158"></A>
+A user accessing the XDBC server must have the execute privilege selected in order to access the XDBC server (or be a member of the <code>
+admin</code>
+ role). </Body-indent>
+<Body-indent>
+<A ID="pgfId-1042162"></A>
+<IMAGE xml:link="simple" href="images/http_priv.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1046871"></A>
+Set any other properties for this App Server, as appropriate to your needs:</Number>
+</NumberList>
+<Body-bullet-2>
+<A ID="pgfId-1046874"></A>
+Last Login and Display Last Login are described in <A href="session-login.xml#id(54951)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Storing and Monitoring the Last User Login Attempt' on page&#160;94</A>.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1046876"></A>
+Address specifies the IP address for the App Server.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1046877"></A>
+Backlog specifies the maximum number of pending connections allowed on the HTTP server socket.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1046878"></A>
+Threads specifies the maximum number of App Server threads.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1046879"></A>
+Request Timeout specifies the maximum number of seconds before a socket receives a timeout for the first request.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1046880"></A>
+Keep Alive Timeout specifies the maximum number of seconds before a socket receives a timeout for subsequent requests over the same connection.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1046881"></A>
+Session Timeout specifies the maximum number of seconds before an inactive session times out.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1046882"></A>
+Max Time Limit specifies the upper bound for any request's time limit. No request may set its time limit (for example with xdmp:set-request-time-limit) higher than this number. The time limit, in turn, is the maximum number of seconds allowed for servicing a query request. The App Server gives up on queries which take longer, and returns an error.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1047082"></A>
+Default Time Limit specifies the default value for any request's time limit, when otherwise unspecified. A request can change its time limit using <code>
+xdmp:set-request-time-limit</code>
+. The time limit, in turn, is the maximum number of seconds allowed for servicing a query request. The App Server gives up on queries which take longer, and returns an error.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1047053"></A>
+Pre-commit Trigger Limit specifies the maximum number of pre-commit triggers a single statement against this App Server can invoke. For more information on triggers, see <A href="../dev_guide/triggers.xml#id(17020)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Using Triggers to Spawn Actions</Hyperlink>
+</A> in the <Emphasis>
+Application Developer's Guide</Emphasis>
+.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1047060"></A>
+Pre-commit Trigger Depth specifies the maximum depth (how many triggers can cause other triggers to fire, which in turn cause others to fire, and so on) for pre-commit triggers that are executed against this App Server. For more information on triggers, see <A href="../dev_guide/triggers.xml#id(17020)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Using Triggers to Spawn Actions</Hyperlink>
+</A> in the <Emphasis>
+Application Developer's Guide</Emphasis>
+.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1046987"></A>
+Collation specifies the default collation for queries run in this appserver. This will be the collation used for string comparison and sorting if none is specified in the query. For details, see <A href="../search-dev-guide/encodings_collations.xml#id(40505)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Encodings and Collations</Hyperlink>
+</A> in the <Emphasis>
+Search Developer's Guide</Emphasis>
+.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1046968"></A>
+Concurrent Request Limit specifies the maximum number of requests any user may have running at a specific time. 0 indicates no maximum. For details, see <A href="session-login.xml#id(48668)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Managing Concurrent User Sessions' on page&#160;92</A>.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1046892"></A>
+Log Errors specifes whether to log uncaught errors for this App Server to the ErrorLog.txt file. This is useful to log exceptions that might occur on an App Server for later debugging.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1046893"></A>
+Debug Allow specifies whether to allow requests against this App Server to be stopped for debugging, using the MarkLogic Server debugging APIs.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1046949"></A>
+Profile Allow specifies whether to allow requests against this App Server to be profiled, using the MarkLogic Server profiling APIs. For details, see <A href="../performance/profile.xml#id(94939)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Profiling Requests to Evaluate Performance</Hyperlink>
+</A> in the Query Performance and Tuning guide.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1046895"></A>
+Default XQuery Version specifies the default XQuery language for this App Server if an XQuery module does explicitly declare its language version.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1047009"></A>
+Output SGML Character Entities specifies whether to output SGML character entities for this App Server, and how to resolve name conflicts. For details, see <A href="../dev_guide/appserver-control.xml#id(28091)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Outputting SGML Entities</Hyperlink>
+</A> in the <Emphasis>
+Application Developer's Guide</Emphasis>
+. </Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1047031"></A>
+Output Encoding specifies the default output encoding for this App Server. For details, see <A href="../dev_guide/appserver-control.xml#id(99082)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Specifying the Output Encoding</Hyperlink>
+</A> in the <Emphasis>
+Application Developer's Guide</Emphasis>
+.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1046907"></A>
+The properties associated with SSL support are described in <A href="SSL.xml#id(85783)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Configuring SSL on App Servers' on page&#160;58</A>.</Body-bullet-2>
+<NumberList>
+<Number>
+<A ID="pgfId-1042163"></A>
+Scroll to the top or bottom and click OK. </Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1038071"></A>
+The new XDBC server is created. Creating an XDBC server is a 'hot' admin task; the changes take effect immediately. For information and setup instructions for managing user sessions and/or keeping track of login attempts, see <A href="session-login.xml#id(23690)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Managing User Sessions and Monitoring Login Attempts' on page&#160;92</A>.</EndList-root>
+<Heading-3>
+<A ID="pgfId-1038072"></A>
+<A ID="79815"></A>
+Viewing XDBC Server Settings</Heading-3>
+<Body>
+<A ID="pgfId-1038073"></A>
+To view the settings for an XDBC server, complete the following steps:</Body>
+<Number1>
+<A ID="pgfId-1038074"></A>
+Click the Groups icon.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1038075"></A>
+Click the group which contains the XDBC server you want to view (for example, Default).</Number>
+<Number>
+<A ID="pgfId-1038076"></A>
+Click the App Servers icon on the left tree menu.</Number>
+<Number>
+<A ID="pgfId-1038078"></A>
+Locate the XDBC server for which you want to view settings, either in the tree menu or on the summary page.</Number>
+<Number>
+<A ID="pgfId-1038079"></A>
+Click the icon for the XDBC server. </Number>
+<Number>
+<A ID="pgfId-1038080"></A>
+View the settings.</Number>
+</NumberList>
+<Heading-3>
+<A ID="pgfId-1038081"></A>
+<A ID="87557"></A>
+Deleting an XDBC Server</Heading-3>
+<Body>
+<A ID="pgfId-1038082"></A>
+To delete the settings for an XDBC server, complete the following steps:</Body>
+<Number1>
+<A ID="pgfId-1038083"></A>
+Click on the Groups icon.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1038084"></A>
+Click on the group which contains the XDBC server you want to delete (for example, Default).</Number>
+<Number>
+<A ID="pgfId-1038085"></A>
+Click the App Servers icon on the left tree menu.</Number>
+<Number>
+<A ID="pgfId-1038087"></A>
+Locate the XDBC server to be deleted, either in the tree menu or on the summary page.</Number>
+<Number>
+<A ID="pgfId-1038088"></A>
+Click the icon for this XDBC server. </Number>
+<Number>
+<A ID="pgfId-1038089"></A>
+Click Drop.</Number>
+<Number>
+<A ID="pgfId-1038090"></A>
+A confirmation message displays. Confirm the delete and click OK.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1038092"></A>
+Deleting an XDBC server is a 'cold' admin task; the server restarts to reflect your changes.</EndList-root>
+</XML>

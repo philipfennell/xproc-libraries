@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="intro.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1048410"></A>
+Scripting Administrative Tasks in MarkLogic Server</Heading-1>
+<pagenum>
+<A ID="pgfId-1064511"></A>
+8</pagenum>
+<Body>
+<A ID="pgfId-1048414"></A>
+This guide describes how to use the administration APIs to create scripts that configure and manage the operation of MarkLogic Server on your system. This guide is intended for a technical audience, specifically the system administrator in charge of MarkLogic Server.</Body>
+<Body>
+<A ID="pgfId-1073184"></A>
+The topics in this chapter are:</Body>
+<Body-bullet>
+<A ID="pgfId-1073191"></A>
+<A href="intro.xml#id(56943)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+The Administration APIs</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1073204"></A>
+<A href="intro.xml#id(16576)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Common Use Cases</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1074127"></A>
+<A href="intro.xml#id(84321)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Chapter Summary</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1072462"></A>
+<A ID="56943"></A>
+The Administration APIs</Heading-2>
+<Body>
+<A ID="pgfId-1072955"></A>
+The APIs most often used to automate administrative operations are summarized in the tables below.</Body>
+<TableAnchor>
+<A ID="pgfId-1073015"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="2">
+<CellHeading>
+<A ID="pgfId-1072944"></A>
+Built-in Functions </CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1072948"></A>
+Admin (xdmp:) </CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1072950"></A>
+This API provides functions for database and forest maintenance and file system access.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1072952"></A>
+Security (xdmp:) </CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1072954"></A>
+This API provides functions for getting information on users, roles, and document access permissions.</CellBody>
+</CELL>
+</ROW>
+</TABLE>
+<TableAnchor>
+<A ID="pgfId-1073793"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="2">
+<CellHeading>
+<A ID="pgfId-1073775"></A>
+Library Module Functions</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1073779"></A>
+Admin (admin:) </CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1073781"></A>
+This API provides functions for creating, configuring, and deleting forests, databases, hosts, groups, and App Servers. Specific usage information for this API is provided in the next chapter, <A href="usingAPI.xml#id(87529)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Using the Admin API' on page&#160;9</A>.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1073786"></A>
+Security (sec:) </CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1073788"></A>
+This API provides functions for creating, configuring, and deleting users, roles, amps, and privileges.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1073790"></A>
+PKI (pki:)</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1073792"></A>
+ This API provides functions for creating, configuring, and deleting the SSL objects used for secure access to App Servers.</CellBody>
+</CELL>
+</ROW>
+</TABLE>
+<Body>
+<A ID="pgfId-1073834"></A>
+</Body>
+<Heading-2>
+<A ID="pgfId-1073869"></A>
+<A ID="16576"></A>
+Common Use Cases</Heading-2>
+<Body>
+<A ID="pgfId-1073840"></A>
+<A ID="_Toc72300162"></A>
+The MarkLogic Server Admin APIs provide a flexible toolkit for creating new and managing existing configurations of MarkLogic Server.</Body>
+<Body>
+<A ID="pgfId-1072767"></A>
+The common use cases of the Admin APIs include.</Body>
+<Body-bullet>
+<A ID="pgfId-1072518"></A>
+Configuring multiple, identical instances of MarkLogic Server (across a cluster or multiple clusters and/or to maintain consistency between dev/cert/test/prod environments). </Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1072519"></A>
+Automating Server Maintenance. For example, backups based on criteria other than a schedule. </Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1072520"></A>
+Managing server resources. For example, delete-only forest rotation.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1072521"></A>
+Making Bulk Updates to Server Configuration. For example, changing roles across a large subgroup of users. </Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1072522"></A>
+Generating notifications (log and/or email) for specific server events.</Body-bullet>
+<Body>
+<A ID="pgfId-1072822"></A>
+The chapters <A href="configure.xml#id(54214)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Server Configuration Scripts' on page&#160;21</A>, <A href="SampleProgram.xml#id(81161)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Sample Configuration Program' on page&#160;39</A>, and <A href="maintenance.xml#id(54748)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Server Maintenance Operations' on page&#160;76</A> provide code samples that demonstrate the various uses of the MarkLogic Server Administration APIs.</Body>
+<Heading-2>
+<A ID="pgfId-1074044"></A>
+<A ID="84321"></A>
+Chapter Summary</Heading-2>
+<Body>
+<A ID="pgfId-1074056"></A>
+The <A href="usingAPI.xml#id(87529)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Using the Admin API</Hyperlink>
+</A> chapter describes the fundamentals of using the Admin and other APIs that allow you to perform administrative operations on MarkLogic Server.</Body>
+<Body>
+<A ID="pgfId-1074005"></A>
+The <A href="configure.xml#id(54214)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Server Configuration Scripts</Hyperlink>
+</A> chapter demonstrates how to write simple scripts that create and configure MarkLogic Server objects. </Body>
+<Body>
+<A ID="pgfId-1074021"></A>
+The <A href="SampleProgram.xml#id(81161)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Sample Configuration Program</Hyperlink>
+</A> chapter describes the modules that make up the Sample Configuration Program, which creates an entire configuration that supports the Oscars Explorer application described in <A href="../appbuilder/intro.xml#id(89173)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Using the Oscars Sample Application</Hyperlink>
+</A> in the <Emphasis>
+Application Builder Developer's Guide</Emphasis>
+.</Body>
+<Body>
+<A ID="pgfId-1073951"></A>
+The <A href="maintenance.xml#id(54748)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Server Maintenance Operations</Hyperlink>
+</A> chapter describes how to write scripts to monitor and manage an existing MarkLogic Server configuration.</Body>
+<Body>
+<A ID="pgfId-1073039"></A>
+</Body>
+</XML>

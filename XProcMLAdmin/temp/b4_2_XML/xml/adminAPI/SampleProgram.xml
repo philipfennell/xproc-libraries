@@ -1,0 +1,2156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="SampleProgram.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1048410"></A>
+<A ID="81161"></A>
+Sample Configuration Program</Heading-1>
+<pagenum>
+<A ID="pgfId-1064511"></A>
+75</pagenum>
+<Body>
+<A ID="pgfId-1073369"></A>
+The sample configuration program uses the Admin APIs to construct a MarkLogic Server configuration that supports the Oscars Explorer application described in <A href="../appbuilder/intro.xml#id(89173)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Using the Oscars Sample Application</Hyperlink>
+</A> in the <Emphasis>
+Application Builder Developer's Guide</Emphasis>
+.</Body>
+<Body>
+<A ID="pgfId-1073054"></A>
+The sample configuration program is located in <code>
+MarkLogic/Samples/admin</code>
+. The objective of this sample program is to educate users on the use of the Admin APIs. Though many parts of the code can be reused, the modules in this example are structured to highlight the use of the Admin API functions. You, however, may want to structure your program to hide the complexities of the APIs and define all of your configuration variables in a separate module or XML file, so that all changes to the configuration can be made in one place.</Body>
+<Body>
+<A ID="pgfId-1073466"></A>
+The topics in this section are:</Body>
+<Body-bullet>
+<A ID="pgfId-1073487"></A>
+<A href="SampleProgram.xml#id(27650)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+How to Execute the Sample Configuration Program</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1073701"></A>
+<A href="SampleProgram.xml#id(42626)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Structure of the Sample Configuration Program</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1176819"></A>
+<A href="SampleProgram.xml#id(15703)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+install.xqy</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1176845"></A>
+<A href="SampleProgram.xml#id(76195)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+uninstall.xqy</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1176867"></A>
+<A href="SampleProgram.xml#id(88049)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+configure-server.xqy</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1176889"></A>
+<A href="SampleProgram.xml#id(25949)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+groups.xqy</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1176911"></A>
+<A href="SampleProgram.xml#id(52570)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+databases.xqy</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1176933"></A>
+<A href="SampleProgram.xml#id(51964)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+configure-security.xqy</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1073660"></A>
+<A ID="27650"></A>
+How to Execute the Sample Configuration Program</Heading-2>
+<Body>
+<A ID="pgfId-1073661"></A>
+Before you can run the Sample Configuration Program, you must create an HTTP App Server that has a root path to the location of the program files. </Body>
+<Body>
+<A ID="pgfId-1073662"></A>
+To create an App Server for the Sample Configuration Program, do the following:</Body>
+<Number1>
+<A ID="pgfId-1073665"></A>
+Open the Admin Interface and create a new HTTP App Server, as described in <A href="../admin/http.xml#id(67435)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating a New HTTP Server</Hyperlink>
+</A> in the <Emphasis>
+Administrator's Guide</Emphasis>
+. Set the App Server root to <code>
+Samples/admin</code>
+ and assign it a unique port number, such as port <code>
+8055</code>
+ in this example:</Number1>
+<Body-indent>
+<A ID="pgfId-1073673"></A>
+<IMAGE xml:link="simple" href="images/configure-app-server.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1073674"></A>
+In a browser window, open the <code>
+install.xqy</code>
+ file at the App Server URL. For example: </Number>
+</NumberList>
+<Code>
+<A ID="pgfId-1073675"></A>
+http://localhost:8055/install.xqy</Code>
+<Body-indent>
+<A ID="pgfId-1073676"></A>
+You should see output like:</Body-indent>
+<Code>
+<A ID="pgfId-1176961"></A>
+Server is Configured</Code>
+<Code>
+<A ID="pgfId-1177067"></A>
+&#160;&#160;&#160;&#160;&#160;Done loading XML data into Sample-Database</Code>
+<Code>
+<A ID="pgfId-1176966"></A>
+&#160;&#160;&#160;&#160;&#160;Done loading application data into Sample-Modules</Code>
+<Code>
+<A ID="pgfId-1176967"></A>
+Role IDs are:
+1067450794701390527
+10780693773632192097
+8870937581372109438
+User IDs are:
+3884989588766400714
+Users and Roles are Configured</Code>
+<NumberList>
+<Number>
+<A ID="pgfId-1073678"></A>
+To start the sample application, enter: <code>
+http://localhost:8016</code>
+. You should see the Oscars Explorer screen:</Number>
+</NumberList>
+<Body>
+<A ID="pgfId-1073682"></A>
+<IMAGE xml:link="simple" href="images/oscars-app.gif" show="embed" actuate="auto"/>
+</Body>
+<Heading-2>
+<A ID="pgfId-1073440"></A>
+<A ID="42626"></A>
+Structure of the Sample Configuration Program</Heading-2>
+<Body>
+<A ID="pgfId-1073055"></A>
+The sample configuration program consists of the modules illustrated below:</Body>
+<Body>
+<A ID="pgfId-1073088"></A>
+<IMAGE xml:link="simple" href="SampleProgram-3.gif" show="embed" actuate="auto"/>
+</Body>
+<Body-bullet>
+<A ID="pgfId-1073089"></A>
+<A href="SampleProgram.xml#id(15703)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+install.xqy</Hyperlink>
+</A> is the main module that calls the configuration-specific functions in the <A href="SampleProgram.xml#id(88049)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+configure-server.xqy</Hyperlink>
+</A>, <A href="SampleProgram.xml#id(51964)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+configure-security.xqy</Hyperlink>
+</A>, and <code>
+load-data.xqy</code>
+ modules to create the sample configuration and load the data into the databases.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1073090"></A>
+<A href="SampleProgram.xml#id(76195)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+uninstall.xqy</Hyperlink>
+</A> is the main module that calls the functions in the <A href="SampleProgram.xml#id(88049)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+configure-server.xqy</Hyperlink>
+</A> and <A href="SampleProgram.xml#id(51964)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+configure-security.xqy</Hyperlink>
+</A> modules to remove the sample configuration.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1073091"></A>
+<A href="SampleProgram.xml#id(88049)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+configure-server.xqy</Hyperlink>
+</A> defines the configuration-specific functions that call the implementation functions in the <A href="SampleProgram.xml#id(25949)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+groups.xqy</Hyperlink>
+</A> and <A href="SampleProgram.xml#id(52570)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+databases.xqy</Hyperlink>
+</A> modules to create and configure the app server and databases needed to support the Oscars Explorer application.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1073092"></A>
+<A href="SampleProgram.xml#id(51964)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+configure-security.xqy</Hyperlink>
+</A> contains the implementation functions that create and remove the roles and users. The functions in this module call the functions in the MarkLogic Server APIs.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1073093"></A>
+<A href="SampleProgram.xml#id(25949)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+groups.xqy</Hyperlink>
+</A> contains the implementation functions for creating, configuring, and removing groups and servers. The functions in this module call the functions in the MarkLogic Server APIs and are general enough to be used to create configurations to support applications other than Oscars Explorer.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1073094"></A>
+<A href="SampleProgram.xml#id(52570)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+databases.xqy</Hyperlink>
+</A> contains the implementation functions for creating, configuring, and removing forests and databases. The functions in this module call the functions in the MarkLogic Server APIs and are general enough to be used to create configurations to support applications other than Oscars Explorer.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1073095"></A>
+load-data.xqy contains the functions that load the content database and application module database. This module exists only to load the data in order to get the Oscars application working and its implementation is outside the scope of this document.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1073096"></A>
+setup-library.xqy contains the generic code for logging status and errors. </Body-bullet>
+<Heading-2>
+<A ID="pgfId-1073720"></A>
+<A ID="15703"></A>
+install.xqy </Heading-2>
+<Body>
+<A ID="pgfId-1169279"></A>
+The <code>
+install.xqy</code>
+ module is the main module that calls the functions in the <A href="SampleProgram.xml#id(88049)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+configure-server.xqy</Hyperlink>
+</A>, <A href="SampleProgram.xml#id(51964)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+configure-security.xqy</Hyperlink>
+</A>, and <code>
+loadData.xqy</code>
+ modules to configure the MarkLogic Server and load the data needed to support the Oscars Explorer application. The functions in the <A href="SampleProgram.xml#id(51964)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+configure-security.xqy</Hyperlink>
+</A> and <code>
+loadData.xqy</code>
+ modules are executed against their respective databases by calling them within xdmp:eval functions with the <code>
+&lt;database&gt;</code>
+ option. For more detail on executing queries in a database other than that assigned to the App Server, see <A href="usingAPI.xml#id(82435)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Executing Queries in Select Databases' on page&#160;20</A>.</Body>
+<Note>
+<A ID="pgfId-1169994"></A>
+The <code>
+loadData.xqy</code>
+ module is needed to load the application and content data into the databases, but its implementation is not within the scope of this guide.</Note>
+<Code>
+<A ID="pgfId-1073888"></A>
+xquery&#160;version&#160;&quot;1.0-ml&quot;;</Code>
+<Code>
+<A ID="pgfId-1169601"></A>
+import&#160;module&#160;namespace&#160;conf-server&#160;=
+&#160;&#160;&quot;http://marklogic.com/sampleConfig/conf-server&quot;
+&#160;&#160;&#160;&#160;at&#160;&quot;configure-server.xqy&quot;;</Code>
+<Code>
+<A ID="pgfId-1169614"></A>
+import&#160;module&#160;namespace&#160;grp=&quot;http://marklogic.com/sampleConfig/groups&quot;
+&#160;&#160;&#160;&#160;at&#160;&quot;groups.xqy&quot;;</Code>
+<Code>
+<A ID="pgfId-1169621"></A>
+import&#160;module&#160;namespace&#160;admin = &quot;http://marklogic.com/xdmp/admin&quot; 
+&#160;&#160;&#160;&#160;at &quot;/MarkLogic/admin.xqy&quot;;</Code>
+<Code>
+<A ID="pgfId-1169628"></A>
+(:&#160;Get&#160;the&#160;cluster&#160;configuration&#160;:)
+let $config := admin:get-configuration()</Code>
+<Code>
+<A ID="pgfId-1169635"></A>
+(:&#160;Get&#160;the&#160;Security&#160;database&#160;used&#160;by&#160;the&#160;Admin&#160;AppServer&#160;:)
+let $securityDB := grp:get-security-db($config, &quot;Default&quot;, &quot;Admin&quot;)</Code>
+<Code>
+<A ID="pgfId-1176618"></A>
+(:&#160;Create&#160;and&#160;configure&#160;the&#160;databases&#160;and&#160;server&#160;:)
+let&#160;$config := conf-server:create-forests($config)
+let&#160;$config := conf-server:create-databases($config)
+let&#160;$config := conf-server:create-server($config)</Code>
+<Code>
+<A ID="pgfId-1176619"></A>
+(: These variables define the functions that create new roles and 
+&#160;&#160;&#160;users and load the data into the databases. Each function is 
+&#160;&#160;&#160;then executed by xdmp:eval against a specific database :)</Code>
+<Code>
+<A ID="pgfId-1176620"></A>
+let&#160;$create-roles:=&#160;'
+&#160;&#160;&#160;xquery&#160;version&#160;&quot;1.0-ml&quot;;
+&#160;&#160;&#160;import&#160;module&#160;namespace&#160;conf-security=
+&#160;&#160;&#160;&#160;&#160;&quot;http://marklogic.com/sampleConfig/conf-security&quot; at
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;configure-security.xqy&quot;;
+&#160;&#160;&#160;conf-security:configure-roles()'</Code>
+<Code>
+<A ID="pgfId-1169810"></A>
+let&#160;$create-users&#160;:=&#160;'
+&#160;&#160;&#160;xquery&#160;version&#160;&quot;1.0-ml&quot;;
+&#160;&#160;&#160;import&#160;module&#160;namespace&#160;conf-security=
+&#160;&#160;&#160;&#160;&#160;&quot;http://marklogic.com/sampleConfig/conf-security&quot;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;at&#160;&quot;configure-security.xqy&quot;;
+&#160;&#160;&#160;conf-security:configure-users()'</Code>
+<Code>
+<A ID="pgfId-1169834"></A>
+let&#160;$load-XML&#160;:=&#160;'
+&#160;&#160;&#160;xquery&#160;version&#160;&quot;1.0-ml&quot;;
+&#160;&#160;&#160;import&#160;module&#160;namespace&#160;load-data&#160;=
+&#160;&#160;&#160;&#160;&#160;&quot;http://marklogic.com/sampleConfig/load-data&quot; at &quot;loadData.xqy&quot;;
+&#160;&#160;&#160;load-data:load-sample-XML( 
+&quot;C:/Program Files/MarkLogic/Assets/appbuilder/templates/oscars/data&quot;)'</Code>
+<Code>
+<A ID="pgfId-1169843"></A>
+let&#160;$load-modules&#160;:=&#160;'
+&#160;&#160;&#160;xquery&#160;version&#160;&quot;1.0-ml&quot;;
+&#160;&#160;&#160;import&#160;module&#160;namespace&#160;setup =
+&#160;&#160;&#160;&#160;&#160;&quot;http://marklogic.com/sampleConfig/setup-lib&quot;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;at&#160;&quot;setup-library.xqy&quot;;
+&#160;&#160;&#160;import&#160;module&#160;namespace&#160;load-data =
+&#160;&#160;&#160;&#160;&#160;&quot;http://marklogic.com/sampleConfig/load-data&quot; at&#160;&quot;loadData.xqy&quot;;
+&#160;&#160;&#160;load-data:load-sample-module($setup:LOADDATA)'</Code>
+<Code>
+<A ID="pgfId-1169954"></A>
+return (</Code>
+<Code>
+<A ID="pgfId-1169965"></A>
+&#160;&#160;&#160;admin:save-configuration($config),
+&#160;&#160;&#160;&quot;Server&#160;is&#160;Configured&quot;,</Code>
+<Code>
+<A ID="pgfId-1169974"></A>
+(: Call the above functions in their respective databases :)</Code>
+<Code>
+<A ID="pgfId-1169985"></A>
+&#160;&#160;&#160;xdmp:eval(
+&#160;&#160;&#160;&#160;&#160;$load-XML,
+&#160;&#160;&#160;&#160;&#160;(),
+&#160;&#160;&#160;&#160;&#160;&lt;options&#160;xmlns=&quot;xdmp:eval&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;database&gt;{xdmp:database(&quot;Sample-Database&quot;)}&lt;/database&gt;
+&#160;&#160;&#160;&#160;&#160;&lt;/options&gt;),</Code>
+<Code>
+<A ID="pgfId-1170020"></A>
+&#160;&#160;&#160;xdmp:eval(
+&#160;&#160;&#160;&#160;&#160;$load-modules,
+&#160;&#160;&#160;&#160;&#160;(),
+&#160;&#160;&#160;&#160;&#160;&lt;options&#160;xmlns=&quot;xdmp:eval&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;database&gt;{xdmp:database(&quot;Sample-Modules&quot;)}&lt;/database&gt;
+&#160;&#160;&#160;&#160;&#160;&lt;/options&gt;),</Code>
+<Code>
+<A ID="pgfId-1170033"></A>
+&#160;&#160;&#160;&quot;Role&#160;IDs&#160;are:&quot;,
+&#160;&#160;&#160;xdmp:eval(
+&#160;&#160;&#160;&#160;&#160;$create-roles,
+&#160;&#160;&#160;&#160;&#160;(),
+&#160;&#160;&#160;&#160;&#160;&lt;options&#160;xmlns=&quot;xdmp:eval&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;database&gt;{$securityDB}&lt;/database&gt;
+&#160;&#160;&#160;&#160;&#160;&lt;/options&gt;),</Code>
+<Code>
+<A ID="pgfId-1170042"></A>
+&#160;&#160;&#160;&quot;User&#160;IDs&#160;are:&quot;,
+&#160;&#160;&#160;xdmp:eval(
+&#160;&#160;&#160;&#160;&#160;$create-users,
+&#160;&#160;&#160;&#160;&#160;(),
+&#160;&#160;&#160;&#160;&#160;&lt;options&#160;xmlns=&quot;xdmp:eval&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;database&gt;{$securityDB}&lt;/database&gt;
+&#160;&#160;&#160;&#160;&#160;&lt;/options&gt;),</Code>
+<Code>
+<A ID="pgfId-1170051"></A>
+&#160;&#160;&#160;&quot;Users&#160;and&#160;Roles&#160;are&#160;Configured&quot;</Code>
+<Code>
+<A ID="pgfId-1073997"></A>
+)</Code>
+<Heading-2>
+<A ID="pgfId-1073849"></A>
+<A ID="76195"></A>
+uninstall.xqy</Heading-2>
+<Body>
+<A ID="pgfId-1170135"></A>
+The <code>
+uninstall.xqy</code>
+ module is the main module that calls the functions in the <A href="SampleProgram.xml#id(88049)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+configure-server.xqy</Hyperlink>
+</A> and <A href="SampleProgram.xml#id(51964)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+configure-security.xqy</Hyperlink>
+</A> modules to remove the MarkLogic Server objects created by the <A href="SampleProgram.xml#id(15703)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+install.xqy</Hyperlink>
+</A> module. The functions in the <A href="SampleProgram.xml#id(51964)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+configure-security.xqy</Hyperlink>
+</A> module are executed against their respective databases by calling them within xdmp:eval functions with the <code>
+&lt;database&gt;</code>
+ option.</Body>
+<Code>
+<A ID="pgfId-1170205"></A>
+xquery version &quot;1.0-ml&quot;;</Code>
+<Code>
+<A ID="pgfId-1170649"></A>
+import module namespace conf-server =
+&#160;&#160;&quot;http://marklogic.com/sampleConfig/conf-server&quot; 
+&#160;&#160;&#160;&#160;&#160;at &quot;configure-server.xqy&quot;;</Code>
+<Code>
+<A ID="pgfId-1170691"></A>
+import module namespace grp=&quot;http://marklogic.com/sampleConfig/groups&quot;
+&#160;&#160;&#160;&#160;&#160;at &quot;groups.xqy&quot;;</Code>
+<Code>
+<A ID="pgfId-1170698"></A>
+import module namespace admin = &quot;http://marklogic.com/xdmp/admin&quot; 
+&#160;&#160;&#160;&#160;&#160;at &quot;/MarkLogic/admin.xqy&quot;;</Code>
+<Code>
+<A ID="pgfId-1170705"></A>
+let $remove-users := '
+&#160;&#160;xquery version &quot;1.0-ml&quot;;</Code>
+<Code>
+<A ID="pgfId-1170714"></A>
+import module namespace conf-security =
+&#160;&#160;&quot;http://marklogic.com/sampleConfig/conf-security&quot; 
+&#160;&#160;&#160;&#160;&#160;at &quot;configure-security.xqy&quot;;</Code>
+<Code>
+<A ID="pgfId-1170742"></A>
+conf-security:remove-users()'</Code>
+<Code>
+<A ID="pgfId-1170751"></A>
+let $remove-roles := '
+&#160;&#160;xquery version &quot;1.0-ml&quot;;</Code>
+<Code>
+<A ID="pgfId-1170763"></A>
+import module namespace conf-security =
+&#160;&#160;&quot;http://marklogic.com/sampleConfig/conf-security&quot; 
+&#160;&#160;&#160;&#160;&#160;at &quot;configure-security.xqy&quot;;</Code>
+<Code>
+<A ID="pgfId-1170832"></A>
+conf-security:remove-roles()'</Code>
+<Code>
+<A ID="pgfId-1170841"></A>
+let $config := admin:get-configuration()
+let $securityDB := grp:get-security-db($config, &quot;Default&quot;, &quot;Admin&quot;)</Code>
+<Code>
+<A ID="pgfId-1170850"></A>
+return (</Code>
+<Code>
+<A ID="pgfId-1170859"></A>
+&#160;&#160;xdmp:eval($remove-roles, (),
+&#160;&#160;&#160;&#160;&lt;options xmlns=&quot;xdmp:eval&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;database&gt;{$securityDB}&lt;/database&gt;
+&#160;&#160;&#160;&#160;&lt;/options&gt;),</Code>
+<Code>
+<A ID="pgfId-1170874"></A>
+&#160;&#160;xdmp:eval($remove-users, (),
+&#160;&#160;&#160;&#160;&lt;options xmlns=&quot;xdmp:eval&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;database&gt;{$securityDB}&lt;/database&gt;
+&#160;&#160;&#160;&#160;&lt;/options&gt;),</Code>
+<Code>
+<A ID="pgfId-1170916"></A>
+&quot;Removed Users and Roles&quot;,</Code>
+<Code>
+<A ID="pgfId-1170930"></A>
+conf-server:remove-config(), </Code>
+<Code>
+<A ID="pgfId-1170944"></A>
+&quot;Removed Server Configuration&quot;</Code>
+<Code>
+<A ID="pgfId-1170958"></A>
+)</Code>
+<Heading-2>
+<A ID="pgfId-1073749"></A>
+<A ID="88049"></A>
+configure-server.xqy</Heading-2>
+<Body>
+<A ID="pgfId-1169313"></A>
+The <code>
+configure-server.xqy</code>
+ module defines the high-level, configuration-specific functions that call the more 'generic' functions in the <A href="SampleProgram.xml#id(25949)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+groups.xqy</Hyperlink>
+</A> and <A href="SampleProgram.xml#id(52570)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+databases.xqy</Hyperlink>
+</A> modules to create, configure, and delete the forests, databases and app server used by the Oscars Explorer application.</Body>
+<Body>
+<A ID="pgfId-1175551"></A>
+The functions in this module are:</Body>
+<Body-bullet>
+<A ID="pgfId-1175555"></A>
+<A href="SampleProgram.xml#id(77819)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+create-forests function</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1175559"></A>
+<A href="SampleProgram.xml#id(91081)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+create-databases function</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1175563"></A>
+<A href="SampleProgram.xml#id(92048)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+create-server function</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1175607"></A>
+<A href="SampleProgram.xml#id(79968)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+remove-config function</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1175421"></A>
+Before defining the functions, we define this module's namespace as <code>
+conf-server</code>
+ and import the following modules:</Body>
+<Code>
+<A ID="pgfId-1074704"></A>
+xquery&#160;version&#160;&quot;1.0-ml&quot;;</Code>
+<Code>
+<A ID="pgfId-1171101"></A>
+(:&#160;Create/Remove&#160;Server/Database&#160;Configuration&#160;:)</Code>
+<Code>
+<A ID="pgfId-1171114"></A>
+module&#160;namespace&#160;conf-server&#160;=
+&#160;&#160;&quot;http://marklogic.com/sampleConfig/conf-server&quot;;</Code>
+<Code>
+<A ID="pgfId-1171129"></A>
+import&#160;module&#160;namespace&#160;admin&#160;=&#160;&quot;http://marklogic.com/xdmp/admin&quot;&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;at&#160;&quot;/MarkLogic/admin.xqy&quot;;</Code>
+<Code>
+<A ID="pgfId-1171138"></A>
+import&#160;module&#160;namespace&#160;db=
+&#160;&#160;&quot;http://marklogic.com/sampleConfig/database&quot; at&#160;&quot;databases.xqy&quot;;</Code>
+<Code>
+<A ID="pgfId-1171153"></A>
+import&#160;module&#160;namespace&#160;grp=
+&#160;&#160;&quot;http://marklogic.com/sampleConfig/groups&quot; at &quot;groups.xqy&quot;;</Code>
+<Code>
+<A ID="pgfId-1171170"></A>
+import&#160;module&#160;namespace&#160;setup=
+&#160;&#160;&quot;http://marklogic.com/sampleConfig/setup-lib&quot;
+&#160;&#160;&#160;&#160;at&#160;&quot;setup-library.xqy&quot;;</Code>
+<Heading-3>
+<A ID="pgfId-1175443"></A>
+<A ID="77819"></A>
+create-forests function </Heading-3>
+<Body>
+<A ID="pgfId-1171756"></A>
+The <code>
+create-forests</code>
+ function calls the functions in the <A href="SampleProgram.xml#id(52570)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+databases.xqy</Hyperlink>
+</A> module to create the forests:</Body>
+<Code>
+<A ID="pgfId-1171196"></A>
+declare&#160;function&#160;create-forests($config&#160;as&#160;element(configuration))
+{</Code>
+<Code>
+<A ID="pgfId-1171205"></A>
+try&#160;{</Code>
+<Code>
+<A ID="pgfId-1171212"></A>
+&#160;&#160;&#160;&#160;(: Create&#160;forests :)
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:=&#160;db:create-forest(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;SampleDB-Forest&quot;)</Code>
+<Code>
+<A ID="pgfId-1171221"></A>
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:=&#160;db:create-forest(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;SampleModules-Forest&quot;)</Code>
+<Code>
+<A ID="pgfId-1171228"></A>
+&#160;&#160;&#160;&#160;(:&#160;Save&#160;and&#160;return&#160;the&#160;configuration&#160;:)
+&#160;&#160;&#160;&#160;&#160;return&#160;(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;admin:save-configuration($config),
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config
+&#160;&#160;&#160;&#160;&#160;)</Code>
+<Code>
+<A ID="pgfId-1171235"></A>
+}&#160;catch($e)&#160;{
+&#160;&#160;&#160;&#160;&#160;setup:log($e)
+&#160;&#160;&#160;}
+};</Code>
+<Heading-3>
+<A ID="pgfId-1175468"></A>
+<A ID="91081"></A>
+create-databases function</Heading-3>
+<Body>
+<A ID="pgfId-1171696"></A>
+The <code>
+create-databases</code>
+ function calls the functions in the <A href="SampleProgram.xml#id(52570)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+databases.xqy</Hyperlink>
+</A> module to create and configure the databases to hold the application and content data for the Oscars Explorer application.</Body>
+<Code>
+<A ID="pgfId-1176252"></A>
+declare&#160;function&#160;create-databases($config&#160;as&#160;element(configuration))
+{
+try&#160;{</Code>
+<Code>
+<A ID="pgfId-1176253"></A>
+&#160;&#160;&#160;&#160;(:&#160;Create&#160;databases&#160;:)
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:= db:create-database(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Sample-Database&quot;)</Code>
+<Code>
+<A ID="pgfId-1171269"></A>
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:= db:create-database(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Sample-Modules&quot;)</Code>
+<Code>
+<A ID="pgfId-1171276"></A>
+&#160;&#160;&#160;&#160;(: Attach&#160;forests&#160;to&#160;databases&#160;:)
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:= db:attach-forests(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Sample-Database&quot;,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;SampleDB-Forest&quot;)</Code>
+<Code>
+<A ID="pgfId-1171283"></A>
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:=db:attach-forests(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Sample-Modules&quot;,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;SampleModules-Forest&quot;)</Code>
+<Code>
+<A ID="pgfId-1171290"></A>
+&#160;&#160;&#160;&#160;(:&#160;Add&#160;a&#160;'wiki-suggest'&#160;field&#160;to&#160;the&#160;Sample-Database&#160;:)
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:= db:add-field(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Sample-Database&quot;,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;wiki-suggest&quot;)</Code>
+<Code>
+<A ID="pgfId-1171297"></A>
+&#160;&#160;&#160;&#160;(:&#160;Add&#160;included&#160;elements&#160;to&#160;'wiki-suggest'&#160;field&#160;:)
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:= db:add-field-included(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Sample-Database&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;wiki-suggest&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;name&quot;)</Code>
+<Code>
+<A ID="pgfId-1171304"></A>
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:=&#160;db:add-field-included(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Sample-Database&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;wiki-suggest&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;film-title&quot;)</Code>
+<Code>
+<A ID="pgfId-1171311"></A>
+&#160;&#160;&#160;&#160;(:&#160;Add&#160;indexes&#160;to&#160;the&#160;Sample-Database&#160;:)
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:= db:add-range-element-index(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Sample-Database&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;string&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;http://marklogic.com/wikipedia&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;name&quot;)</Code>
+<Code>
+<A ID="pgfId-1171332"></A>
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:= db:add-range-element-index(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Sample-Database&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;string&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;http://marklogic.com/wikipedia&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;film-title&quot;)</Code>
+<Code>
+<A ID="pgfId-1171341"></A>
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:= db:add-range-element-attribute-index(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Sample-Database&quot;,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;gYear&quot;,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;http://marklogic.com/wikipedia&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;nominee&quot;,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;&quot;,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;year&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;&quot;)</Code>
+<Code>
+<A ID="pgfId-1171350"></A>
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:= db:add-range-element-attribute-index(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Sample-Database&quot;,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;string&quot;,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;http://marklogic.com/wikipedia&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;nominee&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;&quot;,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;award&quot;,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;http://marklogic.com/collation/&quot;)</Code>
+<Code>
+<A ID="pgfId-1171359"></A>
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:= db:add-range-element-attribute-index(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Sample-Database&quot;,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;string&quot;,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;http://marklogic.com/wikipedia&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;nominee&quot;,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;&quot;,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;winner&quot;,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;http://marklogic.com/collation/&quot;)</Code>
+<Code>
+<A ID="pgfId-1171377"></A>
+&#160;&#160;&#160;&#160;(:&#160;Save&#160;and&#160;return&#160;the&#160;configuration&#160;:)
+&#160;&#160;&#160;&#160;&#160;return&#160;(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;admin:save-configuration($config),
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config
+&#160;&#160;&#160;&#160;&#160;)</Code>
+<Code>
+<A ID="pgfId-1171382"></A>
+}&#160;catch($e)&#160;{
+&#160;&#160;&#160;&#160;&#160;setup:log($e)
+&#160;&#160;&#160;}
+};</Code>
+<Heading-3>
+<A ID="pgfId-1171391"></A>
+<A ID="92048"></A>
+create-server function</Heading-3>
+<Body>
+<A ID="pgfId-1175505"></A>
+The <code>
+create-server</code>
+ function calls the functions in the <A href="SampleProgram.xml#id(25949)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+groups.xqy</Hyperlink>
+</A> module to create and configure an HTTP App Server to support the Oscars Explorer application. Note that, rather than define the app server settings as parameters, the <code>
+create-server</code>
+ function in the <A href="SampleProgram.xml#id(25949)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+groups.xqy</Hyperlink>
+</A> module parses the settings from the <code>
+$server-config </code>
+XML node defined in this function.</Body>
+<Code>
+<A ID="pgfId-1171649"></A>
+declare&#160;function&#160;create-server($config&#160;as&#160;element(configuration))
+{
+try&#160;{</Code>
+<Code>
+<A ID="pgfId-1171400"></A>
+(: Create a node containing the basic server settings :)
+&#160;&#160;&#160;&#160;&#160;let&#160;$server-config&#160;:=&#160;&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;http-server&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;name&gt;Sample-Server&lt;/name&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;port&gt;8016&lt;/port&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;root&gt;application/&lt;/root&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;modules&gt;Sample-Modules&lt;/modules&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;database&gt;Sample-Database&lt;/database&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/http-server&gt;</Code>
+<Code>
+<A ID="pgfId-1171412"></A>
+(: Create the server :)
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:=&#160;grp:create-server(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$server-config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Default&quot;)</Code>
+<Code>
+<A ID="pgfId-1171421"></A>
+(: Set server error handler and url rewriter :)
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:=&#160;grp:set-error-handler(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Default&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Sample-Server&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;error.xqy&quot;)</Code>
+<Code>
+<A ID="pgfId-1171430"></A>
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:=&#160;grp:set-url-rewriter(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Default&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Sample-Server&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;rewrite.xqy&quot;)</Code>
+<Code>
+<A ID="pgfId-1171439"></A>
+(: Save and return the configuration :)
+&#160;&#160;&#160;&#160;&#160;return&#160;(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;admin:save-configuration($config),
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config
+&#160;&#160;&#160;&#160;&#160;)</Code>
+<Code>
+<A ID="pgfId-1171448"></A>
+}&#160;catch($e)&#160;{
+&#160;&#160;&#160;&#160;&#160;setup:log($e)
+&#160;&#160;&#160;}
+};</Code>
+<Heading-3>
+<A ID="pgfId-1171592"></A>
+<A ID="79968"></A>
+remove-config function</Heading-3>
+<Body>
+<A ID="pgfId-1175530"></A>
+The <code>
+remove-config</code>
+ function calls functions in the <A href="SampleProgram.xml#id(25949)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+groups.xqy</Hyperlink>
+</A> and <A href="SampleProgram.xml#id(52570)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+databases.xqy</Hyperlink>
+</A> modules to remove the forests, databases, and app server created by the <code>
+create-server</code>
+ and <code>
+create-databases</code>
+ functions.</Body>
+<Code>
+<A ID="pgfId-1171601"></A>
+declare&#160;function&#160;remove-config()
+{
+try&#160;{</Code>
+<Code>
+<A ID="pgfId-1171469"></A>
+&#160;&#160;&#160;(:&#160;Remove&#160;the&#160;app&#160;server&#160;:)
+&#160;&#160;&#160;&#160;let&#160;$config&#160;:=&#160;admin:get-configuration()
+&#160;&#160;&#160;&#160;let&#160;$config&#160;:=&#160;grp:delete-server(
+&#160;&#160;&#160;&#160;&#160;&#160;$config, 
+&#160;&#160;&#160;&#160;&#160;&#160;&quot;Sample-Server&quot;, 
+&#160;&#160;&#160;&#160;&#160;&#160;&quot;Default&quot;)
+&#160;&#160;&#160;&#160;let&#160;$hosts1 := admin:save-configuration-without-restart($config)</Code>
+<Code>
+<A ID="pgfId-1171516"></A>
+&#160;&#160;&#160;(:&#160;Remove&#160;the&#160;databases&#160;:)
+&#160;&#160;&#160;&#160;let&#160;$config&#160;:=&#160;db:delete-database($config,&#160;&quot;Sample-Database&quot;)
+&#160;&#160;&#160;&#160;let&#160;$config&#160;:=&#160;db:delete-database($config,&#160;&quot;Sample-Modules&quot;)
+&#160;&#160;&#160;&#160;let&#160;$hosts2&#160;:=&#160;admin:save-configuration-without-restart($config)</Code>
+<Code>
+<A ID="pgfId-1171525"></A>
+&#160;&#160;&#160;(:&#160;Remove&#160;the&#160;forests&#160;:)
+&#160;&#160;&#160;&#160;let&#160;$config&#160;:=&#160;db:delete-forest($config,&#160;&quot;SampleDB-Forest&quot;)
+&#160;&#160;&#160;&#160;let&#160;$config&#160;:=&#160;db:delete-forest($config,&#160;&quot;SampleModules-Forest&quot;)</Code>
+<Code>
+<A ID="pgfId-1171534"></A>
+&#160;&#160;&#160;(:&#160;Save&#160;the&#160;configuration&#160;and&#160;restart&#160;MarkLogic&#160;server&#160;:)
+&#160;&#160;&#160;&#160;return&#160;(admin:save-configuration($config),
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if&#160;($hosts1,&#160;$hosts2)&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;then&#160;(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Restarting&#160;Hosts&#160;--&#160;wait&#160;until&#160;restart&#160;has&#160;completed&#160;before&#160;accessing&#160;MarkLogic&#160;Server&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;admin:restart-hosts(($hosts1,&#160;$hosts2))
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;)&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else&#160;()
+&#160;&#160;&#160;&#160;)</Code>
+<Code>
+<A ID="pgfId-1171543"></A>
+}&#160;catch($e)&#160;{
+&#160;&#160;&#160;&#160;&#160;setup:log($e)
+&#160;&#160;&#160;}
+};</Code>
+<Heading-2>
+<A ID="pgfId-1173576"></A>
+<A ID="25949"></A>
+groups.xqy</Heading-2>
+<Body>
+<A ID="pgfId-1173577"></A>
+The <code>
+groups.xqy</code>
+ module defines functions that call the <code>
+admin</code>
+ functions that create, configure, and remove groups and app servers. The functions in this module are more 'generic' than the configuration-specific functions in the <A href="SampleProgram.xml#id(88049)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+configure-server.xqy</Hyperlink>
+</A> module that call them. Consequently, the functions in this module could be applied to a variety of configurations.</Body>
+<Body-bullet>
+<A ID="pgfId-1174255"></A>
+The functions in this module are:<A href="SampleProgram.xml#id(58267)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+create-group function</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1174259"></A>
+<A href="SampleProgram.xml#id(84776)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+create-server function</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1174888"></A>
+<A href="SampleProgram.xml#id(47188)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+app server configuration functions</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1174263"></A>
+<A href="SampleProgram.xml#id(82049)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+get-security-db function</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1174267"></A>
+<A href="SampleProgram.xml#id(86273)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+delete-group function</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1174271"></A>
+<A href="SampleProgram.xml#id(35623)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+delete-server function</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1174275"></A>
+<A href="SampleProgram.xml#id(25168)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+set-host function</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1173446"></A>
+Each function in this module first checks for the presence of the object it is to create or remove before taking any action. This is done to enable partial changes to be made to the configuration without the entire transaction failing, as described in <A href="usingAPI.xml#id(92935)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Making Transactions Idempotent' on page&#160;15</A>.</Body>
+<Body>
+<A ID="pgfId-1174293"></A>
+Before defining the functions, we define this module's namespace as <code>
+grp</code>
+ and import the following modules:</Body>
+<Code>
+<A ID="pgfId-1077280"></A>
+xquery&#160;version&#160;&quot;1.0-ml&quot;;</Code>
+<Code>
+<A ID="pgfId-1171971"></A>
+module&#160;namespace&#160;grp&#160;=&#160;&quot;http://marklogic.com/sampleConfig/groups&quot;;
+declare&#160;namespace&#160;error&#160;=&#160;&quot;http://marklogic.com/xdmp/error&quot;;</Code>
+<Code>
+<A ID="pgfId-1171980"></A>
+import&#160;module&#160;namespace&#160;admin&#160;=&#160;&quot;http://marklogic.com/xdmp/admin&quot;
+&#160;&#160;&#160;&#160;at&#160;&quot;/MarkLogic/admin.xqy&quot;;</Code>
+<Code>
+<A ID="pgfId-1173665"></A>
+import&#160;module&#160;namespace&#160;setup&#160;=
+&#160;&#160;&quot;http://marklogic.com/sampleConfig/setup-lib&quot;
+&#160;&#160;&#160;&#160;at&#160;&quot;setup-library.xqy&quot;;</Code>
+<Heading-3>
+<A ID="pgfId-1173666"></A>
+<A ID="58267"></A>
+create-group function</Heading-3>
+<Body>
+<A ID="pgfId-1173948"></A>
+The <code>
+create-group</code>
+ function first checks to see whether the specified groups exists. If not, it calls the <code>
+admin:group-create</code>
+ function to create the new group. This function is not called any function in the <A href="SampleProgram.xml#id(88049)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+configure-server.xqy</Hyperlink>
+</A> module, but could be used by other high-level modules to create another configuration.</Body>
+<Code>
+<A ID="pgfId-1172018"></A>
+declare&#160;function&#160;create-group(
+&#160;&#160;$config&#160;as&#160;element(configuration),&#160;
+&#160;&#160;$NewGroup&#160;as&#160;xs:string)&#160;
+{
+try&#160;{</Code>
+<Code>
+<A ID="pgfId-1172036"></A>
+&#160;&#160;&#160;&#160;&#160;let&#160;$log&#160;:=&#160;setup:log(fn:concat(&quot;creating&#160;group&#160;:&quot;,&#160;$NewGroup))</Code>
+<Code>
+<A ID="pgfId-1172049"></A>
+(:&#160;Get&#160;all&#160;of&#160;the&#160;existing&#160;groups&#160;:)
+&#160;&#160;&#160;&#160;&#160;let&#160;$ExistingGroups&#160;:=
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;for&#160;$id&#160;in&#160;admin:get-group-ids($config)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;return&#160;admin:group-get-name($config,&#160;$id)</Code>
+<Code>
+<A ID="pgfId-1172058"></A>
+(:&#160;Check&#160;to&#160;see&#160;if&#160;group&#160;already&#160;exists.&#160;If&#160;not,&#160;create&#160;new&#160;group&#160;:)
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:=
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if&#160;($NewGroup&#160;=&#160;$ExistingGroups)&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;then&#160;$config
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else&#160;admin:group-create($config,&#160;$NewGroup)</Code>
+<Code>
+<A ID="pgfId-1172067"></A>
+&#160;&#160;&#160;&#160;&#160;return&#160;$config</Code>
+<Code>
+<A ID="pgfId-1172076"></A>
+}&#160;catch($e)&#160;{
+&#160;&#160;&#160;&#160;&#160;setup:log($e)
+&#160;&#160;&#160;}
+};</Code>
+<Heading-3>
+<A ID="pgfId-1173291"></A>
+<A ID="84776"></A>
+create-server function</Heading-3>
+<Body>
+<A ID="pgfId-1173980"></A>
+The <code>
+create-server</code>
+ function first checks to see whether the specified app server exists. If not, it calls the <code>
+admin</code>
+ functions to create and configure the new app server. The app server type (HTTP, WebDAV, XDBC) is specified by the root element of the <code>
+$server-config</code>
+ node passed from the <A href="SampleProgram.xml#id(88049)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+configure-server.xqy</Hyperlink>
+</A> module.</Body>
+<Code>
+<A ID="pgfId-1173327"></A>
+declare&#160;function&#160;create-server(
+&#160;&#160;$config&#160;as&#160;element(configuration),&#160;
+&#160;&#160;$server&#160;as&#160;node(),&#160;
+&#160;&#160;$group-name&#160;as&#160;xs:string)&#160;
+{
+try&#160;{</Code>
+<Code>
+<A ID="pgfId-1172097"></A>
+&#160;&#160;&#160;&#160;&#160;let&#160;$group-id&#160;:=&#160;admin:group-get-id($config,&#160;$group-name)
+&#160;&#160;&#160;&#160;&#160;let&#160;$NewServer&#160;:=&#160;fn:data($server/name)
+&#160;&#160;&#160;&#160;&#160;let&#160;$root&#160;:=&#160;fn:data($server/root)
+&#160;&#160;&#160;&#160;&#160;let&#160;$port&#160;:=&#160;xs:integer(fn:data($server/port))
+&#160;&#160;&#160;&#160;&#160;let&#160;$modules&#160;:=&#160;fn:data($server/modules)</Code>
+<Code>
+<A ID="pgfId-1176258"></A>
+&#160;&#160;&#160;&#160;&#160;let&#160;$module-id&#160;:=&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;if($modules&#160;eq&#160;&quot;filesystem&quot;)&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;then&#160;0&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;else&#160;xdmp:database($modules)
+&#160;&#160;&#160;&#160;&#160;let&#160;$database-id&#160;:=&#160;xdmp:database(fn:data($server/database))</Code>
+<Code>
+<A ID="pgfId-1172106"></A>
+(: Get all of the existing servers :)
+&#160;&#160;&#160;&#160;&#160;let&#160;$ExistingServers&#160;:=
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;for&#160;$id&#160;in&#160;admin:get-appserver-ids($config)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;return&#160;admin:appserver-get-name($config,&#160;$id)</Code>
+<Code>
+<A ID="pgfId-1172115"></A>
+(: Check to see if server already exists. If not, create new server :)
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:=
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if&#160;($NewServer&#160;=&#160;$ExistingServers)&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;then&#160;$config
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if&#160;(fn:name($server)&#160;eq&#160;&quot;http-server&quot;)&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;then&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;create-http-server(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$group-id,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$NewServer,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$root,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$port,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$module-id,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$database-id)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else&#160;if(fn:name($server)&#160;eq&#160;&quot;xdbc-server&quot;)&#160;then&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;create-xdbc-server(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$group-id,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$NewServer,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$root,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$port,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$module-id,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$database-id)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else&#160;if(fn:name($server)&#160;eq&#160;&quot;webdav-server&quot;)&#160;then&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;create-webdav-server(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$group-id,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$NewServer,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$root,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$port,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$database-id)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else&#160;()</Code>
+<Code>
+<A ID="pgfId-1172130"></A>
+&#160;&#160;&#160;&#160;&#160;return&#160;$config</Code>
+<Code>
+<A ID="pgfId-1172139"></A>
+}&#160;catch($e)&#160;{
+&#160;&#160;&#160;&#160;&#160;setup:log($e)
+&#160;&#160;&#160;}
+};</Code>
+<Code>
+<A ID="pgfId-1172148"></A>
+declare&#160;function&#160;create-xdbc-server(
+&#160;&#160;$config&#160;as&#160;element(configuration),&#160;
+&#160;&#160;$group-id,&#160;
+&#160;&#160;$server-name,&#160;
+&#160;&#160;$root,&#160;
+&#160;&#160;$port,&#160;
+&#160;&#160;$module-id,&#160;
+&#160;&#160;$database-id)&#160;
+{
+try&#160;{</Code>
+<Code>
+<A ID="pgfId-1172157"></A>
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:=&#160;admin:xdbc-server-create(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$group-id,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$server-name,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$root,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$port,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$module-id,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$database-id)</Code>
+<Code>
+<A ID="pgfId-1172166"></A>
+&#160;&#160;&#160;&#160;&#160;let&#160;$log&#160;:=&#160;setup:log(fn:concat(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Creating&#160;XDBC&#160;server&#160;&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$server-name))</Code>
+<Code>
+<A ID="pgfId-1172175"></A>
+&#160;&#160;&#160;&#160;&#160;return&#160;&#160;$config</Code>
+<Code>
+<A ID="pgfId-1172184"></A>
+}&#160;catch($e)&#160;{
+&#160;&#160;&#160;&#160;&#160;setup:log($e)
+&#160;&#160;&#160;}
+};</Code>
+<Code>
+<A ID="pgfId-1172193"></A>
+declare&#160;function&#160;create-webdav-server(
+&#160;&#160;$config&#160;as&#160;element(configuration),&#160;
+&#160;&#160;$group-id,&#160;
+&#160;&#160;$server-name,&#160;
+&#160;&#160;$root,&#160;
+&#160;&#160;$port,&#160;
+&#160;&#160;$database-id)&#160;
+{
+try&#160;{</Code>
+<Code>
+<A ID="pgfId-1172202"></A>
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:=&#160;admin:webdav-server-create(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$group-id,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$server-name,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$root,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$port,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$database-id)</Code>
+<Code>
+<A ID="pgfId-1172211"></A>
+&#160;&#160;&#160;&#160;&#160;let&#160;$log&#160;:=&#160;setup:log(fn:concat(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Creating&#160;WebDAV&#160;server&#160;&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$server-name))</Code>
+<Code>
+<A ID="pgfId-1172220"></A>
+&#160;&#160;&#160;&#160;&#160;return&#160;$config</Code>
+<Code>
+<A ID="pgfId-1172231"></A>
+}&#160;catch($e)&#160;{
+&#160;&#160;&#160;&#160;&#160;setup:log($e)
+&#160;&#160;&#160;}
+};</Code>
+<Code>
+<A ID="pgfId-1172238"></A>
+declare&#160;function&#160;create-http-server(
+&#160;&#160;$config&#160;as&#160;element(configuration),&#160;
+&#160;&#160;$group-id,&#160;
+&#160;&#160;$server-name,&#160;
+&#160;&#160;$root,&#160;
+&#160;&#160;$port,&#160;
+&#160;&#160;$module-id,&#160;
+&#160;&#160;$database-id)&#160;
+{
+try&#160;{</Code>
+<Code>
+<A ID="pgfId-1172247"></A>
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:=&#160;admin:http-server-create(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$group-id,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$server-name,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$root,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$port,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$module-id,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$database-id)</Code>
+<Code>
+<A ID="pgfId-1172256"></A>
+&#160;&#160;&#160;&#160;&#160;let&#160;$log&#160;:=&#160;setup:log(fn:concat(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Creating&#160;HTTP&#160;server&#160;&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$server-name))</Code>
+<Code>
+<A ID="pgfId-1172265"></A>
+&#160;&#160;&#160;&#160;&#160;return&#160;&#160;$config</Code>
+<Code>
+<A ID="pgfId-1172274"></A>
+}&#160;catch($e)&#160;{
+&#160;&#160;&#160;&#160;&#160;setup:log($e)
+&#160;&#160;&#160;}
+};</Code>
+<Heading-3>
+<A ID="pgfId-1173792"></A>
+<A ID="47188"></A>
+app server configuration functions</Heading-3>
+<Body>
+<A ID="pgfId-1174865"></A>
+The functions in this section configure the new app server. The <code>
+admin:appserver-get-id</code>
+ function is used to get the id of the app server from the configuration. This enables the calling functions in the <A href="SampleProgram.xml#id(88049)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+configure-server.xqy</Hyperlink>
+</A> module to configure the newly created app server before saving the configuration to MarkLogic Server. For more details on the operation of admin:appserver-get-id and similar functions, see <A href="usingAPI.xml#id(62829)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating and Configuring Objects in a Single Transaction</Hyperlink>
+</A>.</Body>
+<Body>
+<A ID="pgfId-1173830"></A>
+The following functions set the error handler and URL rewriter for the app server. As with all other functions in this module, we first check for the presence of an object before creating it.</Body>
+<Code>
+<A ID="pgfId-1172283"></A>
+declare&#160;function&#160;set-error-handler(
+&#160;&#160;$config&#160;as&#160;element(configuration),&#160;
+&#160;&#160;$group-name&#160;as&#160;xs:string,&#160;
+&#160;&#160;$server-name&#160;as&#160;xs:string,&#160;
+&#160;&#160;$ErrorHandler&#160;as&#160;xs:string)&#160;
+{
+try&#160;{</Code>
+<Code>
+<A ID="pgfId-1172295"></A>
+&#160;&#160;&#160;&#160;&#160;let&#160;$appserver-id&#160;:=&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;admin:appserver-get-id(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;admin:group-get-id($config,&#160;$group-name),
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$server-name)</Code>
+<Code>
+<A ID="pgfId-1172304"></A>
+(: Get all of the existing error handlers for this server :)
+&#160;&#160;&#160;&#160;&#160;let&#160;$ExistingHandler&#160;:=
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;admin:appserver-get-error-handler(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$appserver-id)</Code>
+<Code>
+<A ID="pgfId-1172317"></A>
+(: Check to see if error handler is already set. If not, set 
+&#160;&#160;&#160;error&#160;handler&#160;:)
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:=
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if&#160;($ErrorHandler&#160;=&#160;$ExistingHandler)&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;then&#160;$config
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;admin:appserver-set-error-handler(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$appserver-id,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$ErrorHandler)</Code>
+<Code>
+<A ID="pgfId-1172332"></A>
+&#160;&#160;&#160;&#160;&#160;let&#160;$log&#160;:=&#160;setup:log(fn:concat(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Setting&#160;error&#160;handler&#160;&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$server-name))</Code>
+<Code>
+<A ID="pgfId-1172341"></A>
+&#160;&#160;&#160;&#160;&#160;return&#160;$config</Code>
+<Code>
+<A ID="pgfId-1172350"></A>
+}&#160;catch($e)&#160;{
+&#160;&#160;&#160;&#160;&#160;setup:log($e)
+&#160;&#160;&#160;}
+};</Code>
+<Code>
+<A ID="pgfId-1172359"></A>
+declare&#160;function&#160;set-url-rewriter(
+&#160;&#160;$config&#160;as&#160;element(configuration),&#160;
+&#160;&#160;$group-name&#160;as&#160;xs:string,&#160;
+&#160;&#160;$server-name&#160;as&#160;xs:string,&#160;
+&#160;&#160;$URLrewriter&#160;as&#160;xs:string)&#160;
+{
+try&#160;{</Code>
+<Code>
+<A ID="pgfId-1172371"></A>
+&#160;&#160;&#160;&#160;&#160;let&#160;$appserver-id&#160;:=&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;admin:appserver-get-id(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;admin:group-get-id($config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$group-name),
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$server-name)</Code>
+<Code>
+<A ID="pgfId-1172384"></A>
+(: Get all of the existing URL writers for this server :)
+&#160;&#160;&#160;&#160;&#160;let&#160;$ExistingURLrewriterr&#160;:=
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;admin:appserver-get-url-rewriter(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$appserver-id)</Code>
+<Code>
+<A ID="pgfId-1172395"></A>
+(: Check to see if URL writer is already set. If not, set URL writer :)
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:=
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if&#160;($URLrewriter&#160;=&#160;$ExistingURLrewriterr)&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;then&#160;$config
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;admin:appserver-set-url-rewriter(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$appserver-id,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$URLrewriter)</Code>
+<Code>
+<A ID="pgfId-1172416"></A>
+&#160;&#160;&#160;&#160;&#160;let&#160;$log&#160;:=&#160;setup:log(fn:concat(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Setting&#160;URL&#160;rewriter&#160;&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$server-name))</Code>
+<Code>
+<A ID="pgfId-1172425"></A>
+&#160;&#160;&#160;&#160;&#160;return&#160;$config</Code>
+<Code>
+<A ID="pgfId-1172434"></A>
+}&#160;catch($e)&#160;{
+&#160;&#160;&#160;&#160;&#160;setup:log($e)
+&#160;&#160;&#160;}
+};</Code>
+<Heading-3>
+<A ID="pgfId-1173485"></A>
+<A ID="82049"></A>
+get-security-db function</Heading-3>
+<Body>
+<A ID="pgfId-1174005"></A>
+Because there may be more than one database named 'Security,' the <code>
+get-security-db</code>
+ function is used by the <A href="SampleProgram.xml#id(15703)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+install.xqy</Hyperlink>
+</A> and <A href="SampleProgram.xml#id(76195)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+uninstall.xqy</Hyperlink>
+</A> modules to identify the Security database used by the <code>
+Admin</code>
+ app server.</Body>
+<Code>
+<A ID="pgfId-1172443"></A>
+declare&#160;function&#160;get-security-db(
+&#160;&#160;$config&#160;as&#160;element(configuration),&#160;
+&#160;&#160;$group-name&#160;as&#160;xs:string,&#160;
+&#160;&#160;$server-name&#160;as&#160;xs:string)&#160;
+{
+try&#160;{</Code>
+<Code>
+<A ID="pgfId-1172452"></A>
+&#160;&#160;&#160;&#160;&#160;let&#160;$appserver-id&#160;:=&#160;admin:appserver-get-id(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;admin:group-get-id($config,&#160;$group-name),
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$server-name)</Code>
+<Code>
+<A ID="pgfId-1172461"></A>
+&#160;&#160;&#160;&#160;&#160;return&#160;admin:appserver-get-database(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$appserver-id)</Code>
+<Code>
+<A ID="pgfId-1172470"></A>
+}&#160;catch($e)&#160;{
+&#160;&#160;&#160;&#160;&#160;setup:log($e)
+&#160;&#160;&#160;}
+};</Code>
+<Heading-3>
+<A ID="pgfId-1173724"></A>
+<A ID="86273"></A>
+delete-group function</Heading-3>
+<Body>
+<A ID="pgfId-1174030"></A>
+The <code>
+delete-group</code>
+ function first checks to see whether the specified groups exists. If so, it calls the <code>
+admin:group-delete</code>
+ function to remove the group. This function is not called any function in the <A href="SampleProgram.xml#id(88049)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+configure-server.xqy</Hyperlink>
+</A> module, but could be used by other high-level modules to remove a group from the configuration.</Body>
+<Code>
+<A ID="pgfId-1172479"></A>
+declare&#160;function&#160;delete-group(
+&#160;&#160;$config&#160;as&#160;element(configuration),&#160;
+&#160;&#160;$GroupName&#160;as&#160;xs:string)&#160;
+{
+try&#160;{</Code>
+<Code>
+<A ID="pgfId-1172488"></A>
+&#160;&#160;&#160;&#160;&#160;let&#160;$group&#160;:=&#160;xdmp:group($GroupName)</Code>
+<Code>
+<A ID="pgfId-1172501"></A>
+(: Get all of the existing groups :)
+&#160;&#160;&#160;&#160;&#160;let&#160;$ExistingGroups&#160;:=
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;for&#160;$id&#160;in&#160;admin:get-group-ids($config)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;return&#160;admin:group-get-name($config,&#160;$id)</Code>
+<Code>
+<A ID="pgfId-1172514"></A>
+(: Check to see if group exists. If so, remove the group :)
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:=
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if&#160;($GroupName&#160;=&#160;$ExistingGroups)&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;then&#160;admin:group-delete($config,&#160;$group)&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else&#160;$config</Code>
+<Code>
+<A ID="pgfId-1172527"></A>
+&#160;&#160;&#160;&#160;&#160;return&#160;$config</Code>
+<Code>
+<A ID="pgfId-1172536"></A>
+}&#160;catch($e)&#160;{
+&#160;&#160;&#160;&#160;&#160;setup:log($e)
+&#160;&#160;&#160;}
+};</Code>
+<Heading-3>
+<A ID="pgfId-1173924"></A>
+<A ID="35623"></A>
+delete-server function</Heading-3>
+<Body>
+<A ID="pgfId-1174067"></A>
+The <code>
+delete-server </code>
+function first checks to see whether the specified app server exists. If so, it calls the <code>
+admin:appserver-delete</code>
+ function to remove the app server. </Body>
+<Code>
+<A ID="pgfId-1172545"></A>
+declare&#160;function&#160;delete-server(
+&#160;&#160;$config&#160;as&#160;element(configuration),&#160;
+&#160;&#160;$ServerName&#160;as&#160;xs:string,&#160;
+&#160;&#160;$group-name&#160;as&#160;xs:string)&#160;
+{
+try&#160;{</Code>
+<Code>
+<A ID="pgfId-1172552"></A>
+&#160;&#160;&#160;&#160;&#160;let&#160;$group&#160;:=&#160;xdmp:group($group-name)</Code>
+<Code>
+<A ID="pgfId-1172559"></A>
+(: Get all of the existing servers :)
+&#160;&#160;&#160;&#160;&#160;let&#160;$ExistingServers&#160;:=
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;for&#160;$id&#160;in&#160;admin:get-appserver-ids($config)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;return&#160;admin:appserver-get-name($config,&#160;$id)</Code>
+<Code>
+<A ID="pgfId-1172570"></A>
+&#160;&#160;&#160;&#160;&#160;(:&#160;Check&#160;to&#160;see&#160;if&#160;server&#160;exists.&#160;If&#160;so,&#160;remove&#160;the&#160;server&#160;:)
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:=
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if&#160;($ServerName&#160;=&#160;$ExistingServers)&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;then&#160;admin:appserver-delete(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;admin:appserver-get-id(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$group,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$ServerName))
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else&#160;$config</Code>
+<Code>
+<A ID="pgfId-1172577"></A>
+&#160;&#160;&#160;&#160;&#160;return&#160;$config</Code>
+<Code>
+<A ID="pgfId-1172584"></A>
+}&#160;catch($e)&#160;{
+&#160;&#160;&#160;&#160;&#160;setup:log($e)
+&#160;&#160;&#160;}
+};</Code>
+<Heading-3>
+<A ID="pgfId-1173893"></A>
+<A ID="25168"></A>
+set-host function</Heading-3>
+<Body>
+<A ID="pgfId-1174092"></A>
+The <code>
+set-host</code>
+ function calls the <code>
+admin:host-set-group </code>
+function to set the host for the specified group. This function is not called any function in the <A href="SampleProgram.xml#id(88049)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+configure-server.xqy</Hyperlink>
+</A> module, but could be used by other high-level modules to create another configuration.</Body>
+<Code>
+<A ID="pgfId-1172591"></A>
+declare&#160;function&#160;set-host(
+&#160;&#160;$config&#160;as&#160;element(configuration),&#160;
+&#160;&#160;$group-name&#160;as&#160;xs:string,&#160;
+&#160;&#160;$host-name&#160;as&#160;xs:string)&#160;
+{
+try&#160;{</Code>
+<Code>
+<A ID="pgfId-1172598"></A>
+&#160;&#160;&#160;&#160;&#160;let&#160;$group&#160;:=&#160;xdmp:group($group-name)
+&#160;&#160;&#160;&#160;&#160;let&#160;$host&#160;:=&#160;xdmp:host($host-name)</Code>
+<Code>
+<A ID="pgfId-1172612"></A>
+&#160;&#160;&#160;&#160;&#160;return&#160;admin:host-set-group(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$host,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$group)</Code>
+<Code>
+<A ID="pgfId-1172621"></A>
+}&#160;catch($e)&#160;{
+&#160;&#160;&#160;&#160;&#160;setup:log($e)
+&#160;&#160;&#160;}
+};</Code>
+<Heading-2>
+<A ID="pgfId-1073798"></A>
+<A ID="52570"></A>
+databases.xqy</Heading-2>
+<Body>
+<A ID="pgfId-1174333"></A>
+The <code>
+databases.xqy</code>
+ module defines functions that call the <code>
+admin</code>
+ functions that create, configure, and remove the forests and databases. The functions in this module are more 'generic' than the configuration-specific functions in the <A href="SampleProgram.xml#id(88049)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+configure-server.xqy</Hyperlink>
+</A> module that call them. Consequently, the functions in this module could be applied to a variety of configurations.</Body>
+<Body>
+<A ID="pgfId-1174337"></A>
+The functions in this module are:</Body>
+<Body-bullet>
+<A ID="pgfId-1174361"></A>
+<A href="SampleProgram.xml#id(45018)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+create-forest function</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1174552"></A>
+<A href="SampleProgram.xml#id(94428)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+create-database function</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1174911"></A>
+<A href="SampleProgram.xml#id(34044)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+database configuration functions</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1174574"></A>
+<A href="SampleProgram.xml#id(94612)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+delete-database function</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1174596"></A>
+<A href="SampleProgram.xml#id(85267)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+delete-forest function</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1174362"></A>
+Each function in this module first checks for the presence of the object it is to create or remove before taking any action. This is done to enable partial changes to be made to the configuration without the entire transaction failing, as described in <A href="usingAPI.xml#id(92935)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Making Transactions Idempotent' on page&#160;15</A>.</Body>
+<Body>
+<A ID="pgfId-1174366"></A>
+Before defining the functions, we define this module's namespace as <code>
+db</code>
+ and import the following modules:</Body>
+<Code>
+<A ID="pgfId-1080041"></A>
+xquery&#160;version&#160;&quot;1.0-ml&quot;;</Code>
+<Code>
+<A ID="pgfId-1172641"></A>
+module&#160;namespace&#160;db&#160;=&#160;&quot;http://marklogic.com/sampleConfig/database&quot;;
+declare&#160;namespace&#160;error&#160;=&#160;&quot;http://marklogic.com/xdmp/error&quot;;
+declare&#160;namespace&#160;xdmpdb&#160;=&#160;&quot;http://marklogic.com/xdmp/database&quot;;</Code>
+<Code>
+<A ID="pgfId-1172648"></A>
+import&#160;module&#160;namespace&#160;admin&#160;=&#160;&quot;http://marklogic.com/xdmp/admin&quot;&#160;
+&#160;&#160;&#160;&#160;at&#160;&quot;/MarkLogic/admin.xqy&quot;;</Code>
+<Code>
+<A ID="pgfId-1172655"></A>
+import&#160;module&#160;namespace&#160;setup&#160;=&#160;
+&#160;&#160;&quot;http://marklogic.com/sampleConfig/setup-lib&quot;
+&#160;&#160;&#160;&#160;at&#160;&quot;setup-library.xqy&quot;;</Code>
+<Heading-3>
+<A ID="pgfId-1174403"></A>
+<A ID="45018"></A>
+create-forest function</Heading-3>
+<Body>
+<A ID="pgfId-1174655"></A>
+The <code>
+create-forest</code>
+ function first checks to see whether the specified forest exists. If not, it calls the <code>
+admin:forest-create</code>
+ function to create the new forest. </Body>
+<Code>
+<A ID="pgfId-1172677"></A>
+declare&#160;function&#160;create-forest(
+&#160;&#160;$config&#160;as&#160;element(configuration),&#160;
+&#160;&#160;$NewForest&#160;as&#160;xs:string)
+{
+try&#160;{</Code>
+<Code>
+<A ID="pgfId-1172684"></A>
+(: Get all of the existing forests :)
+&#160;&#160;&#160;&#160;&#160;let&#160;$ExistingForests&#160;:=
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;for&#160;$id&#160;in&#160;admin:get-forest-ids($config)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;return&#160;admin:forest-get-name($config,&#160;$id)</Code>
+<Code>
+<A ID="pgfId-1172691"></A>
+(: Check to see if forest already exists. If not, create new forest :)
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:=
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if&#160;($NewForest&#160;=&#160;$ExistingForests)&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;then&#160;$config
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;admin:forest-create(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$NewForest,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;xdmp:host(),&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;&quot;)</Code>
+<Code>
+<A ID="pgfId-1172706"></A>
+&#160;&#160;&#160;&#160;&#160;return&#160;$config</Code>
+<Code>
+<A ID="pgfId-1172713"></A>
+}&#160;catch($e)&#160;{
+&#160;&#160;&#160;&#160;&#160;setup:log($e)
+&#160;&#160;&#160;}
+};</Code>
+<Heading-3>
+<A ID="pgfId-1174434"></A>
+<A ID="94428"></A>
+create-database function</Heading-3>
+<Body>
+<A ID="pgfId-1176665"></A>
+The <code>
+create-forest</code>
+ function first checks to see whether the specified database exists. If not, it calls the <code>
+admin:database-create</code>
+ function to create and configure the new database. </Body>
+<Code>
+<A ID="pgfId-1176666"></A>
+declare&#160;function&#160;create-database(
+&#160;&#160;$config&#160;as&#160;element(configuration),&#160;
+&#160;&#160;$NewDatabase&#160;as&#160;xs:string)&#160;
+{
+try&#160;{</Code>
+<Code>
+<A ID="pgfId-1172784"></A>
+&#160;&#160;&#160;&#160;&#160;let&#160;$security-db&#160;:=&#160;admin:database-get-id($config,&#160;&quot;Security&quot;)
+&#160;&#160;&#160;&#160;&#160;let&#160;$schema-db&#160;:=&#160;&#160;&#160;admin:database-get-id($config,&#160;&quot;Schemas&quot;)</Code>
+<Code>
+<A ID="pgfId-1172791"></A>
+(: Get all of the existing databases :)
+&#160;&#160;&#160;&#160;&#160;let&#160;$ExistingDatabases&#160;:=
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;for&#160;$id&#160;in&#160;admin:get-database-ids($config)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;return&#160;admin:database-get-name($config,&#160;$id)</Code>
+<Code>
+<A ID="pgfId-1172802"></A>
+(: Check to see if database already exists. If not, create new 
+&#160;&#160;&#160;database :)
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:=
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if&#160;($NewDatabase&#160;=&#160;$ExistingDatabases)&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;then&#160;$config
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else&#160;&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;admin:database-create(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$NewDatabase,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$security-db,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$schema-db)</Code>
+<Code>
+<A ID="pgfId-1172819"></A>
+&#160;&#160;&#160;&#160;&#160;return&#160;$config</Code>
+<Code>
+<A ID="pgfId-1172826"></A>
+}&#160;catch($e)&#160;{
+&#160;&#160;&#160;&#160;&#160;setup:log($e)
+&#160;&#160;&#160;}
+};</Code>
+<Heading-3>
+<A ID="pgfId-1174855"></A>
+<A ID="34044"></A>
+database configuration functions</Heading-3>
+<Body>
+<A ID="pgfId-1174842"></A>
+The functions in this section configure the new database. The <code>
+admin:database-get-id</code>
+ function is used to get the id of the database from the configuration. This enables the calling functions in the <A href="SampleProgram.xml#id(88049)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+configure-server.xqy</Hyperlink>
+</A> module to attach the forests and configure the newly created database before saving the configuration to MarkLogic Server. For more details on the operation of <code>
+admin:database-get-id</code>
+ and similar functions, see <A href="usingAPI.xml#id(62829)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating and Configuring Objects in a Single Transaction</Hyperlink>
+</A>.</Body>
+<Body>
+<A ID="pgfId-1174722"></A>
+The following functions attached the forests and add fields and indexes to the database. As with all other functions in this module, we first check for the presence of an object before creating it.</Body>
+<Code>
+<A ID="pgfId-1172833"></A>
+(: Attach forest to database function :)
+declare&#160;function&#160;attach-forests(
+&#160;&#160;$config&#160;as&#160;element(configuration),&#160;
+&#160;&#160;$dbname&#160;as&#160;xs:string,&#160;
+&#160;&#160;$forest&#160;as&#160;xs:string)&#160;
+{
+try&#160;{</Code>
+<Code>
+<A ID="pgfId-1172842"></A>
+(: Get all of the forests attached to this database :)
+&#160;&#160;&#160;&#160;&#160;let&#160;$AttachedForests&#160;:=
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;admin:forest-get-name(&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;(admin:database-get-attached-forests(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;admin:database-get-id($config,&#160;$dbname))&#160;))</Code>
+<Code>
+<A ID="pgfId-1172849"></A>
+(: Check to see if forest is already attached to the database. 
+&#160;&#160;&#160;If not, attach the forest to the database :)
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:=
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if&#160;($forest&#160;=&#160;$AttachedForests)&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;then&#160;$config
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;admin:database-attach-forest(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;admin:database-get-id($config,&#160;$dbname),
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;admin:forest-get-id($config,&#160;$forest)&#160;)</Code>
+<Code>
+<A ID="pgfId-1172856"></A>
+&#160;&#160;&#160;&#160;&#160;return&#160;$config</Code>
+<Code>
+<A ID="pgfId-1172863"></A>
+}&#160;catch($e)&#160;{
+&#160;&#160;&#160;&#160;&#160;setup:log($e)
+&#160;&#160;&#160;}
+};</Code>
+<Code>
+<A ID="pgfId-1172870"></A>
+(: Add field to database function :)
+declare&#160;function&#160;add-field(
+&#160;&#160;$config&#160;as&#160;element(configuration),&#160;
+&#160;&#160;$dbname&#160;as&#160;xs:string,&#160;
+&#160;&#160;$field&#160;as&#160;xs:string)&#160;
+{
+try&#160;{</Code>
+<Code>
+<A ID="pgfId-1172894"></A>
+&#160;&#160;&#160;&#160;&#160;let&#160;$dbid&#160;:=&#160;admin:database-get-id($config,&#160;$dbname)</Code>
+<Code>
+<A ID="pgfId-1172905"></A>
+(: Construct a specification for this field :)
+&#160;&#160;&#160;&#160;&#160;let&#160;$fieldspec&#160;:=&#160;&#160;&#160;admin:database-field($field,&#160;fn:false())</Code>
+<Code>
+<A ID="pgfId-1172912"></A>
+(: Get all of the existing fields for this database :)
+&#160;&#160;&#160;&#160;&#160;let&#160;$ExistingFields&#160;:=
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;fn:data(admin:database-get-fields(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$dbid)/xdmpdb:field-name)</Code>
+<Code>
+<A ID="pgfId-1172929"></A>
+(: Check to see if field already exists for this database. 
+&#160;&#160;&#160;If not, add the field :)
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:=
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if&#160;($field&#160;=&#160;$ExistingFields)&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;then&#160;$config
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;admin:database-add-field($config,&#160;$dbid,&#160;$fieldspec)</Code>
+<Code>
+<A ID="pgfId-1172945"></A>
+&#160;&#160;&#160;&#160;&#160;return&#160;$config</Code>
+<Code>
+<A ID="pgfId-1172956"></A>
+}&#160;catch($e)&#160;{
+&#160;&#160;&#160;&#160;&#160;setup:log($e)
+&#160;&#160;&#160;}
+};</Code>
+<Code>
+<A ID="pgfId-1172963"></A>
+(: Add include element to field function :)
+declare&#160;function&#160;add-field-included(
+&#160;&#160;$config&#160;as&#160;element(configuration),&#160;
+&#160;&#160;$dbname&#160;as&#160;xs:string,&#160;
+&#160;&#160;$field&#160;as&#160;xs:string,
+&#160;&#160;$included&#160;as&#160;xs:string)&#160;
+{
+try&#160;{</Code>
+<Code>
+<A ID="pgfId-1172972"></A>
+&#160;&#160;&#160;&#160;&#160;let&#160;$dbid&#160;:=&#160;admin:database-get-id(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$dbname)</Code>
+<Code>
+<A ID="pgfId-1172979"></A>
+(: Construct a specification for this include element :)
+&#160;&#160;&#160;&#160;&#160;let&#160;$fieldspec&#160;:=&#160;admin:database-included-element(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;http://marklogic.com/wikipedia&quot;,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$included,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;1.0,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;&quot;,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;&quot;)</Code>
+<Code>
+<A ID="pgfId-1172990"></A>
+(: Get all of the existing included elements for this field:)
+&#160;&#160;&#160;&#160;&#160;let&#160;$ExistingIncludes&#160;:=
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;fn:data(admin:database-get-field-included-elements(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$dbid,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$field)/xdmpdb:localname)</Code>
+<Code>
+<A ID="pgfId-1173001"></A>
+(: Check to see if field already has the included elements. 
+&#160;&#160;&#160;If not, add the included elements to the field :)
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:=
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if&#160;($included&#160;=&#160;$ExistingIncludes)&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;then&#160;$config
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;admin:database-add-field-included-element(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$dbid,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$field,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$fieldspec)</Code>
+<Code>
+<A ID="pgfId-1173021"></A>
+&#160;&#160;&#160;&#160;&#160;return&#160;$config</Code>
+<Code>
+<A ID="pgfId-1173032"></A>
+}&#160;catch($e)&#160;{
+&#160;&#160;&#160;&#160;&#160;setup:log($e)
+&#160;&#160;&#160;}
+};</Code>
+<Code>
+<A ID="pgfId-1173039"></A>
+(: Add range element index to database function :)
+declare&#160;function&#160;add-range-element-index(
+&#160;&#160;$config&#160;as&#160;element(configuration),&#160;
+&#160;&#160;$dbname&#160;as&#160;xs:string,&#160;
+&#160;&#160;$type&#160;as&#160;xs:string,&#160;
+&#160;&#160;$namespace-uri&#160;as&#160;xs:string,
+&#160;&#160;$localname&#160;as&#160;xs:string)
+{
+try&#160;{</Code>
+<Code>
+<A ID="pgfId-1173048"></A>
+&#160;&#160;&#160;&#160;&#160;let&#160;$dbid&#160;:=&#160;admin:database-get-id(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$dbname)</Code>
+<Code>
+<A ID="pgfId-1173055"></A>
+&#160;&#160;&#160;&#160;&#160;(:&#160;Define&#160;a&#160;new&#160;range&#160;element&#160;index&#160;:)
+&#160;&#160;&#160;&#160;&#160;let&#160;$range-index&#160;:=&#160;admin:database-range-element-index(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$type,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$namespace-uri,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$localname,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;http://marklogic.com/collation/&quot;,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;fn:false()&#160;)</Code>
+<Code>
+<A ID="pgfId-1173062"></A>
+(: Get all of the existing range element indexes for this database :)
+&#160;&#160;&#160;&#160;&#160;let&#160;$ExistingREindexes&#160;:=
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;fn:data(admin:database-get-range-element-indexes(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$dbid)/xdmpdb:localname)</Code>
+<Code>
+<A ID="pgfId-1173073"></A>
+(: Check to see if range element index already exists for this
+&#160;&#160;&#160;database. 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;If&#160;not,&#160;add&#160;the&#160;range&#160;element&#160;index&#160;:)
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:=
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if&#160;($localname&#160;=&#160;$ExistingREindexes)&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;then&#160;$config
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;admin:database-add-range-element-index(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$dbid,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$range-index)</Code>
+<Code>
+<A ID="pgfId-1173091"></A>
+&#160;&#160;&#160;&#160;&#160;return&#160;$config</Code>
+<Code>
+<A ID="pgfId-1173098"></A>
+}&#160;catch($e)&#160;{
+&#160;&#160;&#160;&#160;&#160;setup:log($e)
+&#160;&#160;&#160;}
+};</Code>
+<Code>
+<A ID="pgfId-1173105"></A>
+(: Add range element attribute index to database function :)
+declare&#160;function&#160;add-range-element-attribute-index(
+&#160;&#160;$config&#160;as&#160;element(configuration),&#160;
+&#160;&#160;$dbname&#160;as&#160;xs:string,&#160;
+&#160;&#160;$type&#160;as&#160;xs:string,&#160;
+&#160;&#160;$parent-namespace-uri&#160;as&#160;xs:string,
+&#160;&#160;$parent-localname&#160;as&#160;xs:string,
+&#160;&#160;$namespace-uri&#160;as&#160;xs:string,
+&#160;&#160;$localname&#160;as&#160;xs:string,
+&#160;&#160;$collation&#160;as&#160;xs:string)&#160;
+{
+try&#160;{</Code>
+<Code>
+<A ID="pgfId-1173114"></A>
+&#160;&#160;&#160;&#160;&#160;let&#160;$dbid&#160;:=&#160;admin:database-get-id(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$dbname)</Code>
+<Code>
+<A ID="pgfId-1173121"></A>
+(: Define a new range element attribute index :)
+&#160;&#160;&#160;&#160;&#160;let&#160;$range-attribute-index&#160;:=&#160;admin:database-range-element-attribute-index(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$type,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$parent-namespace-uri,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$parent-localname,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$namespace-uri,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$localname,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$collation,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;fn:false()&#160;)</Code>
+<Code>
+<A ID="pgfId-1173128"></A>
+(: Get all of the existing range element attribute indexes for 
+&#160;&#160;&#160;this database :)
+&#160;&#160;&#160;&#160;&#160;let&#160;$ExistingREAindexes&#160;:=
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;fn:data(admin:database-get-range-element-attribute-indexes(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$dbid)/xdmpdb:localname)</Code>
+<Code>
+<A ID="pgfId-1173150"></A>
+(: Check to see if range element attribute index already exists for 
+&#160;&#160;&#160;this database. If not, add the range element attribute index. :)
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:=
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if&#160;($localname&#160;=&#160;$ExistingREAindexes)&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;then&#160;$config
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;admin:database-add-range-element-attribute-index(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$dbid,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$range-attribute-index)</Code>
+<Code>
+<A ID="pgfId-1173166"></A>
+&#160;&#160;&#160;&#160;&#160;return&#160;$config</Code>
+<Code>
+<A ID="pgfId-1173173"></A>
+}&#160;catch($e)&#160;{
+&#160;&#160;&#160;&#160;&#160;setup:log($e)
+&#160;&#160;&#160;}
+};</Code>
+<Heading-3>
+<A ID="pgfId-1174501"></A>
+<A ID="94612"></A>
+delete-database function</Heading-3>
+<Body>
+<A ID="pgfId-1174947"></A>
+The <code>
+delete-database </code>
+function first checks to see whether the specified database exists. If so, it calls the <code>
+admin:database-delete</code>
+ function to remove the database. </Body>
+<Code>
+<A ID="pgfId-1173180"></A>
+declare&#160;function&#160;delete-database(
+&#160;&#160;$config&#160;as&#160;element(configuration),&#160;
+&#160;&#160;$DatabaseName&#160;as&#160;xs:string)&#160;
+{
+try&#160;{</Code>
+<Code>
+<A ID="pgfId-1173187"></A>
+&#160;&#160;&#160;&#160;&#160;let&#160;$database&#160;:=&#160;admin:database-get-id($config,&#160;$DatabaseName)</Code>
+<Code>
+<A ID="pgfId-1173194"></A>
+(: Get all of the existing databases :)
+&#160;&#160;&#160;&#160;&#160;let&#160;$ExistingDatabases&#160;:=
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;for&#160;$id&#160;in&#160;admin:get-database-ids($config)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;return&#160;admin:database-get-name($config,&#160;$id)</Code>
+<Code>
+<A ID="pgfId-1173205"></A>
+(: Check to see if database exists. If so, remove the database :)
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:=
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if&#160;($DatabaseName&#160;=&#160;$ExistingDatabases)&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;then&#160;admin:database-delete(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;admin:database-get-id($config,&#160;$DatabaseName))
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else&#160;$config</Code>
+<Code>
+<A ID="pgfId-1173216"></A>
+&#160;&#160;&#160;&#160;&#160;return&#160;$config</Code>
+<Code>
+<A ID="pgfId-1173223"></A>
+}&#160;catch($e)&#160;{
+&#160;&#160;&#160;&#160;&#160;setup:log($e)
+&#160;&#160;&#160;}
+};</Code>
+<Heading-3>
+<A ID="pgfId-1174535"></A>
+<A ID="85267"></A>
+delete-forest function</Heading-3>
+<Body>
+<A ID="pgfId-1174973"></A>
+The <code>
+delete-forest </code>
+function first checks to see whether the specified forest exists. If so, it calls the <code>
+admin:forest-delete</code>
+ function to remove the forest. </Body>
+<Code>
+<A ID="pgfId-1173230"></A>
+declare&#160;function&#160;delete-forest(
+&#160;&#160;$config&#160;as&#160;element(configuration),&#160;
+&#160;&#160;$ForestName&#160;as&#160;xs:string)&#160;
+{
+try&#160;{</Code>
+<Code>
+<A ID="pgfId-1173237"></A>
+&#160;&#160;&#160;&#160;&#160;let&#160;$forest&#160;:=&#160;admin:forest-get-id($config,&#160;$ForestName)</Code>
+<Code>
+<A ID="pgfId-1173257"></A>
+(: Get all of the existing forests :)
+&#160;&#160;&#160;&#160;&#160;let&#160;$ExistingForests&#160;:=
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;for&#160;$id&#160;in&#160;admin:get-forest-ids($config)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;return&#160;admin:forest-get-name($config,&#160;$id)</Code>
+<Code>
+<A ID="pgfId-1173250"></A>
+(: Check to see if forest exists. If so, remove the forest :)
+&#160;&#160;&#160;&#160;&#160;let&#160;$config&#160;:=
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if&#160;($ForestName&#160;=&#160;$ExistingForests)&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;then&#160;admin:forest-delete(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$config,&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;admin:forest-get-id($config,&#160;$ForestName),
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;fn:true())
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else&#160;$config</Code>
+<Code>
+<A ID="pgfId-1173266"></A>
+&#160;&#160;&#160;&#160;&#160;return&#160;$config</Code>
+<Code>
+<A ID="pgfId-1173273"></A>
+}&#160;catch($e)&#160;{
+&#160;&#160;&#160;&#160;&#160;setup:log($e)
+&#160;&#160;&#160;}
+};</Code>
+<Heading-2>
+<A ID="pgfId-1170111"></A>
+<A ID="51964"></A>
+configure-security.xqy</Heading-2>
+<Body>
+<A ID="pgfId-1170112"></A>
+Calls the functions in the <code>
+security</code>
+ module to create new roles and users. Unlike the <A href="SampleProgram.xml#id(88049)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+configure-server.xqy</Hyperlink>
+</A>, which calls the <code>
+admin</code>
+ functions indirectly through the <A href="SampleProgram.xml#id(25949)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+groups.xqy</Hyperlink>
+</A> and <A href="SampleProgram.xml#id(52570)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+databases.xqy</Hyperlink>
+</A> modules, this module calls the <code>
+security</code>
+ functions directly. Consequently, the functions in this module are specific to the configuration.</Body>
+<Body>
+<A ID="pgfId-1175102"></A>
+The functions in this module are:</Body>
+<Body-bullet>
+<A ID="pgfId-1175122"></A>
+<A href="SampleProgram.xml#id(37259)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+configure-roles function</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1175284"></A>
+<A href="SampleProgram.xml#id(14414)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+configure-users function</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1175310"></A>
+<A href="SampleProgram.xml#id(75255)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+remove-users function</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1175332"></A>
+<A href="SampleProgram.xml#id(24209)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+remove-roles function</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1175123"></A>
+Each function in this module first checks for the presence of the object it is to create or remove before taking any action. This is done to enable partial changes to be made to the configuration without the entire transaction failing, as described in <A href="usingAPI.xml#id(92935)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Making Transactions Idempotent' on page&#160;15</A>.</Body>
+<Body>
+<A ID="pgfId-1175127"></A>
+Before defining the functions, we define this module's namespace as <code>
+conf-security</code>
+ and import the following modules:</Body>
+<Code>
+<A ID="pgfId-1170113"></A>
+xquery&#160;version&#160;&quot;1.0-ml&quot;;</Code>
+<Code>
+<A ID="pgfId-1170114"></A>
+module&#160;namespace&#160;conf-security=
+&#160;&#160;&quot;http://marklogic.com/sampleConfig/conf-security&quot;;</Code>
+<Code>
+<A ID="pgfId-1170115"></A>
+declare&#160;namespace&#160;error=&quot;http://marklogic.com/xdmp/error&quot;;</Code>
+<Code>
+<A ID="pgfId-1170116"></A>
+import&#160;module&#160;namespace&#160;setup= &#160;&#160;&quot;http://marklogic.com/sampleConfig/setup-lib&quot; &#160;&#160;&#160;&#160;&#160;at&#160;&quot;setup-library.xqy&quot;;
+import&#160;module&#160;namespace&#160;sec=&quot;http://marklogic.com/xdmp/security&quot;
+&#160;&#160;&#160;&#160;at&#160;&quot;/MarkLogic/security.xqy&quot;;</Code>
+<Heading-3>
+<A ID="pgfId-1175157"></A>
+<A ID="37259"></A>
+configure-roles function</Heading-3>
+<Body>
+<A ID="pgfId-1175650"></A>
+The <code>
+configure-roles</code>
+ function first checks to see whether the specified roles exist. If not, it calls the <code>
+sec:create-role</code>
+ functions to create the new roles. </Body>
+<Code>
+<A ID="pgfId-1170117"></A>
+declare&#160;function&#160;configure-roles()
+{
+try&#160;{</Code>
+<Code>
+<A ID="pgfId-1170118"></A>
+&#160;&#160;&#160;&#160;(:&#160;Get&#160;all&#160;of&#160;the&#160;existing&#160;roles&#160;:)
+&#160;&#160;&#160;&#160;let&#160;$ExistingRoles&#160;:=&#160;fn:data(/sec:role/sec:role-name)</Code>
+<Code>
+<A ID="pgfId-1170119"></A>
+&#160;&#160;&#160;&#160;(:&#160;Check&#160;to&#160;see&#160;if&#160;role&#160;already&#160;exists.&#160;If&#160;not,&#160;create&#160;new&#160;role&#160;:)
+&#160;&#160;&#160;&#160;return&#160;(</Code>
+<Code>
+<A ID="pgfId-1170120"></A>
+&#160;&#160;&#160;&#160;&#160;&#160;if&#160;(&quot;Sample&quot;&#160;=&#160;$ExistingRoles)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;then&#160;&quot;&#160;&#160;Sample&#160;role&#160;already&#160;exists&quot;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else&#160;&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;sec:create-role(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Sample&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Temporary&#160;access&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;(&quot;filesystem-access&quot;),
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;(xdmp:permission(&quot;security&quot;,&#160;&quot;read&quot;)),
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;(&quot;testDocument&quot;)),</Code>
+<Code>
+<A ID="pgfId-1175360"></A>
+&#160;&#160;&#160;&#160;&#160;&#160;if&#160;(&quot;Developer&quot;&#160;=&#160;$ExistingRoles)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;then&#160;&quot;&#160;&#160;Developer&#160;role&#160;already&#160;exists&quot;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;sec:create-role(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Developer&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Developer&#160;access&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;(&quot;filesystem-access&quot;,&#160;&quot;pipeline-execution&quot;),
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;(xdmp:permission(&quot;security&quot;,&#160;&quot;read&quot;),&#160;xdmp:permission(&quot;security&quot;,&#160;&quot;update&quot;)),
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;(&quot;testDocument&quot;)),</Code>
+<Code>
+<A ID="pgfId-1175371"></A>
+&#160;&#160;&#160;&#160;&#160;&#160;if&#160;(&quot;Tester&quot;&#160;=&#160;$ExistingRoles)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;then&#160;&quot;&#160;&#160;Tester&#160;role&#160;already&#160;exists&quot;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;sec:create-role(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Tester&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Tester&#160;access&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;(&quot;filesystem-access&quot;),
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;(),
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;(&quot;testDocument&quot;))
+&#160;&#160;&#160;&#160;)</Code>
+<Code>
+<A ID="pgfId-1175378"></A>
+}&#160;catch($e)&#160;{
+&#160;&#160;&#160;&#160;&#160;setup:log($e)
+&#160;&#160;&#160;}
+};</Code>
+<Heading-3>
+<A ID="pgfId-1175179"></A>
+<A ID="14414"></A>
+configure-users function</Heading-3>
+<Body>
+<A ID="pgfId-1175713"></A>
+The <code>
+configure-users</code>
+ function first checks to see whether the specified user exists. If not, it calls the <code>
+sec:create-user </code>
+function to create the new user and assign it a role created by the previous <A href="SampleProgram.xml#id(37259)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+configure-roles function</Hyperlink>
+</A>. </Body>
+<Code>
+<A ID="pgfId-1175186"></A>
+declare&#160;function&#160;configure-users()
+{
+try&#160;{</Code>
+<Code>
+<A ID="pgfId-1175918"></A>
+&#160;&#160;&#160;&#160;(:&#160;Get&#160;all&#160;of&#160;the&#160;existing&#160;users&#160;:)
+&#160;&#160;&#160;&#160;let&#160;$ExistingUsers&#160;:=&#160;fn:data(/sec:user/sec:user-name)</Code>
+<Code>
+<A ID="pgfId-1175911"></A>
+&#160;&#160;&#160;&#160;(:&#160;Check&#160;to&#160;see&#160;if&#160;user&#160;already&#160;exists.&#160;If&#160;not,&#160;create&#160;new&#160;user&#160;:)
+&#160;&#160;&#160;&#160;return&#160;(
+&#160;&#160;&#160;&#160;&#160;&#160;if&#160;(&quot;Jim&quot;&#160;=&#160;$ExistingUsers)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;then&#160;&quot;&#160;&#160;User&#160;Jim&#160;already&#160;exists&quot;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else&#160;&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;sec:create-user(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Jim&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Jim&#160;the&#160;temp&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;newguy&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Sample&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;(xdmp:permission(&quot;security&quot;,&#160;&quot;read&quot;)),
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;(&quot;http://marklogic.com/dev_modules&quot;))&#160;
+&#160;&#160;&#160;&#160;)</Code>
+<Code>
+<A ID="pgfId-1175904"></A>
+}&#160;catch($e)&#160;{
+&#160;&#160;&#160;&#160;&#160;setup:log($e)
+&#160;&#160;&#160;}
+};</Code>
+<Heading-3>
+<A ID="pgfId-1175254"></A>
+<A ID="75255"></A>
+remove-users function</Heading-3>
+<Body>
+<A ID="pgfId-1175741"></A>
+The <code>
+remove-users </code>
+function first checks to see whether the specified user exists. If so, it calls the <code>
+sec:remove-user</code>
+ function to remove the user. </Body>
+<Code>
+<A ID="pgfId-1175246"></A>
+declare&#160;function&#160;remove-users()
+{
+try&#160;{</Code>
+<Code>
+<A ID="pgfId-1175883"></A>
+&#160;&#160;&#160;&#160;(:&#160;Get&#160;all&#160;of&#160;the&#160;existing&#160;users&#160;:)
+&#160;&#160;&#160;&#160;let&#160;$ExistingUsers&#160;:=&#160;fn:data(/sec:user/sec:user-name)</Code>
+<Code>
+<A ID="pgfId-1175890"></A>
+&#160;&#160;&#160;&#160;(:&#160;Check&#160;to&#160;see&#160;if&#160;user&#160;exists.&#160;If&#160;so,&#160;remove&#160;user&#160;:)
+&#160;&#160;&#160;&#160;return&#160;(
+&#160;&#160;&#160;&#160;&#160;&#160;if&#160;(&quot;Jim&quot;&#160;=&#160;$ExistingUsers)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;then&#160;sec:remove-user(&quot;Jim&quot;)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else&#160;()&#160;
+&#160;&#160;&#160;&#160;)</Code>
+<Code>
+<A ID="pgfId-1175897"></A>
+}&#160;catch($e)&#160;{
+&#160;&#160;&#160;&#160;setup:log($e)
+&#160;&#160;}
+}; </Code>
+<Heading-3>
+<A ID="pgfId-1175210"></A>
+<A ID="24209"></A>
+remove-roles function</Heading-3>
+<Body>
+<A ID="pgfId-1175785"></A>
+The <code>
+remove-roles </code>
+function first checks to see whether the specified roles exist. If so, it calls the <code>
+sec:remove-role</code>
+ functions to remove the roles. </Body>
+<Code>
+<A ID="pgfId-1175217"></A>
+declare&#160;function&#160;remove-roles()
+{
+try&#160;{</Code>
+<Code>
+<A ID="pgfId-1175830"></A>
+(: Get all of the existing roles :)
+&#160;&#160;&#160;&#160;let&#160;$ExistingRoles&#160;:=&#160;fn:data(/sec:role/sec:role-name)</Code>
+<Code>
+<A ID="pgfId-1175841"></A>
+(: Check to see if role exists. If so, remove role :)
+&#160;&#160;&#160;&#160;return&#160;(</Code>
+<Code>
+<A ID="pgfId-1175848"></A>
+&#160;&#160;&#160;&#160;&#160;&#160;if&#160;(&quot;Sample&quot;&#160;=&#160;$ExistingRoles)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;then&#160;sec:remove-role(&quot;Sample&quot;)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else&#160;(),</Code>
+<Code>
+<A ID="pgfId-1175855"></A>
+&#160;&#160;&#160;&#160;&#160;&#160;if&#160;(&quot;Developer&quot;&#160;=&#160;$ExistingRoles)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;then&#160;sec:remove-role(&quot;Developer&quot;)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else&#160;(),</Code>
+<Code>
+<A ID="pgfId-1175862"></A>
+&#160;&#160;&#160;&#160;&#160;&#160;if&#160;(&quot;Tester&quot;&#160;=&#160;$ExistingRoles)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;then&#160;sec:remove-role(&quot;Tester&quot;)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else&#160;()
+&#160;&#160;&#160;&#160;)</Code>
+<Code>
+<A ID="pgfId-1175869"></A>
+}&#160;catch($e)&#160;{
+&#160;&#160;&#160;&#160;&#160;setup:log($e)
+&#160;&#160;&#160;}
+};</Code>
+</XML>

@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="xpath.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1043259"></A>
+<A ID="_Toc61258626"></A>
+XPath Quick Reference</Heading-1>
+<pagenum>
+<A ID="pgfId-1054143"></A>
+<A ID="_Exploring_the_Use"></A>
+45</pagenum>
+<Body>
+<A ID="pgfId-1043261"></A>
+The section provides a brief overview of the basics of XPath, and includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1058915"></A>
+<A href="xpath.xml#id(18516)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Path Expressions</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1058881"></A>
+<A href="xpath.xml#id(39877)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+XPath Axes and Syntax</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1058882"></A>
+<A href="xpath.xml#id(93516)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+XPath 2.0 Functions</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1058897"></A>
+For detailed information about XPath, see the W3C XPath 2.0 language reference (<Hyperlink>
+<A href="http://www.w3.org/TR/xpath20/" xml:link="simple" show="replace" actuate="user" CLASS="URL">http://www.w3.org/TR/xpath20/</A></Hyperlink>
+).</Body>
+<Heading-2>
+<A ID="pgfId-1058416"></A>
+<A ID="18516"></A>
+Path Expressions</Heading-2>
+<Body>
+<A ID="pgfId-1058914"></A>
+XPath 2.0 is part of XQuery 1.0. XPath is used to navigate XML structures. In MarkLogic Server, the XML structures can be stored in a database or they can be constructed in XQuery. A <Emphasis>
+path expression</Emphasis>
+ is an expression that selects nodes from an XML structure. Path expressions are a fundamental way of identifying content in XQuery. Each path has zero or more <Emphasis>
+steps</Emphasis>
+, which typically select XML nodes. Each step can have zero or more <Emphasis>
+predicates</Emphasis>
+, which constrain the nodes that are selected. By combining multiple steps and predicates, you can create arbitrarily complex path expressions. Consider the following path expression (which is in itself a valid XQuery expression):</Body>
+<Code>
+<A ID="pgfId-1058945"></A>
+//LINE[fn:contains(., &quot;To be, or not to be&quot;)]</Code>
+<Body>
+<A ID="pgfId-1058946"></A>
+Against the Shakespeare database (the XML is available at <Hyperlink>
+<A href="http://www.oasis-open.org/cover/bosakShakespeare200.html" xml:link="simple" show="replace" actuate="user" CLASS="URL">http://www.oasis-open.org/cover/bosakShakespeare200.html</A></Hyperlink>
+), this XPath expression selects all <code>
+LINE</code>
+ elements that contain the text <code>
+To be or not to be</code>
+. You can then walk up the document to its parent to see who says this line. as follows:</Body>
+<Code>
+<A ID="pgfId-1058961"></A>
+//LINE[fn:contains(., &quot;To be, or not to be&quot;)]/../SPEAKER</Code>
+<Body>
+<A ID="pgfId-1058938"></A>
+This returns the following line:</Body>
+<Code>
+<A ID="pgfId-1058968"></A>
+&lt;SPEAKER&gt;HAMLET&lt;/SPEAKER&gt;</Code>
+<Body>
+<A ID="pgfId-1058969"></A>
+You can make path expressions arbitrarily complex, which makes them a very powerful tool for navigating through XML structures. For more details about path expressions, see the W3C XQuery specification (<Hyperlink>
+<A href="http://www.w3.org/TR/xquery/#id-path-expressions" xml:link="simple" show="replace" actuate="user" CLASS="URL">http://www.w3.org/TR/xquery/#id-path-expressions</A></Hyperlink>
+).</Body>
+<Body>
+<A ID="pgfId-1062271"></A>
+A path expression always returns nodes in document order. If you want to return nodes in relevance order (that is, relevance-ranked nodes), use the MarkLogic Server <code>
+cts:search</code>
+ built-in function or put the XPath in a FLWOR expression with an <code>
+order by</code>
+ clause. Note that both XPath expressions and <code>
+cts:search</code>
+ expressions use any available indexes for fast expression evaluation. For details on <code>
+cts:search</code>
+, see the <Emphasis>
+Application Developer's Guide</Emphasis>
+ and the <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+. For details about index options in MarkLogic Server, see the <Emphasis>
+Administrator's Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1058913"></A>
+<A ID="39877"></A>
+XPath Axes and Syntax</Heading-2>
+<Body>
+<A ID="pgfId-1043267"></A>
+The following table shows the XPath axes supported in MarkLogic Server.</Body>
+<TableAnchor>
+<A ID="pgfId-1058393"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1058607"></A>
+Axis</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1058609"></A>
+Description</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1058611"></A>
+Shorthand (N/A if no shorthand)</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1058613"></A>
+ancestor::</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1058615"></A>
+Selects all ancestor nodes, which includes the parent node, the parent's parent node, and so on.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1058617"></A>
+N/A</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1058619"></A>
+ancestor-or-self::</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1058621"></A>
+Selects the current node as well as all ancestor nodes, which includes the parent node, the parent's parent node, and so on.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1058623"></A>
+N/A</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1058625"></A>
+attribute::</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1058627"></A>
+Selects the attributes of the current node.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1058629"></A>
+@</CodeLeft>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1058631"></A>
+child::</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1058633"></A>
+Selects the immediate child nodes of the current node.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1058635"></A>
+/</CodeLeft>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1058637"></A>
+descendant::</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1058639"></A>
+Selects all descendant nodes (child nodes, their child nodes, and so on).</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1058747"></A>
+N/A</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1058643"></A>
+descendant-or-self::</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1058645"></A>
+Selects the current node as well as all descendant nodes (child nodes, their child nodes, and so on).</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1058647"></A>
+//</CodeLeft>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1058649"></A>
+following::</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1058651"></A>
+Selects everything following the current node.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1058653"></A>
+&gt;&gt;</CodeLeft>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1058655"></A>
+following-sibling::</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1058657"></A>
+Selects all sibling nodes (nodes at the same level in the XML hierarchy) that come after the current node. </CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1058861"></A>
+N/A</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1058661"></A>
+namespace::</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1058663"></A>
+Selects the namespace node of the current node.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1058851"></A>
+N/A</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1058667"></A>
+parent::</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1058669"></A>
+Selects the immediate parent of the current node.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1058671"></A>
+..</CodeLeft>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1058673"></A>
+preceding::</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1058675"></A>
+Selects everything before the current node. </CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1058677"></A>
+&lt;&lt;</CodeLeft>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1058679"></A>
+preceding-sibling::</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1058681"></A>
+Selects all sibling nodes (nodes at the same level in the XML hierarchy) that come before the current node.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1058827"></A>
+N/A</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1058710"></A>
+property::</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1058715"></A>
+MarkLogic Server enhancement. Selects the properties fragment corresponding to the current node.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1058717"></A>
+N/A</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1058685"></A>
+self::</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1058687"></A>
+Selects the current node (the context node).</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1058689"></A>
+.</CodeLeft>
+</CELL>
+</ROW>
+</TABLE>
+<Body>
+<A ID="pgfId-1058762"></A>
+Keep in mind the following notes when using the XPath axes:</Body>
+<Body-bullet>
+<A ID="pgfId-1058766"></A>
+XPath expressions are always returned in document order.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1058849"></A>
+Axes that look forward return in document order (closest to farthest away from the context node).</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1058770"></A>
+Axes that look backward return in reverse document order (closest to farthest away from the context node).</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1058771"></A>
+The context node is the node from which XPath steps are evaluated. The context node is sometimes called the current node.</Body-bullet>
+<Heading-2>
+<A ID="pgfId-1058874"></A>
+<A ID="93516"></A>
+XPath 2.0 Functions</Heading-2>
+<Body>
+<A ID="pgfId-1058878"></A>
+The XQuery standard functions are the same as the XPath 2.0 functions. These XQuery-standard functions are all built into MarkLogic Server, and use the namespace bound to the <code>
+fn</code>
+ prefix, which is predefined in MarkLogic Server. For details on these functions, see the <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+ reference. </Body>
+</XML>

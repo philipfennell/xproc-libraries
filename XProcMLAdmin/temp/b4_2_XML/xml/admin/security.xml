@@ -1,0 +1,1324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="security.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1038002"></A>
+<A ID="73923"></A>
+Security Administration</Heading-1>
+<pagenum>
+<A ID="pgfId-1039680"></A>
+213</pagenum>
+<Body>
+<A ID="pgfId-1038003"></A>
+MarkLogic Server uses a role-based security model. A user's privileges and permissions are based on the roles assigned to the user. For background information on understanding the security model in MarkLogic Server, see <Emphasis>
+Understanding and Using Security Guide</Emphasis>
+. This section describes administration tasks related to security, and includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1039805"></A>
+<A href="security.xml#id(69127)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Security Entities</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1039828"></A>
+<A href="security.xml#id(38313)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Users</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1039833"></A>
+<A href="security.xml#id(81112)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Roles</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1039838"></A>
+<A href="security.xml#id(63953)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Execute Privileges</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1039843"></A>
+<A href="security.xml#id(73071)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+URI Privileges</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1039848"></A>
+<A href="security.xml#id(81246)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Amps</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1039853"></A>
+<A href="security.xml#id(43189)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Protected Collections</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1039858"></A>
+<A href="security.xml#id(26453)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Realm</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1051931"></A>
+This chapter describes how to use the Admin Interface to manage security objects. For details on how to manage security objects programmatically, see <A href="../AdminAPI/configure.xml#id(80160)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating and Configuring Roles and Users</Hyperlink>
+</A> and <A href="../AdminAPI/maintenance.xml#id(11687)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+User Maintenance Operations</Hyperlink>
+</A> in the <Emphasis>
+Scripting Administrative Tasks Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1039798"></A>
+<A ID="69127"></A>
+Security Entities</Heading-2>
+<Body>
+<A ID="pgfId-1039812"></A>
+The key entities in MarkLogic Server's security model are:</Body>
+<Body-bullet>
+<A ID="pgfId-1038004"></A>
+User</Body-bullet>
+<Body-indent>
+<A ID="pgfId-1038005"></A>
+A <Emphasis>
+user</Emphasis>
+ within the model has a set of roles. A user has privileges and permissions within the system based on the roles he is given. </Body-indent>
+<Body-bullet>
+<A ID="pgfId-1038006"></A>
+Role</Body-bullet>
+<Body-indent>
+<A ID="pgfId-1038007"></A>
+A <Emphasis>
+role</Emphasis>
+ gives privileges and permissions to a user. A role may inherit from multiple roles. Role inheritance is an 'is-a' relationship.   Hence, an inherited role also has the privileges and permissions of its parent(s). </Body-indent>
+<Body-bullet>
+<A ID="pgfId-1038008"></A>
+Execute Privilege</Body-bullet>
+<Body-indent>
+<A ID="pgfId-1038009"></A>
+An <Emphasis>
+execute privilege</Emphasis>
+ grants authorization to perform a protected action. Only roles (and their inherited roles) specified in the execute privilege can perform the action. </Body-indent>
+<Body-bullet>
+<A ID="pgfId-1038010"></A>
+URI Privilege</Body-bullet>
+<Body-indent>
+<A ID="pgfId-1038011"></A>
+A <Emphasis>
+URI privilege</Emphasis>
+ grants authorization to create a document within a protected base URI. Only roles (and their inherited roles) specified in the URI privilege can create the document within the protected base URI. </Body-indent>
+<Body-bullet>
+<A ID="pgfId-1038012"></A>
+Permission</Body-bullet>
+<Body-indent>
+<A ID="pgfId-1038013"></A>
+A <Emphasis>
+permission</Emphasis>
+ protects a document or a collection.   Each permission associates a single role with a capability (Read, Update, Insert). A protected document or collection has a set of associated permissions.</Body-indent>
+<Body-bullet>
+<A ID="pgfId-1038014"></A>
+Collection</Body-bullet>
+<Body-indent>
+<A ID="pgfId-1038015"></A>
+A <Emphasis>
+collection</Emphasis>
+ groups a set of documents that are related. A document may belong to any number of collections. A collection exists in the system when a document in the system states that it is part of that collection. However, an associated collection object is not created and stored in the Security database unless it is protected.</Body-indent>
+<Body-indent>
+<A ID="pgfId-1038016"></A>
+Permissions created at the collection level apply to the collection but not to documents within the collection. A user needs to have permissions at the both the collection and document level to be able to add documents to or remove documents from a collection.</Body-indent>
+<Body-bullet>
+<A ID="pgfId-1038017"></A>
+Amp</Body-bullet>
+<Body-indent>
+<A ID="pgfId-1038018"></A>
+An <Emphasis>
+amp</Emphasis>
+ gives the User additional roles temporarily while the user is performing a certain task (executing a function). </Body-indent>
+<Body-bullet>
+<A ID="pgfId-1039918"></A>
+Security Entity Relationships</Body-bullet>
+<Body-indent>
+<A ID="pgfId-1040338"></A>
+The following diagram illustrates the relationships between the different entities in the MarkLogic Server security model. </Body-indent>
+<Body>
+<A ID="pgfId-1040458"></A>
+<IMAGE xml:link="simple" href="security-1.gif" show="embed" actuate="auto"/>
+</Body>
+<Body>
+<A ID="pgfId-1040459"></A>
+The remaining sections of this chapter detail the procedures to administer MarkLogic Server security entities. All security administrative tasks are 'hot'-- the changes take effect immediately without a server restart.</Body>
+<Body>
+<A ID="pgfId-1038026"></A>
+Permissions are not administered through the administrative interface and are not described in detail in this document. For more information on using permissions in MarkLogic Server, see the <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1038027"></A>
+<A ID="38313"></A>
+Users</Heading-2>
+<Body>
+<A ID="pgfId-1038028"></A>
+A User has a set of roles. A user has privileges and permissions within the system based on the roles he is given. A user can perform tasks (execute functions) based on his privileges and access data based on his permissions. </Body>
+<Body>
+<A ID="pgfId-1038029"></A>
+Each user has an associated user name and password.   A user also has default collections. When a user creates a document but does not explicitly associate the document with a set of collections, the document is automatically added to the user's default collections. Default permissions can be created for a user. When a user creates a document but does not explicitly set the permissions for the document, the document will be given the user's default permissions.</Body>
+<Body>
+<A ID="pgfId-1038030"></A>
+If security is turned on for an HTTP or XDBC server, all users in the security database will have access to the server. Finer granularity security control to functions in XQuery programs running on the HTTP or XDBC servers are accomplished through the use of <code>
+xdmp:security-assert()</code>
+ within the code. Granular secured access to documents is achieved through the use of permissions associated with each protected document.</Body>
+<Body>
+<A ID="pgfId-1038031"></A>
+Use the following procedures to create, manage and maintain users:</Body>
+<Body-bullet>
+<A ID="pgfId-1038035"></A>
+<A href="security.xml#id(58960)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating a User</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1038039"></A>
+<A href="security.xml#id(42620)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Viewing a User Configuration</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049794"></A>
+<A href="security.xml#id(63257)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Modifying a User Configuration</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1038043"></A>
+<A href="security.xml#id(88896)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Deleting a User</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1038044"></A>
+<A ID="58960"></A>
+Creating a User</Heading-3>
+<Body>
+<A ID="pgfId-1038045"></A>
+Follow these steps to create a user:</Body>
+<Number1>
+<A ID="pgfId-1038046"></A>
+Click the Security icon in the left tree menu.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1038047"></A>
+Click the Users icon.</Number>
+<Number>
+<A ID="pgfId-1040887"></A>
+Click the Create tab. The User Configuration page appears:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1040888"></A>
+<IMAGE xml:link="simple" href="images/new_user.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1040825"></A>
+Enter a name for the user in the username field.</Number>
+<Number>
+<A ID="pgfId-1038054"></A>
+Enter the description for the user (optional).</Number>
+<Number>
+<A ID="pgfId-1038055"></A>
+Enter a password for the user.</Number>
+<Number>
+<A ID="pgfId-1038056"></A>
+Re-enter the password to confirm it.</Number>
+<Number>
+<A ID="pgfId-1038057"></A>
+Under the roles section, check the roles to assign the user.</Number>
+<Number>
+<A ID="pgfId-1038058"></A>
+Create default permissions for this user (optional). Select a role and pair the role with the appropriate capability (read, insert, update). If there are more than 3 default permissions you want to add for this user, you can do so on the next screen after you click OK.</Number>
+<Number>
+<A ID="pgfId-1038059"></A>
+Create default collections for this user (optional). Type in the collection URI for each collection you want to add to the user's default collection. If there are more than 3 default collections you want to add for this user, you can do so on the next screen after you click OK.</Number>
+<Number>
+<A ID="pgfId-1038060"></A>
+Click OK.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1038061"></A>
+The user is now added to the system and the user configuration page appears. If you want to add more default permissions or collections to the user, scroll down to the section for default permissions or collections.</EndList-root>
+<Heading-3>
+<A ID="pgfId-1038062"></A>
+<A ID="42620"></A>
+Viewing a User Configuration</Heading-3>
+<Body>
+<A ID="pgfId-1038063"></A>
+Perform the following steps to view a user's configuration: </Body>
+<Number1>
+<A ID="pgfId-1038064"></A>
+Click the Security icon in the left tree menu.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1038065"></A>
+Click the Users icon.</Number>
+<Number>
+<A ID="pgfId-1038067"></A>
+Locate the name of the user whose settings you want to view, either on the tree menu or on the summary page. </Number>
+<Number>
+<A ID="pgfId-1044989"></A>
+Click the name. The user configuration page appears where you can view the user's configuration:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1040911"></A>
+<IMAGE xml:link="simple" href="images/test_user.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<Heading-3>
+<A ID="pgfId-1038074"></A>
+<A ID="63257"></A>
+Modifying a User Configuration</Heading-3>
+<Body>
+<A ID="pgfId-1049764"></A>
+Perform the following steps to modify the configuration for a user: </Body>
+<Number1>
+<A ID="pgfId-1049762"></A>
+For the user to which you want to modify, view that user's configuration as described in <A href="security.xml#id(42620)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Viewing a User Configuration' on page&#160;192</A>.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1049781"></A>
+Perform any modifications needed to the user's configuration. Modifications might include changing any of the user credentials (including password), adding or removing role assignments, adding or removing default permission settings, or adding or removing default collection settings.</Number>
+<Warning>
+<A ID="pgfId-1049782"></A>
+Making changes to the to the user configuration affects the access control policy for that user, which can either increase or decrease the activities authorized for the user. For more details on how the security system works, see <Emphasis>
+Understanding and Using Security Guide</Emphasis>
+.</Warning>
+<Number>
+<A ID="pgfId-1049783"></A>
+Click OK to save the changes.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1049790"></A>
+The new changes are in effect for all transactions beginning after the user changes are committed.</EndList-root>
+<Heading-3>
+<A ID="pgfId-1049761"></A>
+<A ID="88896"></A>
+Deleting a User</Heading-3>
+<Body>
+<A ID="pgfId-1038646"></A>
+Perform the following steps to delete a user from the security database:</Body>
+<Number1>
+<A ID="pgfId-1038647"></A>
+Click the Security icon in the left tree menu.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1038648"></A>
+Click the Users icon.</Number>
+<Number>
+<A ID="pgfId-1038079"></A>
+Locate the user you want to delete, either on the tree menu or on the summary page. </Number>
+<Number>
+<A ID="pgfId-1045021"></A>
+Click the user name.</Number>
+<Number>
+<A ID="pgfId-1038080"></A>
+Click on the Delete button. </Number>
+<Number>
+<A ID="pgfId-1038081"></A>
+Click OK to confirm deleting the user.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1038082"></A>
+The user is permanently deleted from the security database.</EndList-root>
+<Heading-2>
+<A ID="pgfId-1038083"></A>
+<A ID="81112"></A>
+Roles</Heading-2>
+<Body>
+<A ID="pgfId-1038084"></A>
+MarkLogic Server implements a role-base security model. Therefore, the Role is a central security concept in MarkLogic Server. A role gives a user privileges (both Execute and URI) to perform certain actions in a system. An Execute Privilege allows a user to perform a protected action. A URI Privilege allows a user to create a document under a protected URI. A role also gives a user the permissions to access protected documents. </Body>
+<Body>
+<A ID="pgfId-1038085"></A>
+A role may inherit from multiple roles. The inheritance relationship for roles is an 'is-a' relationship. Therefore, a role gets the privileges and permissions of the roles from which they inherit. </Body>
+<Body>
+<A ID="pgfId-1038086"></A>
+MarkLogic Server is installed with the following default roles:</Body>
+<TableAnchor>
+<A ID="pgfId-1038112"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1045033"></A>
+Role</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1045035"></A>
+Description</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1038093"></A>
+admin</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1038095"></A>
+This role has the privileges and permissions needed to perform administrative tasks. This role has the highest level of access in the system.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1038097"></A>
+admin-builtins</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1038099"></A>
+This role has the privileges needed to call the admin-builtins functions.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1038101"></A>
+filesystem-access</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1038103"></A>
+This role has the privileges to access the filesystem.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1038105"></A>
+merge</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1038107"></A>
+This role has the privileges needed to force a merge in the system.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1038109"></A>
+security</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1038111"></A>
+This role has the privileges to perform all the security-related administrative functions.</CellBody>
+</CELL>
+</ROW>
+</TABLE>
+<Body>
+<A ID="pgfId-1038114"></A>
+While you are able to change the configuration settings of these default roles (except for the <code>
+admin</code>
+ role) or delete any of them, we strongly recommend that you proceed with caution.</Body>
+<Body>
+<A ID="pgfId-1038115"></A>
+A role has default collections. When a user of a role creates a document but does not explicitly associate the document with a set of collections, the document is automatically added to a set of default collections. This set of default collections is the union of the default collections defined for the user, the roles the user has, and the roles from which the user's directly assigned roles inherit. </Body>
+<Body>
+<A ID="pgfId-1038116"></A>
+A role has default permissions. When a user of a role creates a document but does not explicitly set the permissions for the document, the document will be given a set of default permissions. This set of default permissions is the union of the default permissions defined for the user, the roles the user has, and the roles from which the user's directly assigned roles inherit. </Body>
+<Body>
+<A ID="pgfId-1045036"></A>
+For more details about the role-based security model in MarkLogic Server, see <Emphasis>
+Understanding and Using Security Guide</Emphasis>
+.</Body>
+<Body>
+<A ID="pgfId-1038117"></A>
+Use the following procedures to create, manage and maintain roles:</Body>
+<Body-bullet>
+<A ID="pgfId-1038121"></A>
+<A href="security.xml#id(90838)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating a Role</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1038125"></A>
+<A href="security.xml#id(36119)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Viewing a Role</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049823"></A>
+<A href="security.xml#id(92317)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Modifying a Role Configuration</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1038129"></A>
+<A href="security.xml#id(95428)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Deleting a Role</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1038130"></A>
+<A ID="90838"></A>
+Creating a Role</Heading-3>
+<Body>
+<A ID="pgfId-1038131"></A>
+Perform the following steps to create a user. </Body>
+<Number1>
+<A ID="pgfId-1038132"></A>
+Click the Security icon in the left tree menu.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1040950"></A>
+Click the Roles icon.</Number>
+<Number>
+<A ID="pgfId-1040983"></A>
+Click the Create tab. The Role Configuration page appears:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1040987"></A>
+<IMAGE xml:link="simple" href="images/add_role.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1038139"></A>
+Type in a name for role in the role name field.</Number>
+<Number>
+<A ID="pgfId-1038140"></A>
+Type in a description for the role (optional).</Number>
+<Number>
+<A ID="pgfId-1038141"></A>
+Under the roles section, select the roles from which this role will inherit.</Number>
+<Number>
+<A ID="pgfId-1038142"></A>
+Under the execute privileges section, select from the available execute privileges to be associated with the role.</Number>
+<Number>
+<A ID="pgfId-1038143"></A>
+Under the URI privileges section, select from the available URI privileges to be associated with the role.</Number>
+<Number>
+<A ID="pgfId-1038144"></A>
+Create default permissions for this role (optional). Select a role and pair the role with the appropriate capability (read, insert, update). If there are more than 3 default permissions you want to add for this role, you can do so on the next screen after you click OK.</Number>
+<Number>
+<A ID="pgfId-1038145"></A>
+Create default collections for this role (optional). Type in the collection URI for each collection you want to add to the role's default collections. If there are more than 3 default permissions you want to add for this user, you can do so on the next screen after you click OK.</Number>
+<Number>
+<A ID="pgfId-1038146"></A>
+Click OK.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1038147"></A>
+The role is now added to the system and the Role Configuration page appears. If you want to add more default permissions or collections to the role, scroll down to the section for default permissions or collections.</EndList-root>
+<Heading-3>
+<A ID="pgfId-1038148"></A>
+<A ID="36119"></A>
+Viewing a Role</Heading-3>
+<Body>
+<A ID="pgfId-1038149"></A>
+Perform the following steps to create a user. </Body>
+<Number1>
+<A ID="pgfId-1038150"></A>
+Click the Security icon in the left tree menu.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1038151"></A>
+Click the Roles icon.</Number>
+<Number>
+<A ID="pgfId-1038153"></A>
+Click the name of the role you want to view, either on the tree menu or on the summary page. The Role Configuration page appears.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1041019"></A>
+<IMAGE xml:link="simple" href="images/sec_role.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<EndList-root>
+<A ID="pgfId-1038158"></A>
+View the configuration for the role.</EndList-root>
+<Heading-3>
+<A ID="pgfId-1049800"></A>
+<A ID="92317"></A>
+Modifying a Role Configuration</Heading-3>
+<Body>
+<A ID="pgfId-1049801"></A>
+Perform the following steps to modify a role configuration: </Body>
+<Number1>
+<A ID="pgfId-1049802"></A>
+For the role to which you want to modify, view the role configuration as described in <A href="security.xml#id(36119)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Viewing a Role' on page&#160;196</A>.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1049806"></A>
+Perform any modifications needed to the role configuration. Modifications might include adding or removing role assignments, adding or removing default permission settings, or adding or removing default collection settings.</Number>
+<Warning>
+<A ID="pgfId-1049807"></A>
+Making changes to the to the role configuration affects the access control policy for that role, which can either increase or decrease the activities authorized for any users who have that role (either directly or indirectly). For more details on how the security system works, see <Emphasis>
+Understanding and Using Security Guide</Emphasis>
+.</Warning>
+<Number>
+<A ID="pgfId-1049811"></A>
+Click OK to save the changes.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1049812"></A>
+The new changes are in effect for all transactions beginning after the user changes are committed.</EndList-root>
+<Heading-3>
+<A ID="pgfId-1038159"></A>
+<A ID="95428"></A>
+Deleting a Role</Heading-3>
+<Body>
+<A ID="pgfId-1038160"></A>
+You can delete a role from the security database. The system does not check to see if there are any users with that role before deleting it. A deleted role is automatically removed from all users still assigned to that role. Users who were assigned to the deleted role lose the permissions and privileges given by that role. </Body>
+<Body>
+<A ID="pgfId-1045091"></A>
+Perform the following steps to delete a role.</Body>
+<Number1>
+<A ID="pgfId-1038161"></A>
+Click the Security icon in the left tree menu.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1038162"></A>
+Click the Roles icon.</Number>
+<Number>
+<A ID="pgfId-1038164"></A>
+Click the name of the role you want to delete, either on the tree menu or on the summary page.</Number>
+<Number>
+<A ID="pgfId-1038165"></A>
+Click the Delete button.</Number>
+<Number>
+<A ID="pgfId-1038166"></A>
+Click OK to confirm deleting the role.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1038167"></A>
+The role is now deleted from the security database.</EndList-root>
+<Heading-2>
+<A ID="pgfId-1038168"></A>
+<A ID="63953"></A>
+Execute Privileges</Heading-2>
+<Body>
+<A ID="pgfId-1038169"></A>
+An Execute Privilege grants authorization to perform a protected action. An execute privilege specifies a protected action, and the roles that can perform the action. Roles that inherit from the specified roles can also perform the protected action. The protected action is represented as a URI. </Body>
+<Body>
+<A ID="pgfId-1038170"></A>
+Once an execute privilege is created, it is enforced in XQuery programs through the use of <code>
+xdmp:security-assert(&lt;protected-action-uri&gt;, &quot;execute&quot;)</code>
+ in the code.   That is, <code>
+xdmp:security-assert(&lt;protected-action-uri&gt;, &quot;execute&quot;)</code>
+ can be added at the entrance to function or a section of code that has been protected. If the system is executing as a user without the appropriate roles as specified by the execute privilege, an exception is thrown. Otherwise, system satisfies the security-assert condition and proceeds to execute the protected code.</Body>
+<Body>
+<A ID="pgfId-1038171"></A>
+Use the following procedures to create, manage and maintain execute privileges:</Body>
+<Body-bullet>
+<A ID="pgfId-1038175"></A>
+<A href="security.xml#id(65293)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating an Execute Privilege</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1038179"></A>
+<A href="security.xml#id(78968)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Viewing an Execute Privilege</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049862"></A>
+<A href="security.xml#id(29298)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Modifying an Execute Privilege</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1038183"></A>
+<A href="security.xml#id(29158)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Deleting an Execute Privilege</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1038184"></A>
+<A ID="65293"></A>
+Creating an Execute Privilege</Heading-3>
+<Body>
+<A ID="pgfId-1038185"></A>
+Perform the following steps to create an execute privilege: </Body>
+<Number1>
+<A ID="pgfId-1038186"></A>
+Click the Security icon in the left tree menu.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1038187"></A>
+Click on the Execute Privileges icon.</Number>
+<Number>
+<A ID="pgfId-1038188"></A>
+Click the Create tab. The Execute Privilege Configuration page appears:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1041050"></A>
+<IMAGE xml:link="simple" href="images/new_ex_priv.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1038193"></A>
+Enter the name of the execute privilege. Use a name that is descriptive of the action this execute privilege will protect. For example, <code>
+create-user</code>
+ is the name of an execute privilege that gives a role the authorization to create a user.</Number>
+<Number>
+<A ID="pgfId-1038194"></A>
+Enter a protected action, represented as a URI.   You can use any URI but we recommend you follow the conventions for your company. For example, the URI for the <code>
+create-user</code>
+ execute privilege is <code>
+http://marklogic.com/xdmp/privileges/create-user</code>
+.</Number>
+<Number>
+<A ID="pgfId-1038195"></A>
+Under the roles section, select the roles that are allowed to perform the protected action.</Number>
+<Number>
+<A ID="pgfId-1038196"></A>
+Click OK.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1038197"></A>
+The execute privilege is now added to the security database. You can now use the <code>
+xdmp:security-assert()</code>
+ function in your code to associate this privilege with a protected operation.</EndList-root>
+<Heading-3>
+<A ID="pgfId-1038198"></A>
+<A ID="78968"></A>
+Viewing an Execute Privilege</Heading-3>
+<Body>
+<A ID="pgfId-1038199"></A>
+Perform the following steps to view an execute privilege:</Body>
+<Number1>
+<A ID="pgfId-1038200"></A>
+Click the Security icon in the left tree menu.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1038201"></A>
+Click the Execute Privileges icon. The Execute Privileges Summary page appears:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1041076"></A>
+<IMAGE xml:link="simple" href="images/ex_priv_config.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1038207"></A>
+Click on the name of the execute privilege that you want to view.</Number>
+<Number>
+<A ID="pgfId-1038208"></A>
+View the configuration for the execute privilege.</Number>
+</NumberList>
+<Heading-3>
+<A ID="pgfId-1049865"></A>
+<A ID="29298"></A>
+Modifying an Execute Privilege</Heading-3>
+<Body>
+<A ID="pgfId-1049866"></A>
+Perform the following steps to modify an execute privilege: </Body>
+<Number1>
+<A ID="pgfId-1049867"></A>
+For the privilege to which you want to modify, view the configuration as described in <A href="security.xml#id(78968)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Viewing an Execute Privilege' on page&#160;199</A>.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1049871"></A>
+Perform any modifications needed to the privilege (for example, add or remove role assignments).</Number>
+<Warning>
+<A ID="pgfId-1049872"></A>
+Making changes to the to the execute privilege configuration affects the access control policy for that privilege, which can either increase or decrease the activities authorized for any users who have any of assigned roles (either directly or indirectly). For more details on how the security system works, see <Emphasis>
+Understanding and Using Security Guide</Emphasis>
+.</Warning>
+<Number>
+<A ID="pgfId-1049876"></A>
+Click OK to save the changes.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1049877"></A>
+The new changes are in effect for all transactions beginning after the user changes are committed.</EndList-root>
+<Heading-3>
+<A ID="pgfId-1038209"></A>
+<A ID="29158"></A>
+Deleting an Execute Privilege</Heading-3>
+<Body>
+<A ID="pgfId-1038210"></A>
+You can delete an execute privilege from the security database. However, an exception will be thrown when a <code>
+security-assert()</code>
+ on the protected action specified in the deleted execute privilege is encountered. That is, a deleted execute privilege behaves like an execute privilege for which no role has been given access to the protected action. Follow these steps to delete an execute privilege:</Body>
+<Number1>
+<A ID="pgfId-1038211"></A>
+Click the Security icon in the left tree menu.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1038212"></A>
+Click the Execute Privileges icon. The Execute Privileges Summary page appears:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1045245"></A>
+<IMAGE xml:link="simple" href="images/ex_priv_config.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1045269"></A>
+Click the name of the execute privilege that you want to delete.</Number>
+<Number>
+<A ID="pgfId-1045267"></A>
+On the Execute Privileges page for the given privilege, click the Delete button.</Number>
+<Number>
+<A ID="pgfId-1038220"></A>
+Click OK to confirm deleting the execute privilege.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1038221"></A>
+The execute privilege is now deleted from the security database.</EndList-root>
+<Heading-2>
+<A ID="pgfId-1038222"></A>
+<A ID="73071"></A>
+URI Privileges</Heading-2>
+<Body>
+<A ID="pgfId-1038223"></A>
+A URI Privilege grants authorization to create documents under a protected URI. That is, a URI privilege specifies the roles that are allowed to create documents with the protected URI as the base URI (prefix) in the document URI. Roles that inherit from the specified roles can also create the documents under the protected URI.   </Body>
+<Body>
+<A ID="pgfId-1038224"></A>
+Unlike an execute privilege, where <code>
+xdmp:security-assert()</code>
+ needs to be called explicitly to protect a function, a URI privilege is automatically enforced. When <code>
+xdmp:document-insert()</code>
+ is called, the system checks the base URIs (prefix) of the document URI specified to see if they might be protected by a URI privilege. If the base URI has an associated URI privilege, it checks the roles of the user to see if any of the user's roles gives the user authorization to create the document within the protected base URI.   If the user has the requisite authorization, the document is inserted into the database. Otherwise, an exception is thrown. </Body>
+<Body>
+<A ID="pgfId-1038225"></A>
+Use the following procedures to create, manage and maintain URI privileges:</Body>
+<Body-bullet>
+<A ID="pgfId-1038229"></A>
+<A href="security.xml#id(36327)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating a URI Privilege</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1038233"></A>
+<A href="security.xml#id(84784)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Viewing a URI Privilege</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049919"></A>
+<A href="security.xml#id(63787)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Modifying a URI Privilege</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1038237"></A>
+<A href="security.xml#id(18933)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Deleting a URI Privilege</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1038238"></A>
+<A ID="36327"></A>
+Creating a URI Privilege</Heading-3>
+<Body>
+<A ID="pgfId-1038239"></A>
+Perform the following steps to create a URI privilege: </Body>
+<Number1>
+<A ID="pgfId-1038240"></A>
+Click the Security icon in the left tree menu.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1038241"></A>
+Click the URI Privileges icon.</Number>
+<Number>
+<A ID="pgfId-1038242"></A>
+Click on the Create tab. The URI Privilege Configuration page appears:</Number>
+<Number>
+<A ID="pgfId-1038247"></A>
+Enter the name of the URI privilege. Use a name that is descriptive of the base URI to be protected. For example, to restrict the creation of documents under a base URI reserved for the accounting group, you might use the name 'accounting_files'.</Number>
+<Number>
+<A ID="pgfId-1038248"></A>
+In the action field, enter the base URI to be protected. While the base URI does not have to map to an actual directory, it should follow the directory structure convention (for example, <code>
+/myfiles/accounting_files</code>
+). In this example, only the user with this URI privilege can create a file with the URI <code>
+/myfiles/accounting_files/account1.xml</code>
+.</Number>
+<Number>
+<A ID="pgfId-1038249"></A>
+Under the roles section, select the roles that are allowed to create documents under the base URI. </Number>
+<Number>
+<A ID="pgfId-1038250"></A>
+Click OK.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1038251"></A>
+The URI privilege is created and added to the security database.</EndList-root>
+<Heading-3>
+<A ID="pgfId-1038252"></A>
+<A ID="84784"></A>
+Viewing a URI Privilege</Heading-3>
+<Body>
+<A ID="pgfId-1038253"></A>
+Perform the following steps to view a URI privilege:</Body>
+<Number1>
+<A ID="pgfId-1038254"></A>
+Click the Security icon in the left tree menu.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1038255"></A>
+Click the URI Privileges icon. The URI Privileges Summary Page appears:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1041132"></A>
+<IMAGE xml:link="simple" href="images/uri_priv.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1045408"></A>
+Click the name of the URI privilege you want to view.</Number>
+<Number>
+<A ID="pgfId-1045417"></A>
+View the URI privilege.</Number>
+</NumberList>
+<Heading-3>
+<A ID="pgfId-1049922"></A>
+<A ID="63787"></A>
+Modifying a URI Privilege</Heading-3>
+<Body>
+<A ID="pgfId-1049923"></A>
+Perform the following steps to modify an execute privilege: </Body>
+<Number1>
+<A ID="pgfId-1049924"></A>
+For the privilege to which you want to modify, view the configuration as described in <A href="security.xml#id(84784)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Viewing a URI Privilege' on page&#160;202</A>.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1049928"></A>
+Perform any modifications needed to the privilege (for example, add or remove role assignments).</Number>
+<Warning>
+<A ID="pgfId-1049929"></A>
+Making changes to the to the URI privilege configuration affects the access control policy for that privilege, which can either increase or decrease the activities authorized for any users who have any of assigned roles (either directly or indirectly). For more details on how the security system works, see <Emphasis>
+Understanding and Using Security Guide</Emphasis>
+.</Warning>
+<Number>
+<A ID="pgfId-1049933"></A>
+Click OK to save the changes.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1049934"></A>
+The new changes are in effect for all transactions beginning after the user changes are committed.</EndList-root>
+<Heading-3>
+<A ID="pgfId-1038262"></A>
+<A ID="18933"></A>
+Deleting a URI Privilege</Heading-3>
+<Body>
+<A ID="pgfId-1038263"></A>
+You can delete a URI privilege from the security database. Perform the following steps to delete a URI privilege:</Body>
+<Number1>
+<A ID="pgfId-1038264"></A>
+Click the Security icon in the left tree menu.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1045456"></A>
+Click the URI Privileges icon. The URI Privileges Summary Page appears:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1045443"></A>
+<IMAGE xml:link="simple" href="images/uri_priv.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1045464"></A>
+On the URI Privileges page for the given privilege, click the Delete button.</Number>
+<Number>
+<A ID="pgfId-1038272"></A>
+Click OK to confirm deleting the URI privilege.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1038273"></A>
+The URI privilege is now deleted from the security database.</EndList-root>
+<Heading-2>
+<A ID="pgfId-1038274"></A>
+<A ID="81246"></A>
+Amps</Heading-2>
+<Body>
+<A ID="pgfId-1038275"></A>
+An Amp gives the user additional roles temporarily while the user is performing a certain task (executing a function). While the user is executing the 'amp-ed' function, the user receives additional privileges and permissions given by the additional roles. An amp is useful when a user needs additional privileges and permissions only while the user is executing a certain function.</Body>
+<Body>
+<A ID="pgfId-1038276"></A>
+Giving the user additional roles permanently could compromise the security of the system. On the other hand, an amp enables granular security control by limiting the effect of the additional roles (privileges and permissions) to a specific function. For example, a user may need a count of all the documents in the database when the user is creating a report. However, the user does not have read permissions on all the documents in the database, and hence does not know the existence of all the documents in the database. An amp can be created for the <code>
+document-count()</code>
+ function to elevate the user to an <code>
+admin</code>
+ role temporarily while the user is executing the function to count the documents in the system. </Body>
+<Body>
+<A ID="pgfId-1038277"></A>
+An amp is defined by the local name of the function, the namespace and the document URI.   The document URI must begin with a forward slash '/' and is treated as being rooted relative to the Modules directory in the installation path. When resolving an amp, MarkLogic Server looks for the file using a path rooted relative to the Modules directory in the installation path. If it finds a function that matches the local name and namespace using the specified path, it applies the amp to the function. </Body>
+<Body>
+<A ID="pgfId-1045505"></A>
+For more details about amps, see <Emphasis>
+Understanding and Using Security Guide</Emphasis>
+. For examples of amps, look at one of the amps created during installation. To view an amp, follow the instructions in the section <A href="security.xml#id(23251)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Viewing an Amp' on page&#160;206</A>. </Body>
+<Body>
+<A ID="pgfId-1038278"></A>
+Use the following procedures to create, manage and maintain amps:</Body>
+<Body-bullet>
+<A ID="pgfId-1038282"></A>
+<A href="security.xml#id(84774)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating an Amp</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1038286"></A>
+<A href="security.xml#id(23251)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Viewing an Amp</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049949"></A>
+<A href="security.xml#id(50579)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Modifying an Amp</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1038290"></A>
+<A href="security.xml#id(44546)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Deleting an Amp</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1038291"></A>
+<A ID="84774"></A>
+Creating an Amp</Heading-3>
+<Body>
+<A ID="pgfId-1045340"></A>
+To create an amp, Perform the following steps:</Body>
+<Number1>
+<A ID="pgfId-1038293"></A>
+Click the Security icon in the left tree menu.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1038294"></A>
+Click the Amps icon.</Number>
+<Number>
+<A ID="pgfId-1038295"></A>
+Click on the Create tab. The Amp Configuration page appears:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1041221"></A>
+<IMAGE xml:link="simple" href="images/amp_new.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1038300"></A>
+Enter the database in which the function is stored. If the function is stored in the <Emphasis>
+Modules</Emphasis>
+ directory on the filesystem, set the database to <code>
+filesystem</code>
+ (which is the default value).</Number>
+<Number>
+<A ID="pgfId-1041247"></A>
+Enter the local name of the function (without parenthesis) in which the amp takes effect. For example: <code>
+my-function</code>
+.</Number>
+<Number>
+<A ID="pgfId-1038301"></A>
+Enter the namespace in which the function is defined.</Number>
+<Number>
+<A ID="pgfId-1038302"></A>
+Enter the document URI for the document in which the function is defined. This document URI must begin with a forward slash (for example, <code>
+/amped-functions.xqy</code>
+).   The specified document must be placed in the Modules directory within the installation path. For example, if <code>
+/mydir/my-amps.xqy</code>
+ is specified in the document uri, <code>
+my-amps.xqy</code>
+ must be placed in <code>
+&lt;installation-directory&gt;/Modules/mydir</code>
+.</Number>
+<Number>
+<A ID="pgfId-1038303"></A>
+Under the roles section, select the additional roles that will be given to the user while the user is executing the function.</Number>
+<Number>
+<A ID="pgfId-1038304"></A>
+Click OK.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1038305"></A>
+The amp is now added to the security database.</EndList-root>
+<Heading-3>
+<A ID="pgfId-1038306"></A>
+<A ID="23251"></A>
+Viewing an Amp</Heading-3>
+<Body>
+<A ID="pgfId-1038307"></A>
+Perform the following steps to view an amp:</Body>
+<NumberList>
+<Number>
+<A ID="pgfId-1038308"></A>
+Click the Security icon in the left tree menu.</Number>
+<Number>
+<A ID="pgfId-1038309"></A>
+Click the Amps icon. The Amps Summary page appears:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1041184"></A>
+<IMAGE xml:link="simple" href="images/amp_config.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1038315"></A>
+Click on the name of the amp you want to view.</Number>
+<Number>
+<A ID="pgfId-1045567"></A>
+View the amp.</Number>
+</NumberList>
+<Heading-3>
+<A ID="pgfId-1049955"></A>
+<A ID="50579"></A>
+Modifying an Amp</Heading-3>
+<Body>
+<A ID="pgfId-1049956"></A>
+Perform the following steps to modify an amp: </Body>
+<Number1>
+<A ID="pgfId-1049957"></A>
+For the amp to which you want to modify, view the configuration as described in <A href="security.xml#id(23251)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Viewing an Amp' on page&#160;206</A>.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1049961"></A>
+Perform any modifications needed to the amp (for example, add or remove role assignments).</Number>
+<Warning>
+<A ID="pgfId-1049962"></A>
+Making changes to the to the amp configuration affects the access control policy for that amp, which can either increase or decrease the activities authorized for any users who have any of assigned roles (either directly or indirectly). For more details on how the security system works, see <Emphasis>
+Understanding and Using Security Guide</Emphasis>
+.</Warning>
+<Number>
+<A ID="pgfId-1049966"></A>
+Click OK to save the changes.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1049967"></A>
+The new changes are in effect for all transactions beginning after the user changes are committed.</EndList-root>
+<Heading-3>
+<A ID="pgfId-1038316"></A>
+<A ID="44546"></A>
+Deleting an Amp</Heading-3>
+<Body>
+<A ID="pgfId-1038317"></A>
+You can delete an amp from the security database. Perform the following steps to delete an amp:</Body>
+<Number1>
+<A ID="pgfId-1038318"></A>
+Click the Security icon in the left tree menu.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1045604"></A>
+Click the Amps icon. The Amps Summary page appears:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1045590"></A>
+<IMAGE xml:link="simple" href="images/amp_config.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1045608"></A>
+Click on the name of the amp you want to delete.</Number>
+<Number>
+<A ID="pgfId-1045614"></A>
+On the Amp page for the given amp, click the Delete button.</Number>
+<Number>
+<A ID="pgfId-1038326"></A>
+Click OK to confirm deleting the amp.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1038327"></A>
+The amp is now deleted from the security database.</EndList-root>
+<Heading-2>
+<A ID="pgfId-1038328"></A>
+<A ID="43189"></A>
+Protected Collections</Heading-2>
+<Body>
+<A ID="pgfId-1038329"></A>
+A Collection groups a set of documents that are related and enables queries to target subsets of documents within a database efficiently. A document may belong to any number of collections simultaneously. A collection exists in the system when a document in the system states that it is part of that collection. However, an associated collection object is not created and stored in the security database unless it is protected. A collection created through the Admin Interface is a protected collection and is stored in the security database.</Body>
+<Body>
+<A ID="pgfId-1038330"></A>
+Read, Insert, Update, and Execute capabilities apply for permissions on a collection. A user needs to have read permissions for both the collection and the documents to be able to see the documents in the collection by collection. A user needs to have Update permissions for both the collection and the document to be able to add documents to or remove documents from a collection.</Body>
+<Body>
+<A ID="pgfId-1038331"></A>
+Use the following procedures to create, manage and maintain collections:</Body>
+<Body-bullet>
+<A ID="pgfId-1038335"></A>
+<A href="security.xml#id(68339)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating a Protected Collection</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1038339"></A>
+<A href="security.xml#id(43827)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Viewing a Protected Collection</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1038343"></A>
+<A href="security.xml#id(69728)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Removing a Permission from a Protected Collection</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1038347"></A>
+<A href="security.xml#id(32962)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Deleting a Protected Collection</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1038348"></A>
+<A ID="68339"></A>
+Creating a Protected Collection</Heading-3>
+<Body>
+<A ID="pgfId-1038349"></A>
+Perform the following steps to create a protected collection: </Body>
+<Number1>
+<A ID="pgfId-1038350"></A>
+Click the Security icon in the left tree menu.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1038351"></A>
+Click the Collections icon. </Number>
+<Number>
+<A ID="pgfId-1045658"></A>
+Click the Create tab, The Collection Configuration page appears:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1041267"></A>
+<IMAGE xml:link="simple" href="images/coll_new.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1038357"></A>
+Enter the URI for the collection.</Number>
+<Number>
+<A ID="pgfId-1038358"></A>
+In the permissions section, add permissions (role-capability pair) to the collection. Select from the available roles and pick Read, Insert, Update, or Execute capability for the role. If you want to add more than 3 permissions to the role, you can do so from the next screen after you click OK.</Number>
+<Number>
+<A ID="pgfId-1038359"></A>
+Click OK.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1038360"></A>
+The protected collection is added to the database.</EndList-root>
+<Heading-3>
+<A ID="pgfId-1038361"></A>
+<A ID="43827"></A>
+Viewing a Protected Collection</Heading-3>
+<Body>
+<A ID="pgfId-1038362"></A>
+Perform the following steps to view a protected collection: </Body>
+<Number1>
+<A ID="pgfId-1038363"></A>
+Click the Security icon in the left tree menu.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1045639"></A>
+Click the Collections icon. The Collection Summary page appears.</Number>
+<Number>
+<A ID="pgfId-1038366"></A>
+Click the name of the collection you want to view, either on the tree menu or on the summary page. The Collection Configuration page appears.</Number>
+<Number>
+<A ID="pgfId-1038367"></A>
+View the collection.</Number>
+</NumberList>
+<Heading-3>
+<A ID="pgfId-1038368"></A>
+<A ID="69728"></A>
+Removing a Permission from a Protected Collection</Heading-3>
+<Body>
+<A ID="pgfId-1038369"></A>
+Perform the following steps to remove a permission from a protected collection: </Body>
+<Number1>
+<A ID="pgfId-1038370"></A>
+Click the Security icon in the left tree menu.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1045692"></A>
+Click the Collections icon. The Collection Summary page appears.</Number>
+<Number>
+<A ID="pgfId-1045693"></A>
+Click the name of the collection from which you want to remove a permission, either on the tree menu or on the summary page. The Collection Configuration page appears.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1041310"></A>
+<IMAGE xml:link="simple" href="images/coll_configure.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1038378"></A>
+In the permissions section, uncheck the box next to the permission you want to remove.</Number>
+<Number>
+<A ID="pgfId-1038379"></A>
+Click OK.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1038380"></A>
+The permission is removed from the collection.</EndList-root>
+<Heading-3>
+<A ID="pgfId-1038381"></A>
+<A ID="32962"></A>
+Deleting a Protected Collection</Heading-3>
+<Body>
+<A ID="pgfId-1038382"></A>
+Perform the following steps to remove delete a protected collection: </Body>
+<Number1>
+<A ID="pgfId-1038383"></A>
+Click the Security icon in the left tree menu.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1038384"></A>
+Click the Collections icon.</Number>
+<Number>
+<A ID="pgfId-1038386"></A>
+Click the name of the collection you want to delete, either on the tree menu or on the summary page. The Collection Configuration page appears.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1045729"></A>
+<IMAGE xml:link="simple" href="images/coll_configure.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1045183"></A>
+Click on the Delete button near the top right.</Number>
+<Number>
+<A ID="pgfId-1045184"></A>
+Click OK to confirm deleting the collection.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1038393"></A>
+The protected collection is deleted from the security database.</EndList-root>
+<Heading-2>
+<A ID="pgfId-1050209"></A>
+Certificate Templates</Heading-2>
+<Body>
+<A ID="pgfId-1050223"></A>
+A Certificate Template contains the identification information associated with an SSL certificate. See <A href="SSL.xml#id(85783)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Configuring SSL on App Servers</Hyperlink>
+</A> for details.</Body>
+<Heading-2>
+<A ID="pgfId-1038395"></A>
+<A ID="26453"></A>
+Realm</Heading-2>
+<Body>
+<A ID="pgfId-1038396"></A>
+MarkLogic Server stores the realms for application servers in the security database. Each application server takes its realm from the security database to which it is connected. Realms are used in computing digest passwords. </Body>
+<Heading-3>
+<A ID="pgfId-1038397"></A>
+Setting the Realm</Heading-3>
+<Body>
+<A ID="pgfId-1038398"></A>
+The realm is stored in the security database to which the Admin Interface is connected, and is set at installation time:</Body>
+<Body>
+<A ID="pgfId-1041374"></A>
+<IMAGE xml:link="simple" href="images/security_setup.gif" show="embed" actuate="auto"/>
+</Body>
+<Heading-3>
+<A ID="pgfId-1038403"></A>
+Changing the Realm</Heading-3>
+<Body>
+<A ID="pgfId-1038404"></A>
+Changing the realm in the security database invalidates all user digest passwords. This only affects application servers whose <code>
+authentication</code>
+ setting is digest or digestbasic mode. </Body>
+<Body>
+<A ID="pgfId-1038405"></A>
+In digest mode, you need to re-enter all user passwords in the security database. Changing the passwords in the security database will cause the server to recalculate the digest passwords. In digestbasic mode, the first time a user logs into the server after the realm is changed, the user will be prompted to enter their passwords multiple times before they are logged into the system. However, the server will automatically recalculate their digest password with the new realm at that time, and they will have a normal login process for future access.</Body>
+<WarningList>
+<Warning>
+<A ID="pgfId-1050016"></A>
+If you change the realm, any App Servers that uses digest authentication will no longer accept the existing passwords. This includes the Admin Interface, and includes passwords for users with the <code>
+admin</code>
+ role. Therefore, changing the realm will make it so you can no longer log into the Admin Interface. </Warning>
+</WarningList>
+<Body>
+<A ID="pgfId-1038406"></A>
+If you are sure you want to change the realm after installation, perform the following steps (note the warning above, however):</Body>
+<Number1>
+<A ID="pgfId-1038407"></A>
+Click Security in the left tree menu.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1041497"></A>
+Click the Configure tab. The Security Configuration page appears.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1041498"></A>
+<IMAGE xml:link="simple" href="images/security_config.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1038413"></A>
+Change the realm to the desired value.</Number>
+<Number>
+<A ID="pgfId-1038414"></A>
+Click OK.</Number>
+<Number>
+<A ID="pgfId-1038415"></A>
+Click OK again on the confirmation page. Note that this will invalidate all digest passwords, including the password for the current user running the Admin Interface if the Admin Interface App Server is set to digest authentication (which is the default setting).</Number>
+</NumberList>
+</XML>

@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="locks.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1044036"></A>
+Document and Directory Locks</Heading-1>
+<pagenum>
+<A ID="pgfId-1046466"></A>
+97</pagenum>
+<Body>
+<A ID="pgfId-1045598"></A>
+This chapter describes locks on documents and directories, and includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1045599"></A>
+<A href="locks.xml#id(73460)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Overview of Locks</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1045603"></A>
+<A href="locks.xml#id(69119)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Lock APIs</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1045922"></A>
+<A href="locks.xml#id(45411)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Example: Finding the URI of Documents With Locks</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1045927"></A>
+<A href="locks.xml#id(36145)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Example: Setting a Lock on a Document</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1046441"></A>
+<A href="locks.xml#id(31579)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Example: Releasing a Lock on a Document</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1046260"></A>
+<A href="locks.xml#id(63770)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Example: Finding the User to Whom a Lock Belongs</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1045604"></A>
+<A ID="73460"></A>
+Overview of Locks</Heading-2>
+<Body>
+<A ID="pgfId-1045608"></A>
+Each document and directory can have a <Emphasis>
+lock.</Emphasis>
+ A lock is stored as a locks document in a MarkLogic Server database. The locks document is separate from the document or directory to which it is associated. Locks have the following characteristics:</Body>
+<Body-bullet>
+<A ID="pgfId-1045644"></A>
+<A href="locks.xml#id(98423)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Write Locks</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1045648"></A>
+<A href="locks.xml#id(49848)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Persistent</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1045649"></A>
+<A href="locks.xml#id(41134)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Searchable</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1045650"></A>
+<A href="locks.xml#id(52465)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Exclusive or Shared</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1045651"></A>
+<A href="locks.xml#id(50106)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Hierarchical</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1045894"></A>
+<A href="locks.xml#id(73480)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Locks and WebDAV</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1046193"></A>
+<A href="locks.xml#id(56652)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Other Uses for Locks</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1045652"></A>
+<A ID="98423"></A>
+Write Locks</Heading-3>
+<Body>
+<A ID="pgfId-1046371"></A>
+Locks are write locks; they restrict updates from all users who do not have the locks. When a user has an exclusive lock, no other users can get a lock and no other users can update or delete the document. Attempts to update or delete documents that have locks raise an error. Other users can still read documents that have locks, however.</Body>
+<Heading-3>
+<A ID="pgfId-1046373"></A>
+<A ID="49848"></A>
+Persistent</Heading-3>
+<Body>
+<A ID="pgfId-1045659"></A>
+Locks are persistent in the database. They are not tied to a transaction. You can set locks to last a specified time period or to last indefinitely. Because they are persistent, you can use locks to ensure that a document is not modified during a multi-transaction operation.</Body>
+<Heading-3>
+<A ID="pgfId-1045663"></A>
+<A ID="41134"></A>
+Searchable</Heading-3>
+<Body>
+<A ID="pgfId-1045664"></A>
+Because locks are persistent XML documents, they are therefore searchable XML documents, and you can write queries to give information about locks in the database. For an example, see <A href="locks.xml#id(45411)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Example: Finding the URI of Documents With Locks' on page&#160;95</A>.</Body>
+<Heading-3>
+<A ID="pgfId-1045668"></A>
+<A ID="52465"></A>
+Exclusive or Shared</Heading-3>
+<Body>
+<A ID="pgfId-1045669"></A>
+You can set locks as <code>
+exclusive</code>
+, which means only the user who set the lock can update the associated database object (document, directory, or collection). You can also set locks as <code>
+shared</code>
+, which means other users can obtain a shared lock on the database object; once a user has a <code>
+shared</code>
+ lock on an object, the user can update it.</Body>
+<Heading-3>
+<A ID="pgfId-1045673"></A>
+<A ID="50106"></A>
+Hierarchical</Heading-3>
+<Body>
+<A ID="pgfId-1045674"></A>
+When you are locking a directory, you can specify the depth in a directory hierarchy you want to lock. Specifying <code>
+&quot;0&quot;</code>
+ means only the specified URI is locked, and specifying <code>
+&quot;infinity&quot;</code>
+ means the URI (for example, the directory) and all of its children are locked.</Body>
+<Heading-3>
+<A ID="pgfId-1046028"></A>
+<A ID="73480"></A>
+Locks and WebDAV</Heading-3>
+<Body>
+<A ID="pgfId-1046036"></A>
+WebDAV clients use locks to lock documents and directories before updating them. Locking ensures that no other clients will change the document while it is being saved. It is up to the implementation of a WebDAV client as to how it sets locks. Some clients set the locks to expire after a time period and some set them to last until they explicitly unlock the document.</Body>
+<Heading-3>
+<A ID="pgfId-1046049"></A>
+<A ID="56652"></A>
+Other Uses for Locks</Heading-3>
+<Body>
+<A ID="pgfId-1046037"></A>
+Any application can use locks as part of its update strategy. For example, you can have a policy that a developer sets a lock for 30 seconds before performing an update to a document or directory. Locks are very flexible, so you can set up a policy that makes sense for your environment, or you can choose not to use them at all.</Body>
+<Body>
+<A ID="pgfId-1046054"></A>
+If you set a lock on every document and directory in the database, that can have the effect of not allowing any data to change in the database (except by the user who owns the lock). Combining a application development practice of locking and using security permissions effectively can provide a robust multi-user development environment.</Body>
+<Heading-2>
+<A ID="pgfId-1045826"></A>
+<A ID="69119"></A>
+Lock APIs</Heading-2>
+<Body>
+<A ID="pgfId-1045613"></A>
+There are basically two kinds of APIs for locks: APIs to show locks and APIs to set/remove locks. For detailed syntax for these APIs, see the online XQuery Built-In and Module Function Reference.</Body>
+<Body>
+<A ID="pgfId-1045714"></A>
+The APIs to show locks are:</Body>
+<Body-bullet>
+<A ID="pgfId-1045367"></A>
+<code>
+xdmp:document-locks</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1045704"></A>
+<code>
+xdmp:directory-locks</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1045705"></A>
+<code>
+xdmp:collection-locks</code>
+</Body-bullet>
+<Body>
+<A ID="pgfId-1045787"></A>
+The <code>
+xdmp:document-locks()</code>
+ function with no arguments returns a sequence of locks, one for each document lock. The <code>
+xdmp:document-locks()</code>
+ function with a sequence of URIs as an argument returns the locks for the specified document(s). The <code>
+xdmp:directory-locks</code>
+ function returns locks for all of the documents in the specified directory, and the <code>
+xdmp:collection-locks</code>
+ function returns all of the locks for documents in the specified collection. </Body>
+<Body>
+<A ID="pgfId-1045720"></A>
+You can set and remove locks on directories and documents with the following functions:</Body>
+<Body-bullet>
+<A ID="pgfId-1045715"></A>
+<code>
+xdmp:lock-acquire</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1045729"></A>
+<code>
+xdmp:lock-release</code>
+</Body-bullet>
+<Body>
+<A ID="pgfId-1046146"></A>
+The basic procedure to set a lock on a document or a directory is to submit a query using the <code>
+xdmp:lock-acquire</code>
+ function, specifying the URI, the scope of lock requested (<code>
+exclusive</code>
+ or <code>
+shared</code>
+), the hierarchy affected by the lock (just the URI or the URI and all of its children), the owner of the lock, the duration of the lock</Body>
+<Note>
+<A ID="pgfId-1046169"></A>
+The <code>
+owner</code>
+ of the lock is not the same as the <code>
+sec:user-id</code>
+ of the lock. The <code>
+owner</code>
+ can be specified as an option to <code>
+xdmp:lock-acquire</code>
+. If owner is not explicitly specified, then the owner defaults to the name of the user who issued the lock command. For an example, see <A href="locks.xml#id(63770)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Example: Finding the User to Whom a Lock Belongs' on page&#160;97</A>.</Note>
+<Heading-2>
+<A ID="pgfId-1045737"></A>
+<A ID="45411"></A>
+Example: Finding the URI of Documents With Locks</Heading-2>
+<Body>
+<A ID="pgfId-1045743"></A>
+If you call the XQuery built-in <code>
+xdmp:node-uri</code>
+ function on a locks document, it returns the URI of the document that is locked. The following query returns a document listing the URIs of all documents in the database that have locks.</Body>
+<Code>
+<A ID="pgfId-1045754"></A>
+&lt;root&gt;
+{
+for $locks in xdmp:document-locks()
+return &lt;document-URI&gt;{xdmp:node-uri($locks)}&lt;/document-URI&gt;
+}
+&lt;/root&gt;</Code>
+<Body>
+<A ID="pgfId-1045773"></A>
+For example, if the only document in the database with a lock has a URI <code>
+/document/myDocument.xml</code>
+, then the above query would return the following.</Body>
+<Code>
+<A ID="pgfId-1045766"></A>
+&lt;root&gt;
+&#160;&#160;&lt;document-URI&gt;/documents/myDocument.xml&lt;/document-URI&gt;
+&lt;/root&gt;</Code>
+<Heading-2>
+<A ID="pgfId-1045876"></A>
+<A ID="36145"></A>
+Example: Setting a Lock on a Document</Heading-2>
+<Body>
+<A ID="pgfId-1045883"></A>
+The following example uses the <code>
+xdmp:lock-acquire</code>
+ function to set a two minute (120 second) lock on a document with the specified URI:</Body>
+<Code>
+<A ID="pgfId-1045874"></A>
+xdmp:lock-acquire(&quot;/documents/myDocument.xml&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;exclusive&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;0&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;Raymond is editing this document&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;xs:unsignedLong(120))</Code>
+<Body>
+<A ID="pgfId-1045961"></A>
+You can view the resulting lock document with the <code>
+xdmp:document-locks</code>
+ function as follows:</Body>
+<Code>
+<A ID="pgfId-1050153"></A>
+xdmp:document-locks(&quot;/documents/myDocument.xml&quot;)
+
+=&gt;
+
+&lt;lock:lock xmlns:lock=&quot;http://marklogic.com/xdmp/lock&quot;&gt;
+&#160;&#160;&lt;lock:lock-type&gt;write&lt;/lock:lock-type&gt;
+&#160;&#160;&lt;lock:lock-scope&gt;exclusive&lt;/lock:lock-scope&gt;
+&#160;&#160;&lt;lock:active-locks&gt;
+&#160;&#160;&#160;&#160;&lt;lock:active-lock&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;lock:depth&gt;0&lt;/lock:depth&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;lock:owner&gt;Raymond is editing this document&lt;/lock:owner&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;lock:timeout&gt;120&lt;/lock:timeout&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;lock:lock-token&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;http://marklogic.com/xdmp/locks/4d0244560cc3726c
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;/lock:lock-token&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;lock:timestamp&gt;1121722103&lt;/lock:timestamp&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;sec:user-id xmlns:sec=&quot;http://marklogic.com/xdmp/security&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;8216129598321388485
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;/sec:user-id&gt;
+&#160;&#160;&#160;&#160;&lt;/lock:active-lock&gt;
+&#160;&#160;&lt;/lock:active-locks&gt;
+&lt;/lock:lock&gt;</Code>
+<Heading-2>
+<A ID="pgfId-1050185"></A>
+<A ID="31579"></A>
+Example: Releasing a Lock on a Document</Heading-2>
+<Body>
+<A ID="pgfId-1046427"></A>
+The following example uses the <code>
+xdmp:lock-release</code>
+ function to explicitly release a lock on a document:</Body>
+<Code>
+<A ID="pgfId-1046428"></A>
+xdmp:lock-release(&quot;/documents/myDocument.xml&quot;)</Code>
+<Body>
+<A ID="pgfId-1046434"></A>
+If you acquire a lock with no timeout period, be sure to release the lock when you are done with it. If you do not release the lock, no other users can update any documents or directories locked by the <code>
+xdmp:lock-acquire</code>
+ action..</Body>
+<Heading-2>
+<A ID="pgfId-1046419"></A>
+<A ID="63770"></A>
+Example: Finding the User to Whom a Lock Belongs</Heading-2>
+<Body>
+<A ID="pgfId-1046205"></A>
+Because locks are documents, you can write a query that finds the user to whom a lock belongs. For example, the following query searches through the <code>
+sec:user-id</code>
+ elements of the lock documents and returns a set of URI names and user IDs of the user who owns each lock:</Body>
+<Code>
+<A ID="pgfId-1046217"></A>
+for $x in xdmp:document-locks()//sec:user-id
+return  &lt;lock&gt;
+           &lt;URI&gt;{xdmp:node-uri($x)}&lt;/URI&gt;
+           &lt;user-id&gt;{data($x)}&lt;/user-id&gt;
+        &lt;/lock&gt;</Code>
+<Body>
+<A ID="pgfId-1046230"></A>
+A sample result is as follows (this result assumes there is only a single lock in the database):</Body>
+<Code>
+<A ID="pgfId-1046237"></A>
+&lt;lock&gt; 
+  &lt;URI&gt;/documents/myDocument.xml&lt;/URI&gt; 
+  &lt;user-id&gt;15025067637711025979&lt;/user-id&gt; 
+&lt;/lock&gt;</Code>
+</XML>

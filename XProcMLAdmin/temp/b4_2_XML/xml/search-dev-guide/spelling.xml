@@ -1,0 +1,569 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="spelling.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1044036"></A>
+<A ID="88029"></A>
+Using the Spelling Correction Functions</Heading-1>
+<pagenum>
+<A ID="pgfId-1045705"></A>
+170</pagenum>
+<Body>
+<A ID="pgfId-1044037"></A>
+MarkLogic Server includes functions that enable applications to provide spelling capabilities. Spelling applications use dictionary documents to find possible misspellings for words entered by a user. A common example application will prompt a user for words that might be misspelled. For example, if a user enters a search for the word <Emphasis>
+albetros</Emphasis>
+, an application that uses the spelling correction functions might prompt the user if she means <Emphasis>
+albatross</Emphasis>
+. </Body>
+<Body>
+<A ID="pgfId-1044038"></A>
+This chapter describes how to use the spelling correction functions and contains the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1044042"></A>
+<A href="spelling.xml#id(78999)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Overview of Spelling Correction</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1045615"></A>
+<A href="spelling.xml#id(35716)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+The Spelling Dictionary Management Module Functions</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044046"></A>
+<A href="spelling.xml#id(15383)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Function Reference</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044050"></A>
+<A href="spelling.xml#id(15286)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Dictionary Documents</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044054"></A>
+<A href="spelling.xml#id(95787)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Capitalization</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044058"></A>
+<A href="spelling.xml#id(22906)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Managing Dictionary Documents</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044062"></A>
+<A href="spelling.xml#id(28692)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Testing if a Word is Spelled Correctly</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053885"></A>
+<A href="spelling.xml#id(91856)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Getting Spelling Suggestions for Incorrectly Spelled Words</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1045611"></A>
+<A ID="78999"></A>
+Overview of Spelling Correction</Heading-2>
+<Body>
+<A ID="pgfId-1045612"></A>
+The spelling correction functions enable you to create applications that check if words are spelled correctly. It uses one or more dictionaries that you load into the database and checks words against a dictionary you specify. You can control everything about what words are in the dictionary. There are functions to manage the dictionaries, check spelling, and suggest words for misspellings. </Body>
+<Heading-2>
+<A ID="pgfId-1044070"></A>
+<A ID="15383"></A>
+Function Reference</Heading-2>
+<Body>
+<A ID="pgfId-1053568"></A>
+The reference information for the spelling module functions is included in the <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+ available through <Hyperlink>
+<A href="http://developer.marklogic.com/pubs/" xml:link="simple" show="replace" actuate="user" CLASS="URL">developer.marklogic.com</A></Hyperlink>
+. The spelling functions are divided into the following categories:</Body>
+<Body-bullet>
+<A ID="pgfId-1053725"></A>
+<A href="spelling.xml#id(36947)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+The Spelling Built-In Functions</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053739"></A>
+<A href="spelling.xml#id(35716)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+The Spelling Dictionary Management Module Functions</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1053629"></A>
+<A ID="36947"></A>
+The Spelling Built-In Functions</Heading-3>
+<Body>
+<A ID="pgfId-1053643"></A>
+The spelling correction functions are built-in functions and do not require the <code>
+import module</code>
+ statement in the XQuery prolog. The following are the spelling correction functions:</Body>
+<Body-bullet>
+<A ID="pgfId-1053656"></A>
+<code>
+spell:is-correct</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053670"></A>
+<code>
+spell:suggest</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053682"></A>
+<code>
+spell:suggest-detailed</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053694"></A>
+<code>
+spell:double-metaphone</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053712"></A>
+<code>
+spell:levenshtein-distance</code>
+</Body-bullet>
+<Body>
+<A ID="pgfId-1053754"></A>
+The <code>
+spell:double-metaphone</code>
+ and <code>
+spell:levenshtein-distance</code>
+ functions return the raw values from which <code>
+spell:suggest</code>
+, <code>
+spell:suggest-detailed</code>
+, and <code>
+spell:is-correct</code>
+ calculate their values. </Body>
+<Body>
+<A ID="pgfId-1053792"></A>
+The difference between <code>
+spell:suggest</code>
+ and <code>
+spell:suggest-detailed</code>
+ is that <code>
+spell:suggest-detailed</code>
+ provides some of the information used in calculating the suggestions, and it returns in in an XML representaiton (whereas <code>
+spell:suggest</code>
+ returns a sequence of suggested words). For most spelling applications, <code>
+spell:suggest</code>
+ is sufficient, but if you want finer control of the suggestions you provide (for example, if you want to calculate your own order of returning the suggestions), you can use <code>
+spell:suggest-detailed</code>
+ and then filter on some of the criteria returned in its XML output.</Body>
+<Heading-3>
+<A ID="pgfId-1053605"></A>
+<A ID="35716"></A>
+The Spelling Dictionary Management Module Functions</Heading-3>
+<Body>
+<A ID="pgfId-1053584"></A>
+There is an XQuery module to perform management of dictionary documents. The spelling correction dictionary management functions are installed into the following XQuery module file:</Body>
+<Body-bullet>
+<A ID="pgfId-1053585"></A>
+<Emphasis>
+install_dir</Emphasis>
+<code>
+/Modules/MarkLogic/spell.xqy</code>
+</Body-bullet>
+<Body>
+<A ID="pgfId-1053589"></A>
+where <Emphasis>
+install_dir</Emphasis>
+ is the directory in which MarkLogic Server is installed. The functions in the spelling module use the <code>
+spell:</code>
+ namespace prefix, which is predefined in the server. To use the functions in this module, include the module declaration in the prolog of your XQuery program as follows:</Body>
+<CodeLeft>
+<A ID="pgfId-1053590"></A>
+import module &quot;http://marklogic.com/xdmp/spell&quot; at &quot;/MarkLogic/spell.xqy&quot;;</CodeLeft>
+<Heading-2>
+<A ID="pgfId-1053572"></A>
+<A ID="15286"></A>
+Dictionary Documents</Heading-2>
+<Body>
+<A ID="pgfId-1053576"></A>
+Any dictionary documents loaded into MarkLogic Server must have the following basic structure:</Body>
+<Code>
+<A ID="pgfId-1044079"></A>
+<code>
+&lt;dictionary xmlns=&quot;http://marklogic.com/xdmp/spell&quot;&gt;
+&#160;&#160;&#160;&#160;&lt;metadata&gt;
+&#160;&#160;&#160;&#160;&lt;/metadata&gt;
+&#160;&#160;&#160;&#160;&lt;word&gt;&lt;/word&gt;
+&#160;&#160;&#160;&#160;&lt;word&gt;&lt;/word&gt;
+&#160;&#160;&#160;&#160;......
+&lt;/dictionary&gt;</code>
+</Code>
+<Body>
+<A ID="pgfId-1044080"></A>
+There are sample dictionary documents available on <Hyperlink>
+<A href="http://developer.marklogic.com/" xml:link="simple" show="replace" actuate="user" CLASS="URL">developer.marklogic.com</A></Hyperlink>
+. You can use these documents or create your own dictionaries. You can also use the <code>
+spell:make-dictionary</code>
+ spelling management function to create a dictionary document, and then use <code>
+spell:load</code>
+ to load the dictionary into the database.</Body>
+<Heading-2>
+<A ID="pgfId-1044082"></A>
+<A ID="95787"></A>
+Capitalization</Heading-2>
+<Body>
+<A ID="pgfId-1044083"></A>
+The spelling lookup functions (<code>
+spell:is-correct</code>
+, <code>
+spell:suggest</code>
+, and <code>
+spell:suggest-detailed</code>
+) are case-sensitive, so case is important for words in a dictionary. Additionally, there are some special rules to handle the first character in a spelling lookup. The following are the capitalization rules for the spelling correction functions:</Body>
+<Body-bullet>
+<A ID="pgfId-1044906"></A>
+A capital first letter in a spelling lookup query does not make the spelling incorrect for <code>
+spell:is-correct</code>
+. For example, <Emphasis>
+Word</Emphasis>
+ will match an entry for <Emphasis>
+word</Emphasis>
+ in the dictionary.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1045649"></A>
+If a word has the first letter capitalized in the dictionary, then only exact matches will be correct for <code>
+spell:is-correct</code>
+. For example, if <Emphasis>
+Word</Emphasis>
+ is in the dictionary, then <Emphasis>
+word</Emphasis>
+ is incorrect.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1045650"></A>
+If a word has other letters capitalized in the dictionary, then only exact matches (or exact matches except for the case of the first letter in the word) will match for <code>
+spell:is-correct</code>
+.. For example, <Emphasis>
+word</Emphasis>
+ will not match an entry for <Emphasis>
+woRd</Emphasis>
+, nor will <Emphasis>
+WOrd</Emphasis>
+, but <Emphasis>
+WoRd</Emphasis>
+ will match.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044963"></A>
+The <code>
+spell:suggest</code>
+ function (and the <code>
+spell:suggest-detailed</code>
+ function) observes the capitalization of the first letter only. For example, <code>
+spell:suggest(&quot;THe&quot;)</code>
+ will return <Emphasis>
+The</Emphasis>
+, <Emphasis>
+Thee</Emphasis>
+, <Emphasis>
+They</Emphasis>
+, and so on as suggestions, while <code>
+spell:suggest(&quot;tHe&quot;)</code>
+ will give <Emphasis>
+the</Emphasis>
+, <Emphasis>
+thee</Emphasis>
+, <Emphasis>
+they</Emphasis>
+, and so on. In other words, if you capitalize the first letter of the argument to the <code>
+spell:suggest</code>
+ function, the suggestions will all begin with a capital letter. Otherwise, you will get lowercase suggestions. </Body-bullet>
+<Body>
+<A ID="pgfId-1045534"></A>
+If you want your applications to ignore case, then you should create a dictionary with all lowercase words and lowercase (using the XQuery <code>
+fn:lower-case</code>
+ function, for example) the word arguments of all <code>
+spell:is-correct</code>
+ and <code>
+spell:suggest</code>
+ functions before submitting your queries. </Body>
+<Heading-2>
+<A ID="pgfId-1044086"></A>
+<A ID="22906"></A>
+Managing Dictionary Documents</Heading-2>
+<Body>
+<A ID="pgfId-1044087"></A>
+You can have any number of dictionary documents in a database. You can also add to or modify any dictionary documents that already exist. This section describes how to load and update dictionary documents, and contains the following topics:</Body>
+<Body-bullet>
+<A ID="pgfId-1044091"></A>
+<A href="spelling.xml#id(61221)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Loading Dictionary Documents</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044095"></A>
+<A href="spelling.xml#id(23525)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Loading one of the Sample XML Dictionaries</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044099"></A>
+<A href="spelling.xml#id(69405)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Updating a Dictionary Document</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044103"></A>
+<A href="spelling.xml#id(65826)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Security Considerations With Dictionary Documents</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1044105"></A>
+<A ID="61221"></A>
+Loading Dictionary Documents</Heading-3>
+<Body>
+<A ID="pgfId-1044106"></A>
+To use a dictionary in a query, use the <code>
+spell:load</code>
+ function or the <code>
+spell:insert</code>
+ function to load a document as a dictionary. For example, to load a dictionary document with a URI <code>
+/mySpell/spell.xml</code>
+, execute a query similar to the following:</Body>
+<CodeLeft>
+<A ID="pgfId-1044107"></A>
+xquery version &quot;1.0-ml&quot;;
+import module &quot;http://marklogic.com/xdmp/spell&quot; at &quot;/MarkLogic/spell.xqy&quot;;
+
+spell:load(&quot;c:\dictionaries\spell.xml&quot;, &quot;/mySpell/spell.xml&quot;)</CodeLeft>
+<Body>
+<A ID="pgfId-1044108"></A>
+This XQuery adds all of the <code>
+&lt;word&gt;</code>
+ elements from the <code>
+c:\dictionaries\spell.xml</code>
+ file to a dictionary with the URI <code>
+/mySpell/spell.xml</code>
+. If the document already exists, then it is overwritten with the new content from the specified file.</Body>
+<Heading-3>
+<A ID="pgfId-1044110"></A>
+<A ID="23525"></A>
+Loading one of the Sample XML Dictionaries</Heading-3>
+<Body>
+<A ID="pgfId-1044111"></A>
+You can download a sample dictionary from the MarkLogic Developer site (<Hyperlink>
+<A href="http://developer.marklogic.com/code#dictionaries" xml:link="simple" show="replace" actuate="user" CLASS="URL">developer.marklogic.com/code#dictionaries</A></Hyperlink>
+). The developer site sample include a small, medium, and large version of the dictionary. Once you download the dictionary XML file, you can load it as a dictionary document using the <code>
+spell:load</code>
+ function. </Body>
+<Body>
+<A ID="pgfId-1044112"></A>
+Perform the following steps to download and load a sample dictionary:</Body>
+<Number1>
+<A ID="pgfId-1045083"></A>
+Go to the <Emphasis>
+Workshop</Emphasis>
+ page of developer.marklogic.com:</Number1>
+<Code>
+<A ID="pgfId-1045084"></A>
+<A href="http://developer.marklogic.com/code/#dictionaries" xml:link="simple" show="replace" actuate="user" CLASS="URL">http://developer.marklogic.com/code/#dictionaries</A></Code>
+<NumberList>
+<Number>
+<A ID="pgfId-1045085"></A>
+Navigate to the dictionary document section:</Number>
+</NumberList>
+<Code>
+<A ID="pgfId-1053459"></A>
+<A href="http://xqzone.marklogic.com/svn/dictionaries/trunk/dictionaries/" xml:link="simple" show="replace" actuate="user" CLASS="URL">http://xqzone.marklogic.com/svn/dictionaries/trunk/dictionaries/</A></Code>
+<NumberList>
+<Number>
+<A ID="pgfId-1053470"></A>
+Choose the <code>
+small-dictionary.xml</code>
+, <code>
+medium-dictionary.xml</code>
+, or <code>
+large-dictionary.xml</code>
+ file. The large dictionary has approximately 100,000 words and is about 3 MB to download. </Number>
+<Number>
+<A ID="pgfId-1045086"></A>
+Save <code>
+&lt;size&gt;-dictionary.xml</code>
+ to a file (for example, <code>
+c:\dictionaries\spell.xml</code>
+).</Number>
+<Number>
+<A ID="pgfId-1044116"></A>
+Load the dictionary with a command similar to the following:</Number>
+</NumberList>
+<Code>
+<A ID="pgfId-1044117"></A>
+xquery version &quot;1.0-ml&quot;;
+import module &quot;http://marklogic.com/xdmp/spell&quot; at
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;/MarkLogic/spell.xqy&quot;;
+
+spell:load(&quot;c:\dictionaries\spell.xml&quot;, &quot;/mySpell/spell.xml&quot;)</Code>
+<EndList-root>
+<A ID="pgfId-1044118"></A>
+This loads the dictionary with a URI of /mySpell/spell<code>
+.xml</code>
+. You can now use this URI with the spelling correction module functions.</EndList-root>
+<Heading-3>
+<A ID="pgfId-1044120"></A>
+<A ID="69405"></A>
+Updating a Dictionary Document</Heading-3>
+<Body>
+<A ID="pgfId-1044121"></A>
+Use the following dictionary functions to modify existing dictionary documents:</Body>
+<Body-bullet>
+<A ID="pgfId-1044122"></A>
+<code>
+spell:add-word</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044123"></A>
+<code>
+spell:remove-word</code>
+</Body-bullet>
+<Body>
+<A ID="pgfId-1044126"></A>
+The <code>
+spell:insert</code>
+ function will overwrite an existing dictionary if you specify an existing dictionary document (as well as creates a new one if one does not exist at the specified URI).</Body>
+<Note>
+<A ID="pgfId-1044127"></A>
+The transactional unit in MarkLogic Server is a query; therefore, if you are performing multiple updates to the same dictionary document, be sure to perform those updates as part of separate queries. You can place a semi-colon between the update statements to start a new query (and therefore a new transaction). If you use a semicolon to start any new queries that uses spelling correction functions, each query must include the <code>
+import</code>
+ statement in the prolog to resolve the spelling module.</Note>
+<Heading-4>
+<A ID="pgfId-1045227"></A>
+Example: Adding a New Word to a Dictionary</Heading-4>
+<Body>
+<A ID="pgfId-1045228"></A>
+The following XQuery uses the <code>
+spell:add-word</code>
+ function to add an entry for <Emphasis>
+albatross</Emphasis>
+ to the dictionary with URI /mySpell/Spell<code>
+.xml</code>
+:</Body>
+<Code>
+<A ID="pgfId-1045229"></A>
+xquery version &quot;1.0-ml&quot;;
+import module &quot;http://marklogic.com/xdmp/spell&quot; at
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;/MarkLogic/spell.xqy&quot;;
+
+spell:add-word(&quot;/mySpell/spell.xml&quot;, &quot;albatross&quot;)</Code>
+<Body>
+<A ID="pgfId-1045230"></A>
+If the <code>
+/mySpell/spell.xml</code>
+ dictionary has an identical entry, there will be no change to the dictionary. Otherwise, an entry for <Emphasis>
+albatross</Emphasis>
+ is added to the dictionary.</Body>
+<Heading-4>
+<A ID="pgfId-1045231"></A>
+Example: Removing a Word From a Dictionary</Heading-4>
+<Body>
+<A ID="pgfId-1045344"></A>
+The following XQuery uses the <code>
+spell:remove-word</code>
+ function to remove the entry for <Emphasis>
+albatross</Emphasis>
+ dictionary with URI /mySpell/Spell<code>
+.xml</code>
+:</Body>
+<Code>
+<A ID="pgfId-1045345"></A>
+xquery version &quot;1.0-ml&quot;;
+import module &quot;http://marklogic.com/xdmp/spell&quot; at
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;/MarkLogic/spell.xqy&quot;;
+
+spell:remove-word(&quot;/mySpell/spell.xml&quot;, &quot;albatross&quot;)</Code>
+<Body>
+<A ID="pgfId-1045336"></A>
+This removes the word <Emphasis>
+albatross</Emphasis>
+ from the <code>
+/mySpell/spell.xml</code>
+ dictionary document.</Body>
+<Heading-3>
+<A ID="pgfId-1045340"></A>
+<A ID="65826"></A>
+Security Considerations With Dictionary Documents</Heading-3>
+<Body>
+<A ID="pgfId-1045175"></A>
+Dictionary documents are stored in XML format in the database. Therefore, they can be queried just like any other document. Note the following about security and dictionary documents:</Body>
+<Body-bullet>
+<A ID="pgfId-1045176"></A>
+By default, dictionary documents are loaded into the following collections:</Body-bullet>
+<Body-bullet-2>
+<A ID="pgfId-1045177"></A>
+<code>
+http://marklogic.com/xdmp/documents</code>
+</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1045178"></A>
+<code>
+http://marklogic.com/xdmp/spell </code>
+</Body-bullet-2>
+<Body-bullet>
+<A ID="pgfId-1045179"></A>
+Dictionary documents are loaded with the default permissions of the user who loads them. Make sure users who load dictionary documents have appropriate privileges, otherwise the documents might not have the needed permissions for reading and updating. For more information, see <A href="../dev_guide/loading.xml#id(86350)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Permissions on Documents</Hyperlink>
+</A> in the <A href="../dev_guide/loading.xml#id(46976)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Loading Documents into the Database</Hyperlink>
+</A> chapter of the <Emphasis>
+Application Developer's Guide</Emphasis>
+.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1045183"></A>
+If you want to control access (read and/or write) to dictionary documents beyond the default permissions with which the documents are loaded, perform an <code>
+xdmp:document-set-permissions</code>
+ after a <code>
+spell:load</code>
+ operation.</Body-bullet>
+<Heading-2>
+<A ID="pgfId-1044155"></A>
+<A ID="28692"></A>
+Testing if a Word is Spelled Correctly</Heading-2>
+<Body>
+<A ID="pgfId-1044156"></A>
+You can use the <code>
+spell:is-correct</code>
+ function test to see if a word is spelled correctly (according to the specified dictionary). Consider the following query:</Body>
+<Code>
+<A ID="pgfId-1044157"></A>
+spell:is-correct(&quot;/mySpell/spell.xml&quot;, &quot;alphabet&quot;)</Code>
+<Body>
+<A ID="pgfId-1044159"></A>
+This query returns true because the word alphabet is spelled correctly. Now consider the following query:</Body>
+<Code>
+<A ID="pgfId-1045401"></A>
+spell:is-correct(&quot;/mySpell/spell.xml&quot;, &quot;alfabet&quot;)</Code>
+<Body>
+<A ID="pgfId-1045395"></A>
+This query returns <code>
+false</code>
+ because the word <Emphasis>
+alfabet</Emphasis>
+ is not spelled correctly. </Body>
+<Heading-2>
+<A ID="pgfId-1045363"></A>
+<A ID="91856"></A>
+Getting Spelling Suggestions for Incorrectly Spelled Words</Heading-2>
+<Body>
+<A ID="pgfId-1045379"></A>
+You can write a query which returns spelling suggestions based on words in the specified dictionary. Consider the following query:</Body>
+<Code>
+<A ID="pgfId-1045412"></A>
+spell:suggest(&quot;/mySpell/spell.xml&quot;, &quot;alfabet&quot;)</Code>
+<Body>
+<A ID="pgfId-1045381"></A>
+This query returns the following results:</Body>
+<Code>
+<A ID="pgfId-1045425"></A>
+alphabet albeit alphabets aloft abet alphabeted affable alphabet's alphabetic offbeat</Code>
+<Body>
+<A ID="pgfId-1045443"></A>
+The results are ranked in the order, where the first word is the one most likely to be the real spelling. Your application can then prompt the user if one of the suggested words was the actual word intended.</Body>
+<Body>
+<A ID="pgfId-1045452"></A>
+Now consider the following query:</Body>
+<Code>
+<A ID="pgfId-1045444"></A>
+spell:suggest(&quot;/mySpell/spell.xml&quot;, &quot;alphabet&quot;)</Code>
+<Body>
+<A ID="pgfId-1045445"></A>
+This query returns the empty sequence, indicating that the word is spelled correctly.</Body>
+<Note>
+<A ID="pgfId-1045367"></A>
+The spelling correction functions only provide suggestions for words that are less than 64 characters in length, and the functions only return suggestions that are less than 64 characters.</Note>
+</XML>

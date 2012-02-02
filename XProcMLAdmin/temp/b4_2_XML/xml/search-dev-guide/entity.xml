@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="entity.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1053802"></A>
+<A ID="64092"></A>
+Marking Up Documents With Entity Enrichment</Heading-1>
+<pagenum>
+<A ID="pgfId-1053806"></A>
+118</pagenum>
+<Body>
+<A ID="pgfId-1049471"></A>
+This chapter describes how to use entity enrichment in MarkLogic Server to add XML markup for entities such as people and places around text. It contains the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1053734"></A>
+<A href="entity.xml#id(37377)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Overview of Entity Enrichment</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054928"></A>
+<A href="entity.xml#id(29492)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Built-In Entity Enrichment</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053738"></A>
+<A href="entity.xml#id(70182)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Entity Enrichment Pipelines</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1054048"></A>
+<A ID="37377"></A>
+Overview of Entity Enrichment</Heading-2>
+<Body>
+<A ID="pgfId-1055449"></A>
+With XML, you can add element tags around text. If you add element tags around text that has a particular meaning, then you can then search for those tags to find occurrences of that meaningful thing. Common things to mark up with element tags are people and places, but there are many more things that are useful to mark up. Many industries have domain-specific things that are meaningful to mark up. For example, medical researchers might find it useful to mark up perscription drugs with a tag such as <code>
+RX</code>
+. The class of things to mark up are sometimes called <Emphasis>
+entities</Emphasis>
+, and the process of making XML more useful by finding these entities and then marking it up with meaningful tags (and searchable) is called <Emphasis>
+entity enrichment</Emphasis>
+.</Body>
+<Body>
+<A ID="pgfId-1060586"></A>
+MarkLogic Server includes built-in entity capabilities (licensed separately), and is also capable of integrating with third-party entity enrichment services. The Content Processing Framework makes it easy to call out to third-party tools, and there are some samples included to demonstrate this process, as described in <A href="entity.xml#id(35217)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Sample Pipelines Using Third-Party Technologies' on page&#160;118</A>.</Body>
+<Heading-2>
+<A ID="pgfId-1060565"></A>
+<A ID="29492"></A>
+Built-In Entity Enrichment</Heading-2>
+<Body>
+<A ID="pgfId-1060569"></A>
+You can enrich documents with entity markup in MarkLogic Server using the following APIs:</Body>
+<Body-bullet>
+<A ID="pgfId-1060599"></A>
+<code>
+cts:entity-highlight</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1060606"></A>
+<code>
+entity:enrich</code>
+</Body-bullet>
+<Body>
+<A ID="pgfId-1060969"></A>
+The <code>
+cts:entity-highlight</code>
+ API calls out to the built-in entity enrichment capabilities in MarkLogic Server (entity enrichment license key required for each language). The <code>
+cts:entity-highlight</code>
+ API is similar to <code>
+cts:highlight</code>
+ (see <A href="highlight.xml#id(12896)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Highlighting Search Term Matches' on page&#160;96</A>), except it finds entities and allows you to replace their content with other content. The <code>
+entity:enrich</code>
+ API is implemented in an XQuery library module, and it uses <code>
+cts:entity-highlight</code>
+ to mark up entities according to the <code>
+&lt;</code>
+<Emphasis>
+marklogic-dir</Emphasis>
+<code>
+&gt;/Config/entity.xsd</code>
+ schema.</Body>
+<Note>
+<A ID="pgfId-1061104"></A>
+A valid entity enrichment license key is required to use <code>
+cts:entity-highlight</code>
+; without a valid license key, it throws an exception.  If you have a valid license for entity enrichment, you can entity enrich text in English and in any other languages for which you have a valid license key. For languages in which you do not have a valid license key, <code>
+cts:entity-highlight</code>
+ finds no entities for text in that language.</Note>
+<Body>
+<A ID="pgfId-1061047"></A>
+The entity enrichment finds entities for a wide variety of things, including people and places. For a description of all of the entity types, see the cts:entity-highlight documentation in <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+. The following shows a simple example of using the built-in entity enrichment:</Body>
+<Code>
+<A ID="pgfId-1061059"></A>
+xquery version &quot;1.0-ml&quot;;
+
+import module namespace entity=&quot;http://marklogic.com/entity&quot; 
+    at &quot;/MarkLogic/entity.xqy&quot;;
+
+let $myxml := &lt;node&gt;George Washington never visited Norway.&lt;/node&gt;
+return
+entity:enrich($myxml)</Code>
+<Body>
+<A ID="pgfId-1061085"></A>
+This returns the following:</Body>
+<Code>
+<A ID="pgfId-1061086"></A>
+&lt;node&gt;
+&#160;&#160;&lt;entity:person xmlns:entity=&quot;http://marklogic.com/entity&quot;&gt;George 
+     Washington&lt;/entity:person&gt; never visited 
+&#160;&#160;&lt;entity:gpe xmlns:entity=&quot;http://marklogic.com/entity&quot;&gt;Norway.
+&#160;&#160;&lt;/entity:gpe&gt;
+&lt;/node&gt;</Code>
+<Heading-2>
+<A ID="pgfId-1061081"></A>
+<A ID="70182"></A>
+Entity Enrichment Pipelines</Heading-2>
+<Body>
+<A ID="pgfId-1060574"></A>
+MarkLogic Server includes Content Processing Framework (CPF) applications to perform entity enrichment on your XML. You can use the built-in capabilities, you can use the CPF applications for third-party entity extraction technologies, or you can create custom applications with your own technology or some other third-party technology. This section includes the following parts:</Body>
+<Body-bullet>
+<A ID="pgfId-1060645"></A>
+<A href="entity.xml#id(62337)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+MarkLogic Server Entity Enrichment Pipeline</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1060857"></A>
+<A href="entity.xml#id(35217)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Sample Pipelines Using Third-Party Technologies</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1060867"></A>
+<A href="entity.xml#id(88422)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Custom Entity Enrichment Pipelines</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1060670"></A>
+These CPF applications require you to install content processing on your database. For details on CPF, including information about domains and pipelines, see the <Emphasis>
+Content Processing Framework Guide</Emphasis>
+ guide.</Body>
+<Heading-3>
+<A ID="pgfId-1060707"></A>
+<A ID="62337"></A>
+MarkLogic Server Entity Enrichment Pipeline</Heading-3>
+<Body>
+<A ID="pgfId-1060714"></A>
+The MarkLogic Server entity enrichment pipeline uses the built-in entity enrichment capabilites in MarkLogic Server to add XML tags to text. When you set up the entity enrichment pipeline, all documents added to the domain and all documents modified in the domain will be enriched using the built-in entity enrichment capabilities (entity enrichment license key required). </Body>
+<Body>
+<A ID="pgfId-1061184"></A>
+To configure the MarkLogic Server entity enrichment CPF application on your system, perform the following steps:</Body>
+<Number1>
+<A ID="pgfId-1060877"></A>
+Install content processing on the database in which you want to enrich your content.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1060901"></A>
+Set up your domain appropriately for your content.</Number>
+<Number>
+<A ID="pgfId-1060899"></A>
+Attach the Status Change Handling and Entity Enrichment pipelines to your domain.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1060905"></A>
+Any documents inserted or updated under the domain to which these pipelines are attached will now use the MarkLogic Server built-in entity enrichment, and the appropriate markup will be added to the documents.</EndList-root>
+<Heading-3>
+<A ID="pgfId-1060724"></A>
+<A ID="35217"></A>
+Sample Pipelines Using Third-Party Technologies</Heading-3>
+<Body>
+<A ID="pgfId-1060728"></A>
+MarkLogic Server ships with sample pipelines and CPF applications which connect to third-party entity enrichment tools. The sample pipelines are installed in the <code>
+&lt;</code>
+<Emphasis>
+marklogic-dir</Emphasis>
+<code>
+&gt;/Installer/samples</code>
+ directory. There are sample pipelines for the following entity enrichment tools:</Body>
+<Body-bullet>
+<A ID="pgfId-1060934"></A>
+TEMIS Luxid&#174;</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1060947"></A>
+Calais OpenCalais</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1061245"></A>
+SRA NetOwl</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1061246"></A>
+Janya</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1061247"></A>
+Data Harmony</Body-bullet>
+<Body>
+<A ID="pgfId-1060935"></A>
+MarkLogic Server connects to these tools via a web service. Sample code is provided on an as-is basis; the sample code is not intended for production applications and is not supported. For details, including setup instructions, see the <code>
+README.txt</code>
+ file and the <code>
+samples-license.txt</code>
+ file in the <code>
+&lt;</code>
+<Emphasis>
+marklogic-dir</Emphasis>
+<code>
+&gt;/Installer/samples</code>
+ directory. </Body>
+<Heading-3>
+<A ID="pgfId-1060776"></A>
+<A ID="88422"></A>
+Custom Entity Enrichment Pipelines</Heading-3>
+<Body>
+<A ID="pgfId-1060842"></A>
+You can create custom CPF applications to enrich your documents using other third-party enrichment applications. To create a custom CPF application you will need the third party application, a way to connect to it (via a web service, for example), and you will need to write XQuery code and a pipeline file similar to the ones used for the sample applications described in the previous section.</Body>
+</XML>

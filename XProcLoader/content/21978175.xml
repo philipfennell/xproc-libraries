@@ -1,0 +1,63 @@
+<MedlineCitation Owner="NLM" Status="Completed">
+		<MedlineID>21978175</MedlineID>
+		<PMID>11981947</PMID>
+		<DateCreated>
+			   <Year>2002</Year>
+			   <Month>04</Month>
+			   <Day>30</Day>
+		</DateCreated>
+		<DateCompleted>
+			   <Year>2002</Year>
+			   <Month>05</Month>
+			   <Day>01</Day>
+		</DateCompleted>
+		<Article>
+			   <Journal>
+				     <ISSN>1054-8807</ISSN>
+				     <JournalIssue>
+					       <Volume>11</Volume>
+					       <Issue>1</Issue>
+					       <PubDate>
+						         <MedlineDate>2002 Jan-Feb</MedlineDate>
+					       </PubDate>
+				     </JournalIssue>
+			   </Journal>
+			   <ArticleTitle>Abstracts of the 8th Biennial Meeting of the International Society for
+				Applied Cardiovascular Biology. February 27-March 2, 220. St Gallen,
+				Switzerland.</ArticleTitle>
+			   <Pagination>
+				     <MedlinePgn>3-66</MedlinePgn>
+			   </Pagination>
+			   <Language>eng</Language>
+			   <PublicationTypeList>
+				     <PublicationType>Congresses</PublicationType>
+				     <PublicationType>Overall</PublicationType>
+			   </PublicationTypeList>
+		</Article>
+		<MedlineJournalInfo>
+			   <Country>United States</Country>
+			   <MedlineTA>Cardiovasc Pathol</MedlineTA>
+			   <NlmUniqueID>9212060</NlmUniqueID>
+		</MedlineJournalInfo>
+		<CitationSubset>IM</CitationSubset>
+		<MeshHeadingList>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="N">Animal</DescriptorName>
+			   </MeshHeading>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="Y">Cardiovascular Diseases</DescriptorName>
+				     <QualifierName MajorTopicYN="N">pathology</QualifierName>
+				     <QualifierName MajorTopicYN="N">physiopathology</QualifierName>
+			   </MeshHeading>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="Y">Cardiovascular Physiology</DescriptorName>
+			   </MeshHeading>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="Y">Cardiovascular System</DescriptorName>
+				     <QualifierName MajorTopicYN="N">pathology</QualifierName>
+			   </MeshHeading>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="N">Human</DescriptorName>
+			   </MeshHeading>
+		</MeshHeadingList>
+	</MedlineCitation>

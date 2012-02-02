@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="unfiltered.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1053802"></A>
+<A ID="38698"></A>
+Fast Pagination and Unfiltered Searches</Heading-1>
+<pagenum>
+<A ID="pgfId-1053806"></A>
+14</pagenum>
+<Body>
+<A ID="pgfId-1049471"></A>
+MarkLogic Server provides a powerful XML-enabled search capability through the <code>
+cts:search</code>
+ XQuery built-in function. As part of the search capability, MarkLogic Server allows you to issue <code>
+cts:search</code>
+ expressions that return results directly from the indexes, without performing the filtering necessary to ensure there are no false-positive results. This chapter describes the search process, including unfiltered searches, and includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1053734"></A>
+<A href="unfiltered.xml#id(13165)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Understanding the Search Process</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054662"></A>
+<A href="unfiltered.xml#id(89797)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Understanding Unfiltered Searches</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053738"></A>
+<A href="unfiltered.xml#id(74746)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Using Unfiltered Searches for Fast Pagination</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054047"></A>
+<A href="unfiltered.xml#id(18211)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Example: Determining the Number of False-Positive Matches</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1054048"></A>
+<A ID="13165"></A>
+Understanding the Search Process</Heading-2>
+<Body>
+<A ID="pgfId-1054678"></A>
+When evaluating <code>
+cts:search</code>
+ expressions (and also when resolving XPath expressions within XQuery code), MarkLogic Server performs a two-step process. </Body>
+<Number1>
+<A ID="pgfId-1054679"></A>
+A list of candidate fragment IDs is generated directly from the indexes, based on the index-resolvable criteria incorporated in the various parameters passed to <code>
+cts:search</code>
+. Fragment IDs are ordered according to relevance criteria. This step is called <Emphasis>
+index resolution</Emphasis>
+. </Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1054680"></A>
+The candidate fragment IDs are used to load fragments from disk. Each fragment is then examined in order, using the complete criteria incorporated in the various parameters passed to <code>
+cts:search</code>
+, to determine if the fragment contains zero, one, or more than one result that matches the given <code>
+cts:search</code>
+ expression. This step is called <Emphasis>
+filtering</Emphasis>
+. </Number>
+</NumberList>
+<Body>
+<A ID="pgfId-1054744"></A>
+The purpose of index resolution is to narrow the set of candidate fragments to as small a set as possible, without missing any. In some circumstances, the index resolution step can yield a precisely correct set of candidate fragments, rendering the filtering step redundant. In other circumstances, index resolution can reduce the set of candidate fragments somewhat, but in the candidate fragment list there are still false-positive results (that is, candidate fragments that in fact contain no matching results). In still other circumstances, the candidate fragment list can contain fragments that contain more than one matching result. </Body>
+<Body>
+<A ID="pgfId-1054682"></A>
+To better understand false-positive results, imagine a database configuration which has not enabled fast case-sensitive indexes (<code>
+fast case sensitive searches</code>
+ on the database configuration page). This means that the full-text indexes only maintain direct lookups for words independent of their case. In this scenario, if you are searching for <code>
+&quot;Dog&quot;</code>
+, the indexes can only tell you what fragments contain the word <code>
+&quot;dog&quot;</code>
+, in any case-combination of text (for example, <code>
+&quot;dog&quot;</code>
+, <code>
+&quot;DOG&quot;</code>
+, <code>
+&quot;Dog&quot;</code>
+, <code>
+&quot;doG&quot;</code>
+, and so on). So when index resolution generates a candidate fragment list for <code>
+&quot;Dog&quot;</code>
+, that list could include a fragment that has the word <code>
+&quot;dog&quot;</code>
+ but not the word <code>
+&quot;Dog&quot;</code>
+. This is where filtering comes in--by loading that fragment and examining it prior to returning it as a match, MarkLogic Server is able to determine that it is not in fact a match for the specified query, and rule it out. The fragment is a false-positive result, and should not be returned to the query. </Body>
+<Body>
+<A ID="pgfId-1054683"></A>
+To understand how a candidate fragment can contain more than one match, consider a single-fragment document that contains multiple <code>
+&lt;author&gt;</code>
+ elements as follows:</Body>
+<Code>
+<A ID="pgfId-1054810"></A>
+&lt;author&gt;Bruce Smith&lt;/author&gt;
+&lt;author&gt;Betty Smith&lt;/author&gt;
+&lt;author&gt;Gordon Blair&lt;/author&gt;</Code>
+<Body>
+<A ID="pgfId-1054811"></A>
+Now consider the following query:</Body>
+<Code>
+<A ID="pgfId-1054795"></A>
+cts:search(//author, &quot;Smith&quot;) </Code>
+<Body>
+<A ID="pgfId-1054797"></A>
+During index resolution, this query generates the fragment for that document as a single candidate fragment. In fact, that single document should generate two results--one for each of Bruce and Betty Smith. During the filtering step, MarkLogic Server identifies that there is more than one element in this document that matches the search requirements, and returns both of the first two <code>
+&lt;author&gt;</code>
+ elements as results. </Body>
+<Body>
+<A ID="pgfId-1054684"></A>
+As you can see from these examples, the combination of index resolution and filtering combine to provide both performance and accuracy. The algorithm is designed to allow you to write complex queries, and have MarkLogic Server determine the most efficient path providing accurate results. </Body>
+<Body>
+<A ID="pgfId-1054685"></A>
+There are disadvantages to the algorithm, however. Sometimes, you might know better than the search engine, and through careful design of your XML and your fragmentation, you might know that filtering is simply unnecessary. In this case, filtering takes unneeded cycles. In another situation, if you want to jump deep into a result set (for example, retrieving the 1,000,000th result from a really large result set), the emphasis MarkLogic Server has on accuracy through filtering might provide an impractical constraint for your application, because filtering the first 999,999 results will take far too long. Furthermore, it might not matter to your application if, when you jump to the 1,000,000th result, you actually end up at <Emphasis>
+approximately</Emphasis>
+ that result (even if in reality it is the 949,237th result).</Body>
+<Body>
+<A ID="pgfId-1054661"></A>
+Consequently, MarkLogic Server provides you with tools to influence the evaluation of <code>
+cts:search</code>
+ expressions, indicating whether or not filtering is required.</Body>
+<Heading-2>
+<A ID="pgfId-1054660"></A>
+<A ID="89797"></A>
+Understanding Unfiltered Searches</Heading-2>
+<Body>
+<A ID="pgfId-1054049"></A>
+An <Emphasis>
+unfiltered</Emphasis>
+ search omits the filtering step, which validates whether each candidate fragment result actually meets the search criteria. Unfiltered searches, therefore, are guaranteed to be fast, while filtered searches are guaranteed to be accurate. By default, searches are filtered; you must specify the <code>
+&quot;unfiltered&quot;</code>
+ option to <code>
+cts:search</code>
+ to return an unfiltered search. Unfiltered searches have the following characteristics:</Body>
+<Body-bullet>
+<A ID="pgfId-1054106"></A>
+They determine the results directly from the indexes, without filtering for validation. This makes unfiltered results most comparable to traditional search-engine style results.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054321"></A>
+They include false-positive results. False-positive results can originate from a number of situations, including phrase searches containing 3 or more words, certain wildcard searches, punctuation-sensitive, diacritic-sensitive, and/or case-sensitive searches. </Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054110"></A>
+They will be significantly affected by fragmentation policy.</Body-bullet>
+<Body>
+<A ID="pgfId-1054915"></A>
+The following are some useful guidelines for when to use unfilterered searches:</Body>
+<Body-bullet>
+<A ID="pgfId-1054111"></A>
+You should only perform unfiltered searches on top-level nodes or on fragment roots, otherwise you might get unexpected answers. This is because, for queries below the fragment level, there is no guarantee that a particular unfiltered search even matches the query (that is, there is a match somewhere in the fragment, but not necessarily a match in the node you are searching).</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054929"></A>
+If you choose to specify an XPath other than a top-level node or a fragment root, your XPath expression will give correct results if there is only one possible node to match in each fragment (or if the only possible match is in the first node specified). This is because unfiltered searches stop after encountering the first node per fragment that matches the specified XPath expression. If you are sure that the node you specify only has one instance per fragment, then it will not miss any results (although it might get false-positive results). An example of this is <code>
+ABSTRACT</code>
+ in MEDLINE citatation, where <code>
+ABSTRACT</code>
+ is below the fragment root, but there is only one <code>
+ABSTRACT</code>
+ node per fragment. If you specify below a fragment root and there are multiple nodes in the fragment, the search may miss results (it will only find results if they are in the first fragment).</Body-bullet>
+<Body>
+<A ID="pgfId-1054234"></A>
+Finally, it is useful to understand that <code>
+cts:contains</code>
+ implements the filtering step of the two-step search process:</Body>
+<Code>
+<A ID="pgfId-1054949"></A>
+unfiltered cts:search + <code>
+cts:contains</code>
+ = <code>
+normal (filtered) cts:search</code>
+</Code>
+<Body>
+<A ID="pgfId-1054951"></A>
+Breaking a <code>
+cts:search</code>
+ operation into an unfiltered search and a <code>
+cts:contains</code>
+ allows you to do the search so it is always fast, but then only do the false-positive result removal if you want or need to. This is true as long as the first parameter to <code>
+cts:search</code>
+ is at a fragment root node. If it is below a root node, it is only true if you know that the first node is the only possible hit for the search (for example, if there is only one node, as in the <code>
+ABSTRACT</code>
+ example above).</Body>
+<Heading-2>
+<A ID="pgfId-1053745"></A>
+<A ID="74746"></A>
+Using Unfiltered Searches for Fast Pagination</Heading-2>
+<Body>
+<A ID="pgfId-1053759"></A>
+There are many useful applications for unfiltered searches. Applications of unfiltered searches tend to have one or more of the following characteristics:</Body>
+<Body-bullet>
+<A ID="pgfId-1054331"></A>
+Your content and search terms are such that you know the unfiltered searches are also accurate (for example, the searches are all performed at document or fragment roots, they are single-term queries, and are not wildcard, punctuation-sensitive, diacritic-sensitive, and/or capitalization-sensitive searches).</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054345"></A>
+You do not mind if there are some false-positive results because the results are an estimate (that is, they need to be fast, but are not required to be exact).</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054346"></A>
+Your searches return a large number of results and you want efficient ways to jump to a particular portion of those results.</Body-bullet>
+<Body>
+<A ID="pgfId-1054350"></A>
+The last point describes the situation for fast pagination. <Emphasis>
+Fast pagination</Emphasis>
+ is a way to get an approximate count of the total number of result hits and then provide efficient ways to jump deep to an arbitrary point in the result sequence. Such pagination is common in search engine-style results, where a particular result might return 1 million hits and the search interface returns them 10 at a time. There is usually some sort of counter that says something like 'displaying 1-10 of 1,000,000 results,' and then there are links to go to the next page of results or to go to the tenth, twentieth, or any page of the results. Often it is not critical that going to the twentieth page actually gets you to the 200th hit; it is OK if there were some false-positive results, and when you click that link you actually get to the 176th result. </Body>
+<Body>
+<A ID="pgfId-1054974"></A>
+When you implement a fast pagination application, you will need to jump into a position in an unfiltered search. To maximize the efficiency of this search, you must immediately follow the unfiltered <code>
+cts:search</code>
+ expression with the position predicate, with no XPath steps in between. For example, to jump into the 1,000,001st hit of an unfiltered search for the phrase 'one two three', the search might look like the following:</Body>
+<Code>
+<A ID="pgfId-1054992"></A>
+cts:search(fn:doc(), &quot;one two three&quot;, &quot;unfiltered&quot;)[1000001 to 1000010]</Code>
+<Body>
+<A ID="pgfId-1055005"></A>
+This search will skip directly to the 1,000,001st unfiltered hit and return the 10 fragments specified in the position predicate; it will not need to fetch any other fragments. </Body>
+<Heading-2>
+<A ID="pgfId-1053923"></A>
+<A ID="18211"></A>
+Example: Determining the Number of False-Positive Matches</Heading-2>
+<Body>
+<A ID="pgfId-1054250"></A>
+The following code sample prints out the number of false-positive matches from a search.</Body>
+<Code>
+<A ID="pgfId-1058446"></A>
+xquery version &quot;1.0-ml&quot;;
+declare boundary-space preserve;
+declare namespace qm=&quot;http://marklogic.com/xdmp/query-meters&quot;;
+
+let $trueCounter := 0
+let $falseCounter := 0
+let $searchTerms := &quot;one! two three&quot;
+let $x := 
+  for $result in cts:search(fn:doc(), $searchTerms, &quot;unfiltered&quot;)
+  return
+  (
+  if ( cts:contains($result, $searchTerms) )
+  then ( xdmp:set($trueCounter, $trueCounter + 1) )
+  else ( xdmp:set($falseCounter, $falseCounter + 1) )
+  )
+return
+&lt;results&gt;
+  &lt;resultTotal&gt;{$trueCounter}&lt;/resultTotal&gt;
+  &lt;false-positiveTotal&gt;{$falseCounter}&lt;/false-positiveTotal&gt;
+&#160;&#160;&lt;elapsed-time&gt;{xdmp:query-meters()/qm:elapsed-time/text()}
+&#160;&#160;&lt;/elapsed-time&gt;
+&lt;/results&gt;</Code>
+<Body>
+<A ID="pgfId-1054571"></A>
+Because the specified <code>
+$searchTerms</code>
+ contains punctuation in the middle of the phrase, any document that has the phrase 'one two three' will prove to be a false-positive result. If you substitute in your query terms for the <code>
+$searchTerms</code>
+ variable, you can see if your own unfiltered search yields false-positive results. </Body>
+<Body>
+<A ID="pgfId-1054588"></A>
+The above code uses the <code>
+xdmp:set</code>
+ function to keep track of the number of matches and the number of false-positive results. It runs the unfiltered search and then uses <code>
+cts:contains</code>
+ to check if each result is actually a match. If it is a match, then increment the <code>
+$trueCounter</code>
+ variable, otherwise increment the <code>
+$falseCounter</code>
+ variable.</Body>
+</XML>

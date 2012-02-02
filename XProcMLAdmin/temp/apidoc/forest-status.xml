@@ -1,0 +1,2711 @@
+<!-- Copyright 2002-2009 Mark Logic Corporation.  All Rights Reserved. -->
+<xs:schema targetNamespace="http://marklogic.com/xdmp/status/forest" xsi:schemaLocation="http://www.w3.org/2001/XMLSchema XMLSchema.xsd" attributeFormDefault="unqualified" elementFormDefault="unqualified" xmlns="http://marklogic.com/xdmp/status/forest" xmlns:admin="http://marklogic.com/xdmp/admin" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <xs:simpleType name="forest-id">
+    <xs:annotation>
+      <xs:documentation>
+        A forest unique id (64-bit value).
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:unsignedLong"/>
+  </xs:simpleType>
+  <xs:element name="forest-id" type="forest-id" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The unique key of the forest.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="forest-name">
+    <xs:annotation>
+      <xs:documentation>
+        The forest name.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:minLength value="1" fixed="false"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="forest-name" type="forest-name" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The forest name.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="merge-id">
+    <xs:annotation>
+      <xs:documentation>
+        A key for a merge record.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:unsignedLong"/>
+  </xs:simpleType>
+  <xs:element name="merge-id" type="merge-id" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        A unique key for a merge.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="boolean">
+    <xs:annotation>
+      <xs:documentation>
+        true or false
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:boolean"/>
+  </xs:simpleType>
+  <xs:element name="canceled" type="boolean" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        Is a merge canceled or not.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="enabled" type="boolean" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        Is the forest enabled or not.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="host-id">
+    <xs:annotation>
+      <xs:documentation>
+        A host unique id (64-bit value).
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:unsignedLong"/>
+  </xs:simpleType>
+  <xs:element name="host-id" type="host-id" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The unique key of the host that mounts the forest
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="state">
+    <xs:annotation>
+      <xs:documentation>
+        A forest state.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="mount error"/>
+      <xs:enumeration value="error"/>
+      <xs:enumeration value="unmounted"/>
+      <xs:enumeration value="mounted"/>
+      <xs:enumeration value="converting"/>
+      <xs:enumeration value="recovering"/>
+      <xs:enumeration value="open"/>
+      <xs:enumeration value="start closing"/>
+      <xs:enumeration value="finish closing"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="state" type="state" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The state of the forest.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="updates-allowed">
+    <xs:annotation>
+      <xs:documentation>
+        The types of updates allowed on a forest.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="all"/>
+      <xs:enumeration value="delete-only"/>
+      <xs:enumeration value="read-only"/>
+      <xs:enumeration value="flash-backup"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="updates-allowed" type="updates-allowed" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The types of updates allowed on the forest.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="stand-kind">
+    <xs:annotation>
+      <xs:documentation>
+        A kind of stand.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:enumeration value="Active"/>
+      <xs:enumeration value="Deleting"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="stand-kind" type="stand-kind" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The kind of stand.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="stands" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A set of forest stands
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="stand" minOccurs="1" maxOccurs="1"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="stands" type="stands" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The stands in the forest.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="input-stands" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A set of stands used as input.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="stand-id" minOccurs="1" maxOccurs="1"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="input-stands" type="input-stands" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The input stands of a merge.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="stand-id">
+    <xs:annotation>
+      <xs:documentation>
+        A stand unique id (64-bit value).
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:unsignedLong"/>
+  </xs:simpleType>
+  <xs:element name="stand-id" type="stand-id" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The unique key of a stand.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="output-stand" type="stand-id" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The id of a stand resulting from a merge.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="path">
+    <xs:annotation>
+      <xs:documentation>
+        A file system path.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+  <xs:element name="path" type="path" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The path of the stand.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="obsolete" type="boolean" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	Is this stand obsolete (true for obsolete)
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="label-version">
+    <xs:annotation>
+      <xs:documentation>
+        A Label version number.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:unsignedInt"/>
+  </xs:simpleType>
+  <xs:element name="label-version" type="label-version" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The version number of the label file.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="count">
+    <xs:annotation>
+      <xs:documentation>
+        A count.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:unsignedInt"/>
+  </xs:simpleType>
+  <xs:simpleType name="average">
+    <xs:annotation>
+      <xs:documentation>
+        An average.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:float"/>
+  </xs:simpleType>
+  <xs:element name="list-cache-hits" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The number of hits on the list cache.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="list-cache-misses" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The number of misses on the list cache.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="compressed-tree-cache-hits" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The number of hits on the compressed cache.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="compressed-tree-cache-misses" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The number of misses on the compressed cache.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="list-cache-hit-rate" type="average" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The average number of hits on the list cache.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="list-cache-miss-rate" type="average" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The average number of misses on the list cache.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="compressed-tree-cache-hit-rate" type="average" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The average number of hits on the compressed cache.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="compressed-tree-cache-miss-rate" type="average" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The average number of misses on the compressed cache.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="stand" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A forest stand.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence minOccurs="1" maxOccurs="1">
+      <xs:element ref="stand-id" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="path" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="stand-kind" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="label-version" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="disk-size" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="memory-size" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="list-cache-hits" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="list-cache-misses" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="list-cache-hit-rate" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="list-cache-miss-rate" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="compressed-tree-cache-hits" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="compressed-tree-cache-misses" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="compressed-tree-cache-hit-rate" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="compressed-tree-cache-miss-rate" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="stand" type="stand" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The stand of a forest.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="backups" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A set of backups on a forest.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="backup" minOccurs="1" maxOccurs="1"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="backups" type="backups" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The backups in progress on the forest.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="merges" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A set of merges on a forest.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="merge" minOccurs="1" maxOccurs="1"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="merges" type="merges" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The merges in progress on the forest.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="start-time" type="timestamp" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The time a merge started.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="reindexing">
+    <xs:annotation>
+      <xs:documentation>
+        Is this forest reindexing or not
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:boolean"/>
+  </xs:simpleType>
+  <xs:element name="reindexing" type="reindexing" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	Is this forest reindexing.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="backup" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A forest backup.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence minOccurs="1" maxOccurs="1">
+      <xs:element ref="path" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="start-time" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="final-size" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="current-size" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="backup" type="backup" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The backup of a forest.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="restore-state">
+    <xs:annotation>
+      <xs:documentation>
+        A forest restore state.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:enumeration value="copying"/>
+      <xs:enumeration value="recovering"/>
+      <xs:enumeration value="mounting"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="restore-state" type="restore-state" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The state of the forest restore.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="restore" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A forest restore.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence minOccurs="1" maxOccurs="1">
+      <xs:element ref="path" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="start-time" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="final-size" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="current-size" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="restore-state" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="restore" type="restore" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The restore of a forest.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="merge" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A forest stand.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence minOccurs="1" maxOccurs="1">
+      <xs:element ref="merge-id" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="canceled" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="input-stands" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="path" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="output-stand" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="start-time" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="final-size" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="current-size" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="merge-rate" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="merge" type="merge" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The merge of two stands in a forest.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="device-space">
+    <xs:annotation>
+      <xs:documentation>
+        A number of megabytes.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:unsignedInt"/>
+  </xs:simpleType>
+  <xs:element name="device-space" type="device-space" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The amount of space left on forest device.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="active-fragment-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The number of fragments.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="nascent-fragment-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The number of nascent fragments.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="deleted-fragment-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The number of deleted fragments.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="document-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The number of documents in the forest.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-refragment-fragment-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The number of fragments that need to be reindexed or refragmented.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-refragment-rate" type="average" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The rate of reindexing/refragmenting.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="forced-reindex-fragment-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The number of fragments that need to be reindexed due for forced reindexing.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-fragment-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The number of fragments that need to be reindexed.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="fragment-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The total number of fragments for a given reindexing activity.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-stemmed-searches-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need basic stemmed search reindexed.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-advanced-stemmed-searches-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need advanced stemmed search reindexed.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-decompounding-stemmed-searches-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need decompounding stemmed search reindexed.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-word-searches-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need word searches reindexed.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-one-character-searches-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need one-character searches reindexed.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-two-character-searches-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need two-character searches reindexed.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-three-character-searches-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need three-character searches reindexed.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-fast-phrase-searches-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need fast phrase searches reindexed.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-fast-case-sensitive-searches-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need fast case-sensitive searches 
+        reindexed.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-fast-element-word-searches-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need element word searches reindexed.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-fast-element-phrase-searches-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need element phrase searches reindexed.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-fast-element-character-searches-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need element character searches reindexed.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-fast-element-trailing-wildcard-searches-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need element trailing wildcard
+        searches reindexed.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-word-positions-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need word positions reindexed.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-scaled-log-tf-normalization-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that scaled log-tf normalization reindexed.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-unscaled-log-tf-normalization-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that unscaled log-tf normalization reindexed.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-element-word-positions-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need element word positions reindexed.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-element-value-positions-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need element value positions reindexed.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-attribute-value-positions-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need attribute value positions reindexed.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-three-character-word-positions-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need three character word positions
+        reindexed.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-trailing-wildcard-searches-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need trailing wildcard searches reindexed.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-trailing-wildcard-word-positions-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need trailing wildcard word positions
+        reindexed.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-fast-diacritic-sensitive-searches-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need fast diacritic-sensitive searches 
+        reindexed.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-word-lexicon-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need the word lexicon reindexed.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-uri-lexicon-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need the URI lexicon reindexed.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-collection-lexicon-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need the collection lexicon reindexed.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-deleted-stemmed-searches-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need the stemmed search indexes deleted.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-deleted-advanced-stemmed-searches-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need the advanced stemmed search indexes deleted.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-deleted-decompounding-stemmed-searches-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need the decompounding stemmed search indexes deleted.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-deleted-word-searches-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need the word search indexes deleted.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-deleted-one-character-searches-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need the one-character search 
+        indexes deleted.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-deleted-two-character-searches-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need the two-character search 
+        indexes deleted.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-deleted-three-character-searches-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need the three-character search 
+        indexes deleted.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-deleted-trailing-wildcard-searches-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need the trailing wildcard search 
+        indexes deleted.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-deleted-fast-phrase-searches-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need the fast phrase search 
+        indexes deleted.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-deleted-fast-case-sensitive-searches-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need the fast case-sensitive
+        search indexes deleted.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-deleted-fast-element-word-searches-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need the element word search 
+        indexes deleted.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-deleted-fast-element-phrase-searches-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need the element phrase search 
+        indexes deleted.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-deleted-fast-element-character-searches-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need the element character
+        search indexes deleted.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-deleted-fast-element-trailing-wildcard-searches-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need the element trailing wildcard
+        search indexes deleted.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-deleted-word-positions-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need the word position indexes deleted.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-deleted-element-word-positions-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need the element word position
+        indexes deleted.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-deleted-element-value-positions-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need the element value position
+        indexes deleted.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-deleted-attribute-value-positions-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need the attribute value position
+        indexes deleted.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-deleted-three-character-word-positions-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need the three-character word position
+        indexes deleted.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-deleted-trailing-wildcard-word-positions-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need the trailing wildcard word
+        position indexes deleted.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-deleted-fast-diacritic-sensitive-searches-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need the diacritic-sensitive 
+        search indexes deleted.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-deleted-word-lexicon-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need the word lexicons deleted.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-deleted-uri-lexicon-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need the URI lexicons deleted.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-deleted-collection-lexicon-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need the collection lexicons deleted.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-previous-versions-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need previous versions (used with
+        point-in-time queries) reindexed.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-fast-reverse-searches-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments with reverse searches that need to be reindexed.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-deleted-fast-reverse-searches-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The number of fragments that need to be reindexed because of deleted fast reverse searches.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="refragment-document-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The number of documents that need to be refragmented.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="refragment-document-done-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The number of documents that do not need to be refragmented.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reindex-reverse-searches-fragment-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The number of fragments that need to be reindexed for reverse searches.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="forest-status" type="forest-status" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The status of a forest
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="database-id">
+    <xs:annotation>
+      <xs:documentation>
+        A database ID.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:unsignedLong"/>
+  </xs:simpleType>
+  <xs:element name="database-id" type="database-id" nillable="true" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        The database the forest belongs to.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="last-backup" type="timestamp" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The last time the forest was backed up.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="last-restore" type="timestamp" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The last time the forest was restored.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="last-state-change" type="timestamp" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The last time the forest state changed.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="timestamp">
+    <xs:annotation>
+      <xs:documentation>
+        A timestamp of an event.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:dateTime"/>
+  </xs:simpleType>
+  <xs:simpleType name="merge-rate">
+    <xs:annotation>
+      <xs:documentation>
+        A merge rate (MB/sec).
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:float"/>
+  </xs:simpleType>
+  <xs:element name="merge-rate" type="merge-rate" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The rate of a merge (MB/sec).
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="disk-size" type="size" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The amount of space the stand takes on disk.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="journals-size" type="size" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The amount of space the journals take up on disk.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="memory-size" type="size" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The amount of space the stand takes in memory.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="final-size" type="size" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The estimated final size of a stand.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="current-size" type="size" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The current size of a merging stand.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="size">
+    <xs:annotation>
+      <xs:documentation>
+        A size in megabytes.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:unsignedInt"/>
+  </xs:simpleType>
+  <xs:complexType name="forest-status" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A forest status
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence minOccurs="1" maxOccurs="1">
+      <xs:element ref="forest-id" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="forest-name" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="state" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="error" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="enabled" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="updates-allowed" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="host-id" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="database-id" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="last-state-change" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="journals-size" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="stands" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="current-time" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="merges" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindexing" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="device-space" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="last-backup" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="last-restore" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="backups" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="restore" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="transaction-coordinators" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="transaction-participants" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="error">
+    <xs:annotation>
+      <xs:documentation>
+        An error processing forest status.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+  <xs:element name="error" type="error" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The error in processing forest status.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="stand-counts" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A forest stand counts.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence minOccurs="1" maxOccurs="1">
+      <xs:element ref="stand-id" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="path" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="active-fragment-count" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="nascent-fragment-count" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="deleted-fragment-count" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="stand-counts" type="stand-counts" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The stand's counts.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="current-time" type="timestamp" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The current time.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="forest-counts" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A count of forest components.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence minOccurs="1" maxOccurs="1">
+      <xs:element ref="forest-id" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="forest-name" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="current-time" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="error" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="stands-counts" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="document-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="directory-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-refragment-fragment-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-refragment-rate" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="forced-reindex-fragment-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-fragment-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-previous-versions-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-stemmed-searches-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-word-searches-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-one-character-searches-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-two-character-searches-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-three-character-searches-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-fast-phrase-searches-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-fast-case-sensitive-searches-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-fast-element-word-searches-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-fast-element-phrase-searches-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-fast-element-character-searches-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-fast-element-trailing-wildcard-searches-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-word-positions-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-scaled-log-tf-normalization-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-unscaled-log-tf-normalization-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-element-word-positions-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-element-value-positions-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-attribute-value-positions-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-three-character-word-positions-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-trailing-wildcard-searches-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-trailing-wildcard-word-positions-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-fast-diacritic-sensitive-searches-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-word-lexicon-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-deleted-stemmed-searches-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-deleted-word-searches-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-deleted-one-character-searches-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-deleted-two-character-searches-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-deleted-three-character-searches-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-deleted-fast-phrase-searches-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-deleted-fast-case-sensitive-searches-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-deleted-fast-element-word-searches-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-deleted-fast-element-phrase-searches-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-deleted-fast-element-character-searches-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-deleted-fast-element-trailing-wildcard-searches-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-deleted-word-positions-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-deleted-element-word-positions-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-deleted-element-value-positions-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-deleted-attribute-value-positions-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-deleted-three-character-word-positions-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-deleted-trailing-wildcard-searches-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-deleted-trailing-wildcard-word-positions-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-deleted-fast-diacritic-sensitive-searches-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-deleted-word-lexicon-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-uri-lexicon-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-deleted-uri-lexicon-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-collection-lexicon-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-deleted-collection-lexicon-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-element-word-query-throughs" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-phrase-throughs" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-phrase-arounds" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-range-element-indexes" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-range-element-attribute-indexes" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-deleted-range-indexes" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-element-word-lexicons" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-element-attribute-word-lexicons" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-geospatial-element-indexes" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-geospatial-element-child-indexes" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-geospatial-element-pair-indexes" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-geospatial-element-attribute-pair-indexes" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="refragment-document-count" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="refragment-fragment-roots" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="refragment-fragment-parents" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="refragment-new-fields" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="refragment-modified-fields" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="refragment-removed-configurations" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="reindex-reverse-searches-fragment-count" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="forest-counts" type="forest-counts" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The forest counts.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="stands-counts" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A set of forest stand counts
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="stand-counts" minOccurs="1" maxOccurs="1"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="stands-counts" type="stands-counts" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The counts of stands.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="directory-count" type="count" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The number of directories in the forest.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="refragment-removed-configurations" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        Refragmenting old fragment root/parent settings
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:all minOccurs="1" maxOccurs="1">
+      <xs:element ref="refragment-document-count" minOccurs="1" maxOccurs="1"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="refragment-removed-configurations" type="refragment-removed-configurations" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	Refragmenting old fragment root/parent settings
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="refragment-fragment-roots" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A set of fragment root refragmenting
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="refragment-fragment-parent" minOccurs="1" maxOccurs="1"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="refragment-fragment-roots" type="refragment-fragment-roots" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The refragmenting of fragment roots.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="refragment-fragment-root" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A refragmenting of a fragment root.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:all minOccurs="1" maxOccurs="1">
+      <xs:element ref="namespace-uri" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="localname" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="refragment-document-count" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="document-count" minOccurs="1" maxOccurs="1"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="refragment-fragment-root" type="refragment-fragment-root" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The refragmenting of fragment root.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="refragment-fragment-parents" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A set of fragment parent refragmenting.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="refragment-fragment-parent" minOccurs="1" maxOccurs="1"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="refragment-fragment-parents" type="refragment-fragment-parents" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The refragmenting of fragment parents.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="refragment-fragment-parent" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A refragmenting of a fragment parent.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:all minOccurs="1" maxOccurs="1">
+      <xs:element ref="namespace-uri" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="localname" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="refragment-document-count" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="document-count" minOccurs="1" maxOccurs="1"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="refragment-fragment-parent" type="refragment-fragment-parent" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The refragmenting of fragment parent.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="refragment-new-fields" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A set of new fields refragmenting
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="refragment-new-field" minOccurs="1" maxOccurs="1"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="refragment-new-fields" type="refragment-new-fields" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The refragmenting of new fields.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="refragment-modified-fields" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A set of modified fields refragmenting
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="refragment-modified-field" minOccurs="1" maxOccurs="1"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="refragment-modified-fields" type="refragment-modified-fields" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The refragmenting of modifiedfields.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="refragment-new-field" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A refragmenting of a new field.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:all minOccurs="1" maxOccurs="1">
+      <xs:element ref="field-name" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="refragment-document-count" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="document-count" minOccurs="1" maxOccurs="1"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="refragment-new-field" type="refragment-new-field" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The refragmenting of a new field.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="refragment-modified-field" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A refragmenting of a new field.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:all minOccurs="1" maxOccurs="1">
+      <xs:element ref="field-name" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="refragment-document-count" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="document-count" minOccurs="1" maxOccurs="1"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="refragment-modified-field" type="refragment-modified-field" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The refragmenting of a new field.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="reindex-element-word-query-throughs" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A set of reindexing element word query throughs.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="reindex-element-word-query-through" minOccurs="1" maxOccurs="1"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="reindex-element-word-query-throughs" type="reindex-element-word-query-throughs" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The reindexing of word query throughs.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="reindex-element-word-query-through" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A reindexing of an element word query through.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:all minOccurs="1" maxOccurs="1">
+      <xs:element ref="namespace-uri" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="localname" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="reindex-fragment-count" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="fragment-count" minOccurs="1" maxOccurs="1"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="reindex-element-word-query-through" type="reindex-element-word-query-through" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The reindexing of an element word query through.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="reindex-phrase-throughs" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A set of reindexing of phrase throughs.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="reindex-phrase-through" minOccurs="1" maxOccurs="1"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="reindex-phrase-throughs" type="reindex-phrase-throughs" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The reindexing of phrase throughs.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="reindex-phrase-through" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A reindexing of a phrase through.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:all minOccurs="1" maxOccurs="1">
+      <xs:element ref="namespace-uri" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="localname" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="reindex-fragment-count" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="fragment-count" minOccurs="1" maxOccurs="1"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="reindex-phrase-through" type="reindex-phrase-through" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The reindexing of a phrase through.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="reindex-phrase-arounds" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A set of reindex phrase arounds.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="reindex-phrase-around" minOccurs="1" maxOccurs="1"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="reindex-phrase-arounds" type="reindex-phrase-arounds" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The reindexing of phrase arounds.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="reindex-phrase-around" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A reindexing of a phrase around.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:all minOccurs="1" maxOccurs="1">
+      <xs:element ref="namespace-uri" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="localname" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="reindex-fragment-count" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="fragment-count" minOccurs="1" maxOccurs="1"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="reindex-phrase-around" type="reindex-phrase-around" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The reindexing of a phrase around.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="reindex-range-element-indexes" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A set of reindexing of range element indexes.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="reindex-range-element-index" minOccurs="1" maxOccurs="1"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="reindex-range-element-indexes" type="reindex-range-element-indexes" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The reindexing of range element-indexes.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="scalar-type">
+    <xs:annotation>
+      <xs:documentation>
+        A scalar type of range index.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+  <xs:element name="scalar-type" type="scalar-type" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The scalar type of a range index.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="reindex-range-element-index" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A reindexing of a range element index.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:all minOccurs="1" maxOccurs="1">
+      <xs:element ref="namespace-uri" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="localname" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="scalar-type" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="reindex-fragment-count" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="fragment-count" minOccurs="1" maxOccurs="1"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="reindex-range-element-index" type="reindex-range-element-index" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The reindexing of a range element index
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="reindex-range-element-attribute-indexes" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A set of reindexing of range element attribute indexes.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="reindex-range-element-attribute-index" minOccurs="1" maxOccurs="1"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="reindex-range-element-attribute-indexes" type="reindex-range-element-attribute-indexes" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The reindexing of range element attribute indexes.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="reindex-range-element-attribute-index" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A reindexing of a range element attribute index.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:all minOccurs="1" maxOccurs="1">
+      <xs:element ref="parent-namespace-uri" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="parent-localname" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="namespace-uri" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="localname" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="reindex-fragment-count" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="fragment-count" minOccurs="1" maxOccurs="1"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="reindex-range-element-attribute-index" type="reindex-range-element-attribute-index" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The reindexing of a range element attribute index
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="reindex-geospatial-element-indexes" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A set of reindexing of geospatial element indexes.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="reindex-geospatial-element-index" minOccurs="1" maxOccurs="1"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="reindex-geospatial-element-indexes" type="reindex-geospatial-element-indexes" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The reindexing of geospatial element indexes.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="reindex-geospatial-element-index" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A reindexing of a geospatial element index.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:all minOccurs="1" maxOccurs="1">
+      <xs:element ref="namespace-uri" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="localname" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="reindex-fragment-count" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="fragment-count" minOccurs="1" maxOccurs="1"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="reindex-geospatial-element-index" type="reindex-geospatial-element-index" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The reindexing of a geospatial element index
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="reindex-geospatial-element-child-indexes" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A set of reindexing of geospatial element child indexes.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="reindex-geospatial-element-child-index" minOccurs="1" maxOccurs="1"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="reindex-geospatial-element-child-indexes" type="reindex-geospatial-element-child-indexes" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The reindexing of geospatial element child indexes.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="reindex-geospatial-element-child-index" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A reindexing of a geospatial element child index.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:all minOccurs="1" maxOccurs="1">
+      <xs:element ref="parent-namespace-uri" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="parent-localname" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="namespace-uri" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="localname" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="reindex-fragment-count" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="fragment-count" minOccurs="1" maxOccurs="1"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="reindex-geospatial-element-child-index" type="reindex-geospatial-element-child-index" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The reindexing of a geospatial element child index
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="reindex-geospatial-element-pair-indexes" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A set of reindexing of geospatial element pair indexes.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="reindex-geospatial-element-pair-index" minOccurs="1" maxOccurs="1"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="reindex-geospatial-element-pair-indexes" type="reindex-geospatial-element-pair-indexes" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The reindexing of geospatial element pair indexes.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="reindex-geospatial-element-pair-index" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A reindexing of a geospatial element pair index.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:all minOccurs="1" maxOccurs="1">
+      <xs:element ref="parent-namespace-uri" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="parent-localname" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="latitude-namespace-uri" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="latitude-localname" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="longitude-namespace-uri" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="longitude-localname" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="reindex-fragment-count" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="fragment-count" minOccurs="1" maxOccurs="1"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="reindex-geospatial-element-pair-index" type="reindex-geospatial-element-pair-index" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The reindexing of a geospatial element pair index.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="reindex-geospatial-element-attribute-pair-indexes" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A set of reindexing of geospatial element attribute pair indexes.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="reindex-geospatial-element-attribute-pair-index" minOccurs="1" maxOccurs="1"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="reindex-geospatial-element-attribute-pair-indexes" type="reindex-geospatial-element-attribute-pair-indexes" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The reindexing of geospatial element indexes.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="reindex-geospatial-element-attribute-pair-index" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A reindexing of a geospatial element attribute pair index.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:all minOccurs="1" maxOccurs="1">
+      <xs:element ref="parent-namespace-uri" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="parent-localname" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="latitude-namespace-uri" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="latitude-localname" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="longitude-namespace-uri" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="longitude-localname" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="reindex-fragment-count" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="fragment-count" minOccurs="1" maxOccurs="1"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="reindex-geospatial-element-attribute-pair-index" type="reindex-geospatial-element-attribute-pair-index" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The reindexing of a geospatial element attribute pair index.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="reindex-deleted-range-indexes" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A reindexing of removed range indexes.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:all minOccurs="1" maxOccurs="1">
+      <xs:element ref="fragment-count" minOccurs="1" maxOccurs="1"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="reindex-deleted-range-indexes" type="reindex-deleted-range-indexes" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The reindexing of removed range indexes.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="reindex-element-word-lexicons" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A set of reindexing of element word lexicons.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="reindex-element-word-lexicon" minOccurs="1" maxOccurs="1"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="reindex-element-word-lexicons" type="reindex-element-word-lexicons" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The reindexing of element word lexicons.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="reindex-element-word-lexicon" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A reindexing of an element word lexicon.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:all minOccurs="1" maxOccurs="1">
+      <xs:element ref="namespace-uri" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="localname" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="reindex-fragment-count" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="fragment-count" minOccurs="1" maxOccurs="1"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="reindex-element-word-lexicon" type="reindex-element-word-lexicon" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The reindexing of an element word lexicon
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="reindex-element-attribute-word-lexicons" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A set of reindexing of element attribute word lexicons.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="reindex-element-attribute-word-lexicon" minOccurs="1" maxOccurs="1"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="reindex-element-attribute-word-lexicons" type="reindex-element-attribute-word-lexicons" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The reindexing of element attribute word lexicons.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="reindex-element-attribute-word-lexicon" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A reindexing of an element attribute word lexicon.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:all minOccurs="1" maxOccurs="1">
+      <xs:element ref="parent-namespace-uri" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="parent-localname" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="namespace-uri" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="localname" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="reindex-fragment-count" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="fragment-count" minOccurs="1" maxOccurs="1"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="reindex-element-attribute-word-lexicon" type="reindex-element-attribute-word-lexicon" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The reindexing of an element attribute word lexicon
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="localname">
+    <xs:annotation>
+      <xs:documentation>
+        A list of NCNames.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:list itemType="xs:NCName"/>
+  </xs:simpleType>
+  <xs:element name="localname" type="localname" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        One or more localnames.
+      </xs:documentation>
+      <xs:appinfo>
+        <admin:optional>true</admin:optional>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="field-name">
+    <xs:annotation>
+      <xs:documentation>
+        A field name.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:minLength value="0" fixed="false"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="field-name" type="field-name" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The Field Name.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="namespace-uri">
+    <xs:annotation>
+      <xs:documentation>
+        A namespace URI.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:anyURI"/>
+  </xs:simpleType>
+  <xs:element name="namespace-uri" type="namespace-uri" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        A namespace URI.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="parent-localname">
+    <xs:annotation>
+      <xs:documentation>
+        A list of NCNames.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:list itemType="xs:NCName"/>
+  </xs:simpleType>
+  <xs:element name="parent-localname" type="parent-localname" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        One or more localnames.
+      </xs:documentation>
+      <xs:appinfo>
+        <admin:optional>true</admin:optional>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="parent-namespace-uri">
+    <xs:annotation>
+      <xs:documentation>
+        A namespace URI.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:anyURI"/>
+  </xs:simpleType>
+  <xs:element name="parent-namespace-uri" type="parent-namespace-uri" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        A namespace URI.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="latitiude-namespace-uri">
+    <xs:annotation>
+      <xs:documentation>
+        A namespace URI.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:anyURI"/>
+  </xs:simpleType>
+  <xs:element name="latitude-namespace-uri" type="latitude-namespace-uri" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        A namespace URI.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="longitude-namespace-uri">
+    <xs:annotation>
+      <xs:documentation>
+        A namespace URI.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:anyURI"/>
+  </xs:simpleType>
+  <xs:element name="longitude-namespace-uri" type="longitude-namespace-uri" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        A namespace URI.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="latitude-localname">
+    <xs:annotation>
+      <xs:documentation>
+        A list of NCNames.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:list itemType="xs:NCName"/>
+  </xs:simpleType>
+  <xs:element name="latitude-localname" type="latitude-localname" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        One or more localnames.
+      </xs:documentation>
+      <xs:appinfo>
+        <admin:optional>true</admin:optional>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="longitude-localname">
+    <xs:annotation>
+      <xs:documentation>
+        A list of NCNames.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:list itemType="xs:NCName"/>
+  </xs:simpleType>
+  <xs:element name="longitude-localname" type="longitude-localname" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        One or more localnames.
+      </xs:documentation>
+      <xs:appinfo>
+        <admin:optional>true</admin:optional>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="transaction-coordinators" type="transaction-coordinators" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The set of transactions that this forest is coordinating.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="transaction-coordinators" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        The set of transactions that this forest is coordinating.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="transaction-coordinator" minOccurs="1" maxOccurs="1"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="transaction-coordinator" type="transaction-coordinator" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        A transaction that this forest is coordinating.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="transaction-coordinator" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A transaction that this forest is coordinating.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence minOccurs="1" maxOccurs="1">
+      <xs:element ref="transaction-id" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="decision-state" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="participants" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="decision-state">
+    <xs:annotation>
+      <xs:documentation>
+        A transaction's state.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="unknown"/>
+      <xs:enumeration value="commit"/>
+      <xs:enumeration value="abort"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="decision-state" type="decision-state" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The state of the transaction.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="participants" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        The set of participating transactions.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="participant" minOccurs="1" maxOccurs="1"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="participants" type="participants" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The set of participating transactions.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="participant" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A participating transaction.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence minOccurs="1" maxOccurs="1">
+      <xs:element ref="participant-id" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="participant-state" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="participant" type="participant" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        A participating transaction.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="participant-state">
+    <xs:annotation>
+      <xs:documentation>
+        A participating transaction's state.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="acknowledged"/>
+      <xs:enumeration value="unacknowledged"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="participant-id" type="forest-id" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The forest id of a participant of a transaction.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="participant-state" type="participant-state" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The state of the participating transaction.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="transaction-participants" type="transaction-participants" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        The set of transactions that this forest is participating in.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="transaction-participants" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        The set of transactions that this forest is participating in.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="transaction-participant" minOccurs="1" maxOccurs="1"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="transaction-participant" type="transaction-participant" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+        A transaction that this forest is participating in.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="transaction-participant" mixed="false" abstract="false">
+    <xs:annotation>
+      <xs:documentation>
+        A transaction that this forest is participating in.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence minOccurs="1" maxOccurs="1">
+      <xs:element ref="transaction-id" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="coordinator-id" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="transaction-id">
+    <xs:annotation>
+      <xs:documentation>
+        A transaction unique id (64-bit value).
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:unsignedLong"/>
+  </xs:simpleType>
+  <xs:element name="transaction-id" type="transaction-id" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The unique key of the transaction.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="coordinator-id" type="forest-id" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>
+  	The forest id of the coordinator of a transaction.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+</xs:schema>

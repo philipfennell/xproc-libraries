@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="StartPage.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1060071"></A>
+<A ID="66089"></A>
+MarkLogic Server Entry Page</Heading-1>
+<Body>
+<A ID="pgfId-1060075"></A>
+The MarkLogic Server Entry Page provides access to administrative, development, and other MarkLogic Server resources.</Body>
+<pagenum>
+<A ID="pgfId-1060525"></A>
+8</pagenum>
+<Body>
+<A ID="pgfId-1060532"></A>
+In your Start menu, go to MarkLogic Server and select Use MarkLogic Server:</Body>
+<Body>
+<A ID="pgfId-1060536"></A>
+<IMAGE xml:link="simple" href="images/FrontPage.gif" show="embed" actuate="auto"/>
+</Body>
+<Heading-2>
+<A ID="pgfId-1060197"></A>
+Use</Heading-2>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1060173"></A>
+Category</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1060175"></A>
+Description</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1060177"></A>
+Load Content</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1060181"></A>
+This link launches Information Studio. For details, see the <Emphasis>
+Information Studio Developer's Guide</Emphasis>
+.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1060184"></A>
+Manage</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1060186"></A>
+This link launches the Administrator Interface. For details, see the <Emphasis>
+Administrator's Guide</Emphasis>
+.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1060191"></A>
+Build an Application</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1060195"></A>
+This link launches Application Builder. For details, see the <Emphasis>
+Application Builder Developer's Guide</Emphasis>
+.</CellBody>
+</CELL>
+</ROW>
+</TABLE>
+<Heading-2>
+<A ID="pgfId-1059520"></A>
+Explore</Heading-2>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1059705"></A>
+Category</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1059707"></A>
+Description</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1059810"></A>
+Search</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1059812"></A>
+This link launches the Oscars Explorer application. For details, see <A href="../appbuilder/intro.xml#id(89173)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Using the Oscars Sample Application</Hyperlink>
+</A> in the <Emphasis>
+Application Builder Developer's Guide</Emphasis>
+.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1059709"></A>
+Featured Samples</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1059711"></A>
+This section includes links to various MarkLogic sample applications.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1059713"></A>
+Integrations</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1059715"></A>
+This includes links to APIs that enable you to integrate other software with MarkLogic Server.</CellBody>
+</CELL>
+</ROW>
+</TABLE>
+<Heading-2>
+<A ID="pgfId-1059554"></A>
+Community</Heading-2>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1059722"></A>
+Category</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1059724"></A>
+Description</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1059726"></A>
+MarkLogic Developer Network</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1059728"></A>
+This is a link to the MarkLogic Developer Network home page.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1059730"></A>
+Toolkits for Microsoft Office</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1059732"></A>
+This section includes links to tools that enable you to build MarkLogic Server applications that integrate with Microsoft Excel, Powerpoint, and Word.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1059734"></A>
+Featured Projects</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1059736"></A>
+This section includes links to some of the collaborative open source projects hosted on the MarkLogic Developer Network site.</CellBody>
+</CELL>
+</ROW>
+</TABLE>
+<Heading-2>
+<A ID="pgfId-1059527"></A>
+Learn</Heading-2>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1059743"></A>
+Category</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1059745"></A>
+Description</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1059747"></A>
+Guides and Reference</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1059749"></A>
+These sections include links to the various procedural and reference documentation for MarkLogic Server.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1059944"></A>
+MarkLogic Server 4.2</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1059946"></A>
+This section includes links to the release-specific documentation for MarkLogic Server.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1059751"></A>
+Support</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1059753"></A>
+This section includes a link to the MarkLogic support site and ????</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1059755"></A>
+Mailing List</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1059757"></A>
+This section includes links to various topics made available through the MarkMail application.</CellBody>
+</CELL>
+</ROW>
+</TABLE>
+<Body>
+<A ID="pgfId-1059634"></A>
+</Body>
+</XML>

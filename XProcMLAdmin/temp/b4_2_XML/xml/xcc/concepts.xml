@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="concepts.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-999114"></A>
+Programming in XCC</Heading-1>
+<pagenum>
+<A ID="pgfId-1046239"></A>
+14</pagenum>
+<Body>
+<A ID="pgfId-999120"></A>
+XCC allows you to create multi-tier applications that communicate with MarkLogic Server as the underlying content repository. This chapter describes some of the basic programming concepts used in XCC. It includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1050360"></A>
+<A href="concepts.xml#id(15580)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Configuring an XDBC Server</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050364"></A>
+<A href="concepts.xml#id(55196)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+XCC Sessions</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050365"></A>
+<A href="concepts.xml#id(74015)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Point-In-Time Queries</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050579"></A>
+<A href="concepts.xml#id(74634)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Automatically Retries Exceptions</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050639"></A>
+<A href="concepts.xml#id(65804)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Coding Basics</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1056972"></A>
+<A href="concepts.xml#id(55501)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Accessing SSL-Enabled XDBC App Servers</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1050370"></A>
+<A ID="15580"></A>
+Configuring an XDBC Server</Heading-2>
+<Body>
+<A ID="pgfId-1050371"></A>
+Use the Admin Interface to set up an XDBC server, specifying a name, port, a database to access, and other configuration parameters. For detailed instructions how to configure an XDBC Server, see the <Emphasis>
+Administrator's Guide</Emphasis>
+. You need an XDBC Server for an XCC program to communicate with MarkLogic Server.</Body>
+<Heading-2>
+<A ID="pgfId-1050346"></A>
+<A ID="55196"></A>
+XCC Sessions</Heading-2>
+<Body>
+<A ID="pgfId-1050347"></A>
+XCC programs use the <code>
+Session</code>
+ interface to set up and control communication with MarkLogic Server. XCC automatically creates and releases connections to MarkLogic Server as needed, and automatically pools the connections so that multiple requests are handled efficiently. </Body>
+<Body>
+<A ID="pgfId-1050508"></A>
+A <code>
+Session</code>
+ handles authentication with MarkLogic Server and holds a dynamic state, but it is a lightweight object. It is OK to create and release Session objects as needed and as makes logical sense for your program. Do not expend effort to pool and reuse them, however, because they are not expensive to create. For example, if your program is doing multiple requests one after another, create a <code>
+Session</code>
+ object at the beginning and close it when the last request is complete. </Body>
+<Body>
+<A ID="pgfId-1050584"></A>
+You set up the connection details with the <code>
+ContentSource</code>
+ object. You can submit the connection details when you invoke the XCC program with a URL that has the following form:</Body>
+<Code>
+<A ID="pgfId-1050592"></A>
+xcc://username:password@host:port/database</Code>
+<Body>
+<A ID="pgfId-1050611"></A>
+Also, there are discrete arguments to the constructors in the API to set up any or all portions of the connection details.</Body>
+<Heading-2>
+<A ID="pgfId-1050383"></A>
+<A ID="74015"></A>
+Point-In-Time Queries</Heading-2>
+<Body>
+<A ID="pgfId-1050392"></A>
+Point-in-time queries allow you to query older versions of content in a database. In an XCC application, you set up the options for any requests submitted to MarkLogic Server with the <code>
+RequestOptions</code>
+ class. One of the options you can set is the effective point-in-time option. Therefore, to set up a query to run at a different point in time, you just set that option (the <code>
+setEffectivePointInTime</code>
+ method in Java) on the <code>
+RequestOptions</code>
+. The query will then run at the specified point in time.</Body>
+<Body>
+<A ID="pgfId-1050447"></A>
+There are several things you must set up on MarkLogic Server in order to perform point-in-time queries. For details, see the 'Point-In-Time Queries' chapter of the <Emphasis>
+Application Developer's Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1050563"></A>
+<A ID="74634"></A>
+Automatically Retries Exceptions</Heading-2>
+<Body>
+<A ID="pgfId-1050567"></A>
+Certain exceptions that MarkLogic Server throws are <Emphasis>
+retryable</Emphasis>
+; that is, the exception is thrown because of a condition that is transitory, and applications can try the request again after getting the exception. XCC will automatically retry any retryable exceptions. You can control the maximum number of retryable exceptions with the <code>
+RequestOptions</code>
+ interface.</Body>
+<Heading-2>
+<A ID="pgfId-1050640"></A>
+<A ID="65804"></A>
+Coding Basics</Heading-2>
+<Body>
+<A ID="pgfId-1050644"></A>
+To use XCC, there are several basic things you need to do in your Java or .NET code:</Body>
+<Body-bullet>
+<A ID="pgfId-1050645"></A>
+Import the needed libraries.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050720"></A>
+Set up the <code>
+ContentSource</code>
+ object to authenticate against MarkLogic Server.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050649"></A>
+Create a new Session object.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050650"></A>
+Add a request to the session object.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050707"></A>
+Get back a ResultSequence object from MarkLogic Server.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050711"></A>
+Do something with the results (print them out, for example).</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050712"></A>
+Close the session.</Body-bullet>
+<Body>
+<A ID="pgfId-1050651"></A>
+The following are Java code samples that illustrate these basic design patterns:</Body>
+<Code>
+<A ID="pgfId-1050722"></A>
+package com.marklogic.xcc.examples;
+
+import com.marklogic.xcc.ContentSource;
+import com.marklogic.xcc.ContentSourceFactory;
+import com.marklogic.xcc.Session;
+import com.marklogic.xcc.Request;
+import com.marklogic.xcc.ResultSequence;
+
+	URI uri = new URI(&quot;xcc://user:pass@localhost:8000/mycontent&quot;);
+ContentSource contentSource = 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ContentSourceFactory.newContentSource (uri);
+
+Session session = contentSource.newSession();
+
+	Request request = session.newAdhocQuery (&quot;\&quot;Hello World\&quot;&quot;);
+
+ResultSequence rs = session.submitRequest (request);
+
+System.out.println (rs.asString());
+
+session.close();</Code>
+<Heading-2>
+<A ID="pgfId-1055662"></A>
+<A ID="55501"></A>
+Accessing SSL-Enabled XDBC App Servers</Heading-2>
+<Body>
+<A ID="pgfId-1056563"></A>
+There are three basic approaches for an XCC application to create a secure connection to an SSL-enabled XDBC App Server, which include:</Body>
+<Body-bullet>
+<A ID="pgfId-1057024"></A>
+<A href="concepts.xml#id(53408)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating a Trust Manager</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1057025"></A>
+<A href="concepts.xml#id(20412)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Accessing a Keystore</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059989"></A>
+<A href="concepts.xml#id(91784)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Managing Client Side Authentication</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1057814"></A>
+These approaches are described in this section and demonstrated in the <code>
+HellowSecureWorld.java</code>
+ example distributed with your MarkLogic XCC software distribution.</Body>
+<Heading-3>
+<A ID="pgfId-1057677"></A>
+<A ID="53408"></A>
+Creating a Trust Manager</Heading-3>
+<Body>
+<A ID="pgfId-1057187"></A>
+This section describes how to use a simple Trust Manager for X.509-based authentication. The Trust Manager shown here does not validate certificate chains and is therefore unsafe and should not be used for production code. See your Java documentation for details on how to create a more robust Trust Manager for your specific application or how to obtain a Certificate Authority from a keystore.</Body>
+<Note>
+<A ID="pgfId-1057562"></A>
+If you want to create an XCC application that works with MarkLogic Server version 4.2 (with SSL) and version 4.0 (without SSL), you can use the MarkLogic Server 4.2 <code>
+marklogic-xcc-4.2.x.jar </code>
+file on your 4.0 system. </Note>
+<Body>
+<A ID="pgfId-1057041"></A>
+To enable SSL access using a trust manager, import the following classes in addition to those described in <A href="concepts.xml#id(65804)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Coding Basics' on page&#160;9</A>:</Body>
+<Code>
+<A ID="pgfId-1056494"></A>
+import javax.net.ssl.SSLContext;
+import com.marklogic.xcc.SecurityOptions;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;</Code>
+<Code>
+<A ID="pgfId-1056503"></A>
+import java.security.KeyManagementException;
+import java.security.cert.X509Certificate;
+import java.security.cert.CertificateException;</Code>
+<Body>
+<A ID="pgfId-1055707"></A>
+Create a trust manager and pass it to the <code>
+SSLContext.init()</code>
+ method:</Body>
+<Code>
+<A ID="pgfId-1058439"></A>
+protected SecurityOptions newTrustOptions()
+&#160;&#160;throws Exception
+{
+&#160;&#160;&#160;TrustManager[] trust = new TrustManager[] { new X509TrustManager() {
+&#160;&#160;&#160;&#160;public void checkClientTrusted(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;X509Certificate[] x509Certificates, 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;String s)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;throws CertificateException {
+&#160;&#160;&#160;&#160;&#160;// nothing to do
+&#160;&#160;&#160;&#160;}</Code>
+<Code>
+<A ID="pgfId-1058445"></A>
+&#160;&#160;&#160;&#160;public void checkServerTrusted(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;X509Certificate[] x509Certificates, 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;String s)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;throws CertificateException {
+&#160;&#160;&#160;&#160;&#160;// nothing to do
+&#160;&#160;&#160;&#160;}</Code>
+<Code>
+<A ID="pgfId-1058450"></A>
+&#160;&#160;&#160;&#160;public X509Certificate[] getAcceptedIssuers() {
+&#160;&#160;&#160;&#160;&#160;return null;
+&#160;&#160;&#160;&#160;}
+&#160;&#160;}
+};</Code>
+<Code>
+<A ID="pgfId-1056240"></A>
+&#160;&#160;SSLContext sslContext = SSLContext.getInstance(&quot;SSLv3&quot;);
+&#160;&#160;sslContext.init(null, trust, null);
+&#160;&#160;return new SecurityOptions(sslContext);
+}</Code>
+<Body>
+<A ID="pgfId-1056246"></A>
+Call <code>
+ContentSourceFactory.newContentSource()</code>
+ with a host name, port, user name, password, and SSL security options defined by <code>
+newTrustOptions()</code>
+:</Body>
+<Code>
+<A ID="pgfId-1059207"></A>
+ContentSource cs = 
+&#160;&#160;&#160;&#160;ContentSourceFactory.newContentSource (host,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;port,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;username,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;password,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;null,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;newTrustOptions());</Code>
+<Note>
+<A ID="pgfId-1059208"></A>
+If you are passing a URI to <code>
+ContentSourceFactory.newContentSource()</code>
+, specify a connection scheme of <code>
+xccs</code>
+, rather than <code>
+xcc</code>
+., as shown in <A href="concepts.xml#id(20412)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Accessing a Keystore' on page&#160;13</A>.</Note>
+<Heading-3>
+<A ID="pgfId-1059210"></A>
+<A ID="20412"></A>
+Accessing a Keystore</Heading-3>
+<Body>
+<A ID="pgfId-1058271"></A>
+You can use the Java <code>
+keytool</code>
+ utility to import a MarkLogic certificate into a keystore. See the Java JSSE documentation for details on the use of the <code>
+keytool</code>
+ and your keystore options.</Body>
+<Body>
+<A ID="pgfId-1059284"></A>
+You can explicitly specify a keystore, as shown in this example, or you can specify a null keystore. Specifying a null keystore causes the <code>
+TrustManagerFactory</code>
+ to locate your default keystore, as described in the Java Secure Socket Extension (JSSE) Reference Guide.</Body>
+<Body>
+<A ID="pgfId-1057706"></A>
+To enable SSL by accessing certificates in a keystore, import the following classes in addition to those described in <A href="concepts.xml#id(65804)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Coding Basics' on page&#160;9</A>:</Body>
+<Code>
+<A ID="pgfId-1059494"></A>
+import com.marklogic.xcc.SecurityOptions;
+import com.marklogic.xcc.ContentSource;
+import com.marklogic.xcc.ContentSourceFactory;</Code>
+<Code>
+<A ID="pgfId-1059486"></A>
+import java.io.FileInputStream;
+import java.net.URI;
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509TrustManager;
+import javax.net.ssl.SSLContext;</Code>
+<Code>
+<A ID="pgfId-1059539"></A>
+import java.security.KeyStore;
+import java.security.cert.X509Certificate;</Code>
+<Body>
+<A ID="pgfId-1059409"></A>
+Get the signed certificate from a keystore and pass it to the <code>
+SSLContext.init()</code>
+ method:</Body>
+<Code>
+<A ID="pgfId-1058811"></A>
+protected SecurityOptions newTrustOptions()
+&#160;&#160;throws Exception
+{</Code>
+<Code>
+<A ID="pgfId-1058816"></A>
+// Load key store with trusted signing authorities.
+&#160;&#160;KeyStore trustedKeyStore = KeyStore.getInstance(&quot;JKS&quot;);
+&#160;&#160;trustedKeyStore.load(
+&#160;&#160;&#160;&#160;new FileInputStream(&quot;C:/users/myname/.keystore&quot;), 
+&#160;&#160;&#160;&#160;null);</Code>
+<Code>
+<A ID="pgfId-1058820"></A>
+// Build trust manager to validate server certificates using the
+&#160;&#160;&#160;specified key store.
+&#160;&#160;TrustManagerFactory trustManagerFactory =
+&#160;&#160;&#160;&#160;TrustManagerFactory.getInstance(&quot;SunX509&quot;);
+&#160;&#160;trustManagerFactory.init(trustedKeyStore);
+&#160;&#160;TrustManager[] trust = trustManagerFactory.getTrustManagers();</Code>
+<Code>
+<A ID="pgfId-1059069"></A>
+&#160;&#160;SSLContext sslContext = SSLContext.getInstance(&quot;SSLv3&quot;);
+&#160;&#160;sslContext.init(null, trust, null);
+&#160;&#160;return new SecurityOptions(sslContext);
+}</Code>
+<Body>
+<A ID="pgfId-1059113"></A>
+Call <code>
+ContentSourceFactory.newContentSource()</code>
+ with a URI:</Body>
+<Code>
+<A ID="pgfId-1059114"></A>
+ContentSource cs = 
+&#160;&#160;&#160;&#160;ContentSourceFactory.newContentSource (uri,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;newTrustOptions());</Code>
+<Body>
+<A ID="pgfId-1059226"></A>
+The URI is passed from the command line in the form of:</Body>
+<Code>
+<A ID="pgfId-1059227"></A>
+xccs://username:password@hostname:port</Code>
+<Heading-3>
+<A ID="pgfId-1059553"></A>
+<A ID="91784"></A>
+Managing Client Side Authentication</Heading-3>
+<Body>
+<A ID="pgfId-1059560"></A>
+You can define a <code>
+KeyManager</code>
+, if your client application is required to send authentication credentials to the server. The following example adds client authentication to the <code>
+newTrustOptions</code>
+ method shown in <A href="concepts.xml#id(20412)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Accessing a Keystore' on page&#160;13</A>:</Body>
+<Code>
+<A ID="pgfId-1059760"></A>
+protected SecurityOptions newTrustOptions()
+&#160;&#160;throws Exception
+{</Code>
+<Code>
+<A ID="pgfId-1059761"></A>
+// Load key store with trusted signing authorities.
+&#160;&#160;KeyStore trustedKeyStore = KeyStore.getInstance(&quot;JKS&quot;);
+&#160;&#160;trustedKeyStore.load(
+&#160;&#160;&#160;&#160;new FileInputStream(&quot;C:/users/myname/.keystore&quot;), 
+&#160;&#160;&#160;&#160;null);</Code>
+<Code>
+<A ID="pgfId-1059823"></A>
+// Build trust manager to validate server certificates using the
+&#160;&#160;&#160;specified key store.
+&#160;&#160;TrustManagerFactory trustManagerFactory =
+&#160;&#160;&#160;&#160;TrustManagerFactory.getInstance(&quot;SunX509&quot;);
+&#160;&#160;trustManagerFactory.init(trustedKeyStore);
+&#160;&#160;TrustManager[] trust = trustManagerFactory.getTrustManagers();</Code>
+<Code>
+<A ID="pgfId-1059824"></A>
+// Load key store with client certificates.
+&#160;&#160;KeyStore clientKeyStore = KeyStore.getInstance(&quot;JKS&quot;);
+&#160;&#160;clientKeyStore.load(
+&#160;&#160;&#160;&#160;new FileInputStream(&quot;C:/users/myname/.keystore&quot;),
+&#160;&#160;&#160;&#160;null);</Code>
+<Code>
+<A ID="pgfId-1059827"></A>
+// Get key manager to provide client credentials.
+&#160;&#160;KeyManagerFactory keyManagerFactory =
+&#160;&#160;&#160;&#160;KeyManagerFactory.getInstance(&quot;SunX509&quot;);
+&#160;&#160;keyManagerFactory.init(clientKeyStore, 'passphrase');
+&#160;&#160;KeyManager[] key = keyManagerFactory.getKeyManagers();</Code>
+<Code>
+<A ID="pgfId-1059837"></A>
+// Initialize the SSL context with key and trust managers.
+&#160;&#160;SSLContext sslContext = SSLContext.getInstance(&quot;SSLv3&quot;);
+&#160;&#160;sslContext.init(key, trust, null);
+&#160;&#160;return new SecurityOptions(sslContext);
+}</Code>
+</XML>

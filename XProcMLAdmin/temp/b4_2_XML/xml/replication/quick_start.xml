@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="quick_start.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1065677"></A>
+<A ID="12943"></A>
+Flexible Replication Quick Start</Heading-1>
+<pagenum>
+<A ID="pgfId-1065678"></A>
+20</pagenum>
+<Body>
+<A ID="pgfId-1065682"></A>
+This chapter provides the quick-start procedures for creating a simple flexible replication configuration on a single MarkLogic Server. Typical flexible replication configurations will have the Master and Replica databases on different MarkLogic Servers located on different hosts. Replicated MarkLogic Servers may reside in the same cluster or in different clusters. In order to keep the hardware requirements to a minimum, this quick start describes how to set up replication between two databases on the same MarkLogic Server. </Body>
+<Body>
+<A ID="pgfId-1067582"></A>
+This chapter includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1053734"></A>
+<A href="quick_start.xml#id(50142)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating Master and Replica Databases</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1067134"></A>
+<A href="quick_start.xml#id(58017)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Configuring a Flexible Replication Pipeline for the Master Database</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054662"></A>
+<A href="quick_start.xml#id(79224)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating a Replication App Server</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053738"></A>
+<A href="quick_start.xml#id(92464)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Configuring Push Replication on the Master Database</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1067045"></A>
+<A href="quick_start.xml#id(76342)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Scheduling Replication Push Task</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1067266"></A>
+<A href="quick_start.xml#id(28675)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Loading Documents into the Master Database and Checking Replication</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1067379"></A>
+All of the procedures described in this chapter are done using the Admin Interface described in the <A href="../admin/admin_inter.xml#id(51820)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Administrative Interface</Hyperlink>
+</A> chapter in the <Emphasis>
+Administrator's Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1060143"></A>
+<A ID="50142"></A>
+Creating Master and Replica Databases</Heading-2>
+<Body>
+<A ID="pgfId-1066705"></A>
+Before attempting to configure replication, create a Master and a Replica database. In these examples, the databases are named Master and Replica. However, you can use any name you wish for either the master or its replica.</Body>
+<Number1>
+<A ID="pgfId-1066687"></A>
+Create two forests, one for the Master database and one for the Replica database. For details on creating forests, see <A href="../admin/forests.xml#id(45952)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating a Forest</Hyperlink>
+</A> in the <Emphasis>
+Administrator's Guide</Emphasis>
+.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1066162"></A>
+Create two databases, Master and Replica, and attach the respective forest to each database. For details on creating databases and attaching forests, see <A href="../admin/databases.xml#id(60599)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating a New Database</Hyperlink>
+</A> and <A href="../admin/databases.xml#id(48000)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Attaching and/or Detaching Forests to/from a Database</Hyperlink>
+</A> in the <Emphasis>
+Administrator's Guide</Emphasis>
+.</Number>
+</NumberList>
+<Heading-2>
+<A ID="pgfId-1066962"></A>
+<A ID="58017"></A>
+Configuring a Flexible Replication Pipeline for the Master Database</Heading-2>
+<Body>
+<A ID="pgfId-1067080"></A>
+This section describes how to configure the Content Processing Framework (CPF) for the replicated domains on the Master database. In order to replicate data, CPF on the Master domains must be configured with the Status Change Handling and Flexible Replication pipelines. In this example, we use the existing Triggers database. However, if you are replicating more than one database, you should create a separate CPF database for each master database.</Body>
+<Number1>
+<A ID="pgfId-1066176"></A>
+Configure the Master database to use a triggers database.</Number1>
+<Body-indent>
+<A ID="pgfId-1066086"></A>
+<IMAGE xml:link="simple" href="images/triggers-config.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1066193"></A>
+Select Content Processing on the Master database:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1066214"></A>
+<IMAGE xml:link="simple" href="images/content-processing1.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1066200"></A>
+In the Content Processing Summary, click on the Install tab:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1066360"></A>
+<IMAGE xml:link="simple" href="images/content-processing-install1.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1066382"></A>
+On the Content Processing Installation page, click Install:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1066243"></A>
+<IMAGE xml:link="simple" href="images/content-processing2.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1067753"></A>
+Confirm that Flexible Replication appears in the Pipelines section of the Content Processing Summary page:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1066275"></A>
+<IMAGE xml:link="simple" href="images/content-processing3.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1066331"></A>
+On the left-hand navigation menu, navigate to the Content Processing &gt; Domains &gt; Default Master &gt; Pipelines page. Select the Status Change Handling and Flexible Replication pipelines and click OK:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1066332"></A>
+<IMAGE xml:link="simple" href="images/content-processing4.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<Heading-2>
+<A ID="pgfId-1066972"></A>
+<A ID="79224"></A>
+Creating a Replication App Server</Heading-2>
+<Body>
+<A ID="pgfId-1067292"></A>
+In a push replication configuration, the Replica database must be connected to a Replication App Server. In a pull replication configuration, the Master database must be connected to a Replication App Server.</Body>
+<Body>
+<A ID="pgfId-1067951"></A>
+The following procedure describes how to create an App Server for a Replica in a push replication configuration.</Body>
+<Number1>
+<A ID="pgfId-1066838"></A>
+Under the Relica database, navigate to Flexible Replication. In the Database Replication page, click Create under Application Server:</Number1>
+<Body-indent>
+<A ID="pgfId-1066842"></A>
+<IMAGE xml:link="simple" href="images/app-server-master-create1.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1066843"></A>
+In the HTTP Server Configuration page, specify a port number of the App Server. Set the other fields as required, but do not change the server name, root directory, or database settings, which have been prefilled by MarkLogic Server. When finished, click Ok.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1066853"></A>
+<IMAGE xml:link="simple" href="images/app-server-replicant-create1.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<Heading-2>
+<A ID="pgfId-1066988"></A>
+<A ID="92464"></A>
+Configuring Push Replication on the Master Database</Heading-2>
+<NumberList>
+<Number>
+<A ID="pgfId-1066310"></A>
+For the Master database, navigate to Flexible Replication and click Default Master under Content Processing:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1066410"></A>
+<IMAGE xml:link="simple" href="images/flex-rep1.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1066389"></A>
+Click Create to configure replication for the Default Master domain:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1066396"></A>
+<IMAGE xml:link="simple" href="images/flex-rep2.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1066403"></A>
+Click Create to configure a replication target for the Default Master domain:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1066439"></A>
+<IMAGE xml:link="simple" href="images/flex-rep3.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1066446"></A>
+In the Database Replication Target page, specify a target name, the target URL that includes the hostname and port number you specified for the Replica's App Server in <A href="quick_start.xml#id(79224)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Creating a Replication App Server' on page&#160;14</A>. Under Authentication, specify the username and password for a user assigned the <code>
+flexrep-user </code>
+role on the Replica's App Server:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1066489"></A>
+<IMAGE xml:link="simple" href="images/target-rep-page1.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<Heading-2>
+<A ID="pgfId-1067672"></A>
+<A ID="76342"></A>
+Scheduling Replication Push Task</Heading-2>
+<Body>
+<A ID="pgfId-1067715"></A>
+Create a scheduled task to periodically push updated content on the Master to the Replicas. When a document is updated on the Master, it is immediately replicated to the Replica. A scheduled replication task provides a retry mechanism in the event the initial replication fails. It also replicates all of the documents that were on the master before replication was enabled. For more information on scheduled replication tasks, see <A href="configuring.xml#id(66155)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Creating a Scheduled Replication Task' on page&#160;30</A>.</Body>
+<NumberList>
+<Number>
+<A ID="pgfId-1067721"></A>
+For the Master database, navigate to Flexible Replication and click Create under Scheduled Tasks:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1067683"></A>
+<IMAGE xml:link="simple" href="images/task-create1.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1067684"></A>
+Create a Scheduled Tasks that defines the frequency in which documents are to be replicated from the Master to the Replica. You must also specify the task user and host.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1067688"></A>
+<IMAGE xml:link="simple" href="images/task-create2.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<Heading-2>
+<A ID="pgfId-1066623"></A>
+<A ID="54217"></A>
+<A ID="28675"></A>
+Loading Documents into the Master Database and Checking Replication</Heading-2>
+<Body>
+<A ID="pgfId-1067162"></A>
+At this point, any documents loaded into the Master database will be replicated to the Replica database. You can use Information Studio to load documents into the Master database. For details on using Information Studio to load documents, see <A href="../info_studio/loadingContent.xml#id(80580)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating and Configuring Flows</Hyperlink>
+</A> in the <Emphasis>
+Information Studio Developer's Guide</Emphasis>
+.</Body>
+<Body>
+<A ID="pgfId-1067235"></A>
+Alternative methods for loading content into a database include:</Body>
+<Body-bullet>
+<A ID="pgfId-1067177"></A>
+Using the XQuery load document functions, as described in <A href="../dev_guide/loading.xml#id(46976)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Loading Documents into the Database</Hyperlink>
+</A> in the <Emphasis>
+Application Developer's Guide</Emphasis>
+. </Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1067184"></A>
+Setting up a WebDAV server and client, such as Windows Explorer, to load your documents. See the section <A href="../cpf/default.xml#id(76620)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Simple Drag-and-Drop Conversion</Hyperlink>
+</A> in the <Emphasis>
+Content Processing Framework Guide</Emphasis>
+ guide for information on how to configure a WebDAV server to work with Windows Explorer. </Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1067193"></A>
+Creating an XCC application, as described in <A href="../xcc/sampleapps.xml#id(86236)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Using the Sample Applications</Hyperlink>
+</A> in the <Emphasis>
+XCC Developer's Guide</Emphasis>
+.</Body-bullet>
+<Body>
+<A ID="pgfId-1067169"></A>
+One way to confirm the content has been replicated to the replica is to use the explore feature in CQ to view the contents of the Replica database. For details on how to use CQ to explore the contents of a database, see <A href="../gs/XQueryTutorial.xml#id(22489)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Using CQ</Hyperlink>
+</A> in the <Emphasis>
+Getting Started with MarkLogic&#160;Server</Emphasis>
+ Guide.</Body>
+</XML>

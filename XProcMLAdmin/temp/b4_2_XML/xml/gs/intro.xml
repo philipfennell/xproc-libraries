@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="intro.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1051062"></A>
+Introduction to MarkLogic Server</Heading-1>
+<pagenum>
+<A ID="pgfId-1053851"></A>
+5</pagenum>
+<Body>
+<A ID="pgfId-1051063"></A>
+MarkLogic Server is a powerful software solution for harnessing your digital content base. MarkLogic Server enables you to build complex applications that interact with large volumes of XML, SGML, HTML and other popular content formats. The unique architecture of MarkLogic Server ensures that your applications are both scalable and high-performance, delivering query results at search-engine speeds while providing transactional integrity over the underlying content repository.</Body>
+<Heading-2>
+<A ID="pgfId-1051080"></A>
+Requirements</Heading-2>
+<Body>
+<A ID="pgfId-1061543"></A>
+You must first install MarkLogic Server before following the procedures in this guide. In addition, this document assumes that you have accepted the MarkLogic License Agreement. Both a successful installation and acceptance of the license agreement are required before using the software. For instructions on installing the software, including a list of supported platforms, see the <Emphasis>
+Installation Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1061595"></A>
+About this Document</Heading-2>
+<Body>
+<A ID="pgfId-1061599"></A>
+This document describes how to get started using MarkLogic Server on your system. It introduces some concepts of MarkLogic Server and XQuery, and is intended for first-time users of MarkLogic Server. </Body>
+<Body>
+<A ID="pgfId-1061606"></A>
+The purpose of this document is to explain how to get started using the software. For more detail on other aspects of MarkLogic Server, see the following documentation, available through the support web site and through <Hyperlink>
+<A href="http://developer.marklogic.com/pubs/" xml:link="simple" show="replace" actuate="user" CLASS="URL">http://developer.marklogic.com/</A></Hyperlink>
+:</Body>
+<TableAnchor>
+<A ID="pgfId-1061977"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1061853"></A>
+Documentation</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1061855"></A>
+Description</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1061999"></A>
+<Emphasis>
+4.2 Release Notes</Emphasis>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1062001"></A>
+Contains a summary of new features, upgrade compatible information, and known issues.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1061860"></A>
+<Emphasis>
+Installation Guide</Emphasis>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1061862"></A>
+Provides procedures for installing MarkLogic Server.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1061867"></A>
+<Emphasis>
+Administrator's Guide</Emphasis>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1061869"></A>
+Provides procedures for administrative tasks such as creating servers, creating databases, backing up databases, creating users, setting up your security policy, and so on.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1062005"></A>
+<Emphasis>
+Application Builder Developer's Guide</Emphasis>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1062010"></A>
+Provides step-by step information on using Application Builder to build a search application, and also provides information on customizing applications built with Application Builder. </CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1061874"></A>
+<Emphasis>
+Application Developer's Guide</Emphasis>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1061876"></A>
+Provides procedures, methodologies, and conceptual information about general MarkLogic Server application development tasks.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1061884"></A>
+<Emphasis>
+Search Developer's Guide</Emphasis>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1061886"></A>
+Provides procedures, methodologies, and conceptual information about search-based application development tasks.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1061904"></A>
+<Emphasis>
+Content Processing Framework Guide</Emphasis>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1061906"></A>
+Provides an introduction to the Content Processing Framework and procedures for installing the default content processing framework.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1061910"></A>
+<Emphasis>
+Understanding and Using Security Guide</Emphasis>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1061913"></A>
+Provides information on the role-based security model in MarkLogic Server.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1061918"></A>
+<Emphasis>
+Query Performance and Tuning Guide</Emphasis>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1061920"></A>
+Provides performance-related information that is useful to application developers and administrators.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1061924"></A>
+<Emphasis>
+Scalability, Availability, and Failover Guide</Emphasis>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1061927"></A>
+Provides information on large-scale system architecture, clustering, availability, and details on setting up both local-disk and shared-disk failover.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1061938"></A>
+<Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1061941"></A>
+API documentation for the MarkLogic built-in and module extensions to the XQuery standard functions, as well as API documentation for the W3C functions implemented in MarkLogic Server.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1061950"></A>
+XCC Javadoc and .Net C# API Documentation</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1061952"></A>
+API documentation for the MarkLogic XML Contentbase Connector for Java API (XCC/J) and .Net XCC C# API documentation.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1061957"></A>
+<Emphasis>
+XCC Developer's Guide</Emphasis>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1061959"></A>
+An overview of the what you can do with the XCC libraries, examples of how to use XCC, and an overview of the sample applications included with XCC.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1061964"></A>
+<Emphasis>
+XQuery and XSLT Reference Guide</Emphasis>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1061966"></A>
+A condensed overview of the XQuery language, including information on the three XQuery dialects in MarkLogic Server. This book does include some syntax information, although it is primarily intended as in introduction and quick-reference to the language, not as a comprehensive reference.</CellBody>
+</CELL>
+</ROW>
+</TABLE>
+<Body>
+<A ID="pgfId-1061785"></A>
+</Body>
+</XML>

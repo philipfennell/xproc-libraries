@@ -1,0 +1,72 @@
+<MedlineCitation Owner="NLM" Status="Completed">
+		<MedlineID>21978179</MedlineID>
+		<PMID>11981952</PMID>
+		<DateCreated>
+			   <Year>2002</Year>
+			   <Month>04</Month>
+			   <Day>30</Day>
+		</DateCreated>
+		<DateCompleted>
+			   <Year>2002</Year>
+			   <Month>06</Month>
+			   <Day>26</Day>
+		</DateCompleted>
+		<Article>
+			   <Journal>
+				     <ISSN>0277-2116</ISSN>
+				     <JournalIssue>
+					       <Volume>34</Volume>
+					       <Issue>4</Issue>
+					       <PubDate>
+						         <Year>2002</Year>
+						         <Month>Apr</Month>
+					       </PubDate>
+				     </JournalIssue>
+			   </Journal>
+			   <ArticleTitle>Viral mutants and fulminant hepatitis. A dominant hepatitis B virus
+				population defective in virus secretion because of several S-gene mutations from a
+				patient with fulminant hepatitis.</ArticleTitle>
+			   <Pagination>
+				     <MedlinePgn>426</MedlinePgn>
+			   </Pagination>
+			   <Affiliation>Department of Pediatrics, National Taiwan University Hospital, Taipei,
+				Taiwan.</Affiliation>
+			   <AuthorList CompleteYN="Y">
+				     <Author>
+					       <LastName>Chang</LastName>
+					       <ForeName>Mei-Hwei</ForeName>
+					       <Initials>MH</Initials>
+				     </Author>
+			   </AuthorList>
+			   <Language>eng</Language>
+			   <PublicationTypeList>
+				     <PublicationType>Journal Article</PublicationType>
+			   </PublicationTypeList>
+		</Article>
+		<MedlineJournalInfo>
+			   <Country>United States</Country>
+			   <MedlineTA>J Pediatr Gastroenterol Nutr</MedlineTA>
+			   <NlmUniqueID>8211545</NlmUniqueID>
+		</MedlineJournalInfo>
+		<CitationSubset>IM</CitationSubset>
+		<MeshHeadingList>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="N">Hepatitis B</DescriptorName>
+				     <QualifierName MajorTopicYN="Y">genetics</QualifierName>
+			   </MeshHeading>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="N">Hepatitis B Virus</DescriptorName>
+				     <QualifierName MajorTopicYN="Y">genetics</QualifierName>
+			   </MeshHeading>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="N">Human</DescriptorName>
+			   </MeshHeading>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="N">Infant</DescriptorName>
+			   </MeshHeading>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="N">Mutation</DescriptorName>
+				     <QualifierName MajorTopicYN="Y">physiology</QualifierName>
+			   </MeshHeading>
+		</MeshHeadingList>
+	</MedlineCitation>

@@ -1,0 +1,3314 @@
+<apidoc:module name="SecurityModule" category="Security-sec" bucket="XQuery Library Modules" 
+  xmlns:apidoc="http://marklogic.com/xdmp/apidoc"
+  xmlns="http://www.w3.org/1999/xhtml" lib="sec">
+  <apidoc:summary access="public" category="Security-sec">
+    <p>The security function module is installed as the following file:</p>
+    <code><em>install_dir</em>/Modules/MarkLogic/security.xqy</code> 
+    <p>where <code><em>install_dir</em></code> is the directory in which 
+    MarkLogic Server is installed.</p>
+    <p> To use the security.xqy module in your own XQuery modules, include the 
+    following line in your XQuery prolog:</p>
+    <p><code>import module "http://marklogic.com/xdmp/security" at 
+             "/MarkLogic/security.xqy"</code></p>
+    <p>The library uses the <code>sec:</code> namespace, predefined in the 
+    server.</p>
+    <p><b>NOTE:</b>&#160;&#160;When using these functions to administer 
+    security for an application, be sure to execute them against the security 
+    database configured for your application's database.  Function calls 
+    in this library can only be executed against a a security 
+    database (for example, <em>Security</em>); the database named
+    <em>Security</em> is automatically configured when MarkLogic Server 
+    is installed, and it is the default security database. To execute  
+    these functions against the security database, 
+    you can specify the <code>database</code> option in <code>xdmp:eval</code> 
+    or <code>xdmp:invoke</code>, or you can run it in an App Server that 
+    has your security database configured as its database.  </p>
+  </apidoc:summary>
+
+<apidoc:function name="create-user" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Creates a new user in the system database for the context database. 
+  Returns the user ID of the created user.
+  </apidoc:summary>
+
+  <apidoc:params>
+    <apidoc:param name="user-name" type="xs:string"> A unique username. 
+    If $user-name is not unique, an error is returned. </apidoc:param>
+    <apidoc:param name="description" type="xs:string?">A description of the 
+    user.
+    </apidoc:param>
+    <apidoc:param name="password" type="xs:string">The initial password
+    for this user.
+    </apidoc:param>
+    <apidoc:param name="role-names" type="xs:string*">The roles (if any) 
+    assigned to this user. If one of the $role-names names a role that does 
+    not exist, an error is returned.
+    </apidoc:param>
+    <apidoc:param name="permissions" type="element(sec:permission)*">
+    The default permissions granted to this user. 
+    </apidoc:param>
+    <apidoc:param name="collections" type="xs:string*">
+    The URIs for the default collections to which this user has access.  
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>xs:unsignedLong</apidoc:return>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+
+sec:create-user(
+    "Jim",
+    "Jim the temp",
+    "newtemp",
+    "Temporary",
+    (xdmp:permission("security", "read")),
+    ("http://marklogic.com/dev_modules"))
+ 
+ (: Creates a new user, named "Jim," with the role, "Temporary."  "Jim" 
+    is assigned the default permission, security(read), and the default 
+    collection, "http://marklogic.com/dev_modules". :)  
+  ]]></pre></apidoc:example>
+  <apidoc:privilege>
+	  <code>http://marklogic.com/xdmp/privileges/create-user</code><br />
+  and, for role assignment:<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-all-roles</code> or<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-my-roles</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+    </apidoc:usage>
+</apidoc:function>
+
+<apidoc:function name="create-user-with-role" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Creates a new user in the system database for the context database. 
+  Returns the user ID of the created user. Also creates a role by the 
+  same name and assigns the newly-created user to the newly-created role.
+  Parameters that define roles, permissions, and collections are only applied
+  to the new user.
+  </apidoc:summary>
+
+  <apidoc:params>
+    <apidoc:param name="user-name" type="xs:string"> A unique username. 
+    If $user-name is not unique, an error is returned. </apidoc:param>
+    <apidoc:param name="description" type="xs:string?">A description of the 
+    user.
+    </apidoc:param>
+    <apidoc:param name="password" type="xs:string">The initial password
+    for this user.
+    </apidoc:param>
+    <apidoc:param name="role-names" type="xs:string*">Additional roles (if any) 
+    assigned to this user. If one of the $role-names names a role that does 
+    not exist, an error is returned.
+    </apidoc:param>
+    <apidoc:param name="permissions" type="element(sec:permission)*">
+    The default permissions granted to this user. 
+    </apidoc:param>
+    <apidoc:param name="collections" type="xs:string*">
+    The URIs for the default collections to which this user has access.  
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>xs:unsignedLong</apidoc:return>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+
+sec:create-user-with-role(
+    "Jim",
+    "Jim the temp",
+    "newtemp",
+    "Temporary",
+    (xdmp:permission("security", "read"),
+     xdmp:permission("security", "update")),
+    ("http://marklogic.com/dev_modules"))
+ 
+(: Creates a new user, named Jim, with the roles, Jim and Temporary.  
+   Jim is assigned the default permissions, security(read) and security(update),
+   and the default collection, "http://marklogic.com/dev_modules". :)  
+
+  ]]></pre></apidoc:example>
+  <apidoc:privilege>
+	  <code>http://marklogic.com/xdmp/privileges/create-user</code><br />
+	  <code>http://marklogic.com/xdmp/privileges/create-role</code><br />
+  and, for role assignment:<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-all-roles</code> or<br />
+	  <code>http://marklogic.com/xdmp/privileges/grant-my-roles</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+</apidoc:function>
+
+<apidoc:function name="user-set-name" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Changes the name of the user from $user-name to $new-user-name.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="user-name" type="xs:string">
+    The existing name of the user.
+    </apidoc:param>
+    <apidoc:param name="new-user-name" type="xs:string">
+    The new name of the user.
+    </apidoc:param>
+    <apidoc:param name="password" type="xs:string">
+    The password to set for the user. This can be either the original password
+    for the user or a new password.  
+    </apidoc:param>  
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+
+sec:user-set-name(
+    "William",
+    "Bill",
+    "temp")
+   
+(: Changes the username from "Wiiliam" to "Bill" and resets the password to
+   "temp". :)  
+
+  ]]></pre></apidoc:example>
+  <apidoc:privilege>
+	  <code>http://marklogic.com/xdmp/privileges/user-set-name</code> if 
+  the currrent user is not $user-name.
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>If a user with name equal to $user-name is not found, an error is 
+		  returned.</p>
+	  <p> If $new-user-name is not unique, an error is returned.</p>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+</apidoc:function>
+
+<apidoc:function name="user-set-password" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Changes the password for the user identified by $user-name to $password.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="user-name" type="xs:string">The name of the user.
+    </apidoc:param>
+    <apidoc:param name="password" type="xs:string">The new password.
+    If $password is the empty string, an error is returned.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+  <apidoc:privilege>
+	  <code>http://marklogic.com/xdmp/privileges/user-set-password</code>
+  if the currrent user is not $user-name.  
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+   
+sec:user-set-password("Jim", "temp")
+
+(: Changes the password for the user, "Jim," to "temp." :)
+   ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="user-set-description" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Changes the description of the user identified by $user-name to 
+  $description.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="user-name" type="xs:string">The name of the user.
+    </apidoc:param>
+    <apidoc:param name="description" type="xs:string">
+    A description of the user.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+
+sec:user-set-description(
+    "Bill",
+    "Senior QA Engineer")
+  
+(:  Changes the description of the user, "Bill." :)  
+  ]]></pre></apidoc:example>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/user-set-description</code> 
+  if the current user is not $user-name.
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+</apidoc:function>
+
+<apidoc:function name="role-set-description" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Changes the description of the role identified by $role-name to $description.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="role-name" type="xs:string">The name of the role.
+    </apidoc:param>
+    <apidoc:param name="description" type="xs:string">A description of the role.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/role-set-description</code> 
+  if the currrent role is not $role-name.
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+
+sec:role-set-description(
+    "Developer",
+    "Developer-level access")
+  
+(:  Changes the description of the role, "Developer." :)   
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="role-get-description" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns the description for the specified role.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="role-name" type="xs:string">The name of the role.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> xs:string </apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/role-get-description</code> 
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>If a role with name equal to $role-name is not found, an error 
+		  is returned.</p>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+   
+sec:role-get-description("Developer")
+
+=> Developer-level access
+]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="get-role-ids" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns sequence of unique sec:role-id's that corresponds to the 
+  sequence of role names $role-names.  <br /><br />
+
+  Duplicate names return a single id.<br /><br />
+
+  If a role name in $role-names does not correspond to an existing role,
+  an error is returned.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="role-names" type="xs:string*">A sequence of role names.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> element(sec:role-id)*</apidoc:return>
+  <apidoc:privilege>
+	  <code>http://marklogic.com/xdmp/privileges/get-role-ids</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+  <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+   "/MarkLogic/security.xqy";
+   
+sec:get-role-ids(("writer", "editor"))
+
+=>
+
+<sec:role-id xmlns:sec="http://marklogic.com/xdmp/security">6629014463670416824</sec:role-id>
+<sec:role-id xmlns:sec="http://marklogic.com/xdmp/security">6615337390848046012</sec:role-id>
+]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+
+<apidoc:function name="get-role-names" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns sequence of unique sec:role-name's that corresponds to the 
+  sequence of role IDs $role-ids.  Duplicate IDs return a single
+  name.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="role-ids" type="xs:unsignedLong*">
+    A sequence of role IDs.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> element(sec:role-name)* </apidoc:return>
+  <apidoc:privilege>
+	  <code>http://marklogic.com/xdmp/privileges/get-role-names</code> 
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>If a role ID in $role-ids does not correspond to an existing
+		  role, an error is returned.</p>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+   
+sec:get-role-names((6629014463670416824, 
+  	             6615337390848046012)) 
+=>
+
+<sec:role-name xmlns:sec="http://marklogic.com/xdmp/security">editor</sec:role-name>
+<sec:role-name xmlns:sec="http://marklogic.com/xdmp/security">writer</sec:role-name>  
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="user-set-roles" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Assigns the user with name $user-name to have the roles identified by
+  $role-names.  Removes previously assigned roles.<br /><br />
+
+  If a user with name equal to $user-name is not found, an error is 
+  returned.<br /><br />
+
+  If a role name in $role-names does not correspond to an existing role,
+  an error is returned.<br /><br />
+
+  If $role-names is the empty sequence, all existing roles for the user are 
+  removed.<br /><br />
+
+  If the current user is limited to granting only his/her roles,
+  and $role-names is not a subset of the current user's roles or one
+  of the removed roles is not a subset of the current user's roles,
+  then an error is returned.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="user-name" type="xs:string">The name of a user.
+    </apidoc:param>
+    <apidoc:param name="role-names" type="xs:string*">A sequence of role names.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+  <apidoc:example> <pre xml:space="preserve"><![CDATA[
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+   
+sec:user-set-roles("Jim", ("Developer", "Temporary"))
+
+(:  Resets the roles for "Jim" to "Developer" and "Temporary. :)  
+  ]]></pre>
+  </apidoc:example>
+  <apidoc:privilege>
+	  <code>http://marklogic.com/xdmp/privileges/user-set-roles</code><br />
+   and for role assignment ($role-names not empty sequence):<br />
+   <code>http://marklogic.com/xdmp/privileges/grant-all-roles</code> or<br />
+	  <code>http://marklogic.com/xdmp/privileges/grant-my-roles</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+</apidoc:function>
+
+<apidoc:function name="user-add-roles" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+	  <p>Adds the roles ($role-names) to the list of roles granted to the 
+		  user ($user-name).</p>
+	  <p> If a user with name equal to $user-name is not found, an 
+		  error is returned.</p>
+	  <p> If one of the $role-names does not correspond to an 
+		  existing role, an error is returned.</p>
+	  <p> If the current user is limited to granting only his/her roles,
+		  and $role is not a subset of the current user's roles, then 
+		  an error is returned. </p>
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="user-name" type="xs:string">The name of a user.
+    </apidoc:param>
+    <apidoc:param name="role-names" type="xs:string*">A sequence of role names.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence()</apidoc:return>
+  <apidoc:example> <pre xml:space="preserve"><![CDATA[
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+   
+sec:user-add-roles("Jim", ("merge", "alert-user"))
+
+(:  Adds the roles, "merge" and "alert-user," to Jim's existing roles. :)  
+  ]]></pre>
+  </apidoc:example>
+  <apidoc:privilege>
+	  <code>http://marklogic.com/xdmp/privileges/user-add-roles</code><br />
+  and for role assignment:<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-all-roles</code> or<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-my-roles</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+</apidoc:function>
+
+<apidoc:function name="user-remove-roles" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  <p>Removes the roles ($role-names) from the list of roles granted to the 
+	  user ($user-name).</p>
+
+  <p>If a user with name equal to $user-name is not found, an error is 
+	  returned.</p>
+ 
+  <p>If one of $role-names does not correspond to an existing role, 
+	  an error is returned.</p>
+
+  <p>If the current user is limited to granting only his/her roles,
+  and one of $role-names is not a subset of the current user's roles, 
+  then an error is returned. </p>
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="user-name" type="xs:string">The name of a user.
+    </apidoc:param>
+    <apidoc:param name="role-names" type="xs:string*">A sequence of role names.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/remove-role-from-user</code><br />
+   and for role removal:<br />
+   <code>http://marklogic.com/xdmp/privileges/grant-all-roles</code> or<br />
+   <code>http://marklogic.com/xdmp/privileges/grant-my-roles</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+   
+sec:user-remove-roles("Jim", ("admin", "admin-builtins"))
+ 
+(: Removes the "admin" and "admin-builtins" roles from the user, "Jim." :)
+]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="user-get-roles" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns a sequence of role names for the roles directly assigned to the 
+  user ($user-name).  Does not flatten the roles to include "inherited
+  roles."<br /><br />
+
+  If a user with name equal to $user-name is not found, an error is 
+  returned.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="user-name" type="xs:string">The name of a user.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> xs:string*</apidoc:return>
+  <apidoc:privilege>
+	  <code>http://marklogic.com/xdmp/privileges/user-get-roles</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+   
+sec:user-get-roles("Jim")
+
+=>
+
+Developer
+admin
+admin-builtins
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="user-get-description" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+	  Returns the user's description.  If a user with name equal to 
+	  $user-name is not found, an error is returned.
+  </apidoc:summary>
+    <apidoc:params>
+    <apidoc:param name="user-name" type="xs:string">The name of a user.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>xs:string </apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/user-get-description</code><br />
+  or the current user is the same as the $user-name.
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+   
+sec:user-get-description("Jim")
+
+=>
+
+Jim the temp
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="remove-user" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Removes the user with name $user-name.<br /><br />
+
+  If a user with name equal to $user-name is not found, an error is 
+  returned.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="user-name" type="xs:string">The name of a user.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence()</apidoc:return>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+
+sec:remove-user("Jim")
+ 
+(: Removes the user, named Jim. :)  
+  ]]></pre></apidoc:example>
+  <apidoc:privilege>
+	  <code>http://marklogic.com/xdmp/privileges/remove-user</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+</apidoc:function>
+
+<apidoc:function name="create-role" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Creates a new role in the system database for the context 
+  database.<br /><br />
+
+  If $role-name is not unique, an error is returned.<br /><br />
+ 
+  If one of the $role-names does not identify a role, an error
+  is returned.<br /><br />
+ 
+  If the current user is limited to granting only his/her roles,
+  and $role-names is not a subset of the current user's roles, then an 
+  error is returned.<br /><br />
+
+  Returns the role-id.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="role-name" type="xs:string">
+    The name of the role to be created.
+    </apidoc:param>
+    <apidoc:param name="description" type="xs:string?">
+    A description of the role to be created.
+    </apidoc:param>    <apidoc:param name="role-names" type="xs:string*">
+    A sequence of role names to which the role is assigned.
+    </apidoc:param>
+    <apidoc:param name="permissions" type="element(sec:permission)*">
+    The default permissions for the role.
+    </apidoc:param>
+    <apidoc:param name="collections" type="xs:string*">
+    The default collections for the role.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>xs:unsignedLong </apidoc:return>
+    <apidoc:example><pre xml:space="preserve"><![CDATA[
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+
+sec:create-role(
+    "Temporary",
+    "Temporary worker access",
+    ("filesystem-access"),
+    (),
+    ("testDocument"))
+   
+(: Creates a new role, named "Temporary," with the default collection, 
+   named testDocument. :)  
+  ]]></pre></apidoc:example>
+  <apidoc:privilege>
+	  <code>http://marklogic.com/xdmp/privileges/create-role</code><br />
+  and for role assignment:<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-all-roles</code> or<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-my-roles</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+</apidoc:function>
+
+<apidoc:function name="role-set-name" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Changes the sec:role-name of a role from $role-name to 
+  $new-role-name.<br /><br />
+
+  If $new-role-name is not unique, an error is returned.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="role-name" type="xs:string">
+    The name of the role to change.
+    </apidoc:param>
+    <apidoc:param name="new-role-name" type="xs:string">
+    The new name for the role.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+  <apidoc:privilege>
+	  <code>http://marklogic.com/xdmp/privileges/role-set-name</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+ 
+sec:role-set-name("Temporary", "Contractor")  
+
+(: Changes the name of the "Temporary" role to "Contractor."  :)
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="role-set-roles" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Assigns roles (named $role-names) to be the set of included roles for the
+  role ($role-name). Removes previously assigned roles.<br /><br />
+
+  If a role with name equal to $role-name is not found, an error is 
+  returned.<br /><br />
+
+  If a role name in $role-names does not correspond to an existing role,
+  an error is returned.<br /><br />
+
+  If $role-names is the empty sequence, all included roles for the role are 
+  removed.<br /><br />
+
+  If the current user is limited to granting only his/her roles,
+  and $role-names is not a subset of the current user's roles, then an error 
+  is returned.<br /><br />
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="role-name" type="xs:string">The name of a role.
+    </apidoc:param>
+    <apidoc:param name="role-names" type="xs:string*">
+     A sequence containing the names of roles to assign to $role-name.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/role-set-roles</code> <br />
+  and for role assignment ($role-names not empty sequence):<br /> 
+  <code>http://marklogic.com/xdmp/privileges/grant-all-roles</code> or<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-my-roles</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+   
+sec:role-set-roles("Contractor", ("Developer", "alert-internal"))
+
+(: Assigns the "Developer" and "alert-internal" roles to the "Contractor" 
+   role and removes any other roles previously assigned to "Contractor." :) 
+]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="role-add-roles" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Adds the roles ($new-roles) to the set of roles included by the role
+  ($role-name).<br /><br />
+
+  If a role with name equal to $role-name is not found, an error is 
+  returned.<br /><br />
+ 
+  If one of $new-roles does not correspond to an existing role, 
+  an error is returned.<br /><br />
+
+  If the current user is limited to granting only his/her roles,
+  and $new-role is not a subset of the current user's roles, then an error is
+  returned. 
+ 
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="role-name" type="xs:string">The name of the role.
+    </apidoc:param>
+    <apidoc:param name="new-roles" type="xs:string*">
+    The roles to add to the role.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/role-add-roles</code> <br />
+  and for role assignment:<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-all-roles</code> or<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-my-roles</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+
+sec:role-add-roles("Contractor", "filesystem-access")
+
+(: Adds the "filesystem-access" role to the "Contractor" role and leaves
+   any previously assigned roles intact. :)
+   ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="role-remove-roles" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Removes the roles ($role-names) from the set of roles included by the 
+  role ($role-name).<br /><br />
+
+  If a role with name equal to $role-name is not found, an error is 
+  returned.<br /><br />
+
+  If one of $role-names does not correspond to an existing role, an error is
+  returned.<br /><br />
+
+  If the current user is limited to granting only his/her roles,
+  and $old-role is not a subset of the current user's roles, then an error is
+  returned. 
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="role-name" type="xs:string">The name of a role.
+    </apidoc:param>
+    <apidoc:param name="role-names" type="xs:string*">
+    The name of the roles to remove from the role.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/role-remove-roles</code><br />
+  and for role removal:<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-all-roles</code> or<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-my-roles</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+   
+sec:role-remove-roles("Contractor", ("Developer", "alert-internal"))
+
+(: Removes the "Developer" and "alert-internal" roles from the "Contractor" role. :) 
+]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="remove-role" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Removes the role ($role-name).<br /><br />
+
+  If a role with name equal to $role-name is not found, an error is 
+  returned.<br /><br />
+
+  This function also removes all references to the role 
+  (privileges, amps, permissions and users).
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="role-name" type="xs:string">The name of a role.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+
+sec:remove-role("Temporary")
+ 
+(: Removes the role, named Temporary. :)  
+  ]]></pre></apidoc:example>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/remove-role</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+</apidoc:function>
+
+<apidoc:function name="remove-role-from-users" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Removes references to the role ($role-name) from all users.<br /><br />
+
+  If a role with name equal to $role-name is not found, an error is 
+  returned.<br /><br />
+
+  If the current user is limited to granting only his/her roles,
+  and $role-name is not a subset of the current user's roles, then an 
+  error is returned.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="role-name" type="xs:string">The name of a role.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/remove-role-from-users</code><br />
+  and for role removal:<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-all-roles</code> or<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-my-roles</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+   
+sec:remove-role-from-users("Contractor")
+
+(: Removes the "Contractor" role from all users. :)
+]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="remove-role-from-roles" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Removes references to the role ($role-name) from all other roles.<br /><br />
+
+  If a role with name equal to $role-name is not found, an error is 
+  returned.<br /><br />
+
+  If the current user is limited to granting only his/her roles,
+  and $role-name is not a subset of the current user's roles, then an 
+  error is returned.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="role-name" type="xs:string">The name of a role.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/remove-role-from-users</code><br />
+  and for role removal:<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-all-roles</code> or<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-my-roles</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+  
+sec:remove-role-from-roles("Developer")
+
+(: Removes the "Developer" role from all other roles. :) 
+   ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="remove-role-from-privileges" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Removes references to the role ($role-name) from all privileges.<br /><br />
+
+  If a role with name equal to $role-name is not found, an error is 
+  returned.<br /><br />
+
+  If the current user is limited to granting only his/her roles,
+  and $role-name is not a subset of the current user's roles, then an 
+  error is returned.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="role-name" type="xs:string">The name of a role.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/remove-role-from-privileges</code><br />
+  and for role removal:<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-all-roles</code> or<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-my-roles</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+   
+sec:remove-role-from-privileges("Developer")
+
+(: Removes the "Developer" role from all privileges. :)
+   ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="remove-role-from-amps" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Removes references to the role ($role-name) from all amps.<br /><br />
+
+  If a role with name equal to $role-name is not found, an error is 
+  returned.<br /><br />
+
+  If the current user is limited to granting only his/her roles,
+  and $role-name is not a subset of the current user's roles, then an 
+  error is returned.
+
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="role-name" type="xs:string">The name of a role.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/remove-role-from-amps</code><br />
+  and for role removal:<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-all-roles</code> or<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-my-roles</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+   
+sec:remove-role-from-amps("Developer")
+
+(: Removes the "Developer" role from all amps. :) 
+]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="create-privilege" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Creates a new privilege and returns the new privilege-id.  
+  <br /><br />
+  For execute privileges,
+  the privilege is initially nothing more than a name.  Use the 
+  <code>xdmp:security-assert()</code>
+  function in your code to associate the privilege with a protected operation.
+  <br /><br />
+  For URI privleges, the <code>$action</code> parameter identifies the 
+  base URI to be protected.  Users must have this privilege to access any of the
+  documents or code under the specified URI.
+  <br /><br />
+  If $action is not unique, an error is returned.<br /><br />
+ 
+  If $kind is not one of ("execute", "uri") then en error is 
+  returned.<br /><br />
+
+  If one of the $role-names names a role that does not exist, an error
+  is returned.<br /><br />
+
+  If the current user is limited to granting only his/her roles,
+  and $role-names is not a subset of the current user's roles, then an 
+  error is returned.
+
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="privilege-name" type="xs:string">
+    The name of the privilege to create (unique within security database).
+    </apidoc:param>
+    <apidoc:param name="action" type="xs:string">Action protected by this 
+    privilege.  For an Execute Privilege, this is usually a URI describing 
+    an activity.  For a URI Privilege, this is a base URI used to filter 
+    database activities  with certain document URIs.
+    </apidoc:param>
+    <apidoc:param name="kind" type="xs:string">Either "execute" or "uri".
+    </apidoc:param>
+    <apidoc:param name="role-names" type="xs:string*">
+    The names of the roles which can perform this action.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>xs:unsignedLong </apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/create-privilege</code> <br />
+  and for role assignment:<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-all-roles</code> or<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-my-roles</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+   
+sec:create-privilege("mypriv", 
+                     "http://marklogic.com/xdmp/privileges/mypriv", 
+                     "execute", 
+                     "Developer")
+
+(: Creates an execute privilege, named "mypriv," and assigns it to the
+   "Developer" role. :)
+]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="privilege-set-name" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Changes the sec:privilege-name of a sec:privilege to 
+  $new-privilege-name.<br /><br />
+
+  If a privilege with the given $action and $kind is not found, 
+  an error is returned.<br /><br />
+
+  If $new-privilege-name is not unique, an error is returned.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="action" type="xs:string">The action URI for the 
+	    privilege.  If $kind is a URI privilege, then use the URI to 
+	    protect for the action parameter.
+    </apidoc:param>
+    <apidoc:param name="kind" type="xs:string">Either "execute" or "uri".
+    </apidoc:param>
+    <apidoc:param name="new-privilege-name" type="xs:string">The new name for
+    the privilege.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/privilege-set-name</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+   
+sec:privilege-set-name(
+    "http://marklogic.com/xdmp/privileges/mypriv", 
+    "execute", 
+    "new_name")
+
+(: Renames the execute privilege with the specified action to "new_name." :)
+]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="remove-privilege" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Removes the privilege identified by ($action,$kind).<br /><br />
+
+  If a privilege identified by ($action,$kind) is not found, an error is 
+  returned.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="action" type="xs:string">The action URI for the 
+	    privilege.  If $kind is a URI privilege, then use the URI to 
+	    protect for the action parameter.
+    </apidoc:param>
+    <apidoc:param name="kind" type="xs:string">Either "execute" or "uri".
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/remove-privilege</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+  
+sec:remove-privilege(
+    "http://marklogic.com/xdmp/privileges/mypriv", 
+    "execute")
+ 
+(: Removes the execute privilege with the specified action. :)
+]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="privilege-get-roles" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns a sequence of role names for the roles assigned to the 
+  privilege ($action,$kind). <br /><br />
+
+  If a privilege with action equal to $action is not found, an error is 
+  returned.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="action" type="xs:string">The action URI for the 
+	    privilege.  If $kind is a URI privilege, then use the URI to 
+	    protect for the action parameter.
+    </apidoc:param>
+    <apidoc:param name="kind" type="xs:string">Either "execute" or "uri".
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>xs:string* </apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/privilege-get-roles</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+   
+sec:privilege-get-roles(
+    "http://marklogic.com/xdmp/privileges/create-role", 
+     "execute")
+=>
+
+security
+]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="privilege-set-roles" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Assigns the privilege ($action,$kind) to have the roles identified by
+  $role-names.  Removes the prviously assigned roles.<br /><br />
+
+  If a privilege identified by ($action,$kind) is not found, an error is 
+  returned.<br /><br />
+
+  If a role name in $role-names does not correspond to an existing role,
+  an error is returned.<br /><br />
+
+  If $role-names is the empty sequence, all existing roles for the privilege
+  are removed.<br /><br />
+
+  If the current user is limited to granting only his/her roles,
+  and $role-names is not a subset of the current user's roles, then an error 
+  is returned.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="action" type="xs:string">The action URI for the 
+	    privilege.  If $kind is a URI privilege, then use the URI to 
+	    protect for the action parameter.
+    </apidoc:param>
+    <apidoc:param name="kind" type="xs:string">Either "execute" or "uri".
+    </apidoc:param>
+    <apidoc:param name="role-names" type="xs:string*">
+    New roles that can perform this action.  All previously assigned roles 
+    will be removed.  If $role-names is the empty sequence, the privilege 
+    will have no roles assigned.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/privilege-set-roles</code> <br />
+  and for role assignment ($role-names not empty sequence):<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-all-roles</code> or<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-my-roles</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+ 
+sec:privilege-set-roles(
+    "http://marklogic.com/xdmp/privileges/mypriv", 
+     "execute", "Contractor")
+
+(: Assigns the privilege with the specified action to the "Contractor" role.
+   The privilege is removed from any other roles that had previously been  
+   assigned the privilege. :)
+]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="privilege-add-roles" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Adds the roles ($role-names) to the list of roles assigned to the 
+  privilege ($action,$kind).<br /><br />
+
+  If a privilege identified by ($action,$kind) is not found, an error is 
+  returned.<br /><br />
+ 
+  If one of $role-names does not correspond to an existing role,
+  an error is returned.<br /><br />
+
+  If the current user is limited to granting only his/her roles,
+  and $role is not a subset of the current user's roles, then an error is
+  returned.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="action" type="xs:string">The action URI for the 
+	    privilege.  If $kind is a URI privilege, then use the URI to 
+	    protect for the action parameter.
+    </apidoc:param>
+    <apidoc:param name="kind" type="xs:string">Either "execute" or "uri".
+    </apidoc:param>
+    <apidoc:param name="role-names" type="xs:string*">
+    Additional roles for the privilege.  If $role-names is the empty sequence, 
+    the function has no effect.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+    <apidoc:example><pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+
+sec:privilege-add-roles(
+    "http://marklogic.com/xdmp/privileges/unprotected-collections",
+    "execute",
+    ("Temporary"))
+   
+(: Adds the unprotected-collection execute privilege to the Temporary role. :)  
+   ]]></pre></apidoc:example>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/privilege-add-roles</code> <br />
+  and for role assignment:
+  <code>http://marklogic.com/xdmp/privileges/grant-all-roles</code> or<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-my-roles</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+</apidoc:function>
+
+<apidoc:function name="privilege-remove-roles" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Removes roles ($role-names) from the roles assigned to the privilege
+  ($action,$kind).<br /><br />
+
+  If a privilege identified by ($action,$kind) is not found, an error is 
+  returned.<br /><br />
+ 
+  If one of $role-names does not correspond to an existing role,
+  an error is returned.<br /><br />
+
+  If the current user is limited to granting only his/her roles,
+  and $role is not a subset of the current user's roles, then an error
+  is returned. 
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="action" type="xs:string">The action URI for the 
+	    privilege.  If $kind is a URI privilege, then use the URI to 
+	    protect for the action parameter.
+    </apidoc:param>
+    <apidoc:param name="kind" type="xs:string">Either "execute" or "uri".
+    </apidoc:param>
+    <apidoc:param name="role-names" type="xs:string*">
+    Additional roles for the privilege.  If $role-names is the empty sequence, 
+    the function has no effect.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/privilege-remove-roles</code>
+	  <br />
+  and for role removal:<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-all-roles</code> or<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-my-roles</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+ 
+sec:privilege-remove-roles(
+    "http://marklogic.com/xdmp/privileges/mypriv", 
+    "execute", "Contractor")
+  
+(: Removes the specified privilege from the "Contractor" role. :) 
+]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="create-amp" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+	  <p>Creates a new amp in the system database for the context 
+		  database.</p>
+	  <p> If the tuple ($namespace, $local-name, $document-uri, $database) 
+		  is not unique, an error is returned.</p>
+	  <p> If one of the $role-names does not identify a role, an error
+		  is returned.</p>
+	  <p> If the current user is limited to granting only his/her roles, 
+		  and $role-names is not a subset of the current user's roles,
+		  then an error is returned.</p>
+	  <p> Returns the amp-id.</p>
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="namespace" type="xs:string">
+    Namespace of the function to which the amp applies.
+    </apidoc:param>
+    <apidoc:param name="local-name" type="xs:string">
+    Name of function to which the amp applies.
+    </apidoc:param>
+    <apidoc:param name="document-uri" type="xs:string">
+    URI of the module in which the function is located.
+    </apidoc:param>
+    <apidoc:param name="database" type="xs:unsignedLong">
+     Database ID in which the module is located. If the module is on
+     the file system (in the Modules directory), specify 
+     <code>xs:unsignedLong(0)</code>.
+    </apidoc:param>
+    <apidoc:param name="role-names" type="xs:string*">
+    Roles that should be temporarily assumed while the amp is in effect.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>xs:unsignedLong </apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/create-amp</code><br />
+  and for role assignment:<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-all-roles</code> or<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-my-roles</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+ 
+sec:create-amp(
+    "http://marklogic.com/my_modules/myspace",
+    "my-amp",
+    "/MarkLogic/MyModule.xqy",
+    0,
+    "Developer")
+    
+(: Creates an amp, named "my-amp," to grant users with the "Developer" role 
+   temporary access to execute the MyModule.xqy module.
+]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="amp-set-roles" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Assigns the amp identified by $namespace, $local-name and $document-uri
+  to have the roles identified by $roles-names.  Removes previously
+  assigned roles.<br /><br />
+
+  If an amp with the given identifiers does not exist, an error is 
+  returned.<br /><br />
+
+  If a role name in $role-names does not correspond to an existing role,
+  an error is returned.<br /><br />
+
+  If $role-names is the empty sequence, all roles assigned to the amp are 
+  removed.<br /><br />
+
+  If the current user is limited to granting only his/her roles,
+  and $role-names is not a subset of the current user's roles, then an
+  error is returned.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="namespace" type="xs:string">
+    Namespace of the function to which the amp applies.
+    </apidoc:param>
+    <apidoc:param name="local-name" type="xs:string">
+    Name of function to which the amp applies.
+    </apidoc:param>
+    <apidoc:param name="document-uri" type="xs:string">
+    URI of the document in which the function is located.
+    </apidoc:param>
+    <apidoc:param name="database" type="xs:unsignedLong">
+     Database ID in which the module is located. If the module is on
+     the file system (in the Modules directory), specify 
+     <code>xs:unsignedLong(0)</code>.
+    </apidoc:param>
+    <apidoc:param name="role-names" type="xs:string*">
+    Roles that should be temporarily assumed while the amp is in effect.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/amp-set-roles</code><br />
+  and for role assignment:<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-all-roles</code> or<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-my-roles</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+   
+sec:amp-set-roles(
+    "http://marklogic.com/my_modules/myspace",
+    "my-amp",
+    "/MarkLogic/MyModule.xqy",
+    0,
+    ("Developer", "Temporary"))
+ 
+(: Sets the "Developer" and "Temporary" rolea as the roles granted to the "my-amp" amp. 
+   Any other roles previously in the list are removed. :)
+   ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="amp-add-roles" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Adds the roles ($role-names) to the list of roles granted to the amp
+  ($namespace, $local-name, $document-uri).
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="namespace" type="xs:string">
+    Namespace of the function to which the amp applies.
+    </apidoc:param>
+    <apidoc:param name="local-name" type="xs:string">
+    Name of function to which the amp applies.
+    </apidoc:param>
+    <apidoc:param name="document-uri" type="xs:string">
+    URI of the document in which the function is located.
+    </apidoc:param>
+    <apidoc:param name="database" type="xs:unsignedLong">
+     Database ID in which the module is located. If the module is on
+     the file system (in the Modules directory), specify 
+     <code>xs:unsignedLong(0)</code>.
+    </apidoc:param>
+    <apidoc:param name="role-names" type="xs:string*">
+    Roles that should be temporarily assumed while the amp is in effect.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>empty-sequence()</apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/amp-add-roles</code><br />
+  and for role assignment:<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-all-roles</code> or<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-my-roles</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+  <p>If an amp with the given identifiers ($namespace, $local-name, 
+  $document-uri) is not found, an error is returned.</p>
+
+  <p>If one of $role-names does not correspond to an existing role, 
+  an error is returned.</p>
+
+  <p>If the current user is limited to granting only his/her roles,
+  and $role is not a subset of the current user's roles, then an error is
+  returned.</p> 
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+
+sec:amp-add-roles(
+    "http://marklogic.com/my_modules/myspace",
+    "my-amp",
+    "/MarkLogic/MyModule.xqy",
+    0,
+    "Contractor")
+
+(: Adds the "Contractor" role to the list of roles granted to the "my-amp" amp. :)	
+ ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="amp-get-roles" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns a sequence of role names for the roles directly assigned to the 
+  amp ($namespace, $local-name, $document-uri).
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="namespace" type="xs:string">
+    Namespace of the function to which the amp applies.
+    </apidoc:param>
+    <apidoc:param name="local-name" type="xs:string">
+    Name of function to which the amp applies.
+    </apidoc:param>
+    <apidoc:param name="document-uri" type="xs:string">
+    URI of the document in which the function is located.
+    </apidoc:param>
+    <apidoc:param name="database" type="xs:unsignedLong">
+     Database ID in which the module is located. If the module is on
+     the file system (in the Modules directory), specify 
+     <code>xs:unsignedLong(0)</code>.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>xs:string* </apidoc:return>
+  <apidoc:privilege>
+  <p> <code>http://marklogic.com/xdmp/privileges/amp-get-roles</code></p>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>If an amp is not found with the given identifiers, an error is 
+		  returned.</p>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+ 
+sec:amp-get-roles(
+    "http://marklogic.com/my_modules/myspace",
+    "my-amp",
+    "/MarkLogic/MyModule.xqy",
+    0)
+=>
+
+Contractor
+Developer
+Temporary
+  ]]></pre>
+  </apidoc:example>
+  </apidoc:function>
+
+<apidoc:function name="role-get-roles" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns a sequence of role names for the roles directly assigned to 
+  the given role ($role-name).
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="role-name" type="xs:string">The name of a role.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>xs:string* </apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/role-get-roles</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+  <p>If a role with name equal to $role-name is not found, an error is 
+  returned.</p>
+  <p>To find all of the roles this role inherits (that is, the
+  roles assigned directly to this role, the roles assigned to those 
+  roles, and so on), use the <code>xdmp:role-roles</code> built-in
+  function.</p>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+  <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+ xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+   
+sec:role-get-roles("Developer")
+
+=>
+
+filesystem-access
+pipeline-execution
+   ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="amp-remove-roles" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Removes a role ($role-name) from the set of roles included by the amp
+  ($namespace, $local-name, $document-uri).
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="namespace" type="xs:string">
+    Namespace of the function to which the amp applies.
+    </apidoc:param>
+    <apidoc:param name="local-name" type="xs:string">
+    Name of function to which the amp applies.
+    </apidoc:param>
+    <apidoc:param name="document-uri" type="xs:string">
+    URI of the document in which the function is located.
+    </apidoc:param>
+    <apidoc:param name="database" type="xs:unsignedLong">
+     Database ID in which the module is located. If the module is on
+     the file system (in the Modules directory), specify 
+     <code>xs:unsignedLong(0)</code>.
+    </apidoc:param>
+    <apidoc:param name="role-names" type="xs:string*">
+    Roles that should be temporarily assumed while the amp is in effect.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/amp-remove-roles</code><br />
+  and for role removal:<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-all-roles</code> or<br />
+  <code>http://marklogic.com/xdmp/privileges/grant-my-roles</code> 
+ 
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>If one of $role-names does not correspond to an existing role,
+		  an error is returned.</p>
+ 
+	  <p>If an amp idnetified by ($namespace, $local-name, $document-uri) 
+		  is not found then an error is returned.</p>
+
+	  <p>If the current user is limited to granting only his/her roles,
+  and $role-name is not a subset of the current user's roles, then an
+  error is returned.</p>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+  
+sec:amp-remove-roles(
+    "http://marklogic.com/my_modules/myspace",
+    "my-amp",
+    "/MarkLogic/MyModule.xqy",
+    0,
+    "Developer")
+
+(: Removes the "Developer" role from the list of roles granted to the "my-amp" amp. :)
+   ]]></pre>
+  </apidoc:example>
+
+</apidoc:function>
+
+<apidoc:function name="remove-amp" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Removes the amp ($namespace, $local-name, $document-uri, $database) and returns 
+  true after completion.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="namespace" type="xs:string">
+    The namespace of the function to which the amp applies.
+    </apidoc:param>
+    <apidoc:param name="local-name" type="xs:string">
+    The name of the function to which the amp applies.
+    </apidoc:param>
+    <apidoc:param name="document-uri" type="xs:string">
+    The URI of the module in which the function is located.
+    </apidoc:param>
+    <apidoc:param name="database" type="xs:unsignedLong">
+     Database ID in which the module is located. If the module is on
+     the file system (in the Modules directory), specify 
+     <code>xs:unsignedLong(0)</code>.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+  <apidoc:usage>
+	  <p>If an amp ($namespace, $local-name, $document-uri) is not found,
+		  an error is returned.</p>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+
+sec:remove-amp(
+    "http://marklogic.com/my_modules/myspace",
+    "my-amp",
+    "/MarkLogic/MyModule.xqy",
+    0)
+   
+(: Removes the "my-amp" amp. :) 
+]]></pre>
+  </apidoc:example>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/remove-amp</code>
+  </apidoc:privilege>
+</apidoc:function>
+
+<apidoc:function name="amp-doc-collections" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns a sequence of strings corresponding to the collection uri's that
+  amps belong to.
+  </apidoc:summary>
+
+  <apidoc:return> xs:string* </apidoc:return>
+  <apidoc:privilege>
+
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+
+sec:amp-doc-collections()
+
+=>
+
+http://marklogic.com/xdmp/security
+http://marklogic.com/xdmp/amps
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="amp-doc-permissions" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns a sequence of permission elements that all newly created amp 
+  documents receive.
+  </apidoc:summary>
+
+  <apidoc:return>element(sec:permission)* </apidoc:return>
+  <apidoc:privilege>
+
+  </apidoc:privilege>
+</apidoc:function>
+
+<apidoc:function name="user-doc-collections" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns a sequence of strings corresponding to the collection uri's that
+  users belong to.
+  </apidoc:summary>
+
+  <apidoc:return>xs:string* </apidoc:return>
+  <apidoc:privilege>
+
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+  
+sec:user-doc-collections()
+
+=>
+
+http://marklogic.com/xdmp/security
+http://marklogic.com/xdmp/users
+
+   ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="user-doc-permissions" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns a sequence of permission elements that all newly created user 
+  documents receive.
+  </apidoc:summary>
+  <apidoc:return>element(sec:permission)* </apidoc:return>
+  <apidoc:privilege>
+
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+  
+sec:user-doc-permissions()
+
+=>
+
+<sec:permission xmlns:sec="http://marklogic.com/xdmp/security">
+  <sec:role-id>16363340809666818373</sec:role-id>
+  <sec:capability>read</sec:capability>
+</sec:permission>
+<sec:permission xmlns:sec="http://marklogic.com/xdmp/security">
+  <sec:role-id>16363340809666818373</sec:role-id>
+  <sec:capability>update</sec:capability>
+</sec:permission>
+<sec:permission xmlns:sec="http://marklogic.com/xdmp/security">
+  <sec:role-id>16363340809666818373</sec:role-id>
+  <sec:capability>insert</sec:capability>
+</sec:permission>
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="role-doc-collections" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns a sequence of strings corresponding to the collection uri's that
+  roles belong to.
+  </apidoc:summary>
+
+  <apidoc:return> xs:string* </apidoc:return>
+  <apidoc:privilege>
+
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+ 
+sec:role-doc-collections()
+
+=>
+
+http://marklogic.com/xdmp/security
+http://marklogic.com/xdmp/roles
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="role-doc-permissions" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns a sequence of permission elements that all newly created role
+  documents receive.
+  </apidoc:summary>
+
+  <apidoc:return>element(sec:permission)* </apidoc:return>
+  <apidoc:privilege>
+
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+  
+sec:role-doc-permissions()
+
+=>
+
+<sec:permission xmlns:sec="http://marklogic.com/xdmp/security">
+  <sec:role-id>16363340809666818373</sec:role-id>
+  <sec:capability>read</sec:capability>
+</sec:permission>
+<sec:permission xmlns:sec="http://marklogic.com/xdmp/security">
+  <sec:role-id>16363340809666818373</sec:role-id>
+  <sec:capability>update</sec:capability>
+</sec:permission>
+<sec:permission xmlns:sec="http://marklogic.com/xdmp/security">
+  <sec:role-id>16363340809666818373</sec:role-id>
+  <sec:capability>insert</sec:capability>
+</sec:permission>
+   ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="get-amp" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns an sec:amp element corresponding to an amp identified by
+  ($namespace, $local-name, $document-uri).  If no such amp is found,
+  an error is returned.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="namespace" type="xs:string">
+    Namespace of the function to which the amp applies.
+    </apidoc:param>
+    <apidoc:param name="local-name" type="xs:string">
+    Name of function to which the amp applies.
+    </apidoc:param>
+    <apidoc:param name="document-uri" type="xs:string">
+    URI of the document in which the function is located.
+    </apidoc:param>
+    <apidoc:param name="database" type="xs:unsignedLong">
+     Database ID in which the module is located. If the module is on
+     the file system (in the Modules directory), specify 
+     <code>xs:unsignedLong(0)</code>.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>element(sec:amp)? </apidoc:return>
+  <apidoc:privilege>
+
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+
+sec:get-amp(
+    "http://marklogic.com/xdmp/alert",
+    "action-insert",
+    "/MarkLogic/alert.xqy",
+    0) 
+=>
+
+<sec:amp xmlns:sec="http://marklogic.com/xdmp/security">
+  <sec:amp-id>2840630016131588040</sec:amp-id>
+  <sec:namespace>http://marklogic.com/xdmp/alert</sec:namespace>
+  <sec:local-name>action-insert</sec:local-name>
+  <sec:document-uri>/MarkLogic/alert.xqy</sec:document-uri>
+  <sec:database>0</sec:database>
+  <sec:role-ids>
+    <sec:role-id>4235709426772438321</sec:role-id>
+  </sec:role-ids>
+</sec:amp>
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="get-privilege" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns a sec:privilege element corresponding to a privilege identified
+  by ($action,$kind).  If no such privilege is found, an error is returned.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="action" type="xs:string">
+    Action protected by this privilege.  For an Execute Privilege, this is 
+    usually a URI describing an activity.  For a URI Privilege, this is a 
+    base URI used to filter database activities  with certain document URIs.
+    </apidoc:param>
+    <apidoc:param name="kind" type="xs:string">Either "execute" or "uri".
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>element(sec:privilege)? </apidoc:return>
+  <apidoc:privilege>
+
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+
+sec:get-privilege(
+    "http://marklogic.com/xdmp/privileges/admin-module-read",
+    "execute")
+
+=>
+
+<sec:privilege xmlns:sec="http://marklogic.com/xdmp/security">
+  <sec:privilege-id>17293336516617295309</sec:privilege-id>
+  <sec:privilege-name>admin-module-read</sec:privilege-name>
+  <sec:action>http://marklogic.com/xdmp/privileges/admin-module-read</sec:action>
+  <sec:role-ids>
+    <sec:role-id>5444982746628127945</sec:role-id>
+    <sec:role-id>6629014463670416824</sec:role-id>
+  </sec:role-ids>
+  <sec:kind>execute</sec:kind>
+</sec:privilege>
+   ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="get-unique-elem-id" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns a unique id for a given security element, $elem.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="elem" type="xs:string">The name of a security element.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>xs:unsignedLong </apidoc:return>
+  <apidoc:privilege>
+
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+   
+sec:get-unique-elem-id("Jim"),
+sec:get-unique-elem-id("Developer"),  
+sec:get-unique-elem-id("admin-module-read")
+ 
+=>
+
+10413681137111323425
+13761147236074753084
+8985700554382078565
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="priv-doc-collections" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns a sequence of strings corresponding to the collection uri's that
+  privileges belong to.
+  </apidoc:summary>
+
+  <apidoc:return> xs:string* </apidoc:return>
+  <apidoc:privilege>
+
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+
+sec:priv-doc-collections()
+
+=>
+
+http://marklogic.com/xdmp/security
+http://marklogic.com/xdmp/privileges
+   ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="priv-doc-permissions" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns a sequence of permission elements that all newly created privilege
+  documents receive.
+  </apidoc:summary>
+
+  <apidoc:return>element(sec:permission)* </apidoc:return>
+  <apidoc:privilege>
+
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+
+sec:priv-doc-permissions()
+
+=>
+
+<sec:permission xmlns:sec="http://marklogic.com/xdmp/security">
+  <sec:role-id>16363340809666818373</sec:role-id>
+  <sec:capability>read</sec:capability>
+</sec:permission>
+<sec:permission xmlns:sec="http://marklogic.com/xdmp/security">
+  <sec:role-id>16363340809666818373</sec:role-id>
+  <sec:capability>update</sec:capability>
+</sec:permission>
+<sec:permission xmlns:sec="http://marklogic.com/xdmp/security">
+  <sec:role-id>16363340809666818373</sec:role-id>
+  <sec:capability>insert</sec:capability>
+</sec:permission>
+   ]]></pre>
+  </apidoc:example>
+  </apidoc:function>
+
+<apidoc:function name="security-collection" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns a string corresponding to the uri for the Security collection.
+  </apidoc:summary>
+
+  <apidoc:return>xs:string </apidoc:return>
+  <apidoc:privilege>
+
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+
+sec:security-collection()
+
+=>
+
+http://marklogic.com/xdmp/security
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="security-namespace" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns a string corresponding to the uri of the security namespace.
+  </apidoc:summary>
+
+  <apidoc:return>xs:string </apidoc:return>
+  <apidoc:privilege>
+
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+
+sec:security-namespace()
+
+=>
+
+http://marklogic.com/xdmp/security
+]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="users-collection" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns a string corresponding to the uri for the users collection.
+  </apidoc:summary>
+
+  <apidoc:return>xs:string </apidoc:return>
+  <apidoc:privilege>
+
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+  
+sec:users-collection( )
+
+=>
+
+http://marklogic.com/xdmp/users
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="roles-collection" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns a string corresponding to the uri for the roles collection.
+  </apidoc:summary>
+
+  <apidoc:return>xs:string </apidoc:return>
+  <apidoc:privilege>
+
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+  
+sec:roles-collection( )
+
+=>
+
+http://marklogic.com/xdmp/roles 
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="privileges-collection" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns a string corresponding to the uri for the privileges collection.
+  </apidoc:summary>
+
+  <apidoc:return> xs:string </apidoc:return>
+  <apidoc:privilege>
+
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+
+sec:privileges-collection( )
+
+=>
+
+http://marklogic.com/xdmp/privileges    
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="amps-collection" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns a string corresponding to the uri for the amps collection.
+  </apidoc:summary>
+
+  <apidoc:return>xs:string </apidoc:return>
+  <apidoc:privilege>
+
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+
+sec:amps-collection( )
+
+=>
+
+http://marklogic.com/xdmp/amps    
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="collections-collection" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns a string corresponding to the uri for the protected 
+  collections collection.
+  </apidoc:summary>
+
+  <apidoc:return>xs:string </apidoc:return>
+  <apidoc:privilege>
+
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+ 
+sec:collections-collection( )
+
+=>
+
+http://marklogic.com/xdmp/collections   
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+<apidoc:function name="user-set-default-permissions" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Sets the default permissions for a user with name $user-name.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="user-name" type="xs:string">The name of the user.
+    </apidoc:param>
+    <apidoc:param name="permissions" type="element(sec:permission)*">
+    New permissions.  If the empty sequence is provided, deletes the 
+    existing permissions.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/user-set-default-permissions</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>If a user with name $user-name is not found, an error is 
+		  raised.</p>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+
+sec:user-set-default-permissions(
+   "Jim", 
+    (xdmp:permission("security", "read"),
+     xdmp:permission("security", "update")))
+
+(: Sets the security(read) and security(update) permissions for user, "Jim." :)
+ ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="get-distinct-permissions" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns a sequence of permission elements made up of a concatenation of
+  $output-perms and the distinct permission elements of $input-perms.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="input-perms" type="element(sec:permission)*">
+    The input permissions.  
+    </apidoc:param>
+    <apidoc:param name="output-perms" type="element(sec:permission)*">
+    The output permissions. This is typically an empty sequence.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>element(sec:permission)* </apidoc:return>
+  <apidoc:privilege>
+
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+ 
+sec:get-distinct-permissions(
+    (xdmp:permission("security", "read"), 
+     xdmp:permission("security", "update")),
+     ())
+=>
+
+<sec:permission xmlns:sec="http://marklogic.com/xdmp/security">
+  <sec:capability>update</sec:capability>
+  <sec:role-id>16363340809666818373</sec:role-id>
+</sec:permission>
+<sec:permission xmlns:sec="http://marklogic.com/xdmp/security">
+  <sec:capability>read</sec:capability>
+  <sec:role-id>16363340809666818373</sec:role-id>
+</sec:permission>
+   ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="role-set-default-permissions" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Sets the default permissions for a role with name $role-name. 
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="role-name" type="xs:string">
+    The name of the role to which the default permissions are set.
+    </apidoc:param>
+    <apidoc:param name="permissions" type="element(sec:permission)*">
+    New permissions.  If the empty sequence is provided, deletes the 
+    existing permissions.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/role-set-default-permissions</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>If a role with name $role-name is not found, an error is 
+		  raised.</p>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+     "/MarkLogic/security.xqy";
+
+sec:role-set-default-permissions(
+    "Developer",
+     (xdmp:permission("security", "read"), 
+      xdmp:permission("security", "update")))
+
+(: Sets the default permissions for the "Developer" role to security(read) and
+   security(update). :) 
+]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="user-get-default-permissions" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns a sequence of permission elements correspondinig to the user's
+  default permissions.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="user-name" type="xs:string">The name of a user.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>element(sec:permission)* </apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/user-get-default-permission</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>If a user with name $user-name is not found, an error is 
+		  raised.</p>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+
+sec:user-get-default-permissions("Jim")
+
+=>
+
+<sec:permission xmlns:sec="http://marklogic.com/xdmp/security">
+  <sec:capability>update</sec:capability>
+  <sec:role-id>16363340809666818373</sec:role-id>
+</sec:permission>
+<sec:permission xmlns:sec="http://marklogic.com/xdmp/security">
+  <sec:capability>read</sec:capability>
+  <sec:role-id>16363340809666818373</sec:role-id>
+</sec:permission>
+   ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="role-get-default-permissions" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns a sequence of permission elements correspondinig to the role's
+  default permissions.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="role-name" type="xs:string">The name of a role.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>element(sec:permission)* </apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/role-get-default-permission</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>If a role with name $role-name is not found, an error is 
+		  raised.</p>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+
+sec:role-get-default-permissions("Developer")
+
+=>
+
+<sec:permission xmlns:sec="http://marklogic.com/xdmp/security">
+  <sec:capability>update</sec:capability>
+  <sec:role-id>16363340809666818373</sec:role-id>
+</sec:permission>
+<sec:permission xmlns:sec="http://marklogic.com/xdmp/security">
+  <sec:capability>read</sec:capability>
+  <sec:role-id>16363340809666818373</sec:role-id>
+</sec:permission>
+   ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="user-get-default-collections" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns a sequence of strings correspondinig to the uri's of the user's
+  default collections.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="user-name" type="xs:string">The name of a user.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>xs:string* </apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/user-get-default-collections</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>If a user with name $user-name is not found, an error is 
+		  raised.</p>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+
+sec:user-get-default-collections("Jim")
+
+=>
+
+http://marklogic.com/jims_modules
+http://marklogic.com/jims_docs
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="role-get-default-collections" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns a sequence of strings correspondinig to the uri's of the role's
+  default collections.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="role-name" type="xs:string">The name of a role.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>xs:string* </apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/role-get-default-collections</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>If a role with name $role-name is not found, an error is 
+		  raised.</p>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+    "/MarkLogic/security.xqy";
+
+sec:role-get-default-collections("Developer")
+
+=>
+
+http://marklogic.com/dev_modules
+http://marklogic.com/dev_docs
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="user-set-default-collections" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Sets the default collections of a user with name $user-name to
+  $collections.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="user-name" type="xs:string">The name of a user.
+    </apidoc:param>
+    <apidoc:param name="collections" type="xs:string*">
+    A sequence of collections.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/user-set-default-collections</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>If a user with name $user-name is not found, an error is 
+		  raised.</p>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+     "/MarkLogic/security.xqy";
+
+sec:user-set-default-collections("Jim", 
+    ("http://marklogic.com/jim_modules", 
+     "http://marklogic.com/jim_docs"))
+
+(: Sets the default collections for the user, "Jim," to "http://marklogic.com/jim_modules"
+   and "http://marklogic.com/jim_docs". Any other previously set collections are removed.
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="role-set-default-collections" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Sets the default collections of a role with name $role-name to
+  $collections.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="role-name" type="xs:string">The name of a role.
+    </apidoc:param>
+    <apidoc:param name="collections" type="xs:string*">
+    A sequence of collections.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/role-set-default-collections</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>If a role with name $role-name is not found, an error is 
+		  raised.</p>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+     "/MarkLogic/security.xqy";
+
+sec:role-set-default-collections("Developer", 
+    ("http://marklogic.com/dev_modules", 
+     "http://marklogic.com/dev_docs"))
+
+(: Sets the default collections for the role, "Developer," to 
+"http://marklogic.com/dev_modules" and "http://marklogic.com/dev_docs".
+ Any other previously set collections are removed.
+  ]]></pre> 
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="get-collection" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Gets the security document corresponding to a protected collection with
+  uri equal to $uri.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">The URI of a collection.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>element(sec:collection) </apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/unprotect-collection</code> 
+	  or<br />
+  <code>http://marklogic.com/xdmp/privileges/collection-set-permissions</code> 
+	   or<br />
+   <code>http://marklogic.com/xdmp/privileges/collection-add-permissions</code> 
+	   or<br />
+ <code>http://marklogic.com/xdmp/privileges/collection-remove-permissions</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>If a protected collection with uri equal to $uri is not found, 
+		  an error is raised.</p>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+     "/MarkLogic/security.xqy";
+ 
+sec:get-collection("http://marklogic.com/cpf/domains")
+
+=>
+  
+<sec:collection xmlns:sec="http://marklogic.com/xdmp/security">
+  <sec:collection-id>403495114666638078</sec:collection-id>
+  <sec:uri>http://marklogic.com/cpf/domains</sec:uri>
+</sec:collection>
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="protect-collection" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Protects a collection $uri with the given permissions
+  ($permissions).  Returns the unique id of the protected collection.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">The URI of a collection.
+    </apidoc:param>
+    <apidoc:param name="permissions" type="element(sec:permission)*">
+    Permissions governing the collection.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>xs:unsignedLong </apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/protect-collection</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>If $uri is empty or can not be cast as an xs:AnyURI, an error 
+		  is raised.</p>
+ 
+	  <p>If a collection with the same uri is already protected, an 
+		  error is raised.</p>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+     "/MarkLogic/security.xqy";
+
+sec:protect-collection("http://marklogic.com/dev_modules", 
+                       (xdmp:permission("Developer", "read"), 
+                        xdmp:permission("Developer", "insert"))) 
+
+(: Users with the "Developer" role can read and insert files in "dev_modules." :) 
+]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="unprotect-collection" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Removes the protection of a collection $uri.  This
+  does not remove the collection or any of its documents.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">
+    The URI of the collection from which to remove protections.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence()</apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/unprotect-collection</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>If a protected collection with uri equal to $uri is not found,
+		  an error is raised.</p>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+     "/MarkLogic/security.xqy";
+
+sec:unprotect-collection("http://marklogic.com/dev_modules")
+
+(: Removes protection from the "dev_modules" collection. :)
+   ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="collection-set-permissions" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Sets the permissions of a protected collection identified by $uri to 
+  $permissions.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">The URI of a collection.
+    </apidoc:param>
+    <apidoc:param name="permissions" type="element(sec:permission)*">
+    New permissions.  If the empty sequence is provided, deletes the existing 
+    permissions.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence()</apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/collection-set-permissions</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>If a protected collection with uri equal to $uri is not found, 
+		  an error is raised.</p>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+     "/MarkLogic/security.xqy";
+
+sec:collection-set-permissions("http://marklogic.com/dev_modules",
+                               (xdmp:permission("Developer", "read"), 
+                                xdmp:permission("Developer", "update")))
+
+(: Sets the permissions on "dev_modules" to Developer(read) and Developer(update).
+   Any previous permissions on the collection are removed. :)
+]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="collection-add-permissions" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Add the permissions $permissions to the protected collection identified 
+  by $uri.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">The URI of a collection.
+    </apidoc:param>
+    <apidoc:param name="permissions" type="element(sec:permission)*">
+    New permissions to add to that protected collection.  If $permissions is 
+    the empty sequence, the function will have no effect.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence()</apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/collection-add-permissions</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>If a protected collection with uri equal to $uri is not found, 
+		  an error is raised.</p>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+     "/MarkLogic/security.xqy";
+
+sec:collection-add-permissions("http://marklogic.com/dev_modules",
+                               (xdmp:permission("Developer", "insert")))
+
+(: Adds the Developer(insert) permission to the "dev_modules" collection. :)
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="collection-remove-permissions" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Removes the permissions $permissions from the protected collection 
+  identified by $uri.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">The URI of a collection.
+    </apidoc:param>
+    <apidoc:param name="permissions" type="element(sec:permission)*">
+    Permissions to be removed from that protected collection.  If $permissions 
+    is the empty sequence, the function will have no effect.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence()</apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/collection-remove-permissions</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>If a protected collection with uri equal to $uri is not found, 
+		  an error is raised.</p>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+     "/MarkLogic/security.xqy";
+ 
+sec:collection-remove-permissions("http://marklogic.com/dev_modules",
+                                  (xdmp:permission("Developer", "update")))
+  
+(: Removes the Developer(update) permission from the "dev_modules" collection. :)
+]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="collection-get-permissions" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns a sequence of permission elements corresponding to the 
+  current permissions granted to the protected collection identified
+  by $uri.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">The URI of a collection.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>element(sec:permission)* </apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/collection-get-permissions</code>
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>If a protected collection with uri equal to $uri is not found, 
+		  an error is raised.</p>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+     "/MarkLogic/security.xqy";
+  
+sec:collection-get-permissions("http://marklogic.com/dev_modules")
+
+=>
+ 
+<sec:permission xmlns:sec="http://marklogic.com/xdmp/security">
+  <sec:capability>read</sec:capability>
+  <sec:role-id>5444982746628127945</sec:role-id>
+</sec:permission>
+<sec:permission xmlns:sec="http://marklogic.com/xdmp/security">
+  <sec:capability>insert</sec:capability>
+  <sec:role-id>5444982746628127945</sec:role-id>
+</sec:permission>
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="user-privileges" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns a set of privilege elements corresponding to all privileges
+  that a user has. (roles are flattened to give a complete set of 
+  privileges).
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="user-name" type="xs:string">The name of a user.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>element(sec:privilege)* </apidoc:return>
+  <apidoc:privilege>
+	  <code>http://marklogic.com/xdmp/privileges/user-privileges</code> 
+  if the current user is not $user-name.
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>If a user with name equal to $user-name is not found, an error
+		  is raised.</p>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+     "/MarkLogic/security.xqy";
+
+sec:user-privileges("Jim")
+
+=>
+
+<sec:privilege xmlns:sec="http://marklogic.com/xdmp/security">
+ <sec:privilege-id>12387631775818383068</sec:privilege-id>
+  <sec:privilege-name>xdmp:save</sec:privilege-name>
+  <sec:action>http://marklogic.com/xdmp/privileges/xdmp-save</sec:action>
+  <sec:role-ids>
+    <sec:role-id>13749738523688002780</sec:role-id>
+  </sec:role-ids>
+  <sec:kind>execute</sec:kind>
+</sec:privilege>
+(:  ..... and all other privileges assigned to "jim." :)
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="role-privileges" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns a set of privilege elements corresponding to all privileges
+  that a role has. (Roles are flattened to give a complete set of 
+  privileges).
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="role-name" type="xs:string">The name of a role.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> element(sec:privilege)*</apidoc:return>
+  <apidoc:privilege>
+  <code>http://marklogic.com/xdmp/privileges/role-privileges</code>
+  if the current role is not $role-name.
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>If a role with name equal to $role-name is not found, an 
+		  error is raised. </p>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+     "/MarkLogic/security.xqy";
+ 
+sec:role-privileges("Developer")
+  
+=>
+
+<sec:privilege xmlns:sec="http://marklogic.com/xdmp/security">
+ <sec:privilege-id>12387631775818383068</sec:privilege-id>
+  <sec:privilege-name>xdmp:save</sec:privilege-name>
+  <sec:action>http://marklogic.com/xdmp/privileges/xdmp-save</sec:action>
+  <sec:role-ids>
+    <sec:role-id>13749738523688002780</sec:role-id>
+  </sec:role-ids>
+  <sec:kind>execute</sec:kind>
+</sec:privilege>
+(:  ..... and all other privileges assigned to "Developer." :) 
+]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="security-installed" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns fn:true() if security has been installed on the 
+  current database.  Otherwise, returns false.
+  </apidoc:summary>
+  <apidoc:params>
+	
+  </apidoc:params>
+  <apidoc:return>xs:boolean </apidoc:return>
+  <apidoc:privilege>
+
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+     "/MarkLogic/security.xqy";
+
+sec:security-installed()
+
+=> true 
+]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="uid-for-name" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns the uids for the named user or () if no such user exists.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="name" type="xs:string">The named user.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>xs:unsignedLong*</apidoc:return>
+  <apidoc:privilege>
+
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+     "/MarkLogic/security.xqy";
+
+sec:uid-for-name("Jim")
+
+=>
+
+18325468190304151823
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="get-user-names" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns sequence of unique sec:user-name's that corresponds to the 
+  sequence of user IDs $user-ids.  Duplicate IDs return a single
+  name.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="user-ids" type="xs:unsignedLong*">
+    A sequence of user IDs.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> element(sec:user-name)* </apidoc:return>
+  <apidoc:privilege>
+    <code>http://marklogic.com/xdmp/privileges/get-user-names</code> 
+  </apidoc:privilege>
+  <apidoc:usage>
+    <p>If a user ID in $user-ids does not correspond to an existing
+      user, an error is returned.</p>
+    <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+   "/MarkLogic/security.xqy";
+
+sec:get-user-names((18325468190304151823, 
+                    5673246250406350379, 
+                    11765239768744971597))
+
+=> 
+
+<sec:user-name xmlns:sec="http://marklogic.com/xdmp/security">Jim</sec:user-name>
+<sec:user-name xmlns:sec="http://marklogic.com/xdmp/security">Sue</sec:user-name>
+<sec:user-name xmlns:sec="http://marklogic.com/xdmp/security">Tom</sec:user-name>
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="set-realm" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Changes the realm of this security database to $realm.
+  If the realm is different from the old value this function
+  also invalidates all the existing digest passwords since they
+  will no longer work with the new realm.  Warning: this invalidates
+  all user's digest passwords, including the user running this function 
+  and users of the Admin Interface (if the Admin Interface is set to digest
+  authentication, which is the default setting); once a user's digest password
+  is invalidated, that user will no longer be able to log in with digest
+  authentication.  
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="realm" type="xs:string">
+    The new realm name to which the security database name is changed.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>empty-sequence() </apidoc:return>
+  <apidoc:privilege>
+
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+    <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+     "/MarkLogic/security.xqy";
+
+sec:set-realm("public")
+
+(: Sets the realm to "public." :)
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="check-admin" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Throws an error if the current user does not have the admin role.
+  </apidoc:summary>
+  <apidoc:params>
+   
+  </apidoc:params>
+  <apidoc:return>empty-sequence() </apidoc:return>
+  <apidoc:privilege>
+
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+  <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+     "/MarkLogic/security.xqy";
+
+sec:check-admin()
+
+=>  [0.9-ml] SEC-NOADMIN: User does not have admin role.
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="security-version" type="security" lib="sec" 
+                 category="Security-sec" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns the current version of the security database.
+  </apidoc:summary>
+  <apidoc:params>
+   
+  </apidoc:params>
+  <apidoc:return>xs:integer </apidoc:return>
+  <apidoc:privilege>
+
+  </apidoc:privilege>
+  <apidoc:usage>
+	  <p>This function must be executed against the security database.</p>
+  </apidoc:usage>
+  <apidoc:example> <pre xml:space="preserve"><![CDATA[
+(: execute this against the security database :)
+xquery version "1.0-ml";
+
+import module namespace sec="http://marklogic.com/xdmp/security" at 
+     "/MarkLogic/security.xqy";
+
+sec:security-version()
+
+=> 40100
+   ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+</apidoc:module>

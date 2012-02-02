@@ -1,0 +1,811 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="webdav.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1041811"></A>
+<A ID="65018"></A>
+WebDAV Servers</Heading-1>
+<pagenum>
+<A ID="pgfId-1041925"></A>
+57</pagenum>
+<Body>
+<A ID="pgfId-1041815"></A>
+A WebDAV server in MarkLogic Server is similar to an HTTP server, but has the following important differences:</Body>
+<Body-bullet>
+<A ID="pgfId-1041618"></A>
+WebDAV servers cannot execute XQuery code.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1039466"></A>
+WebDAV servers support the WebDAV protocol to allow WebDAV clients to have read and write access (depending on the security configuration) to a database.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1039470"></A>
+A WebDAV server only accesses documents and directories in a database; it does not access the file system directly.</Body-bullet>
+<Body>
+<A ID="pgfId-1039461"></A>
+This chapter describes WebDAV servers in MarkLogic Server and includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1039476"></A>
+<A href="webdav.xml#id(30281)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+WebDAV Server Overview</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1041510"></A>
+<A href="webdav.xml#id(54350)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Procedures for Creating and Managing WebDAV Servers</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1039484"></A>
+<A href="webdav.xml#id(52283)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+WebDAV Clients</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1039501"></A>
+<A href="webdav.xml#id(81091)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Example: Setting Up a WebDAV Server to Add/Modify Documents Used By Another Server</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1050444"></A>
+This chapter describes how to use the Admin Interface to create and configure WebDAV servers. For details on how to create and configure WebDAV servers programmatically, see <A href="../AdminAPI/configure.xml#id(18698)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating and Configuring App Servers</Hyperlink>
+</A> in the <Emphasis>
+Scripting Administrative Tasks Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1038444"></A>
+<A ID="30281"></A>
+WebDAV Server Overview</Heading-2>
+<Body>
+<A ID="pgfId-1038460"></A>
+WebDAV (Web-based Distributed Authoring and Versioning) is a protocol that extends the HTTP protocol to provide the ability to write documents through these HTTP extensions. You need a WebDAV client to write documents, but you can still read them through HTTP (through a web browser, for example). For information about WebDAV clients supported in MarkLogic Server, see <A href="webdav.xml#id(52283)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'WebDAV Clients' on page&#160;53</A>. For general information about WebDAV and the WebDAV protocol, see the following web site:</Body>
+<Body-indent>
+<A ID="pgfId-1039526"></A>
+<Hyperlink>
+<A href="http://webdav.org" xml:link="simple" show="replace" actuate="user" CLASS="URL">http://webdav.org</A></Hyperlink>
+</Body-indent>
+<Body>
+<A ID="pgfId-1039566"></A>
+This section provides an overview of WebDAV servers in MarkLogic Server, and includes the following topics:</Body>
+<Body-bullet>
+<A ID="pgfId-1039576"></A>
+<A href="webdav.xml#id(81537)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Accesses a Database for Read and Write, Not XQuery Execution</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1039584"></A>
+<A href="webdav.xml#id(35569)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+WebDAV Server Security</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1039701"></A>
+<A href="webdav.xml#id(70236)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Directories</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1039589"></A>
+<A href="webdav.xml#id(25553)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Server Root Directory</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1039594"></A>
+<A href="webdav.xml#id(12486)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Documents in a WebDAV Server</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1039517"></A>
+<A ID="81537"></A>
+Accesses a Database for Read and Write, Not XQuery Execution</Heading-3>
+<Body>
+<A ID="pgfId-1039541"></A>
+In MarkLogic Server, WebDAV servers are defined at the group level and apply to all hosts within the group. Each WebDAV server provides access to a single database for reading and writing (dependent on the needed security permissions). </Body>
+<Body>
+<A ID="pgfId-1039549"></A>
+In the Admin Interface, you configure a WebDAV server to access a database. Documents stored in that database are accessible for reading via HTTP. The database is also accessible via WebDAV clients for reading, modifying, deleting, and adding documents. When you add a document via a WebDAV client (by dragging and dropping, for example), you are actually loading a document directly into the database.</Body>
+<Body>
+<A ID="pgfId-1039559"></A>
+When accessing a database via a WebDAV server, you cannot execute XQuery code. Unlike an HTTP server, there is no Modules database for a WebDAV server. You can, however, configure a database as the Modules database of an HTTP or XDBC server and you can configure the same database for access from a WebDAV server. Then, you can edit code from the WebDAV server that executes from an HTTP or XDBC server. For an example of this configuration, see <A href="webdav.xml#id(81091)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Example: Setting Up a WebDAV Server to Add/Modify Documents Used By Another Server' on page&#160;56</A>.</Body>
+<Heading-3>
+<A ID="pgfId-1038461"></A>
+<A ID="35569"></A>
+WebDAV Server Security</Heading-3>
+<Body>
+<A ID="pgfId-1039545"></A>
+WebDAV servers follow the MarkLogic Server security model, as do HTTP and XDBC servers. The server authenticates users with user IDs and passwords stored in the security database for that WebDAV server, and the server controls access to objects in the database with privileges and roles. (Each WebDAV server is connected to a database, and each database is in turn connected to a security database in which security objects such as users are stored.) </Body>
+<Body>
+<A ID="pgfId-1039642"></A>
+You can configure application-level security if you want everyone who accesses the WebDAV server to effectively log in as the same user with no password. For example, if you want everyone to log in as <Emphasis>
+guest</Emphasis>
+, where <Emphasis>
+guest</Emphasis>
+ has both read and write privileges and has a predefined set of default privileges, set the authentication scheme to application-level and set the default user to <Emphasis>
+guest</Emphasis>
+. </Body>
+<Note>
+<A ID="pgfId-1039652"></A>
+Because users who have write permissions to the database on a WebDAV server can load documents into the database via a WebDAV client, be sure to configure appropriate default permissions on those users so that documents they load (for example, by dragging and dropping files into a WebDAV folder) have the needed permissions for other users to read and write, according to your security policy. You can achieve such granular access control to the system and to the data through the use of privileges and permissions. For information on using security features in MarkLogic Server, see <A href="security.xml#id(73923)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Security Administration' on page&#160;187</A> and the chapters related to security in the <Emphasis>
+Application Developer's Guide</Emphasis>
+. </Note>
+<Heading-3>
+<A ID="pgfId-1039695"></A>
+<A ID="70236"></A>
+Directories</Heading-3>
+<Body>
+<A ID="pgfId-1038453"></A>
+A WebDAV directory is analogous to a file system directory. A directory must exist in order to view (via a WebDAV client) any documents in that directory (just like in a filesystem, where you must navigate to a directory in order to access any files in that directory). Each document in a directory has a URI that includes the directory URI as a prefix. Also, each directory visible from a WebDAV server must have the WebDAV root as its prefix, and there must exist a directory with the WebDAV root in the database. </Body>
+<Body>
+<A ID="pgfId-1041330"></A>
+For example, if you have a WebDAV root of <code>
+http://marklogic.com/</code>
+, then the URI of all documents and all directories must begin with that root in order to be visible from a WebDAV client. Also, the directory with a URI <code>
+http://marklogic.com/</code>
+ must exist in the database. Therefore, a document with a URI of <code>
+http://marklogic.com/file.xml</code>
+ is visible from this WebDAV server, and a directory with a URI of <code>
+http://marklogic.com/dir/</code>
+ is also visible. A directory with a URI of <code>
+/dir/</code>
+ and a document with a URI of <code>
+/dir/file.xml</code>
+ is not visible from this server, however, because its URI does not begin with the WebDAV root.</Body>
+<Body>
+<A ID="pgfId-1041513"></A>
+The following sections describe further details about directories:</Body>
+<Body-bullet>
+<A ID="pgfId-1041514"></A>
+<A href="webdav.xml#id(26366)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Automatic Directory Creation in a Database Settings</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1041522"></A>
+<A href="webdav.xml#id(43919)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Properties and URIs of Directories</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1041910"></A>
+For more details on directories and properties, see the 'Property Documents and Directories' chapter of the <Emphasis>
+Application Developer's Guide</Emphasis>
+.</Body>
+<Heading-4>
+<A ID="pgfId-1040091"></A>
+<A ID="26366"></A>
+Automatic Directory Creation in a Database Settings</Heading-4>
+<Body>
+<A ID="pgfId-1040159"></A>
+In the configuration for a database in the Admin Interface, there is a directory creation setting. The directory creation setting specifies whether directories are created automatically when you create a document. </Body>
+<Body>
+<A ID="pgfId-1041365"></A>
+If you are using a WebDAV server to load documents into a database, we recommend you use the Admin Interface to set the directory creation setting for your database to <code>
+automatic</code>
+. If you create a WebDAV server that accesses a database with directory creation set to <code>
+automatic</code>
+, the root directory (required in order to access the database via a WebDAV client) is automatically created. Automatic directory creation also helps if you are loading documents manually (using the <code>
+xdmp:document-load</code>
+ function, for example) whose URIs include directory hierarchies that do not exist in the database. Any directory implied by a URI is automatically created with directory creation set to <code>
+automatic</code>
+.</Body>
+<Body>
+<A ID="pgfId-1040121"></A>
+You can also manually create and delete directories in XQuery using the <code>
+xdmp:directory-create</code>
+ and <code>
+xdmp:directory-delete</code>
+ built-in functions.</Body>
+<Body>
+<A ID="pgfId-1041379"></A>
+For details on all of the directory creation settings, see <A href="databases.xml#id(84130)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Basic Administrative Settings' on page&#160;98</A>.</Body>
+<Heading-4>
+<A ID="pgfId-1040173"></A>
+<A ID="43919"></A>
+Properties and URIs of Directories</Heading-4>
+<Body>
+<A ID="pgfId-1040291"></A>
+A directory is stored as a properties document in a MarkLogic Server database. Like a document, a directory has a URI, but the URI must end in a forward slash (<code>
+/</code>
+). Use the <code>
+xdmp:document-properties(&quot;uri_name&quot;)</code>
+ function to retrieve the properties document for a URI, or the <code>
+xdmp:document-properties()</code>
+ function to retrieve all of the properties documents in the database.</Body>
+<Body>
+<A ID="pgfId-1040975"></A>
+Properties are in the <code>
+http://marklogic.com/xdmp/property</code>
+ namespace. When you create a directory (either automatically or manually), the system creates a properties document in the database with a child element named <code>
+directory</code>
+. For example, if you have a directory in your database with a URI <code>
+/myCompany/marketing/</code>
+, the following query return the following results:</Body>
+<Code>
+<A ID="pgfId-1040989"></A>
+xdmp:document-properties(&quot;/myServer/Marketing/&quot;)
+=&gt;
+&lt;prop:properties xmlns:prop=&quot;http://marklogic.com/xdmp/property&quot;&gt;
+&#160;&#160;&#160;&lt;prop:directory/&gt;
+&lt;/prop:properties&gt;</Code>
+<Body>
+<A ID="pgfId-1040292"></A>
+The properties document returned does not contain the URI of the directory, but just an empty element (<code>
+prop:directory</code>
+) indicating the existence of a directory.</Body>
+<Body>
+<A ID="pgfId-1041396"></A>
+The <code>
+xdmp:document-properties()</code>
+ function returns the properties documents for all documents in the database. Whenever there is a directory element in the properties document, there is a directory in the database, and calling the XQuery <code>
+xdmp:node-uri</code>
+ built-in function on that element returns the URI of the directory. For example, the following query returns the URIs for all of the directories in a database:</Body>
+<Code>
+<A ID="pgfId-1040153"></A>
+declare namespace prop=&quot;http://marklogic.com/xdmp/property&quot;
+
+for $x in xdmp:document-properties()/prop:properties/prop:directory
+return &lt;directory-uri&gt;{xdmp:node-uri($x)}&lt;/directory-uri&gt;</Code>
+<Note>
+<A ID="pgfId-1040148"></A>
+It is possible to create a document with a URI that ends in a forward slash (/). To avoid confusion with directory URIs, the best practice is to avoid creating documents with URIs that end in a forward slash.</Note>
+<Heading-3>
+<A ID="pgfId-1039736"></A>
+<A ID="25553"></A>
+Server Root Directory</Heading-3>
+<Body>
+<A ID="pgfId-1039737"></A>
+Each WebDAV server has a concept of a <Emphasis>
+root</Emphasis>
+. The root is the top-level directory accessible from the server; you can access any documents or directories in the database that are children of the root. The root therefore serves as a prefix for all document and directory URIs accessible through the WebDAV server. You enter the WebDAV root in the Admin Interface. The root can be any valid URI. The root should always end with a forward slash (/), and if it does not, the Admin Interface will append one to the string provided.</Body>
+<Body>
+<A ID="pgfId-1039738"></A>
+The root should be a unique string that can serve as the top of a directory structure. It is common practice to use a WebDAV root of the form <code>
+http://&lt;company_domain&gt;/</code>
+, but that is not required. The following are some examples of WebDAV roots:</Body>
+<Code>
+<A ID="pgfId-1039739"></A>
+http://myCompany/marketing/</Code>
+<Code>
+<A ID="pgfId-1039740"></A>
+/myCompany/marketing/</Code>
+<Note>
+<A ID="pgfId-1041786"></A>
+Directories cannot end in two forward slashes (<code>
+//</code>
+). Therefore, you cannot create a directory with a URI <code>
+http://</code>
+. If you specify a root of <code>
+http://myCompany</code>
+ for a WebDAV server and <code>
+directory creation</code>
+ is set to <code>
+automatic</code>
+ in the database, a directory with the URI <code>
+http://myCompany/</code>
+ is automatically created in the database.</Note>
+<Body>
+<A ID="pgfId-1039741"></A>
+Whatever the root, any documents accessible through the WebDAV server must have URIs that begin with the root. Also, any documents created through a WebDAV client (for example, by dragging and dropping into a web folder) will be loaded with URIs beginning with the WebDAV root. </Body>
+<Body>
+<A ID="pgfId-1039749"></A>
+For example, a document with URI <code>
+/myCompany/marketing/strategy.doc</code>
+ is accessible (given the necessary security permissions) via the WebDAV server with the root <code>
+/myCompany/marketing/</code>
+, and you can create that document by dragging a document named <code>
+strategy.doc</code>
+ into a web folder configured to access the WebDAV server described above.</Body>
+<Note>
+<A ID="pgfId-1049548"></A>
+When a WebDAV client accesses a WebDAV server whose database has <code>
+directory creation</code>
+ set to <code>
+automatic</code>
+, if the WebDAV root directory does not exist in that database, it is automatically created. The directory is created with no permissions, so it will only be readable by users with the <code>
+admin</code>
+ role. For other users to be able to use the WebDAV server, you should add appropriate read permissions to the directory (with <code>
+xdmp:document-add-permissions</code>
+, for example). For details on document and directory permissions, see <Emphasis>
+Understanding and Using Security Guide</Emphasis>
+.</Note>
+<Heading-3>
+<A ID="pgfId-1038499"></A>
+<A ID="12486"></A>
+Documents in a WebDAV Server</Heading-3>
+<Body>
+<A ID="pgfId-1038503"></A>
+The main purpose of a WebDAV server is to make it easy for people to store, retrieve, and modify documents in a database. The documents can be any type, whether they are text documents such as <code>
+.txt</code>
+ files or source code, binary documents such as image files or Microsoft Word files, or XML documents. Because the documents are stored in a database, you can create applications that use the content in those documents for whatever purpose you need. You can also use the database backup and restore features to easily back up the content in the database. </Body>
+<Heading-2>
+<A ID="pgfId-1040034"></A>
+<A ID="54350"></A>
+Procedures for Creating and Managing WebDAV Servers</Heading-2>
+<Body>
+<A ID="pgfId-1038009"></A>
+This section includes procedures to perform the following actions:</Body>
+<Body-bullet>
+<A ID="pgfId-1038013"></A>
+<A href="webdav.xml#id(21458)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating a New WebDAV Server</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1038017"></A>
+<A href="webdav.xml#id(79815)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Viewing WebDAV Server Settings</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1038021"></A>
+<A href="webdav.xml#id(87557)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Deleting a WebDAV Server</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1046107"></A>
+For the procedure to cancel a running request on a WebDAV server, see <A href="http.xml#id(72344)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Canceling a Request' on page&#160;37</A>.</Body>
+<Heading-3>
+<A ID="pgfId-1038022"></A>
+<A ID="21458"></A>
+Creating a New WebDAV Server</Heading-3>
+<Body>
+<A ID="pgfId-1038023"></A>
+To create a new server, complete the following steps:</Body>
+<Number1>
+<A ID="pgfId-1038024"></A>
+Click the Groups icon.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1038025"></A>
+Click the group in which you want to define the WebDAV server (for example, Default).</Number>
+<Number>
+<A ID="pgfId-1038026"></A>
+Click the App Servers icon on the left tree menu.</Number>
+<Number>
+<A ID="pgfId-1038027"></A>
+Click the Create WebDAV tab at the top right.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1038028"></A>
+The WebDAV Server Create page displays.</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1038033"></A>
+Go to the WebDAV Server Name field and enter a shorthand name for this WebDAV server.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1038034"></A>
+MarkLogic Server will use this name to refer to this server on display screens and in user interface controls.</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1038035"></A>
+Go to the root field and enter the name of WebDAV root. This root is a string that represents the top-level of the WebDAV URI hierarchy. Any document accessible through this WebDAV server must have a URI that begins with this root string. For more details on the root, see <A href="webdav.xml#id(25553)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Server Root Directory' on page&#160;49</A>.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1038036"></A>
+If the root directory does not contain a forward slash, the Admin Interface adds one for you.</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1038060"></A>
+Go to the Port field and enter the port number through which you want to make this WebDAV server available. The port number must not be assigned to any other server.</Number>
+<Number>
+<A ID="pgfId-1038062"></A>
+Go to the Database field and select the database to be accessed by this WebDAV server.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1038063"></A>
+Multiple HTTP, XDBC, and WebDAV servers can be connected to the same database.</Body-indent>
+<Note>
+<A ID="pgfId-1038435"></A>
+If you are using a database with a WebDAV server, the directory creation setting on the database should be set to <code>
+automatic</code>
+, which will automatically create the root directory and other directories for any documents added to the database (if the directory does not already exist). For more information on directories, see <A href="webdav.xml#id(70236)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Directories' on page&#160;47</A>.</Note>
+<NumberList>
+<Number>
+<A ID="pgfId-1038064"></A>
+Scroll to the Privilege field near the bottom of the screen. This field represents the privilege needed to access (login) the server. You may leave this field blank.   </Number>
+<Number>
+<A ID="pgfId-1050086"></A>
+Set any other properties for this App Server, as appropriate to your needs:</Number>
+</NumberList>
+<Body-bullet-2>
+<A ID="pgfId-1050089"></A>
+Last Login and Display Last Login are described in <A href="session-login.xml#id(54951)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Storing and Monitoring the Last User Login Attempt' on page&#160;94</A>.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1050091"></A>
+Address specifies the IP address for the App Server.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1050092"></A>
+Backlog specifies the maximum number of pending connections allowed on the HTTP server socket.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1050093"></A>
+Threads specifies the maximum number of App Server threads.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1050094"></A>
+Request Timeout specifies the maximum number of seconds before a socket receives a timeout for the first request.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1050095"></A>
+Keep Alive timeout specifies the maximum number of seconds before a socket receives a timeout for subsequent requests over the same connection.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1050208"></A>
+Session Timeout specifies the maximum number of seconds before an inactive session times out.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1050097"></A>
+Max Time Limit specifies the upper bound for any request's time limit. No request may set its time limit (for example with xdmp:set-request-time-limit) higher than this number. The time limit, in turn, is the maximum number of seconds allowed for servicing a query request. The App Server gives up on queries which take longer, and returns an error.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1050098"></A>
+Default Time Limit specifies the default value for any request's time limit, when otherwise unspecified. A request can change its time limit using <code>
+xdmp:set-request-time-limit</code>
+. The time limit, in turn, is the maximum number of seconds allowed for servicing a query request. The App Server gives up on queries which take longer, and returns an error.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1050099"></A>
+Static Expires adds an &quot;expires&quot; HTTP header for static content to expire after this many seconds.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1050268"></A>
+Pre-commit Trigger Limit specifies the maximum number of pre-commit triggers a single statement against this App Server can invoke. For more information on triggers, see <A href="../dev_guide/triggers.xml#id(17020)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Using Triggers to Spawn Actions</Hyperlink>
+</A> in the <Emphasis>
+Application Developer's Guide</Emphasis>
+.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1050275"></A>
+Pre-commit Trigger Depth specifies the maximum depth (how many triggers can cause other triggers to fire, which in turn cause others to fire, and so on) for pre-commit triggers that are executed against this App Server. For more information on triggers, see <A href="../dev_guide/triggers.xml#id(17020)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Using Triggers to Spawn Actions</Hyperlink>
+</A> in the <Emphasis>
+Application Developer's Guide</Emphasis>
+.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1050320"></A>
+Collation specifies the default collation for queries run in this appserver. This will be the collation used for string comparison and sorting if none is specified in the query. For details, see <A href="../search-dev-guide/encodings_collations.xml#id(40505)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Encodings and Collations</Hyperlink>
+</A> in the <Emphasis>
+Search Developer's Guide</Emphasis>
+.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1050327"></A>
+Concurrent Request Limit specifies the maximum number of requests any user may have running at a specific time. 0 indicates no maximum. For details, see <A href="session-login.xml#id(48668)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Managing Concurrent User Sessions' on page&#160;92</A>.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1050107"></A>
+Log Errors specifes whether to log uncaught errors for this App Server to the ErrorLog.txt file. This is useful to log exceptions that might occur on an App Server for later debugging.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1050108"></A>
+Debug Allow specifies whether to allow requests against this App Server to be stopped for debugging, using the MarkLogic Server debugging APIs.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1050160"></A>
+Profile Allow specifies whether to allow requests against this App Server to be profiled, using the MarkLogic Server profiling APIs. For details, see <A href="../performance/profile.xml#id(94939)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Profiling Requests to Evaluate Performance</Hyperlink>
+</A> in the Query Performance and Tuning guide.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1050110"></A>
+Default XQuery Version specifies the default XQuery language for this App Server if an XQuery module does explicitly declare its language version.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1050224"></A>
+Output SGML Character Entities specifies whether to output SGML character entities for this App Server, and how to resolve name conflicts. For details, see <A href="../dev_guide/appserver-control.xml#id(28091)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Outputting SGML Entities</Hyperlink>
+</A> in the <Emphasis>
+Application Developer's Guide</Emphasis>
+. </Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1050246"></A>
+Output Encoding specifies the default output encoding for this App Server. For details, see <A href="../dev_guide/appserver-control.xml#id(99082)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Specifying the Output Encoding</Hyperlink>
+</A> in the <Emphasis>
+Application Developer's Guide</Emphasis>
+.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1050122"></A>
+The properties associated with SSL support are described in <A href="SSL.xml#id(85783)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Configuring SSL on App Servers' on page&#160;58</A>.</Body-bullet-2>
+<NumberList>
+<Number>
+<A ID="pgfId-1038070"></A>
+Scroll to the top or bottom and click OK.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1038071"></A>
+The new WebDAV server is added. Adding a WebDAV server is a 'hot' admin task.</EndList-root>
+<Heading-3>
+<A ID="pgfId-1038072"></A>
+<A ID="79815"></A>
+Viewing WebDAV Server Settings</Heading-3>
+<Body>
+<A ID="pgfId-1038073"></A>
+To view the settings for a WebDAV server, complete the following steps:</Body>
+<Number1>
+<A ID="pgfId-1038074"></A>
+Click the Groups icon.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1038075"></A>
+Click the group which contains the WebDAV server you want to view (for example, Default).</Number>
+<Number>
+<A ID="pgfId-1038076"></A>
+Click the App Servers icon on the left tree menu.</Number>
+<Number>
+<A ID="pgfId-1038078"></A>
+Locate the WebDAV server for which you want to view settings, either in the tree menu or on the summary page.</Number>
+<Number>
+<A ID="pgfId-1038079"></A>
+Click the icon for this WebDAV server. </Number>
+<Number>
+<A ID="pgfId-1038080"></A>
+View the settings.</Number>
+</NumberList>
+<Heading-3>
+<A ID="pgfId-1038081"></A>
+<A ID="87557"></A>
+Deleting a WebDAV Server</Heading-3>
+<Body>
+<A ID="pgfId-1038082"></A>
+To delete the settings for a WebDAV server, complete the following steps:</Body>
+<Number1>
+<A ID="pgfId-1038083"></A>
+Click the Groups icon.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1038084"></A>
+Click the group which contains the WebDAV server you want to delete (for example, Default).</Number>
+<Number>
+<A ID="pgfId-1038085"></A>
+Click the WebDAVServers icon on the left tree menu.</Number>
+<Number>
+<A ID="pgfId-1038086"></A>
+Click the Configure tab at the top right.</Number>
+<Number>
+<A ID="pgfId-1038087"></A>
+Locate the WebDAV server to be deleted, either in the tree menu or on the summary page.</Number>
+<Number>
+<A ID="pgfId-1038088"></A>
+Click the icon for this WebDAV server. </Number>
+<Number>
+<A ID="pgfId-1045458"></A>
+Click Delete.</Number>
+<Number>
+<A ID="pgfId-1045459"></A>
+A confirmation message displays. Confirm the delete and click OK.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1038092"></A>
+Deleting a WebDAV server is a 'cold' admin task; the server restarts to reflect your changes.</EndList-root>
+<Heading-2>
+<A ID="pgfId-1041420"></A>
+<A ID="52283"></A>
+WebDAV Clients</Heading-2>
+<Body>
+<A ID="pgfId-1041421"></A>
+A WebDAV client allows you to log into a WebDAV server to read, modify, insert, add, or delete documents. This section lists the supported WebDAV clients for MarkLogic Server and provides some general and specific procedures. The following topics are included:</Body>
+<Body-bullet>
+<A ID="pgfId-1041428"></A>
+<A href="webdav.xml#id(59383)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Tested WebDAV Clients</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1041432"></A>
+<A href="webdav.xml#id(35781)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+General Steps to Connect to a Server</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1041436"></A>
+<A href="webdav.xml#id(97677)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Steps to Connect to a Web Folder in Windows Explorer</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1041438"></A>
+<A ID="59383"></A>
+Tested WebDAV Clients</Heading-3>
+<Body>
+<A ID="pgfId-1041439"></A>
+The following table lists WebDAV clients that have been tested with MarkLogic Server:</Body>
+<TableAnchor>
+<A ID="pgfId-1041478"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1041442"></A>
+WebDAV Client</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1041444"></A>
+How to Get It</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1041446"></A>
+Notes</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1041448"></A>
+Windows Explorer</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1041450"></A>
+Part of Windows 2000, Windows XP, Windows Vista in many configurations</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1041452"></A>
+Allows drag and drop from Windows. For instructions on setting up, see <A href="webdav.xml#id(97677)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Steps to Connect to a Web Folder in Windows Explorer' on page&#160;55</A>. Some Windows clients (for example Windows Vista clients in most configurations) require digest authentication.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1041465"></A>
+PerlDAV</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1041468"></A>
+<Hyperlink>
+<A href="http://www.webdav.org/perldav/" xml:link="simple" show="replace" actuate="user" CLASS="URL">http://www.webdav.org/perldav/</A></Hyperlink>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1041470"></A>
+A command line, perl-based WebDAV client. Designed to be scriptable and to allow you to send individual WebDAV calls.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1041472"></A>
+XML Spy</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1041475"></A>
+Altova Software (<Hyperlink>
+<A href="http://www.altova.com/" xml:link="simple" show="replace" actuate="user" CLASS="URL">http://www.altova.com/</A></Hyperlink>
+)</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1041477"></A>
+Allows you to open, edit, and save XML files in XML Spy. Use the File&#160;&gt;&#160;Open URL menu item in XML Spy.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1041693"></A>
+jEdit DAV plug-in</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1041696"></A>
+Available on <Hyperlink>
+<A href="http://developer.marklogic.com" xml:link="simple" show="replace" actuate="user" CLASS="URL">developer.marklogic.com</A></Hyperlink>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1041698"></A>
+Allows you to view and edit database documents in jEdit 4.2. This version is available from <Hyperlink>
+<A href="http://developer.marklogic.com" xml:link="simple" show="replace" actuate="user" CLASS="URL">developer.marklogic.com</A></Hyperlink>
+.</CellBody>
+</CELL>
+</ROW>
+</TABLE>
+<Body>
+<A ID="pgfId-1041479"></A>
+For detailed information on these clients, see the documentation accompanying these products.</Body>
+<Note>
+<A ID="pgfId-1041818"></A>
+Directory and document names in WebDAV (and in MarkLogic Server databases) are case-sensitive, but some WebDAV clients (Windows Explorer, for example) are not case-sensitive. While Windows recognizes case, it treats the directory named <code>
+NewFolder</code>
+ as the same directory as one named <code>
+newFolder</code>
+. Therefore, directory or document names that differ only in case might cause confusion when using Windows Explorer or other case-insensitive WebDAV clients. If possible, avoid assigning names to directories or documents that differ only by case (for example, <code>
+NewFolder</code>
+ vs <code>
+newFolder</code>
+).</Note>
+<Note>
+<A ID="pgfId-1050369"></A>
+Windows Vista WebDAV clients will cause two transactions upon initial document creation: the first is a 0-length WebDAV PUT resulting in a new 0-length document, and the second is an update to the 0-length document. If you are using CPF (or other applications that use triggers), this will fire both the create trigger (when the initial 0-length document is created) and the update trigger (when the document is updated with its contents). When using Vista WebDAV clients with CPF applications, make sure that your CPF actions for create and update are designed to work correctly for this behavior. In most cases, having the same action for create and update will be sufficient, but in some cases, you might need to write an action that checks for a 0-length document and does something special with it.</Note>
+<Heading-3>
+<A ID="pgfId-1041481"></A>
+<A ID="35781"></A>
+General Steps to Connect to a Server</Heading-3>
+<Body>
+<A ID="pgfId-1041482"></A>
+Each WebDAV client has its own way of connecting to a WebDAV server, but the general steps to connect to a WebDAV server are as follows:</Body>
+<Number1>
+<A ID="pgfId-1041483"></A>
+Start the WebDAV client.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1041484"></A>
+Enter the connection information for the WebDAV server. This includes the servername and port number of the WebDAV server. For example, if you have a WebDAV server running on port 9001 on a machine named <code>
+marklogic.myCompany.com</code>
+, enter the following URL in the appropriate place for your WebDAV client:</Number>
+</NumberList>
+<Code>
+<A ID="pgfId-1041485"></A>
+http://marklogic.myCompany.com:9001/</Code>
+<NumberList>
+<Number>
+<A ID="pgfId-1041486"></A>
+If prompted, enter a username and password for the WebDAV server. You will be prompted for a username or password unless you have configured application-level security.</Number>
+</NumberList>
+<Note>
+<A ID="pgfId-1046133"></A>
+The user who logs into the WebDAV server must have the needed privileges (granted via roles) to access the documents and directories under the WebDAV root directory. Also, if you want the WebDAV user to create documents under the WebDAV root, then that user must have the needed URI privileges (granted via roles) to create documents under the root. The lack of any needed privileges and/or permissions can cause the WebDAV login or other WebDAV activities to fail. For details on URI privileges and document permissions, see <Emphasis>
+Understanding and Using Security Guide</Emphasis>
+.</Note>
+<NumberList>
+<Number>
+<A ID="pgfId-1041487"></A>
+Use whatever browsing mechanism the client supports to add, remove, or modify documents and directories. For example, in Windows Explorer, double click on folders to expand them, drag and drop documents into folders, rename documents and directories, and so on.</Number>
+</NumberList>
+<Heading-3>
+<A ID="pgfId-1041489"></A>
+<A ID="97677"></A>
+Steps to Connect to a Web Folder in Windows Explorer</Heading-3>
+<Body>
+<A ID="pgfId-1041490"></A>
+If you are running Windows, perform the following steps to use the Windows Explorer WebDAV client:</Body>
+<Number1>
+<A ID="pgfId-1041491"></A>
+Double-click the My Network Places icon on your desktop.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1041492"></A>
+In My Network Places, double-click the Add Network Places icon.</Number>
+<Number>
+<A ID="pgfId-1041493"></A>
+In the Add Network Place Wizard, enter your WebDAV server address and port number. For example, if you have a WebDAV server running on port 9001 on a machine named <code>
+marklogic.myCompany.com</code>
+, enter the following URL:</Number>
+</NumberList>
+<Code>
+<A ID="pgfId-1041494"></A>
+<code>
+http://marklogic.myCompany.com:9001/</code>
+</Code>
+<NumberList>
+<Number>
+<A ID="pgfId-1041495"></A>
+Click Next.</Number>
+<Number>
+<A ID="pgfId-1041496"></A>
+If prompted, enter your username and password for the WebDAV server.</Number>
+<Number>
+<A ID="pgfId-1041497"></A>
+Enter a name for the network place and click finish.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1041498"></A>
+You can now use this folder like other Windows folders to drag and drop documents, rename documents, and so on. When you drag and drop a file into a WebDAV folder connected to a MarkLogic Server WebDAV server, you will actually load that document into the database.</EndList-root>
+<Heading-2>
+<A ID="pgfId-1038507"></A>
+<A ID="81091"></A>
+Example: Setting Up a WebDAV Server to Add/Modify Documents Used By Another Server</Heading-2>
+<Body>
+<A ID="pgfId-1038511"></A>
+You can use a WebDAV server to provide privileged users write access to a database (via a WebDAV client). That database, in turn, might also be used as a Modules database in one or more other servers (HTTP, WebDAV, and/or XDBC) to provide read and execute access. Consider the scenario shown in the following figure:</Body>
+<Body>
+<A ID="pgfId-1039432"></A>
+</Body>
+<DIV>
+<IMAGE xml:link="simple" href="webdav-1.gif" show="embed" actuate="auto"/>
+</DIV>
+<Body>
+<A ID="pgfId-1039506"></A>
+In this scenario, all users can view the content by going to the URL <code>
+http://myServer/</code>
+ in their web browsers. No password is needed to access this server because it is set up with application-level security, using a default user named <Emphasis>
+Guest</Emphasis>
+. The <Emphasis>
+Guest</Emphasis>
+ user only has read permissions. If there is content that you do not want the <Emphasis>
+Guest</Emphasis>
+ user to access, load that content with privileges that the <Emphasis>
+Guest</Emphasis>
+ user does not have.</Body>
+<Body>
+<A ID="pgfId-1039843"></A>
+Meanwhile, users with the proper privileges can log in through a WebDAV client to access the WebDAV server at port 9001. Because the WebDAV server is configured with basic security, users are prompted for a username and password when they access the server through the WebDAV client (or through a web browser connected to port 9001). From the WebDAV client, they can add documents, edit documents, or read documents according to the database security policy. </Body>
+<Body>
+<A ID="pgfId-1041724"></A>
+For information about a Modules database, see <A href="databases.xml#id(38484)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Modules Database' on page&#160;97</A>.</Body>
+</XML>

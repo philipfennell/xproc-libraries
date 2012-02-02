@@ -1,0 +1,1314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="plugins.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1062302"></A>
+<A ID="74246"></A>
+Creating Custom Collectors and Transformers</Heading-1>
+<pagenum>
+<A ID="pgfId-1067435"></A>
+78</pagenum>
+<Body>
+<A ID="pgfId-1067401"></A>
+Information Studio is shipped with built-in collectors and transformers. These collectors and transformers are implemented as plugins, which are located in the <code>
+/MarkLogic/Plugins</code>
+ directory and described in <A href="loadingContent.xml#id(45125)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Collect' on page&#160;22</A> and <A href="loadingContent.xml#id(15084)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Transform' on page&#160;29</A>. </Body>
+<Body>
+<A ID="pgfId-1076231"></A>
+Information Studio provides a plugin framework that enables you to create custom collectors and transformers to meet your own special needs. The main topics in this chapter are:</Body>
+<Body-bullet>
+<A ID="pgfId-1074093"></A>
+<A href="plugins.xml#id(86773)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+The infodev and plugin APIs</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1077249"></A>
+<A href="plugins.xml#id(29398)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Information Studio Plugin Framework</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1071418"></A>
+<A href="plugins.xml#id(56499)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating Custom Collectors</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1070742"></A>
+<A href="plugins.xml#id(11981)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating Custom Transformers</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1077187"></A>
+<A ID="86773"></A>
+The infodev and plugin APIs</Heading-2>
+<Body>
+<A ID="pgfId-1077188"></A>
+The <code>
+infodev </code>
+and<code>
+ plugin </code>
+APIs provide functions that allow you to create custom collector and transformer plugins. Both APIs are documented in detail in the <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1062312"></A>
+<A ID="29398"></A>
+Information Studio Plugin Framework</Heading-2>
+<Body>
+<A ID="pgfId-1063315"></A>
+Information Studio provides a graphical interface for configuring and running collectors and transformers. The Plugin Framework described in this chapter provides a set of tools for creating your own custom plugins for use by Information Studio. The general Plugin Framework is described in the <A href="../dev_guide/plugins.xml#id(56695)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Plugin Framework</Hyperlink>
+</A> chapter in the <Emphasis>
+Application Developer's Guide</Emphasis>
+.</Body>
+<Body>
+<A ID="pgfId-1077592"></A>
+After creating a plugin, simply move the file to the <code>
+/MarkLogic/Plugins</code>
+ directory and it will be ready to use. Place any modules referenced by your plugin in the <code>
+MarkLogic/Modules</code>
+ directory</Body>
+<WarningList>
+<Warning>
+<A ID="pgfId-1077594"></A>
+An error in a plugin will disable all App Servers, including the Admin interface. Always test your plugins on a non-production server before installing them on a production server.</Warning>
+</WarningList>
+<Body>
+<A ID="pgfId-1065200"></A>
+Every collector or transformer plugin contains a map of function pointers to capabilities. The plugin module implements the functions defined in the capabilities map and registers them by calling the <code>
+plugin:register</code>
+ function. The available collector capabilities are described in <A href="plugins.xml#id(68011)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Collector Capabilities and Function Signatures' on page&#160;59</A>. The available transformer capabilities are described in <A href="plugins.xml#id(17260)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Transformer Capabilities and Function Signatures' on page&#160;71</A>.</Body>
+<Body>
+<A ID="pgfId-1071296"></A>
+A function pointer takes the form:</Body>
+<Code>
+<A ID="pgfId-1071328"></A>
+xdmp:function(xs:QName(&quot;<Emphasis>
+prefix</Emphasis>
+:<Emphasis>
+functionName</Emphasis>
+&quot;))</Code>
+<Body>
+<A ID="pgfId-1071321"></A>
+A collector capability takes the form:</Body>
+<Code>
+<A ID="pgfId-1071307"></A>
+&quot;http://marklogic.com/appservices/infostudio/collector/<Emphasis>
+capability</Emphasis>
+&quot;</Code>
+<Body>
+<A ID="pgfId-1076270"></A>
+A transformer capability takes the form:</Body>
+<Code>
+<A ID="pgfId-1076256"></A>
+&quot;http://marklogic.com/appservices/infostudio/transformer/<Emphasis>
+capability</Emphasis>
+&quot;</Code>
+<Body>
+<A ID="pgfId-1076493"></A>
+For example, the plugin portion of a very basic collector, named <code>
+mycollector</code>
+, might look something like the following:</Body>
+<Code>
+<A ID="pgfId-1076494"></A>
+declare namespace my =
+&#160;&#160;&quot;http://marklogic.com/extension/plugin/mycollector&quot;;</Code>
+<Code>
+<A ID="pgfId-1076490"></A>
+declare function mycollector:capabilities() 
+as map:map
+{
+let $map := map:map()</Code>
+<Code>
+<A ID="pgfId-1065231"></A>
+let $_ := map:put(
+&#160;&#160;$map,
+&#160;&#160;&quot;http://marklogic.com/appservices/infostudio/collector/model&quot;,
+&#160;&#160;xdmp:function(xs:QName(&quot;my:model&quot;)))</Code>
+<Code>
+<A ID="pgfId-1065462"></A>
+let $_ := map:put(
+&#160;&#160;$map,
+&#160;&#160;&quot;http://marklogic.com/appservices/infostudio/collector/start&quot;,
+&#160;&#160;xdmp:function(xs:QName(&quot;my:start&quot;)))</Code>
+<Code>
+<A ID="pgfId-1065408"></A>
+let $_ := map:put(
+&#160;&#160;$map,
+&#160;&#160;&quot;http://marklogic.com/appservices/string&quot;,
+&#160;&#160;xdmp:function(xs:QName(&quot;my:string&quot;)))</Code>
+<Code>
+<A ID="pgfId-1076322"></A>
+&#160;&#160;return $map
+};</Code>
+<Code>
+<A ID="pgfId-1065961"></A>
+(: ... implement the functions in the capability map here ... :)</Code>
+<Body>
+<A ID="pgfId-1065207"></A>
+Use the <code>
+plugin:register</code>
+ function to register the capabilities map for use by Information Studio:</Body>
+<Code>
+<A ID="pgfId-1076349"></A>
+plugin:register(my:capabilities(),&quot;mycollector.xqy&quot;)</Code>
+<Heading-2>
+<A ID="pgfId-1075470"></A>
+<A ID="56499"></A>
+Creating Custom Collectors</Heading-2>
+<Body>
+<A ID="pgfId-1075548"></A>
+This section describes how to create custom collectors. For example, you might want to write a collector that unzips zip files and ingests the contents into the database or a collector that ingests RSS feeds. Another type of collector might recognize a particular user and set the ingestion policy specifically for that user or extract files from one database and ingest them into another database.</Body>
+<Body>
+<A ID="pgfId-1075616"></A>
+The main topics in this section are:</Body>
+<Body-bullet>
+<A ID="pgfId-1075623"></A>
+<A href="plugins.xml#id(50654)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Types of Collectors</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1075639"></A>
+<A href="plugins.xml#id(68011)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Collector Capabilities and Function Signatures</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1075661"></A>
+<A href="plugins.xml#id(41365)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Collector Interaction with Information Studio</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1075683"></A>
+<A href="plugins.xml#id(69583)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Collector Type and MarkLogic Server Restart</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1075705"></A>
+<A href="plugins.xml#id(99566)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+An Example Collector</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1075472"></A>
+<A ID="50654"></A>
+Types of Collectors</Heading-3>
+<Body>
+<A ID="pgfId-1075473"></A>
+There are two basic types of collectors:</Body>
+<Body-bullet>
+<A ID="pgfId-1075474"></A>
+One-shot</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1075475"></A>
+Long-running</Body-bullet>
+<Body>
+<A ID="pgfId-1075476"></A>
+An example of a one-shot collector is the Filesystem Directory collector, which is started, completes a specific ingestion operation, and then automatically stops. An example of a long-running collector is the Browser Drop-Box collector, which once started, continues to 'listen' for input until it is explicitly stopped by a user. </Body>
+<Body>
+<A ID="pgfId-1075479"></A>
+The collector type impacts how you implement the collector, as described in <A href="plugins.xml#id(41365)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Collector Interaction with Information Studio' on page&#160;63</A>, as well as how the collector behaves in the event of a MarkLogic Server restart, as described in <A href="plugins.xml#id(69583)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Collector Type and MarkLogic Server Restart' on page&#160;65</A>.</Body>
+<Heading-3>
+<A ID="pgfId-1072841"></A>
+<A ID="68011"></A>
+Collector Capabilities and Function Signatures</Heading-3>
+<Body>
+<A ID="pgfId-1076081"></A>
+At a minimum, a collector must do the following:</Body>
+<Body-bullet>
+<A ID="pgfId-1076082"></A>
+Define a data model that specifies the data to be passed into the start function.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1076083"></A>
+Define a start function that initiates the load.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1076084"></A>
+Define a string function that specifies all of the labels needed for display.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1076085"></A>
+Call the <code>
+infodev:ingest</code>
+ function to ingest the files into the database.</Body-bullet>
+<Body>
+<A ID="pgfId-1076086"></A>
+If the collector is long-running it must also define a function that returns a <code>
+plugin:listener-view</code>
+ element.</Body>
+<Body>
+<A ID="pgfId-1074261"></A>
+The following table describes all of the available collector capabilities and the function signatures used by plugins to implement the capabilities.</Body>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1074264"></A>
+Capability</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1074266"></A>
+Description</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1074268"></A>
+model</Body>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1074270"></A>
+The model for the data to be passed into the <code>
+plugin:start</code>
+ function. Currently, model is not used by Information Studio. However future versions will require this capability, so it is recommended that you implement a model to ensure forward compatibility of your plugin.</Body>
+<Body>
+<A ID="pgfId-1074271"></A>
+Function signature:</Body>
+<Code>
+<A ID="pgfId-1074272"></A>
+plugin:model(
+) as element(plugin:plugin-model)</Code>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1074274"></A>
+start</Body>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1074276"></A>
+Starts the plugin. </Body>
+<Body>
+<A ID="pgfId-1074277"></A>
+Function signature:</Body>
+<Code>
+<A ID="pgfId-1074278"></A>
+plugin:start(
+&#160;&#160;&#160;$model as element(),
+&#160;&#160;&#160;$ticket-id as xs:string,
+&#160;&#160;&#160;$policy-deltas as element(info:options)?
+) as empty-sequence() </Code>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1074286"></A>
+config-view</Body>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1074288"></A>
+The view to display the collector configuration window in the Information Studio Interface. The strings displayed are defined in the <code>
+plugin:string</code>
+ function. </Body>
+<Body>
+<A ID="pgfId-1074354"></A>
+Note that the <code>
+$model</code>
+ parameter is optional, so the plugin needs to either return a view for a user-defined model passed from the Information Studio Interface to the <code>
+plugin:config-view</code>
+ function or return a view for the generic model defined in the <code>
+plugin:model</code>
+ function, when no model is passed in from the Information Studio Interface.</Body>
+<Body>
+<A ID="pgfId-1074289"></A>
+Function signature:</Body>
+<Code>
+<A ID="pgfId-1074290"></A>
+plugin:config-view(
+&#160;&#160;&#160;$model as element(plugin:plugin-model)?,
+&#160;&#160;&#160;$lang as xs:string,
+&#160;&#160;&#160;$submit-here as xs:string
+) as element(plugin:config-view)</Code>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1075226"></A>
+listener-view</Body>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1075228"></A>
+The listener view for long-running collectors.</Body>
+<Body>
+<A ID="pgfId-1075229"></A>
+Function signature:</Body>
+<Code>
+<A ID="pgfId-1075230"></A>
+plugin:listener-view(
+&#160;&#160;&#160;$upload-here as xs:string
+) as element(plugin:listener-view)</Code>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1074292"></A>
+handle-post</Body>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1074294"></A>
+Handles the ingestion of newly posted documents into the <code>
+listener-view</code>
+ of a long-running collector.</Body>
+<Body>
+<A ID="pgfId-1074295"></A>
+Function signature:</Body>
+<Code>
+<A ID="pgfId-1074296"></A>
+plugin:handle-post(
+&#160;&#160;&#160;$document as node(),
+&#160;&#160;&#160;$source-location as xs:string,
+&#160;&#160;&#160;$tid as xs:string?,
+&#160;&#160;&#160;$policy-deltas as element(info:options)?,
+&#160;&#160;&#160;$properties as element()*
+) as xs:string+</Code>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1074298"></A>
+cancel</Body>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1074300"></A>
+Sets the ticket status to ‘cancelled'.</Body>
+<Body>
+<A ID="pgfId-1074301"></A>
+Function signature:</Body>
+<Code>
+<A ID="pgfId-1074302"></A>
+plugin:cancel(
+&#160;&#160;&#160;$ticket-id as xs:string
+) as empty-sequence()</Code>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1074304"></A>
+complete</Body>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1074306"></A>
+Sets the ticket status to ‘completed'.</Body>
+<Body>
+<A ID="pgfId-1074307"></A>
+Function signature:</Body>
+<Code>
+<A ID="pgfId-1074308"></A>
+plugin:complete(
+&#160;&#160;&#160;$ticket-id as xs:string
+) as empty-sequence()</Code>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1074310"></A>
+abort</Body>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1074312"></A>
+Sets the ticket status to ‘aborted'.</Body>
+<Body>
+<A ID="pgfId-1074313"></A>
+Function signature:</Body>
+<Code>
+<A ID="pgfId-1074314"></A>
+plugin:abort(
+&#160;&#160;&#160;$ticket-id as xs:string
+) as empty-sequence()</Code>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1074316"></A>
+validate</Body>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1074318"></A>
+Validates the data in the model.</Body>
+<Body>
+<A ID="pgfId-1074319"></A>
+Function signature:</Body>
+<Code>
+<A ID="pgfId-1074320"></A>
+plugin:validate(
+&#160;&#160;&#160;$model as element(plugin:plugin-model)
+) as element(plugin:report)*</Code>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1074322"></A>
+string</Body>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1074324"></A>
+Defines the labels displayed by the collector in the Information Studio Interface.</Body>
+<Body>
+<A ID="pgfId-1074325"></A>
+Function signature:</Body>
+<Code>
+<A ID="pgfId-1074326"></A>
+plugin:string(
+&#160;&#160;&#160;$key as xs:string, 
+&#160;&#160;&#160;$model as element(plugin:plugin-model)?, 
+&#160;&#160;&#160;$lang as xs:string) 
+as xs:string?</Code>
+</CELL>
+</ROW>
+</TABLE>
+<Heading-3>
+<A ID="pgfId-1074333"></A>
+<A ID="41365"></A>
+Collector Interaction with Information Studio</Heading-3>
+<Body>
+<A ID="pgfId-1074694"></A>
+The interaction between Information Studio and a collector is different depending on whether the collector is one-shot or long-running. The following sections describe the interaction between Information Studio and each type of collector.</Body>
+<Heading-4>
+<A ID="pgfId-1074817"></A>
+One-Shot Collectors</Heading-4>
+<Body>
+<A ID="pgfId-1074804"></A>
+The interaction between Information Studio and a one-shot collector is as follows:</Body>
+<Number1>
+<A ID="pgfId-1071114"></A>
+When the user creates a flow, a new flow document is created in the App-Services database.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1074403"></A>
+When the user selects a collector for the flow in the Information Studio Interface, Information Studio renders the collector's view defined in the <code>
+plugin:config-view</code>
+ function as an HTML iframe in the Information Studio Interface.</Number>
+<Number>
+<A ID="pgfId-1074591"></A>
+The iframe describes the elements to be defined in the data model. When the user finishes filling in the iframe fields and clicks the Done button, the flow stored in the App-Services database is updated with the completed data model.</Number>
+<Number>
+<A ID="pgfId-1074580"></A>
+Information Studio displays the completed collector configuration in the Information Studio Interface using the labels in the <code>
+plugin:string</code>
+ function.</Number>
+<Number>
+<A ID="pgfId-1074674"></A>
+The collector is in the quiescent state until the user clicks Start Loading in the Information Studio Interface. At this point, Information Studio asks for the listener-view capability in the plugin. In this case, the collector does not have a listener-view capability, so it is identified as one-shot in the ticket.</Number>
+<Number>
+<A ID="pgfId-1074704"></A>
+Information Studio updates the ticket in the App-Services database with the collector type and start time and sets its status to ‘active.'</Number>
+<Number>
+<A ID="pgfId-1074726"></A>
+The <code>
+plugin:start</code>
+ function reads the ticket, data model, and any policy deltas from the flow stored in the App-Services database and calls the <code>
+infodev:ingest</code>
+ function for each document to ingest into the database.</Number>
+<Number>
+<A ID="pgfId-1074645"></A>
+When Information Studio has finished ingesting the documents, it updates the ticket with the ‘completed' status.</Number>
+</NumberList>
+<Heading-4>
+<A ID="pgfId-1074850"></A>
+Long-Running Collectors</Heading-4>
+<Body>
+<A ID="pgfId-1074851"></A>
+The interaction between Information Studio and a long-running collector is as follows:</Body>
+<Number1>
+<A ID="pgfId-1074852"></A>
+When the user creates a flow, a new flow document is created in the App-Services database.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1074853"></A>
+When the user selects a collector for the flow in the Information Studio Interface, Information Studio displays the collector configuration in the Information Studio Interface using the labels in the <code>
+plugin:string</code>
+ function.</Number>
+<Number>
+<A ID="pgfId-1074856"></A>
+The collector is in the quiescent state until the user clicks Start Loading in the Information Studio Interface. At that point, Information Studio asks for the listener-view capability in the plugin. In this case, the collector has a listener-view capability, so Information Studio creates a ticket that identifies the plugin as long-running. </Number>
+<Number>
+<A ID="pgfId-1075171"></A>
+Information Studio updates the ticket in the App-Services database with the collector type and start time and sets its status to ‘active.'</Number>
+<Number>
+<A ID="pgfId-1074919"></A>
+Information Studio activates the listener-view defined in the <code>
+plugin:listener-view</code>
+ function in the Information Studio Interface.</Number>
+</NumberList>
+<Note>
+<A ID="pgfId-1075010"></A>
+The Browser Drop-Box collector implements the listener-view as an UploadApplet, but anything that can post multi-part can be used to implement the listener-view. </Note>
+<NumberList>
+<Number>
+<A ID="pgfId-1074995"></A>
+From this point, as long as the ticket status is ‘active', any documents put into listener are passed to the <code>
+plugin:handle-post </code>
+function. If multiple documents are put into the listener, the listener ensures that one document at a time is passed to the <code>
+plugin:handle-post </code>
+function, which calls the <code>
+infodev:ingest</code>
+ function to ingest the document into the database.</Number>
+<Number>
+<A ID="pgfId-1074988"></A>
+The listener-view stays active until the user clicks the Stop Loading, as which time Information Studio terminates the listener-view and sets the ticket status to ‘completed.'</Number>
+</NumberList>
+<Heading-3>
+<A ID="pgfId-1070701"></A>
+<A ID="69583"></A>
+Collector Type and MarkLogic Server Restart</Heading-3>
+<Body>
+<A ID="pgfId-1070702"></A>
+There are special considerations when designing a collector that impact its behavior in the event that MarkLogic Server shuts down and restarts before a collector has completed its ingestion operation. </Body>
+<Body>
+<A ID="pgfId-1070706"></A>
+Whether or not a collector is long-running has implications should MarkLogic Server restart before the collector has completed its ingestion operation. When the collector plugin is called by the user, a ticket is created containing the server start time and an annotation that notes whether the collector is long-running or not long-running. Should MarkLogic Server restart before a collection operation has completed, a trigger on the Database Online event for the App-Services database will check all active tickets. If a ticket is annotated as long-running, no action will be taken, so the ticket remains active and the ingestion operation is resumed. If a ticket is not annotated as long-running and if the server start time is later than the start time recorded in the ticket, then the ticket status is set to 'aborted'.</Body>
+<Heading-3>
+<A ID="pgfId-1062825"></A>
+<A ID="99566"></A>
+An Example Collector</Heading-3>
+<Body>
+<A ID="pgfId-1064742"></A>
+This section walks through a simple custom collector that inserts a single, fixed document that is specified in the plugin. The collector loads a 'document' with the following content into a database and URI specified by the user:</Body>
+<Code>
+<A ID="pgfId-1064839"></A>
+&lt;root attribute=&quot;value&quot;&gt;
+&#160;&#160;&#160;&#160;&lt;child&gt;content&lt;/child&gt;
+&#160;&#160;&#160;&#160;&lt;namespaced xmlns=&quot;http://marklogic.com&quot;&gt;content&lt;/namespaced&gt;
+&lt;/root&gt;</Code>
+<Body>
+<A ID="pgfId-1064904"></A>
+The code for the collector is as follows:</Body>
+<Code>
+<A ID="pgfId-1063736"></A>
+xquery version &quot;1.0-ml&quot;;</Code>
+<Code>
+<A ID="pgfId-1064775"></A>
+(: Copyright 2002-2010 MarkLogic Corporation. All Rights Reserved. :)</Code>
+<Code>
+<A ID="pgfId-1069942"></A>
+(: Declare and import namespaces :)</Code>
+<Code>
+<A ID="pgfId-1069956"></A>
+declare namespace testdoc = 
+&#160;&#160;&#160;&quot;http://marklogic.com/extension/plugin/testdoc&quot;;</Code>
+<Code>
+<A ID="pgfId-1069923"></A>
+(: Declare the namespaces for the Application Services label and tag
+&#160;&#160;&#160;libraries. :)</Code>
+<Code>
+<A ID="pgfId-1075280"></A>
+declare namespace lbl=&quot;http://marklogic.com/xqutils/labels&quot;;
+declare namespace ml=&quot;http://marklogic.com/appservices/mlogic&quot;;</Code>
+<Code>
+<A ID="pgfId-1075281"></A>
+import module namespace plugin = 
+&#160;&#160;&#160;&quot;http://marklogic.com/extension/plugin&quot; 
+&#160;&#160;&#160;&#160;&#160;&#160;at &quot;/MarkLogic/plugin/plugin.xqy&quot;;</Code>
+<Code>
+<A ID="pgfId-1069861"></A>
+import module namespace infodev=
+&#160;&#160;&#160;&quot;http://marklogic.com/appservices/infostudio/dev&quot; 
+&#160;&#160;&#160;&#160;&#160;&#160;at &quot;/MarkLogic/appservices/infostudio/infodev.xqy&quot;;</Code>
+<Code>
+<A ID="pgfId-1069892"></A>
+import module namespace info = 
+&#160;&#160;&#160;&quot;http://marklogic.com/appservices/infostudio&quot; 
+&#160;&#160;&#160;&#160;&#160;&#160;at &quot;/MarkLogic/appservices/infostudio/info.xqy&quot;;</Code>
+<Code>
+<A ID="pgfId-1064810"></A>
+declare default function namespace 
+&#160;&#160;&#160;&quot;http://www.w3.org/2005/xpath-functions&quot;;</Code>
+<Code>
+<A ID="pgfId-1075817"></A>
+(: Define the plugin capabilities map :)</Code>
+<Code>
+<A ID="pgfId-1075818"></A>
+declare function testdoc:capabilities() 
+as map:map
+{
+&#160;&#160;let $map := map:map()</Code>
+<Code>
+<A ID="pgfId-1075819"></A>
+&#160;&#160;let $_ := map:put(
+&#160;&#160;&#160;&#160;$map, 
+&#160;&#160;&#160;&#160;&quot;http://marklogic.com/appservices/infostudio/collector/model&quot;, 
+&#160;&#160;&#160;&#160;xdmp:function(xs:QName(&quot;testdoc:model&quot;)))</Code>
+<Code>
+<A ID="pgfId-1075820"></A>
+&#160;&#160;let $_ := map:put(
+&#160;&#160;&#160;&#160;$map, 
+&#160;&#160;&#160;&#160;&quot;http://marklogic.com/appservices/infostudio/collector/start&quot;, 
+&#160;&#160;&#160;&#160;xdmp:function(xs:QName(&quot;testdoc:start&quot;)))</Code>
+<Code>
+<A ID="pgfId-1075821"></A>
+&#160;&#160;let $_ := map:put(
+&#160;&#160;&#160;&#160;$map, 
+&#160;&#160;&#160;&#160;&quot;http://marklogic.com/appservices/infostudio/collector/config-view&quot;, 
+&#160;&#160;&#160;&#160;xdmp:function(xs:QName(&quot;testdoc:view&quot;)))</Code>
+<Code>
+<A ID="pgfId-1075822"></A>
+&#160;&#160;let $_ := map:put(
+&#160;&#160;&#160;&#160;$map, 
+&#160;&#160;&#160;&#160;&quot;http://marklogic.com/appservices/infostudio/collector/cancel&quot;, 
+&#160;&#160;&#160;&#160;xdmp:function(xs:QName(&quot;testdoc:cancel&quot;)))</Code>
+<Code>
+<A ID="pgfId-1075823"></A>
+&#160;&#160;let $_ := map:put(
+&#160;&#160;&#160;&#160;$map, 
+&#160;&#160;&#160;&#160;&quot;http://marklogic.com/appservices/infostudio/collector/abort&quot;, 
+&#160;&#160;&#160;&#160;xdmp:function(xs:QName(&quot;testdoc:abort&quot;)))</Code>
+<Code>
+<A ID="pgfId-1075824"></A>
+&#160;&#160;let $_ := map:put(
+&#160;&#160;&#160;&#160;$map, 
+&#160;&#160;&#160;&#160;&quot;http://marklogic.com/appservices/infostudio/collector/validate&quot;, 
+&#160;&#160;&#160;&#160;xdmp:function(xs:QName(&quot;testdoc:validate&quot;)))</Code>
+<Code>
+<A ID="pgfId-1075825"></A>
+&#160;&#160;let $_ := map:put(
+&#160;&#160;&#160;&#160;$map, 
+&#160;&#160;&#160;&#160;&quot;http://marklogic.com/appservices/string&quot;, 
+&#160;&#160;&#160;&#160;xdmp:function(xs:QName(&quot;testdoc:string&quot;)))</Code>
+<Code>
+<A ID="pgfId-1075826"></A>
+&#160;&#160;return $map
+};</Code>
+<Code>
+<A ID="pgfId-1075827"></A>
+(:~ Implement the data model to be used by config-view in the
+&#160;&#160;&#160;&#160;Information Studio Interface. :)</Code>
+<Code>
+<A ID="pgfId-1075828"></A>
+declare function testdoc:model(
+) as element(plugin:plugin-model)
+{
+&#160;&#160;&#160;&#160;&lt;plugin:plugin-model&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;plugin:data&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;path&gt;/test/document.xml&lt;/path&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/plugin:data&gt;
+&#160;&#160;&#160;&#160;&lt;/plugin:plugin-model&gt;
+};</Code>
+<Code>
+<A ID="pgfId-1075829"></A>
+(:~ Implement the start function that starts the plugin. All 
+&#160;&#160;&#160;&#160;collector start functions accept the same parameters: the 
+&#160;&#160;&#160;&#160;plugin model, the ticket ID, and optional policy deltas. :)</Code>
+<Code>
+<A ID="pgfId-1075830"></A>
+declare function testdoc:start(
+&#160;&#160;&#160;&#160;$model as element(plugin:plugin-model),
+&#160;&#160;&#160;&#160;$tid as xs:string,
+&#160;&#160;&#160;&#160;$policy-deltas as element(info:options)?
+) as empty-sequence()
+{</Code>
+<Code>
+<A ID="pgfId-1075831"></A>
+(: The &quot;document&quot; to be ingested :)</Code>
+<Code>
+<A ID="pgfId-1075832"></A>
+&#160;&#160;&#160;&#160;let $doc :=
+&#160;&#160;&#160;&#160;&lt;root attribute=&quot;value&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;child&gt;content&lt;/child&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;namespaced xmlns=&quot;http://marklogic.com&quot;&gt;content&lt;/namespaced&gt;
+&#160;&#160;&#160;&#160;&lt;/root&gt;</Code>
+<Code>
+<A ID="pgfId-1075833"></A>
+&#160;&#160;&#160;&#160;let $path := $model/plugin:data/path
+&#160;&#160;&#160;&#160;let $_ := infodev:ticket-set-total-documents($tid, 1)</Code>
+<Code>
+<A ID="pgfId-1075834"></A>
+(: Ingest the document into the database and log the ingest event
+&#160;&#160;&#160;to the ticket's progress file in the App-Services database. :)</Code>
+<Code>
+<A ID="pgfId-1075835"></A>
+&#160;&#160;&#160;&#160;let $ingestion :=
+&#160;&#160;&#160;&#160;&#160;&#160;try {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;infodev:ingest($doc, $path, $tid, $policy-deltas),
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;infodev:log-progress(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$tid, 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;info:annotation&gt;test doc inserted&lt;/info:annotation&gt;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;1)
+&#160;&#160;&#160;&#160;&#160;&#160;} catch($e) {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;infodev:handle-error($tid, $path, $e)
+&#160;&#160;&#160;&#160;&#160;&#160;}</Code>
+<Code>
+<A ID="pgfId-1075836"></A>
+(: When ingestion has completed, reset the ticket status. :)</Code>
+<Code>
+<A ID="pgfId-1075837"></A>
+&#160;&#160;&#160;&#160;&#160;&#160;let $_ := infodev:ticket-set-status($tid, &quot;completed&quot;)
+&#160;&#160;&#160;&#160;&#160;&#160;return ()
+};</Code>
+<Code>
+<A ID="pgfId-1075838"></A>
+(:~ Implement the view function to display the collector popup
+&#160;&#160;&#160;&#160;configuration window in the Information Studio Interface. The
+&#160;&#160;&#160;&#160;strings displayed are defined in the testdoc:string function. 
+&#160;&#160;&#160;&#160;The &quot;Done&quot; button comes from the Application Services mlogic tag
+&#160;&#160;&#160;&#160;library. </Code>
+<Code>
+<A ID="pgfId-1076887"></A>
+&#160;&#160;&#160;&#160;Note the value of the input type, &quot;{$model/plugin:data/*:path}&quot;.
+&#160;&#160;&#160;&#160;This is because <code>
+path</code>
+ is not in the default namespace. :)</Code>
+<Code>
+<A ID="pgfId-1075839"></A>
+declare function testdoc:view(
+&#160;&#160;&#160;&#160;$model as element(plugin:plugin-model)?,
+&#160;&#160;&#160;&#160;$lang as xs:string,
+&#160;&#160;&#160;&#160;$submit-here as xs:string
+) as element(plugin:config-view)
+{
+&#160;&#160;&#160;&#160;&lt;config-view xmlns=&quot;http://marklogic.com/extension/plugin&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;head&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;title&gt;iframe plugin configuration&lt;/title&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/head&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;body&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;form action=&quot;{$submit-here}&quot; method=&quot;post&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;label for=&quot;path&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{testdoc:string(&quot;path-label&quot;, $model, $lang)}
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/label&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;input type=&quot;text&quot; name=&quot;path&quot; id=&quot;path&quot; 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;value=&quot;{$model/plugin:data/*:path}&quot;/&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;br/&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ml:submit label=&quot;Done&quot;/&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/form&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/body&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;/html&gt;
+&#160;&#160;&#160;&#160;&lt;/config-view&gt;
+};</Code>
+<Code>
+<A ID="pgfId-1075840"></A>
+(:~ Implement a function to cancel an active ticket :) </Code>
+<Code>
+<A ID="pgfId-1075841"></A>
+declare function testdoc:cancel(
+&#160;&#160;&#160;&#160;$ticket-id as xs:string
+) as empty-sequence()
+{
+&#160;&#160;&#160;&#160;infodev:ticket-set-status($ticket-id, &quot;cancelled&quot;)
+};</Code>
+<Code>
+<A ID="pgfId-1075842"></A>
+(:~ Implement a function to abort an active ticket :) </Code>
+<Code>
+<A ID="pgfId-1075843"></A>
+declare function testdoc:abort(
+&#160;&#160;&#160;&#160;$ticket-id as xs:string
+) as empty-sequence()
+{
+&#160;&#160;&#160;&#160;infodev:ticket-set-status($ticket-id, &quot;aborted&quot;)
+};</Code>
+<Code>
+<A ID="pgfId-1075844"></A>
+(:~ Implement a function to validate the plugin model. Return an 
+&#160;&#160;&#160;&#160;empty sequence if a path is specified in the plugin model.
+&#160;&#160;&#160;&#160;Report an error if the path is empty. :)</Code>
+<Code>
+<A ID="pgfId-1075845"></A>
+declare function testdoc:validate(
+&#160;&#160;&#160;&#160;$model as element()
+) as element(plugin:report)*
+{
+&#160;&#160;&#160;&#160;if (normalize-space(string($model/plugin:data/path)) eq &quot;&quot;)
+&#160;&#160;&#160;&#160;then 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;plugin:report id=&quot;db&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Specified path must not be empty
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/plugin:report&gt;
+    else ()
+};</Code>
+<Code>
+<A ID="pgfId-1075846"></A>
+(:~ Implement a function to define all of the labels displayed by 
+&#160;&#160;&#160;&#160;the collector. This plugin uses the labels defined in the 
+&#160;&#160;&#160;&#160;Application Services label library. :)</Code>
+<Code>
+<A ID="pgfId-1075847"></A>
+declare function testdoc:string(
+&#160;&#160;&#160;&#160;$key as xs:string, 
+&#160;&#160;&#160;&#160;$model as element(plugin:plugin-model)?, 
+&#160;&#160;&#160;&#160;$lang as xs:string
+) as xs:string?
+{
+&#160;&#160;&#160;&#160;let $labels :=
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;lbl:labels xmlns:lbl=&quot;http://marklogic.com/xqutils/labels&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;lbl:label key=&quot;name&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;lbl:value xml:lang=&quot;en&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Load an individual document for testing purposes
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/lbl:value&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/lbl:label&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;lbl:label key=&quot;description&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;lbl:value xml:lang=&quot;en&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Insert a fixed document at {$model/plugin:data/path}
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/lbl:value&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/lbl:label&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;lbl:label key=&quot;path-label&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;lbl:value xml:lang=&quot;en&quot;&gt;Path:&lt;/lbl:value&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/lbl:label&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;/lbl:labels&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;return $labels/lbl:label[@key eq $key]/lbl:value[@xml:lang eq $lang]/string()
+};</Code>
+<Code>
+<A ID="pgfId-1075848"></A>
+(:~ Register the plugin with the capabilities map and identify the
+&#160;&#160;&#160;&#160;plugin as &quot;collector-testdoc.xqy&quot;. :)</Code>
+<Code>
+<A ID="pgfId-1075849"></A>
+plugin:register(testdoc:capabilities(),&quot;collector-testdoc.xqy&quot;)</Code>
+<Heading-2>
+<A ID="pgfId-1075799"></A>
+<A ID="11981"></A>
+Creating Custom Transformers</Heading-2>
+<Body>
+<A ID="pgfId-1075800"></A>
+This section describes how to create custom transformers. Transformers utilize MarkLogic Server Content Processing Framework (CPF) to modify one document at a time as it is loaded into the database. Information Studio automatically configures CPF domains, pipelines, and triggers on the Fab database for each transformer. A transformation process must be linear, so branching and conditional operations are not possible. </Body>
+<Body>
+<A ID="pgfId-1075878"></A>
+The main topics in this section are:</Body>
+<Body-bullet>
+<A ID="pgfId-1075886"></A>
+<A href="plugins.xml#id(17260)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Transformer Capabilities and Function Signatures</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1075890"></A>
+<A href="plugins.xml#id(91807)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Transformer Interaction with Information Studio</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1075894"></A>
+<A href="plugins.xml#id(13695)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+An Example Transformer</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1075928"></A>
+<A ID="17260"></A>
+Transformer Capabilities and Function Signatures</Heading-3>
+<Body>
+<A ID="pgfId-1076107"></A>
+All transformers must do the following:</Body>
+<Body-bullet>
+<A ID="pgfId-1076108"></A>
+Define a data model that specifies the data to be passed to the compile function.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1077109"></A>
+Define a configuration view to display the transformer configuration window in the UI.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1076109"></A>
+Define a compile function that modifies the data in the model.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1076110"></A>
+Define a string function that specifies all of the labels needed for display.</Body-bullet>
+<Body>
+<A ID="pgfId-1075929"></A>
+The following table describes all of the available transformer capabilities and the function signatures used by plugins to implement the capabilities.</Body>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1075932"></A>
+Capability</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1075934"></A>
+Description</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1075936"></A>
+model</Body>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1075938"></A>
+The data model for the UI. This represents the data to be passed into the <code>
+plugin:compile</code>
+ function. Currently, model is not used by Information Studio. However future versions will require this capability, so it is recommended that you implement a model to ensure forward compatibility of your plugin.</Body>
+<Body>
+<A ID="pgfId-1075939"></A>
+Function signature:</Body>
+<Code>
+<A ID="pgfId-1075940"></A>
+plugin:model(
+) as element(plugin:plugin-model)</Code>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1075942"></A>
+config-view</Body>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1075944"></A>
+The view to display the transformer configuration window in the UI. The strings displayed are defined in the <code>
+plugin:string</code>
+ function. </Body>
+<Body>
+<A ID="pgfId-1075945"></A>
+Note that the <code>
+$model</code>
+ parameter is optional, so the plugin needs to either return a view for a user-defined model passed from the UI to the <code>
+plugin:config-view</code>
+ function or return a view for the generic model defined in the <code>
+plugin:model</code>
+ function, when no model is passed in from the UI.</Body>
+<Body>
+<A ID="pgfId-1075946"></A>
+Function signature:</Body>
+<Code>
+<A ID="pgfId-1075947"></A>
+plugin:config-view(
+&#160;&#160;&#160;$model as element(plugin:plugin-model)?,
+&#160;&#160;&#160;$lang as xs:string,
+&#160;&#160;&#160;$submit-here as xs:string
+) as element(plugin:config-view)</Code>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1075949"></A>
+compile</Body>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1075951"></A>
+Transforms the document according to the data model.</Body>
+<Body>
+<A ID="pgfId-1075952"></A>
+Function signature:</Body>
+<Code>
+<A ID="pgfId-1075953"></A>
+plugin:compile(
+&#160;&#160;&#160;$model as element()
+) as element(plugin:compile)</Code>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1075955"></A>
+string</Body>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1075957"></A>
+Defines the labels displayed by the transformer in the UI.</Body>
+<Body>
+<A ID="pgfId-1075958"></A>
+Function signature:</Body>
+<Code>
+<A ID="pgfId-1075959"></A>
+plugin:string(
+&#160;&#160;&#160;$key as xs:string, 
+&#160;&#160;&#160;$model as element(plugin:plugin-model)?, 
+&#160;&#160;&#160;$lang as xs:string) 
+as xs:string?</Code>
+</CELL>
+</ROW>
+</TABLE>
+<Body>
+<A ID="pgfId-1075960"></A>
+</Body>
+<Heading-3>
+<A ID="pgfId-1075962"></A>
+<A ID="91807"></A>
+Transformer Interaction with Information Studio</Heading-3>
+<Body>
+<A ID="pgfId-1075963"></A>
+The interaction between Information Studio and a transformer is as follows:</Body>
+<Number1>
+<A ID="pgfId-1075964"></A>
+When the user creates a flow, a new flow document is created in the App-Services database.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1075965"></A>
+When the user selects a transformer for the flow in the UI, Information Studio renders the transformer's view defined in the <code>
+plugin:config-view</code>
+ function as an HTML iframe in the UI.</Number>
+<Number>
+<A ID="pgfId-1075966"></A>
+The iframe describes the elements to be defined in the transformer's data model. When the user finishes filling in the iframe fields and clicks the Done button, the <code>
+plugin:compile </code>
+function in the transformer updates the flow stored in the App-Services database with the completed data model.</Number>
+<Number>
+<A ID="pgfId-1075967"></A>
+Information Studio displays the completed transform step in the UI using the labels in the <code>
+plugin:string</code>
+ function.</Number>
+<Number>
+<A ID="pgfId-1075968"></A>
+From this point, each document ingested by the flow is modified against the transformer's data model.</Number>
+</NumberList>
+<Note>
+<A ID="pgfId-1077289"></A>
+Transform steps implemented using XSLT do not work on binary documents. Binary documents will pass through XSLT steps unchanged.</Note>
+<Heading-3>
+<A ID="pgfId-1075970"></A>
+<A ID="13695"></A>
+An Example Transformer</Heading-3>
+<Body>
+<A ID="pgfId-1075971"></A>
+This section walks through the implementation of the Schema Validation transformer described in <A href="loadingContent.xml#id(88923)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Validate Documents against Schema' on page&#160;36</A> that allows users to set the level at which the XML of loaded documents are to be validated against the schema.</Body>
+<Code>
+<A ID="pgfId-1075975"></A>
+xquery version &quot;1.0-ml&quot;;</Code>
+<Code>
+<A ID="pgfId-1075976"></A>
+(: Copyright 2002-2010 MarkLogic Corporation. All Rights Reserved. :)</Code>
+<Code>
+<A ID="pgfId-1075977"></A>
+(: Declare and import namespaces :)</Code>
+<Code>
+<A ID="pgfId-1075978"></A>
+declare namespace transform = 
+&#160;&#160;&#160;&quot;http://marklogic.com/extension/plugin/transform&quot;;</Code>
+<Code>
+<A ID="pgfId-1075979"></A>
+declare namespace info=&quot;http://marklogic.com/appservices/infostudio&quot;;</Code>
+<Code>
+<A ID="pgfId-1075980"></A>
+import module namespace plugin = 
+&#160;&#160;&#160;&quot;http://marklogic.com/extension/plugin&quot; 
+&#160;&#160;&#160;&#160;&#160;&#160;at &quot;/MarkLogic/plugin/plugin.xqy&quot;;</Code>
+<Code>
+<A ID="pgfId-1075981"></A>
+import module namespace infodev =
+&#160;&#160;&#160;&quot;http://marklogic.com/appservices/infostudio/dev&quot; 
+&#160;&#160;&#160;&#160;&#160;&#160;at &quot;/MarkLogic/appservices/infostudio/infodev.xqy&quot;;</Code>
+<Code>
+<A ID="pgfId-1075982"></A>
+import module namespace pipe = 
+&#160;&#160;&#160;&quot;http://marklogic.com/appservices/pipeline&quot; 
+&#160;&#160;&#160;&#160;&#160;&#160;at &quot;/MarkLogic/appservices/infostudio/pipe.xqy&quot;;</Code>
+<Code>
+<A ID="pgfId-1075983"></A>
+(: Declare the namespaces for the Application Services label and tag
+&#160;&#160;&#160;libraries. :)</Code>
+<Code>
+<A ID="pgfId-1075984"></A>
+declare namespace lbl=&quot;http://marklogic.com/xqutils/labels&quot;;
+declare namespace ml=&quot;http://marklogic.com/appservices/mlogic&quot;;</Code>
+<Code>
+<A ID="pgfId-1075985"></A>
+declare namespace xproc=&quot;http://www.w3.org/ns/xproc&quot;;
+declare namespace html=&quot;http://www.w3.org/1999/xhtml&quot;;
+declare namespace xsl = &quot;http://www.w3.org/1999/XSL/Transform&quot;;</Code>
+<Code>
+<A ID="pgfId-1075986"></A>
+declare default function namespace &quot;http://www.w3.org/2005/xpath-functions&quot;;</Code>
+<Code>
+<A ID="pgfId-1075987"></A>
+(: Define the plugin capabilities map :)</Code>
+<Code>
+<A ID="pgfId-1075988"></A>
+declare function transform:capabilities-validate-with-xml-schema() 
+as map:map
+{
+&#160;&#160;let $map := map:map()
+&#160;&#160;let $_ := map:put($map, &quot;http://marklogic.com/appservices/string&quot;, xdmp:function(xs:QName(&quot;transform:string-validate-with-xml-schema&quot;)))</Code>
+<Code>
+<A ID="pgfId-1075989"></A>
+let $_ := map:put(
+&#160;&#160;&#160;&#160;$map, 
+&#160;&#160;&#160;&#160;&quot;http://marklogic.com/appservices/infostudio/transformer/config-view&quot;, 
+&#160;&#160;&#160;&#160;xdmp:function(xs:QName(&quot;transform:schema-validate-with-xml-schema&quot;)))</Code>
+<Code>
+<A ID="pgfId-1075990"></A>
+let $_ := map:put(
+&#160;&#160;&#160;&#160;$map, 
+&#160;&#160;&#160;&#160;&quot;http://marklogic.com/appservices/infostudio/transformer/model&quot;,
+&#160;&#160;&#160;&#160;xdmp:function(xs:QName(&quot;transform:model-validate-with-xml-schema&quot;)))</Code>
+<Code>
+<A ID="pgfId-1075991"></A>
+let $_ := map:put(
+&#160;&#160;&#160;&#160;$map, 
+&#160;&#160;&#160;&#160;&quot;http://marklogic.com/appservices/infostudio/transformer/compile&quot;,
+&#160;&#160;&#160;&#160;xdmp:function(xs:QName(&quot;transform:compile-step-validate&quot;)))</Code>
+<Code>
+<A ID="pgfId-1075992"></A>
+return $map
+};</Code>
+<Code>
+<A ID="pgfId-1075993"></A>
+(:~ Implement the data model to be used by config-view in the UI. :)</Code>
+<Code>
+<A ID="pgfId-1075994"></A>
+declare function transform:model-validate-with-xml-schema() 
+as element(plugin:plugin-model)
+{
+&#160;&#160;&#160;&#160;&lt;plugin:plugin-model&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;plugin:data&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;name/&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;mode&gt;strict&lt;/mode&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/plugin:data&gt;
+&#160;&#160;&#160;&#160;&lt;/plugin:plugin-model&gt;
+};</Code>
+<Code>
+<A ID="pgfId-1075995"></A>
+(:~ Implement the view function to display the transformer popup
+&#160;&#160;&#160;&#160;configuration window in the UI. The data model defined in the
+&#160;&#160;&#160;&#160;transform:model-validate-with-xml-schema function is used to
+&#160;&#160;&#160;&#160;display the default setting of ‘strict'. The strings displayed are
+&#160;&#160;&#160;&#160;defined in the transform:string-validate-with-xml-schema function.
+&#160;&#160;&#160;&#160;The &quot;Done&quot; button comes from the Application Services mlogic tag
+&#160;&#160;&#160;&#160;library. :)</Code>
+<Code>
+<A ID="pgfId-1075996"></A>
+declare function transform:schema-validate-with-xml-schema(
+&#160;&#160;&#160;&#160;$model as element(plugin:plugin-model)?, 
+&#160;&#160;&#160;&#160;$lang as xs:string, 
+&#160;&#160;&#160;&#160;$submit-here as xs:string
+) as element(plugin:config-view)
+{
+&#160;&#160;let $m := ($model, transform:model-validate-with-xml-schema())[1]
+&#160;&#160;let $is-strict := $m/plugin:data/mode eq &quot;strict&quot;
+&#160;&#160;return
+&#160;&#160;&#160;&#160;&lt;config-view xmlns=&quot;http://marklogic.com/extension/plugin&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;link href=&quot;/infostudio/static/css/transform-plugin.css&quot;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;type=&quot;text/css&quot; rel=&quot;stylesheet&quot;/&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;body&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;h3&gt;Schema Validation Transform&lt;/h3&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;form action=&quot;{$submit-here}&quot; method=&quot;post&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;div class=&quot;name&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;label for=&quot;name&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Transform name: 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;input name=&quot;name&quot; id=&quot;name&quot; 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;value=&quot;{$m/plugin:data/*:name}&quot;/&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/label&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/div&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;hr/&gt;</Code>
+<Code>
+<A ID="pgfId-1075997"></A>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;p&gt;Validation mode:
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;select name=&quot;mode&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;option&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{if ($is-strict) 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;then attribute selected {&quot;selected&quot;} 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else ()}strict
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/option&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;option&gt;{
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if ($is-strict) 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;then () 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else attribute selected {&quot;selected&quot;}}lax
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/option&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/select&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/p&gt;</Code>
+<Code>
+<A ID="pgfId-1075998"></A>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;div id=&quot;submit&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ml:submit label=&quot;Done&quot;/&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/div&gt;</Code>
+<Code>
+<A ID="pgfId-1075999"></A>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;div class=&quot;tips guide&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;hr/&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;p&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;label&gt;Validation mode:&lt;/label&gt;&lt;br/&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Validation mode specifies the initial validation mode.
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/p&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;p&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;label&gt;Note:&lt;/label&gt;&lt;br/&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Validation is performed using schemas from the 'Schemas' database.
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/p&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/div&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/form&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/body&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;/html&gt;
+&#160;&#160;&#160;&#160;&lt;/config-view&gt;
+};</Code>
+<Code>
+<A ID="pgfId-1076000"></A>
+(:~ Implement a compile function to validate the document against the
+&#160;&#160;&#160;&#160;schema using the validation level specified in the data model. :)</Code>
+<Code>
+<A ID="pgfId-1076001"></A>
+declare function transform:compile-step-validate(
+&#160;&#160;&#160;&#160;$model as element()
+) as element(plugin:compile)
+{
+&#160;&#160;&#160;&#160;let $xproc := &lt;xproc:validate-with-xml-schema 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;validation=&quot;{$model/plugin:data/mode}&quot;/&gt;
+&#160;&#160;&#160;&#160;return 
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;plugin:compile&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;plugin:xslt&gt;{pipe:compile-step($xproc)}&lt;/plugin:xslt&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;/plugin:compile&gt;
+};</Code>
+<Code>
+<A ID="pgfId-1076002"></A>
+(:~ Implement a function to define all of the labels displayed by 
+&#160;&#160;&#160;&#160;the transformer. This plugin uses the labels defined in the 
+&#160;&#160;&#160;&#160;Application Services label library. :)</Code>
+<Code>
+<A ID="pgfId-1076003"></A>
+declare function transform:string-validate-with-xml-schema(
+&#160;&#160;&#160;&#160;$key as xs:string, 
+&#160;&#160;&#160;&#160;$model as element(plugin:plugin-model)?, 
+&#160;&#160;&#160;&#160;$lang as xs:string
+) as xs:string?
+{
+&#160;&#160;&#160;&#160;let $labels :=
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;lbl:labels xmlns:lbl=&quot;http://marklogic.com/xqutils/labels&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;lbl:label key=&quot;name&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;lbl:value xml:lang=&quot;en&quot;&gt;Schema Validation&lt;/lbl:value&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/lbl:label&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;lbl:label key=&quot;description&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;lbl:value xml:lang=&quot;en&quot;&gt;{ 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if($model) 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;then $model/plugin:data/*:name/string() 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else &quot;Validate a document against existing schemas.&quot; }
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/lbl:value&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/lbl:label&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;lbl:label key=&quot;validation&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;lbl:value xml:lang=&quot;en&quot;&gt;Validation Type&lt;/lbl:value&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/lbl:label&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;lbl:label key=&quot;validation-strict&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;lbl:value xml:lang=&quot;en&quot;&gt;Strict&lt;/lbl:value&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/lbl:label&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;lbl:label key=&quot;validation-lax&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;lbl:value xml:lang=&quot;en&quot;&gt;Lax&lt;/lbl:value&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/lbl:label&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;/lbl:labels&gt;</Code>
+<Code>
+<A ID="pgfId-1076004"></A>
+&#160;&#160;&#160;&#160;return $labels/lbl:label[@key eq $key]/lbl:value[@xml:lang eq $lang]/string()
+};</Code>
+<Code>
+<A ID="pgfId-1076005"></A>
+(:~ Register the plugin with the capabilities map and identify the
+&#160;&#160;&#160;&#160;plugin as &quot;transform-validate-with-xml-schema.xqy&quot;. :)</Code>
+<Code>
+<A ID="pgfId-1076006"></A>
+plugin:register(
+&#160;&#160;&#160;&#160;transform:capabilities-validate-with-xml-schema(),
+&#160;&#160;&#160;&#160;&quot;transform-validate-with-xml-schema.xqy&quot;)
+</Code>
+<Body>
+<A ID="pgfId-1076007"></A>
+</Body>
+<Body>
+<A ID="pgfId-1076008"></A>
+</Body>
+<Body>
+<A ID="pgfId-1063417"></A>
+</Body>
+</XML>

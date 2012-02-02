@@ -1,0 +1,791 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="pipelines.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1044208"></A>
+<A ID="80553"></A>
+Understanding and Using Pipelines</Heading-1>
+<pagenum>
+<A ID="pgfId-1045136"></A>
+30</pagenum>
+<Body>
+<A ID="pgfId-1044209"></A>
+This chapter describes pipelines in the MarkLogic Server Content Processing Framework, and includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1045252"></A>
+<A href="pipelines.xml#id(47889)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Pipeline Architecture</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1045256"></A>
+<A href="pipelines.xml#id(94971)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Viewing Pipelines in the Admin Interface</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049020"></A>
+<A href="pipelines.xml#id(66216)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Loading Pipelines With the Admin Interface</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1045260"></A>
+<A href="pipelines.xml#id(21444)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+XML Format of a Pipeline</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049084"></A>
+<A href="pipelines.xml#id(63847)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+XQuery Functions to Manage Pipelines</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1045274"></A>
+<A ID="47889"></A>
+Pipeline Architecture</Heading-2>
+<Body>
+<A ID="pgfId-1051494"></A>
+A core component of the Content Processing Framework is the <Emphasis>
+pipeline</Emphasis>
+. A pipeline is an XML document that defines document states as a document moves through stages of content processing. In addition to defining document states, a pipeline specifies <Emphasis>
+actions</Emphasis>
+ that occur under certain <Emphasis>
+conditions</Emphasis>
+. A condition is an XQuery module or an XSLT stylesheet that evaluates to <code>
+true</code>
+ or <code>
+false</code>
+. An action is an XQuery module or an XSLT stylesheet that is called when the condition associated with an action is either <code>
+true</code>
+ or if there is no condition. </Body>
+<Body>
+<A ID="pgfId-1051495"></A>
+This section includes the following topics about pipelines:</Body>
+<Body-bullet>
+<A ID="pgfId-1050555"></A>
+<A href="pipelines.xml#id(75350)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Automatic Status (Event) Handling</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050563"></A>
+<A href="pipelines.xml#id(50300)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Transitioning Between States</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050568"></A>
+<A href="pipelines.xml#id(42403)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Pipelines Can Flow Through Other Pipelines</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1049588"></A>
+<A ID="75350"></A>
+Automatic Status (Event) Handling</Heading-3>
+<Body>
+<A ID="pgfId-1050551"></A>
+Robust content processing applications must be able to gracefully move documents in and out of active processing, and they must be able to cleanly recover from failures. Common reasons to move a document in or out of active processing are when a document is first created or when it changes, for example upon a create, update, or delete event. When you want the result of these changes to move a document in or out of document processing, it is known as a <Emphasis>
+status change</Emphasis>
+. </Body>
+<Body>
+<A ID="pgfId-1050573"></A>
+When a document that is in a content processing domain is created, updated, or deleted, the Content Processing Framework automatically handles the document status change events (create, update, and delete) and sets a state (or cleans up in the case of delete) for the document. This has the effect of activating content processing for that document. Similarly, if there is a failure that causes the system to go down, the content processing must recover gracefully. The Status Change Handling pipeline, installed when you install content processing in a database, performs these tasks automatically. </Body>
+<Heading-3>
+<A ID="pgfId-1050550"></A>
+<A ID="50300"></A>
+Transitioning Between States </Heading-3>
+<Body>
+<A ID="pgfId-1049541"></A>
+You attach pipelines to domains, and the domains determine the documents on which a pipeline acts. The pipeline then facilitates the transitioning of the document from one state to another, calling XQuery modules to perform the content processing between states. The following figure shows how a simplified pipeline can move a document from one state to another.</Body>
+<Body>
+<A ID="pgfId-1051434"></A>
+<IMAGE xml:link="simple" href="pipelines-1.gif" show="embed" actuate="auto"/>
+</Body>
+<Note>
+<A ID="pgfId-1051437"></A>
+While setting a state on a document is a common outcome of a status transition or a state transition, it is not a requirement.</Note>
+<Heading-3>
+<A ID="pgfId-1049440"></A>
+<A ID="42403"></A>
+Pipelines Can Flow Through Other Pipelines</Heading-3>
+<Body>
+<A ID="pgfId-1049592"></A>
+All of your content processing states need not be defined by a single pipeline; document processing can flow from one pipeline to another. The following figure shows how states can flow in and out of different pipelines.</Body>
+<Body>
+<A ID="pgfId-1049601"></A>
+<IMAGE xml:link="simple" href="pipelines-2.gif" show="embed" actuate="auto"/>
+</Body>
+<Body>
+<A ID="pgfId-1049328"></A>
+Having the processing flow through multiple pipelines allows for flexibility and modularity in the way you design your pipelines. For example, you might have a pipeline that defines states that are common to several kinds of processing. Factoring out the common processing stages into a separate pipeline allows you to have different pipelines transition into a common pipeline used by multiple applications. There is enough flexibility to set up your pipelines to be very simple or very complex. </Body>
+<Heading-2>
+<A ID="pgfId-1049321"></A>
+<A ID="94971"></A>
+Viewing Pipelines in the Admin Interface</Heading-2>
+<Body>
+<A ID="pgfId-1049239"></A>
+You can use the Admin Interface to view pipelines already loaded in a database. To view an existing pipeline, navigate to Databases &gt; <Emphasis>
+database_name</Emphasis>
+ &gt; Content Processing &gt; Pipelines &gt; <Emphasis>
+pipeline_name</Emphasis>
+ in the Admin Interface tree menu. The Admin Interface displays the following information for each pipeline:</Body>
+<TableAnchor>
+<A ID="pgfId-1049817"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1049820"></A>
+Display Item</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1049822"></A>
+Description</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049824"></A>
+Pipeline name</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049826"></A>
+The name of the pipeline.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049828"></A>
+Pipeline description</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049830"></A>
+A description of the pipeline, if one exists in the pipeline.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049986"></A>
+If document <Emphasis>
+created</Emphasis>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049988"></A>
+The logic to follow after the status of a document is set to <code>
+created</code>
+ (typically after a document create event occurs).</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049990"></A>
+If document <Emphasis>
+updated</Emphasis>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049992"></A>
+The logic to follow after the status of a document is set to <code>
+updated</code>
+ (typically after a document update event occurs).</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049994"></A>
+If document <Emphasis>
+deleted</Emphasis>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049996"></A>
+The logic to follow after the status of a document is set to <code>
+deleted</code>
+ (typically after a document delete event occurs).</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049832"></A>
+on-success action</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049834"></A>
+The path to the XQuery module or XSLT stylesheet called after any stage of the pipeline completes successfully (after it calls <code>
+cpf:success</code>
+). The on-success action should always call the <code>
+success-action.xqy</code>
+ module.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049836"></A>
+on-failure action</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049885"></A>
+The path to the XQuery module or XSLT stylesheet called after any stage of the pipeline does not complete successfully (after it calls <code>
+cpf:failure</code>
+). The on-failure action should always call the <code>
+failure-action.xqy</code>
+ module.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049840"></A>
+when</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049842"></A>
+The path to the XQuery module or XSLT stylesheet called to test a condition for a pipeline stage.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049844"></A>
+do</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049846"></A>
+The path to the XQuery module or XSLT stylesheet called when the above 'when' condition returns <code>
+true</code>
+.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049848"></A>
+otherwise</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049916"></A>
+The path to the XQuery module or XSLT stylesheet to execute if no other action is called.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049934"></A>
+always</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049938"></A>
+The path to the XQuery module or XSLT stylesheet to execute if no other conditions or actions are specified.</CellBody>
+</CELL>
+</ROW>
+</TABLE>
+<Note>
+<A ID="pgfId-1050595"></A>
+The URI paths to XQuery modules in a pipeline are relative to the module root specified in the domain to which the pipeline is attached. You should load the XQuery modules into the specified database as a stored module, with execute permissions for users that need to run it. It is also possible to reference modules stored in the modules directory on the filesystem, but MarkLogic recommends loading your modules under the database root specified in the domain.</Note>
+<Heading-2>
+<A ID="pgfId-1050005"></A>
+<A ID="66216"></A>
+Loading Pipelines With the Admin Interface</Heading-2>
+<Body>
+<A ID="pgfId-1050014"></A>
+You can use the Admin Interface to load XML files into the database as pipelines. Pipelines are stored in the triggers database, therefore any pipelines you load for a given database through the Admin Interface are loaded into the triggers database for that database. Note the following about loading pipelines:</Body>
+<Body-bullet>
+<A ID="pgfId-1051349"></A>
+If there is no triggers database configured, then an error will occur when you try to load the pipeline.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1051353"></A>
+Pipeline names must be unique.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1051354"></A>
+If you load a pipeline with the same name as an existing pipeline, the new pipeline definition will replace the old one.</Body-bullet>
+<Body>
+<A ID="pgfId-1050616"></A>
+Perform the following steps to load a pipeline into the database:</Body>
+<Number1>
+<A ID="pgfId-1050027"></A>
+Create a valid pipeline XML document and save it to a filesystem accessible from the machine on which the Admin Interface is running. For details on the XML format of a pipeline, see <A href="pipelines.xml#id(21444)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'XML Format of a Pipeline' on page&#160;24</A>.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1050062"></A>
+In the Admin Interface menu, click the Databases link and then click the name of the database to which you want to load a pipeline.</Number>
+<Number>
+<A ID="pgfId-1050033"></A>
+Under the database name, click Content Processing.</Number>
+<Number>
+<A ID="pgfId-1050034"></A>
+If content processing is already installed for your database, you will see links for Domains and Pipelines. Click Pipelines.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1050037"></A>
+If content processing is not installed, install it as described in <A href="custom.xml#id(94030)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Install Content Processing Framework in Database' on page&#160;35</A>.</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1050039"></A>
+Click the Load tab. The Pipeline Load page appears.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1050048"></A>
+<IMAGE xml:link="simple" href="images/pipeline_load.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1050049"></A>
+Enter the directory where your pipeline XML file is stored.</Number>
+<Number>
+<A ID="pgfId-1050085"></A>
+Enter a wildcard filter to search on. For example, entering <code>
+*.xml</code>
+ will look for all pipeline files in the directory with filenames ending with <code>
+.xml</code>
+.</Number>
+<Number>
+<A ID="pgfId-1050092"></A>
+Click OK.</Number>
+<Number>
+<A ID="pgfId-1050095"></A>
+On the Pipeline Load confirmation page, examine the name of the pipeline(s) displayed. Only XML documents that are in the <code>
+http://marklogic.com/cpf/pipelines</code>
+ namespace are displayed. If the pipeline displayed is correct, click OK to load the pipeline into the database.</Number>
+</NumberList>
+<Body>
+<A ID="pgfId-1050097"></A>
+The pipeline is loaded into the triggers database associated with the database in which you are defining content processing. If the pipeline does not conform to the <code>
+pipelines.xsd</code>
+ schema, the load will fail.</Body>
+<Heading-2>
+<A ID="pgfId-1049238"></A>
+<A ID="21444"></A>
+XML Format of a Pipeline</Heading-2>
+<Body>
+<A ID="pgfId-1049066"></A>
+A pipeline is an XML document, and it must conform to the <code>
+pipelines.xsd</code>
+ schema, located as follows: </Body>
+<Code>
+<A ID="pgfId-1050106"></A>
+&lt;<Emphasis>
+install_dir</Emphasis>
+&gt;/Config/pipelines.xsd</Code>
+<Body>
+<A ID="pgfId-1050107"></A>
+The pipeline document defines the properties of the pipeline, including the pipeline name, the success and failure actions, any status transitions, any state transitions, and all of the actions associated with the various stages of the pipeline. Once you create the XML pipeline document, you must load it into the database to use it, as described in <A href="pipelines.xml#id(66216)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Loading Pipelines With the Admin Interface' on page&#160;23</A>.</Body>
+<Body>
+<A ID="pgfId-1050426"></A>
+This section describes the pipeline XML format and includes the following topics:</Body>
+<Body-bullet>
+<A ID="pgfId-1050427"></A>
+<A href="pipelines.xml#id(89329)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Sample Pipeline XML Document</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1051106"></A>
+<A href="pipelines.xml#id(72841)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Success-Action and Failure-Action</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050435"></A>
+<A href="pipelines.xml#id(60739)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Status Transitions</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050440"></A>
+<A href="pipelines.xml#id(56703)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+State Transitions</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1050370"></A>
+<A ID="89329"></A>
+Sample Pipeline XML Document</Heading-3>
+<Body>
+<A ID="pgfId-1050378"></A>
+The following is a sample pipeline XML document.</Body>
+<Code>
+<A ID="pgfId-1055898"></A>
+&lt;!-- Copyright 2002-2010 MarkLogic Corporation.  All Rights Reserved. --&gt;
+&lt;?xml-stylesheet href=&quot;/cpf/pipelines.css&quot; type=&quot;text/css&quot;?&gt;
+&lt;pipeline xmlns=&quot;http://marklogic.com/cpf/pipelines&quot;
+          xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+xsi:schemaLocation=&quot;http://marklogic.com/cpf/pipelines pipelines.xsd&quot;&gt;
+&#160;&#160;&lt;pipeline-name&gt;HTML Conversion&lt;/pipeline-name&gt;
+&#160;&#160;&lt;pipeline-description&gt;Additional conversion rules for HTML.
+   This pipeline should be used in conjunction with the basic
+&#160;&#160;&#160;conversion pipeline and the status change handling pipeline.
+&#160;&#160;&lt;/pipeline-description&gt;
+&#160;&#160;&lt;success-action&gt;
+&#160;&#160;&#160;&#160;&lt;module&gt;/MarkLogic/cpf/actions/success-action.xqy&lt;/module&gt;
+&#160;&#160;&lt;/success-action&gt;
+&#160;&#160;&lt;failure-action&gt;
+&#160;&#160;&#160;&#160;&lt;module&gt;/MarkLogic/cpf/actions/failure-action.xqy&lt;/module&gt;
+&#160;&#160;&lt;/failure-action&gt;
+&#160;&#160;&lt;state-transition&gt;
+&#160;&#160;&#160;&#160;&lt;annotation&gt; Convert HTML documents and only HTML documents.
+&#160;&#160;&#160;&#160;&lt;/annotation&gt;
+&#160;&#160;&#160;&#160;&lt;state&gt;http://marklogic.com/states/initial&lt;/state&gt;
+&#160;&#160;&#160;&#160;&lt;on-success&gt;http://marklogic.com/states/converted&lt;/on-success&gt;
+&#160;&#160;&#160;&#160;&lt;on-failure&gt;http://marklogic.com/states/error&lt;/on-failure&gt;
+&#160;&#160;&#160;&#160;&lt;priority&gt;9200&lt;/priority&gt;
+&#160;&#160;&#160;&#160;&lt;execute&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;condition&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;module&gt;/MarkLogic/cpf/actions/mimetype-condition.xqy&lt;/module&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;options xmlns=&quot;/MarkLogic/cpf/actions/mimetype-condition.xqy&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;mime-type&gt;text/html&lt;/mime-type&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/options&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/condition&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;action&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;module&gt;/MarkLogic/conversion/actions/convert-html-action.xqy&lt;/module&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;options
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;xmlns=&quot;/MarkLogic/conversion/actions/convert-html-action.xqy&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;destination-root/&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;destination-collection/&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/options&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/action&gt;
+&#160;&#160;&#160;&#160;&lt;/execute&gt;
+&#160;&#160;&lt;/state-transition&gt;
+&#160;&#160;&#160;&#160;&lt;!-- States converted and error not handled here --&gt;
+&lt;/pipeline&gt;</Code>
+<Heading-3>
+<A ID="pgfId-1048941"></A>
+<A ID="72841"></A>
+Success-Action and Failure-Action</Heading-3>
+<Body>
+<A ID="pgfId-1051044"></A>
+The success-action and failure-action elements in the pipeline are where you specify the clean-up activities to perform when the processing for a state or status transition action succeeds or when it fails. The failure-action is only called if a transition fails; when a status or state transition action succeeds, it is not called. The success-action is called only if no success action is specified in a status or state transition, and if the transition has no default action. The <code>
+success-action.xqy</code>
+ and <code>
+failure-action.xqy</code>
+ XQuery modules are designed to handle these actions, calling the functions <code>
+cpf:success</code>
+ or <code>
+cpf:failure</code>
+ to advance the state as appropriate.</Body>
+<Body>
+<A ID="pgfId-1051084"></A>
+Your XQuery action modules or XSLT stylesheets for state transitions should call <code>
+cpf:success</code>
+ or <code>
+cpf:failure</code>
+ to advance the state, as described in <A href="modules.xml#id(91800)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Action Modules Use try/catch With cpf:success and cpf:failure' on page&#160;33</A>. The default success-action and failure-action modules are only called either if there is no action specified in a state transition or if the pipeline catches an exception. </Body>
+<Body>
+<A ID="pgfId-1051067"></A>
+You should use the default actions in all of your pipelines. While it is possible to create your own success/failure actions, MarkLogic recommends using the default <code>
+success-action.xqy</code>
+ and <code>
+failure-action.xqy</code>
+ XQuery modules for these actions.</Body>
+<Heading-3>
+<A ID="pgfId-1051043"></A>
+<A ID="60739"></A>
+Status Transitions</Heading-3>
+<Body>
+<A ID="pgfId-1049125"></A>
+A <Emphasis>
+status transition</Emphasis>
+ is an action that happens after a document has a status change (for example, document create, update, or delete). The Status Change Handling pipeline, installed when you install content processing in a database, keeps track of the status during content processing. </Body>
+<Body>
+<A ID="pgfId-1051659"></A>
+The Status Change Handling pipeline sets the state of a document to <code>
+http://marklogic.com/states/initial</code>
+ on creation (unless the document is created with an initial state), sets the state to <code>
+http://marklogic.com/states/updated</code>
+ on update, and cleans up links on delete.</Body>
+<WarningList>
+<Warning>
+<A ID="pgfId-1051637"></A>
+You should not need to create any of your own status transitions. While it is possible to create your own status transitions, MarkLogic recommends using the status transitions supplied in the Status Change Handling pipeline. Changing the Status Change Handling pipeline can cause compatibility problems in future upgrades and releases of MarkLogic Server.</Warning>
+</WarningList>
+<Body>
+<A ID="pgfId-1049139"></A>
+Status transitions have the following parts:</Body>
+<Body-bullet>
+<A ID="pgfId-1049261"></A>
+<A href="pipelines.xml#id(82632)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Status</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049269"></A>
+<A href="pipelines.xml#id(54531)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+On Success and On Failure</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049274"></A>
+<A href="pipelines.xml#id(98452)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Default Action</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1056211"></A>
+<A href="pipelines.xml#id(75019)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Priority</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049279"></A>
+<A href="pipelines.xml#id(54589)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Execute</Hyperlink>
+</A></Body-bullet>
+<Heading-4>
+<A ID="pgfId-1049130"></A>
+<A ID="82632"></A>
+Status</Heading-4>
+<Body>
+<A ID="pgfId-1049164"></A>
+The status is defined by the Status Change Handling pipeline, and has the following possible values:</Body>
+<Body-bullet>
+<A ID="pgfId-1049172"></A>
+created</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049176"></A>
+updated</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049177"></A>
+deleted</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049178"></A>
+active</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049179"></A>
+done</Body-bullet>
+<Body>
+<A ID="pgfId-1051361"></A>
+The Status Change Handling Pipeline and corresponding XQuery modules automatically handle status changes. Setting the status in your application code, especially on a document whose status is anything except <code>
+done</code>
+, can cause unexpected behavior; do not set the status in your application code.</Body>
+<Heading-4>
+<A ID="pgfId-1049135"></A>
+<A ID="54531"></A>
+On Success and On Failure</Heading-4>
+<Body>
+<A ID="pgfId-1049153"></A>
+The on-success and on-failure part of the status transition defines the next state if the status transition is successful (in the case of success) and defines the next state if the status transition is not successful (in the case of failure). In each case, they reference an XQuery module that is called when the status transition succeeds or fails. If you do not specify an on-success or on-failure state, the document remains in its current state after the status transition success or failure.</Body>
+<Heading-4>
+<A ID="pgfId-1049154"></A>
+<A ID="98452"></A>
+Default Action</Heading-4>
+<Body>
+<A ID="pgfId-1049158"></A>
+The default action references an XQuery module that is called if no other actions are activated. The status transition will execute the first of the following that occurs:</Body>
+<Body-bullet>
+<A ID="pgfId-1056272"></A>
+The action whose condition in the status transition returns <code>
+true</code>
+ or is absent.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1056274"></A>
+The default action for any transition for this status.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1056275"></A>
+The success-action.</Body-bullet>
+<Heading-4>
+<A ID="pgfId-1056214"></A>
+<A ID="75019"></A>
+Priority</Heading-4>
+<Body>
+<A ID="pgfId-1056215"></A>
+The priority is used to determine which pipeline should be executed first in the event that there are multiple pipelines attached to a domain that act on the same status. Status transitions with a higher priority number execute before ones with a lower number. In the event of a tie (that is, if two priorities are the same number), it is indeterminate which one will execute first. For the pipelines supplied with MarkLogic Server, the order is set such that conversion executes first, then entity enrichment, then modular documents (xinclude), then alerting, and finally schema validation.</Body>
+<Heading-4>
+<A ID="pgfId-1049159"></A>
+<A ID="54589"></A>
+Execute</Heading-4>
+<Body>
+<A ID="pgfId-1050461"></A>
+The execute part of the status transition runs the XQuery module referenced in the condition, and then runs the XQuery module referenced by the action if the condition returns <code>
+true</code>
+ or if there is no condition specified. If there are multiple execute elements in a single status transition, you should design them so that at most one execute element has a condition that returns <code>
+true</code>
+. If multiple conditions return <code>
+true</code>
+, then the first one to return <code>
+true</code>
+ has its action executed. The reason for this is that all of the XQuery modules execute in separate transactions, and it is non-deterministic which one will return first. Therefore, if you have multiple conditions that return <code>
+true</code>
+, either the first one will come first (in the case of a single pipeline) or you cannot guarantee which one will come first and execute its action (in the case of multiple pipelines).</Body>
+<Note>
+<A ID="pgfId-1051167"></A>
+If a condition fails (for example, throws an exception), the condition is handled as if it returns <code>
+false</code>
+.</Note>
+<Body>
+<A ID="pgfId-1051168"></A>
+Execute nodes for status transitions can also include options nodes. The options nodes are the same as the ones for state transitions, described in <A href="pipelines.xml#id(99570)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Execute' on page&#160;30</A>. </Body>
+<Heading-3>
+<A ID="pgfId-1051173"></A>
+<A ID="56703"></A>
+State Transitions</Heading-3>
+<Body>
+<A ID="pgfId-1051174"></A>
+Pipelines that define your content processing are generally made up of one or more <Emphasis>
+state transitions</Emphasis>
+. A state transition performs some work and then moves a document from one state to another. Each state is stored as a property in the properties document corresponding to the document URI. You define success or failure states in the on-success or on-failure part of the transition definition.</Body>
+<Body>
+<A ID="pgfId-1049292"></A>
+The state transitions have the following parts:</Body>
+<Body-bullet>
+<A ID="pgfId-1049296"></A>
+<A href="pipelines.xml#id(10052)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+State</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049306"></A>
+<A href="pipelines.xml#id(51040)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+On Success and On Failure</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049311"></A>
+<A href="pipelines.xml#id(73947)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Default Action</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1056197"></A>
+<A href="pipelines.xml#id(32247)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Priority</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049316"></A>
+<A href="pipelines.xml#id(99570)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Execute</Hyperlink>
+</A></Body-bullet>
+<Heading-4>
+<A ID="pgfId-1049185"></A>
+<A ID="10052"></A>
+State</Heading-4>
+<Body>
+<A ID="pgfId-1049199"></A>
+The <Emphasis>
+state</Emphasis>
+ is a string that is stored in a properties document. A state can be any valid URI. States are used by pipelines to begin a state transition. When the transition is complete, the pipeline specifies a new state for the document. The new state, in turn, is caught by another state transition, and so on until there are no state transitions for the new document state.</Body>
+<Heading-4>
+<A ID="pgfId-1049218"></A>
+<A ID="51040"></A>
+On Success and On Failure</Heading-4>
+<Body>
+<A ID="pgfId-1049249"></A>
+The on-success and on-failure part of the state transition is where you specify the state to which the document is set if the state transition returns successfully (on-success) or if it fails (on-failure). If you do not specify an on-success or on-failure state, the document remains in its current state after the state transition success or failure, thereby completing processing for that document.</Body>
+<Heading-4>
+<A ID="pgfId-1049255"></A>
+<A ID="73947"></A>
+Default Action</Heading-4>
+<Body>
+<A ID="pgfId-1051710"></A>
+The default action references an XQuery module that is called if no other actions are activated. The state transition will execute the first of the following that occurs:</Body>
+<Body-bullet>
+<A ID="pgfId-1051711"></A>
+Any action whose condition in the state transition returns <code>
+true</code>
+ or is absent.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1051713"></A>
+The default action for any transition for this state.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1051714"></A>
+The success-action.</Body-bullet>
+<Body>
+<A ID="pgfId-1050524"></A>
+You can use the default action to move a document to the next state if the processing you want to perform is the default action. The following is a sample state-transition node that contains a default action:</Body>
+<Code>
+<A ID="pgfId-1056502"></A>
+&lt;state-transition&gt;
+&#160;&#160;&lt;annotation&gt;
+&#160;&#160;&#160;&#160;Default action example
+&#160;&#160;&lt;/annotation&gt;
+&#160;&#160;&lt;state&gt;http://marklogic.com/states/initial&lt;/state&gt;
+&#160;&#160;&lt;on-success&gt;http://marklogic.com/states/collected&lt;/on-success&gt;
+&#160;&#160;&lt;on-failure&gt;http://marklogic.com/states/error&lt;/on-failure&gt;
+&#160;&#160;&lt;priority&gt;5000&lt;/priority&gt;
+&#160;&#160;&lt;default-action&gt;
+&#160;&#160;&#160;&#160;&lt;module&gt;/pipeline/mypipes/default-action.xqy&lt;/module&gt;
+&#160;&#160;&lt;/default-action&gt;
+ &lt;/state-transition&gt;</Code>
+<Body>
+<A ID="pgfId-1056236"></A>
+If you want the move the state to one that is different from the state transition's on-success state, you can use the <code>
+$override-state</code>
+ parameter to the <code>
+cpf:success</code>
+ function in your default action XQuery module. You should move the state to a different state from the document's current state. An example of a module that does this is the <code>
+/MarkLogic/cpf/actions/state-setting-action.xqy</code>
+ under the <code>
+Modules</code>
+ directory.</Body>
+<Heading-4>
+<A ID="pgfId-1049250"></A>
+<A ID="32247"></A>
+Priority</Heading-4>
+<Body>
+<A ID="pgfId-1056199"></A>
+The priority is used to determine which pipeline state should be executed first in the event that there are multiple pipelines states attached to a domain that act on the same state. State transitions with a higher priority number execute before ones with a lower number. In the event of a tie (that is, if two priorities are the same number), it is indeterminate which one will execute first. For the pipelines supplied with MarkLogic Server, the order is set such that conversion executes first, then entity enrichment, then modular documents (xinclude), then alerting, and finally schema validation.</Body>
+<Heading-4>
+<A ID="pgfId-1056198"></A>
+<A ID="99570"></A>
+Execute</Heading-4>
+<Body>
+<A ID="pgfId-1051123"></A>
+The execute part of the state transition runs the XQuery module or XSLT stylesheet referenced in the condition, and then runs the XQuery module or XSLT stylesheet referenced by the action if the condition returns <code>
+true</code>
+ or if there is no condition specified. If there are multiple execute elements in a single state transition, you should design them so that at most one execute element has a condition that returns <code>
+true</code>
+. If multiple conditions return <code>
+true</code>
+, then the first one to return <code>
+true</code>
+ has its action executed. The reason for this is that all of the XQuery modules or XSLT stylesheets execute in separate transactions, and it is non-deterministic which one will return first. Therefore, if you have multiple conditions that return <code>
+true</code>
+, either the first one will come first (in the case of a single pipeline) or you cannot guarantee which one will come first and execute its action (in the case of multiple pipelines).</Body>
+<Note>
+<A ID="pgfId-1051124"></A>
+If a condition fails (for example, throws an exception), the condition is handled as if it returns <code>
+false</code>
+.</Note>
+<Body>
+<A ID="pgfId-1050653"></A>
+You can also include an options node, which allows you to pass an external variable and/or an options node to code in the action XQuery moduleor XSLT stylesheet. The options node should have the namespace of the action module, or the namespace of the options node called in the XQuery function (<code>
+xdmp:tidy</code>
+, for example). The following is a sample options node within a condition:</Body>
+<Code>
+<A ID="pgfId-1050657"></A>
+&lt;condition&gt;
+&#160;&#160;&#160;&lt;module&gt;/MarkLogic/cpf/actions/mimetype-condition.xqy&lt;/module&gt;
+&#160;&#160;&#160;&lt;options xmlns=&quot;/MarkLogic/cpf/actions/mimetype-condition.xqy&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;mime-type&gt;text/html&lt;/mime-type&gt;
+&#160;&#160;&#160;&lt;/options&gt;
+&lt;/condition&gt;</Code>
+<Body>
+<A ID="pgfId-1049210"></A>
+The pipeline passes the options node as an external variable (<code>
+$cpf:options</code>
+) to the module that tests for the condition (<code>
+mimetypes-condition.xqy</code>
+, in this sample).</Body>
+<Heading-2>
+<A ID="pgfId-1049077"></A>
+<A ID="63847"></A>
+XQuery Functions to Manage Pipelines</Heading-2>
+<Body>
+<A ID="pgfId-1049225"></A>
+The Admin Interface provides all of the functionality for loading pipelines. However, if you want to load and manage pipelines without using the Admin Interface, the <code>
+pipelines.xqy</code>
+ XQuery module contains functions to manage pipelines. This XQuery file is installed into the following location:</Body>
+<Code>
+<A ID="pgfId-1049226"></A>
+&lt;<Emphasis>
+install_dir</Emphasis>
+&gt;/Modules/MarkLogic/cpf/pipelines.xqy</Code>
+<Body>
+<A ID="pgfId-1049227"></A>
+For details on the functions in this module, see the <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+. </Body>
+</XML>

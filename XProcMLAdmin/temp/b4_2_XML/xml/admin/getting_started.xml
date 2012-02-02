@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="getting_started.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1072444"></A>
+Common Administrative Procedures</Heading-1>
+<pagenum>
+<A ID="pgfId-1078231"></A>
+21</pagenum>
+<Body>
+<A ID="pgfId-1076683"></A>
+This chapter describes some of the common administrative procedures for MarkLogic Server and where you can find more details on each procedure.</Body>
+<Body>
+<A ID="pgfId-1076697"></A>
+The common administrative procedures are:</Body>
+<Body-bullet>
+<A ID="pgfId-1073797"></A>
+<A href="getting_started.xml#id(70745)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Installing and Upgrading MarkLogic Server</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1078208"></A>
+<A href="getting_started.xml#id(79081)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Starting and Stopping MarkLogic Server</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1074217"></A>
+<A href="getting_started.xml#id(13483)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating and Configuring Forests and Databases</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1074239"></A>
+<A href="getting_started.xml#id(82590)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating and Configuring App Servers</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1074978"></A>
+<A href="getting_started.xml#id(71166)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Setting up Users, Roles, Privileges, and Permissions</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1074459"></A>
+<A href="getting_started.xml#id(95703)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Loading Content into a Database</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1074945"></A>
+<A href="getting_started.xml#id(50504)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Running The XQuery Use Cases Demo Application</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1074327"></A>
+<A href="getting_started.xml#id(31638)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Backing up and Restoring Data</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1076993"></A>
+<A href="getting_started.xml#id(96778)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Monitoring and Tuning Performance</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1077661"></A>
+<A href="getting_started.xml#id(49240)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Scripting and Scheduling Administrative Tasks</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1076997"></A>
+<A href="getting_started.xml#id(45815)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Configuring Clusters, Groups and Failover</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1077002"></A>
+<A ID="70745"></A>
+Installing and Upgrading MarkLogic Server</Heading-2>
+<Body>
+<A ID="pgfId-1073487"></A>
+MarkLogic Server runs on a variety of platforms. For a list of support platforms and installation procedures, see the Installation Guide for All Platforms.</Body>
+<Body>
+<A ID="pgfId-1073497"></A>
+For issues and procedures related to upgrading MarkLogic Server, see: </Body>
+<Body-bullet>
+<A ID="pgfId-1073710"></A>
+<A href="../install_all/procedures.xml#id(49025)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Upgrading from Previous Releases</Hyperlink>
+</A> and <A href="../install_all/intro.xml#id(80903)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Upgrades and Database Compatibility</Hyperlink>
+</A> in the Installation Guide for All Platforms.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1073720"></A>
+<A href="../cluster/config_cluster.xml#id(21237)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Upgrading a Cluster to a New Maintenance Release of MarkLogic Server</Hyperlink>
+</A> in the <Emphasis>
+Scalability, Availability, and Failover Guide</Emphasis>
+.</Body-bullet>
+<Heading-2>
+<A ID="pgfId-1078173"></A>
+<A ID="79081"></A>
+Starting and Stopping MarkLogic Server</Heading-2>
+<Body>
+<A ID="pgfId-1078190"></A>
+The start, stop, and restart operations for MarkLogic Server are described in <A href="startstop.xml#id(95262)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Starting and Stopping MarkLogic Server' on page&#160;22</A>.</Body>
+<Heading-2>
+<A ID="pgfId-1073266"></A>
+<A ID="13483"></A>
+Creating and Configuring Forests and Databases</Heading-2>
+<Body>
+<A ID="pgfId-1073274"></A>
+MarkLogic Server stores XML and XQuery data in forests. App Servers connect to a database that, in turn, accesses one or more forests. </Body>
+<Body>
+<A ID="pgfId-1078358"></A>
+Several types of auxiliary databases are created when you install MarkLogic Server, which are described in <A href="databases.xml#id(20587)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Understanding Databases' on page&#160;96</A>. This section outlines the general procedures for creating a database to store your documents.</Body>
+<Body>
+<A ID="pgfId-1078324"></A>
+To create a database to store your documents, do the following:</Body>
+<Number1>
+<A ID="pgfId-1073277"></A>
+Create one or more forests, as described in <A href="forests.xml#id(45952)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Creating a Forest' on page&#160;174</A>. Depending on your storage, performance, and availability needs, you may want to create multiple forests, each on a separate host. See the <Emphasis>
+Scalability, Availability, and Failover Guide</Emphasis>
+ for details.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1073281"></A>
+Follow the procedure described in <A href="databases.xml#id(60599)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Creating a New Database' on page&#160;108</A> to create your database. Until you understand all of the database settings, you need only provide a name for the database in the Database Name field. You can leave all of the other fields in the Database Specification in their default state.</Number>
+<Number>
+<A ID="pgfId-1078406"></A>
+Attach your forests to the database, as described in <A href="databases.xml#id(48000)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Attaching and/or Detaching Forests to/from a Database' on page&#160;110</A>. </Number>
+</NumberList>
+<Heading-2>
+<A ID="pgfId-1072478"></A>
+<A ID="82590"></A>
+Creating and Configuring App Servers</Heading-2>
+<Body>
+<A ID="pgfId-1078514"></A>
+An application is executed on an App Server, which is configured with a specific database, port number, and so on. Once you have created a database, you can create an App Server. MarkLogic Server allows you to create three types of App Servers to support different types of applications:</Body>
+<Body-bullet>
+<A ID="pgfId-1078518"></A>
+HTTP App Servers for executing XQuery and servicing HTTP requests from a client, like a web server. For information on creating and configuring an HTTP App Server, see <A href="http.xml#id(44355)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Procedures for Creating and Managing HTTP Servers' on page&#160;31</A>.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1073316"></A>
+XDBC App Servers for Contentbase Connector (XCC) applications that use the Java and .NET XCC libraries. For information on creating and configuring an XDBC App Server, see <A href="xdbc.xml#id(63996)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Procedures for Creating and Managing XDBC Servers' on page&#160;40</A>.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1073320"></A>
+WebDAV App Servers for accessing a MarkLogic Server database via a WebDAV client. For information on creating and configuring a WebDAV App Server, see <A href="webdav.xml#id(54350)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Procedures for Creating and Managing WebDAV Servers' on page&#160;50</A>. </Body-bullet>
+<EndList-root>
+<A ID="pgfId-1072561"></A>
+To secure your App Server using SSL, see <A href="SSL.xml#id(85783)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Configuring SSL on App Servers' on page&#160;58</A>.</EndList-root>
+<Heading-2>
+<A ID="pgfId-1072484"></A>
+<A ID="71166"></A>
+Setting up Users, Roles, Privileges, and Permissions</Heading-2>
+<Body>
+<A ID="pgfId-1078570"></A>
+MarkLogic Server provides a rich set of security objects that enable you to control user access to documents and applications, which are described in the <Emphasis>
+Understanding and Using Security Guide</Emphasis>
+ guide and in the chapter <A href="security.xml#id(73923)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Security Administration' on page&#160;187</A> in this guide. </Body>
+<Body>
+<A ID="pgfId-1078577"></A>
+In addition to the Security pages in the Admin UI, there is also an XQuery Security Library Module (<code>
+security.xqy</code>
+) that provides a set of functions you can use in XQuery scripts to set up and manage security objects.</Body>
+<Heading-2>
+<A ID="pgfId-1074442"></A>
+<A ID="95703"></A>
+Loading Content into a Database</Heading-2>
+<Body>
+<A ID="pgfId-1074433"></A>
+You can load documents into the database using the XQuery load document functions, as described in <A href="../dev_guide/loading.xml#id(46976)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Loading Documents into the Database</Hyperlink>
+</A> in the <Emphasis>
+Application Developer's Guide</Emphasis>
+. </Body>
+<Body>
+<A ID="pgfId-1078588"></A>
+You can also set up a WebDAV server and client, such as Windows Explorer, to load your documents. See the section <A href="../cpf/default.xml#id(76620)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Simple Drag-and-Drop Conversion</Hyperlink>
+</A> in the <Emphasis>
+Content Processing Framework Guide</Emphasis>
+ guide for information on how to configure a WebDAV server to work with Windows Explorer. </Body>
+<Body>
+<A ID="pgfId-1078601"></A>
+Documents can also be loaded into the database by an XCC application, as described in <A href="../xcc/sampleapps.xml#id(86236)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Using the Sample Applications</Hyperlink>
+</A> in the <Emphasis>
+XCC Developer's Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1074510"></A>
+<A ID="50504"></A>
+Running The XQuery Use Cases Demo Application</Heading-2>
+<Body>
+<A ID="pgfId-1074520"></A>
+To test your MarkLogic Server configuration, open your browser and enter the following URL:</Body>
+<Code>
+<A ID="pgfId-1074634"></A>
+http://localhost:8000/use-cases/</Code>
+<Body>
+<A ID="pgfId-1074675"></A>
+This should bring up a page that looks like the following:</Body>
+<Body>
+<A ID="pgfId-1074685"></A>
+<IMAGE xml:link="simple" href="images/doc_demo.gif" show="embed" actuate="auto"/>
+</Body>
+<Body>
+<A ID="pgfId-1074729"></A>
+This application, along with its App Server and database, are automatically installed with MarkLogic Server. The code for this application is located in <code>
+MarkLogic/Docs/use-cases</code>
+ and it makes use the HTTP App Server, named Docs, which is connected to the Documents database.</Body>
+<Body>
+<A ID="pgfId-1074787"></A>
+For procedures on building a simple XQuery application, see <A href="../gs/procedures.xml#id(15787)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Sample XQuery Application</Hyperlink>
+</A> in the <Emphasis>
+Getting Started with MarkLogic&#160;Server</Emphasis>
+ guide. For more in-depth information, see the <Emphasis>
+Application Developer's Guide</Emphasis>
+. If you are writing a Java or .NET application that communicates with MarkLogic Server through the XCC API, see the XCC Developer's Guide.</Body>
+<Heading-2>
+<A ID="pgfId-1072488"></A>
+<A ID="92950"></A>
+<A ID="31638"></A>
+Backing up and Restoring Data</Heading-2>
+<Body>
+<A ID="pgfId-1075947"></A>
+You can make backups of a database, as described in <A href="backup_restore.xml#id(67513)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Backing Up a Database' on page&#160;157</A>, which backs up all of the forests in the database. You can also create backups of individual forests used by a database, as described in <A href="forests.xml#id(76303)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Making Backups of a Forest' on page&#160;180</A>. </Body>
+<Body>
+<A ID="pgfId-1078730"></A>
+There are a number of key differences between database-level and forest-level backups. A database-level backup, by default, backs up all of the forests in the database to the specified directory. Each time a database backup is initiated, a new set of backup data is created in that directory. With a forest-level backup, each forest must be backed up to a separate directory. In addition, each incremental backup of a forest overwrites the previous backup data. A forest backup also has additional logic that checks to see if any of its stands have changed before overwriting the backup of the earlier stand. Only the stands that have changed are overwritten.</Body>
+<Body>
+<A ID="pgfId-1076025"></A>
+You can restore an entire database from a database backup, as described in <A href="backup_restore.xml#id(50557)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Restoring a Database' on page&#160;164</A>. You can restore an individual forest from either a database backup, as described in <A href="backup_restore.xml#id(50557)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Restoring a Database' on page&#160;164</A>, or from an individual forest backup, as described in <A href="forests.xml#id(13805)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Restoring a Forest' on page&#160;183</A>.</Body>
+<Heading-2>
+<A ID="pgfId-1076148"></A>
+<A ID="11736"></A>
+<A ID="96778"></A>
+Monitoring and Tuning Performance </Heading-2>
+<Body>
+<A ID="pgfId-1076288"></A>
+For information on how to monitor the performance of MarkLogic Server, see <A href="../performance/status.xml#id(37719)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Monitoring MarkLogic Server Performance</Hyperlink>
+</A> in the <Emphasis>
+Query Performance and Tuning Guide</Emphasis>
+.</Body>
+<Body>
+<A ID="pgfId-1076327"></A>
+Factors that impact system performance include:</Body>
+<Body-bullet>
+<A ID="pgfId-1076239"></A>
+The configuration of MarkLogic Servers, as described in <A href="../cluster/scalability.xml#id(88605)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Scalability Considerations in MarkLogic Server</Hyperlink>
+</A> chapter in the <Emphasis>
+Scalability, Availability, and Failover Guide</Emphasis>
+.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1076234"></A>
+Merges, as described in <A href="merges.xml#id(43904)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Overview of Merges: Merges are Good' on page&#160;138</A>.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1076262"></A>
+Fragment size, as described in <A href="fragments.xml#id(41943)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Fragments' on page&#160;246</A>.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1076366"></A>
+Index configuration, as described in <A href="text_index.xml#id(37170)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Text Indexing' on page&#160;214</A>.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1076381"></A>
+Range indexes, as described in <A href="range_index.xml#id(21361)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Element and Attribute Range Indexes and Lexicons' on page&#160;232</A>.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1076412"></A>
+Reindexing your database, as described in <A href="databases.xml#id(77401)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Reindexing a Database' on page&#160;113</A>.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1076441"></A>
+Database memory and journal settings, as described in <A href="databases.xml#id(59939)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Memory and Journal Settings' on page&#160;104</A>.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1076464"></A>
+Database field configuration, as described in <A href="fields.xml#id(61682)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Fields Database Settings' on page&#160;126</A>.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1076313"></A>
+Log levels, as described in <A href="logfiles.xml#id(37841)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Understanding the Log Levels' on page&#160;266</A>.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1077751"></A>
+Trace Events set in the Diagnostics page on the left tree menu, under the group name.</Body-bullet>
+<Body>
+<A ID="pgfId-1076277"></A>
+For details on how to tune your applications for maximum performance, see the Query Performance and Tuning guide.</Body>
+<Heading-2>
+<A ID="pgfId-1077473"></A>
+<A ID="49240"></A>
+Scripting and Scheduling Administrative Tasks</Heading-2>
+<Body>
+<A ID="pgfId-1078133"></A>
+MarkLogic Server includes built-in and library modules that enable you to write XQuery scripts that perform administrative tasks on MarkLogic Server. The functions provided by these modules enable you to script most administrative procedures.</Body>
+<Body>
+<A ID="pgfId-1078117"></A>
+For example, the Admin Library Module (<code>
+admin.xqy</code>
+) enables you to write XQuery scripts that create or modify databases, forests, App Servers, set up SSL security, and so on. The Security Library Module (<code>
+security.xqy</code>
+) provides a set of functions that enable you to create XQuery scripts that set up security entities. The <code>
+xdmp</code>
+ built-in functions enable you to do forest and database backup/restore operations, as well as other database and forest management operations.</Body>
+<Body>
+<A ID="pgfId-1078125"></A>
+For a general overview of scripting administrative tasks, see <A href="admin-api.xml#id(87529)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Scripting Administrative Tasks With the Admin API' on page&#160;266</A>. All of the available administrative functions are described in the XQuery API Reference. </Body>
+<Body>
+<A ID="pgfId-1077648"></A>
+You can schedule administrative scripts to be invoked at specific intervals or times, as described in <A href="scheduling_tasks.xml#id(44210)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Scheduling Tasks' on page&#160;270</A>.</Body>
+<Heading-2>
+<A ID="pgfId-1074489"></A>
+<A ID="45815"></A>
+Configuring Clusters, Groups and Failover</Heading-2>
+<Body>
+<A ID="pgfId-1077374"></A>
+A single instance of MarkLogic Server running on a single machine is called a host. You can configure multiple hosts into a cluster, as described in the <Emphasis>
+Scalability, Availability, and Failover Guide</Emphasis>
+. Within a cluster, you can create groups of similarly configured hosts, as described in <A href="groups.xml#id(34776)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Groups' on page&#160;25</A>. Different configurations of grouped hosts are useful when different groups of hosts perform different tasks or have different system capabilities.</Body>
+<Body>
+<A ID="pgfId-1078306"></A>
+Should a host go down, its duties can be resumed by another host in the cluster. MarkLogic Server Enterprise Edition provides support for failover, which allows the forest to automatically mount to a different host in the event of a forest's primary host going offline. For details on configuring forests for failover, see <A href="../cluster/failover.xml#id(82157)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+High Availability of Data Nodes With Failover</Hyperlink>
+</A> and <A href="../cluster/config_failover.xml#id(18635)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Configuring Shared-Disk Failover for a Forest</Hyperlink>
+</A> in the <Emphasis>
+Scalability, Availability, and Failover Guide</Emphasis>
+.</Body>
+</XML>

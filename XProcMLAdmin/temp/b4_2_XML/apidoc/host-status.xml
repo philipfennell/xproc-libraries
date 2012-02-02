@@ -1,0 +1,2033 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2002-2010 MarkLogic Corporation.  All Rights Reserved. -->
+<xs:schema targetNamespace="http://marklogic.com/xdmp/status/host" xsi:schemaLocation="http://www.w3.org/2001/XMLSchema XMLSchema.xsd" xmlns="http://marklogic.com/xdmp/status/host" xmlns:admin="http://marklogic.com/xdmp/admin" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <xs:simpleType name="cpus">
+    <xs:annotation>
+      <xs:documentation>
+        A count of CPUs.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:unsignedInt"/>
+  </xs:simpleType>
+  <xs:element name="cpus" type="cpus">
+    <xs:annotation>
+      <xs:documentation>
+        The number of CPUs.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="cores">
+    <xs:annotation>
+      <xs:documentation>
+        A count of cores.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:unsignedInt"/>
+  </xs:simpleType>
+  <xs:element name="cores" type="cores">
+    <xs:annotation>
+      <xs:documentation>
+        The number of cores.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="device-space">
+    <xs:annotation>
+      <xs:documentation>
+        An amount (in MB) of space left on a device.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:unsignedInt"/>
+  </xs:simpleType>
+  <xs:element name="host-size" type="device-space">
+    <xs:annotation>
+      <xs:documentation>
+        The total data size of the host.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="log-device-space" type="device-space">
+    <xs:annotation>
+      <xs:documentation>
+        The number of MB left on log device.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="data-dir-space" type="device-space">
+    <xs:annotation>
+      <xs:documentation>
+        The number of MB left on data dir.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="online" type="boolean">
+    <xs:annotation>
+      <xs:documentation>
+        Is this host seen as online? (true for online)
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="secure" type="boolean">
+    <xs:annotation>
+      <xs:documentation>
+        Is communication secured with SSL? For the local host, this is always
+        false.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="connect-port" type="port">
+    <xs:annotation>
+      <xs:documentation>
+        The distributed protocol client socket connect internet port number.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="bind-port" type="port">
+    <xs:annotation>
+      <xs:documentation>
+        The distributed protocol server socket bind internet port number.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="host-name">
+    <xs:annotation>
+      <xs:documentation>
+        The name of a Host
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[^ ].*"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="host-name" type="host-name">
+    <xs:annotation>
+      <xs:documentation>
+        The internet host name.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="last-online" type="timestamp">
+    <xs:annotation>
+      <xs:documentation>
+  	The time the host went online.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="last-offline" type="timestamp">
+    <xs:annotation>
+      <xs:documentation>
+  	The time the host went offline.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="host">
+    <xs:annotation>
+      <xs:documentation>
+        The host specification.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element ref="host-id"/>
+      <xs:element ref="host-name"/>
+      <xs:element ref="connect-port"/>
+      <xs:element ref="online"/>
+      <xs:element ref="secure"/>
+      <xs:element ref="last-online" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="last-offline" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="host" type="host">
+    <xs:annotation>
+      <xs:documentation>
+        The host connection information.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="hosts">
+    <xs:annotation>
+      <xs:documentation>
+        A set of hosts as seen by the host.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="host"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="hosts" type="hosts">
+    <xs:annotation>
+      <xs:documentation>
+        The host's view of all other hosts in the cluster.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="forest-name">
+    <xs:annotation>
+      <xs:documentation>
+        The forest name.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:minLength value="1"/>
+      <xs:pattern value="([^\\*?/:&lt;&gt;|&quot; \.])|([^\\*?/:&lt;&gt;|&quot; \.][^\\*?/:&lt;&gt;|&quot;]*[^\\*?/:&lt;&gt;|&quot; \.])"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="forest-name" type="forest-name">
+    <xs:annotation>
+      <xs:documentation>
+        The forest name.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="forest-state">
+    <xs:annotation>
+      <xs:documentation>
+        A forest state.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:enumeration value="Error"/>
+      <xs:enumeration value="Unmounted"/>
+      <xs:enumeration value="Mounted"/>
+      <xs:enumeration value="Converting"/>
+      <xs:enumeration value="Recovering"/>
+      <xs:enumeration value="Open"/>
+      <xs:enumeration value="StartClosing"/>
+      <xs:enumeration value="FinishClosing"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="forest-state" type="forest-state">
+    <xs:annotation>
+      <xs:documentation>
+  	The state of the forest.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <!--
+  <xs:simpleType name="forest-id">
+    <xs:annotation>
+      <xs:documentation>
+        A forest unique id (64-bit value).
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:unsignedLong">
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:element name="forest-id" type="forest-id">
+    <xs:annotation>
+      <xs:documentation>
+        The unique key of a forest.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  -->
+  <xs:complexType name="assignment">
+    <xs:annotation>
+      <xs:documentation>
+        A forest assignment.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:all>
+      <xs:element ref="forest-name"/>
+      <xs:element ref="host-id"/>
+      <xs:element ref="forest-id"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="assignment" type="assignment">
+    <xs:annotation>
+      <xs:documentation>
+        The forest configuration as seen by the host.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="assignments">
+    <xs:annotation>
+      <xs:documentation>
+        A set of forest assignments
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="assignment"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="assignments" type="assignments">
+    <xs:annotation>
+      <xs:documentation>
+        Forest assignments as the host sees them.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="task-server-id">
+    <xs:annotation>
+      <xs:documentation>
+        A task server id.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:unsignedLong"/>
+  </xs:simpleType>
+  <xs:element name="task-server-id" type="task-server-id">
+    <xs:annotation>
+      <xs:documentation>
+        The task server id.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="task-server">
+    <xs:annotation>
+      <xs:documentation>
+        A task server running on a host.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:all>
+      <xs:element ref="task-server-id"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="task-server" type="task-server">
+    <xs:annotation>
+      <xs:documentation>
+        The task server on a host.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="xdbc-server-id">
+    <xs:annotation>
+      <xs:documentation>
+        An XDBC server id.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:unsignedLong"/>
+  </xs:simpleType>
+  <xs:element name="xdbc-server-id" type="xdbc-server-id">
+    <xs:annotation>
+      <xs:documentation>
+        The XDBC server id.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="xdbc-server" type="xdbc-server">
+    <xs:annotation>
+      <xs:documentation>
+        The XDBC server running on a host.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="xdbc-server">
+    <xs:annotation>
+      <xs:documentation>
+        An XDBC application server specification.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:all>
+      <xs:element ref="xdbc-server-id"/>
+      <xs:element ref="port"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:complexType name="xdbc-servers">
+    <xs:annotation>
+      <xs:documentation>
+        A set of xdbc-servers a host is running.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="xdbc-server"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="xdbc-servers" type="xdbc-servers">
+    <xs:annotation>
+      <xs:documentation>
+        The XDBC servers running on the host.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="webDAV" type="boolean">
+    <xs:annotation>
+      <xs:documentation>
+        webDAV server versus HTTP server.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="http-server-id">
+    <xs:annotation>
+      <xs:documentation>
+        An HTTP server id.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:unsignedLong"/>
+  </xs:simpleType>
+  <xs:element name="http-server-id" type="http-server-id">
+    <xs:annotation>
+      <xs:documentation>
+        The HTTP server id.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="port">
+    <xs:annotation>
+      <xs:documentation>
+        An integer internet port number, min 1, max 65534.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:integer">
+      <xs:minInclusive value="1"/>
+      <xs:maxInclusive value="65534"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="port" type="port">
+    <xs:annotation>
+      <xs:documentation>
+        The server socket bind internet port number.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="http-server" type="http-server">
+    <xs:annotation>
+      <xs:documentation>
+        The HTTP server running on a host.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="http-server">
+    <xs:annotation>
+      <xs:documentation>
+        An HTTP application server specification.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:all>
+      <xs:element ref="http-server-id"/>
+      <xs:element ref="port"/>
+      <xs:element ref="webDAV"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:complexType name="http-servers">
+    <xs:annotation>
+      <xs:documentation>
+        A set of http-servers a host is running.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="http-server"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="http-servers" type="http-servers">
+    <xs:annotation>
+      <xs:documentation>
+        The HTTP servers running on the host.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="tokenizer-timestamp" type="config-timestamp">
+    <xs:annotation>
+      <xs:documentation>
+        The timestamp of the tokenizer config file.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="mimetypes-timestamp" type="config-timestamp">
+    <xs:annotation>
+      <xs:documentation>
+        The timestamp of the mimetypes config file.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="databases-timestamp" type="config-timestamp">
+    <xs:annotation>
+      <xs:documentation>
+        The timestamp of the databases config file.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="assignments-timestamp" type="config-timestamp">
+    <xs:annotation>
+      <xs:documentation>
+        The timestamp of the assignments config file.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="hosts-timestamp" type="config-timestamp">
+    <xs:annotation>
+      <xs:documentation>
+        The timestamp of the hosts config file.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="groups-timestamp" type="config-timestamp">
+    <xs:annotation>
+      <xs:documentation>
+        The timestamp of the groups config file.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="config-timestamp">
+    <xs:annotation>
+      <xs:documentation>
+        A configuration file timestamp
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:unsignedLong"/>
+  </xs:simpleType>
+  <xs:complexType name="config-file-timestamps">
+    <xs:annotation>
+      <xs:documentation>
+        A set of configuration file timestamps
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:all>
+      <xs:element ref="groups-timestamp"/>
+      <xs:element ref="hosts-timestamp"/>
+      <xs:element ref="databases-timestamp"/>
+      <xs:element ref="assignments-timestamp"/>
+      <xs:element ref="tokenizer-timestamp"/>
+      <xs:element ref="mimetypes-timestamp"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="config-file-timestamps" type="config-file-timestamps">
+    <xs:annotation>
+      <xs:documentation>
+        The timestamps of the host's config files.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="accepted-agreement">
+    <xs:annotation>
+      <xs:documentation>
+        An accepted agreement.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+  <xs:element name="accepted-agreement" type="accepted-agreement">
+    <xs:annotation>
+      <xs:documentation>
+        The last accepted agreement.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="accepted-licensee">
+    <xs:annotation>
+      <xs:documentation>
+        An accepted licensee.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+  <xs:element name="accepted-licensee" type="accepted-licensee">
+    <xs:annotation>
+      <xs:documentation>
+        The last accepted licensee.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="licensee">
+    <xs:annotation>
+      <xs:documentation>
+        A licensee.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+  <xs:element name="licensee" type="licensee">
+    <xs:annotation>
+      <xs:documentation>
+        The host licensee.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="accepted-version" type="version">
+    <xs:annotation>
+      <xs:documentation>
+        The last accepted version.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="version">
+    <xs:annotation>
+      <xs:documentation>
+        A version of the product.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+  <xs:element name="version" type="version">
+    <xs:annotation>
+      <xs:documentation>
+        The version of the product.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="architecture">
+    <xs:annotation>
+      <xs:documentation>
+        A architecture of the product.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+  <xs:element name="architecture" type="architecture">
+    <xs:annotation>
+      <xs:documentation>
+        The achitecture of the product.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="last-startup" type="last-startup">
+    <xs:annotation>
+      <xs:documentation>
+  	The timestamp of last host startup
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="last-startup">
+    <xs:annotation>
+      <xs:documentation>
+        A timestamp of the last time the host started up.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:dateTime"/>
+  </xs:simpleType>
+  <xs:simpleType name="boolean">
+    <xs:annotation>
+      <xs:documentation>
+        true or false
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:boolean"/>
+  </xs:simpleType>
+  <xs:simpleType name="group-id">
+    <xs:annotation>
+      <xs:documentation>
+        A group unique id (64-bit value).
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:unsignedLong"/>
+  </xs:simpleType>
+  <xs:element name="group-id" type="group-id">
+    <xs:annotation>
+      <xs:documentation>
+        The group the host belongs to.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="host-id">
+    <xs:annotation>
+      <xs:documentation>
+        A host unique id (64-bit value).
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:unsignedLong"/>
+  </xs:simpleType>
+  <xs:element name="host-id" type="host-id">
+    <xs:annotation>
+      <xs:documentation>
+        The unique ID of a host.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="license-key">
+    <xs:annotation>
+      <xs:documentation>
+        A license key.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+  <xs:element name="license-key" type="license-key">
+    <xs:annotation>
+      <xs:documentation>
+        The license key for this host.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="license-key-expires">
+    <xs:annotation>
+      <xs:documentation>
+        When does the license key expire
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:dateTime"/>
+  </xs:simpleType>
+  <xs:element name="license-key-expires" type="license-key-expires">
+    <xs:annotation>
+      <xs:documentation>
+        When does the license key for this host expire.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="pre-release-expires">
+    <xs:annotation>
+      <xs:documentation>
+        When does the pre-release expire
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:dateTime"/>
+  </xs:simpleType>
+  <xs:element name="pre-release-expires" type="pre-release-expires">
+    <xs:annotation>
+      <xs:documentation>
+        When does the pre-release for this host expire.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="license-key-cpus">
+    <xs:annotation>
+      <xs:documentation>
+        Number of cpus for a license key.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:integer"/>
+  </xs:simpleType>
+  <xs:element name="license-key-cpus" type="license-key-cpus">
+    <xs:annotation>
+      <xs:documentation>
+        How many cpus does this license key support.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="license-key-cores">
+    <xs:annotation>
+      <xs:documentation>
+        Number of cores for a license key.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:integer"/>
+  </xs:simpleType>
+  <xs:element name="license-key-cores" type="license-key-cores">
+    <xs:annotation>
+      <xs:documentation>
+        How many cores does this license key support.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="license-key-size">
+    <xs:annotation>
+      <xs:documentation>
+        Database size that a license key supports.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:integer"/>
+  </xs:simpleType>
+  <xs:element name="license-key-size" type="license-key-size">
+    <xs:annotation>
+      <xs:documentation>
+        What size database does this license key support.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="license-key-options">
+    <xs:annotation>
+      <xs:documentation>
+        A set of license key options.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element ref="license-key-option" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="license-key-options" type="license-key-options">
+    <xs:annotation>
+      <xs:documentation>
+        The options that this host's license key provides.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="license-key-option">
+    <xs:annotation>
+      <xs:documentation>
+        A license key option
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="conversion"/>
+      <xs:enumeration value="failover"/>
+      <xs:enumeration value="English"/>
+      <xs:enumeration value="French"/>
+      <xs:enumeration value="Italian"/>
+      <xs:enumeration value="German"/>
+      <xs:enumeration value="Spanish"/>
+      <xs:enumeration value="Traditional Chinese"/>
+      <xs:enumeration value="Simplified Chinese"/>
+      <xs:enumeration value="Arabic"/>
+      <xs:enumeration value="Russian"/>
+      <xs:enumeration value="Dutch"/>
+      <xs:enumeration value="Korean"/>
+      <xs:enumeration value="Persian"/>
+      <xs:enumeration value="Japanese"/>
+      <xs:enumeration value="Portuguese"/>
+      <xs:enumeration value="geospatial"/>
+      <xs:enumeration value="alerting"/>
+      <xs:enumeration value="entity enrichment"/>
+      <xs:enumeration value="Outside In conversion"/>
+      <xs:enumeration value="compartment security"/>
+      <xs:enumeration value="flexible replication"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="license-key-option" type="license-key-option">
+    <xs:annotation>
+      <xs:documentation>
+        A license key option.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="edition">
+    <xs:annotation>
+      <xs:documentation>
+        A host edition.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:enumeration value="Standard"/>
+      <xs:enumeration value="Enterprise"/>
+      <xs:enumeration value="None"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="edition" type="edition">
+    <xs:annotation>
+      <xs:documentation>
+        The edition of this host.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="error">
+    <xs:annotation>
+      <xs:documentation>
+        An error processing host status.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+  <xs:element name="error" type="error">
+    <xs:annotation>
+      <xs:documentation>
+        The error in processing host status.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="current-time" type="timestamp">
+    <xs:annotation>
+      <xs:documentation>
+        The current time.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="path">
+    <xs:annotation>
+      <xs:documentation>
+        A file system path.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+  <xs:element name="path" type="path">
+    <xs:annotation>
+      <xs:documentation>
+  	The path of the stand.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="forest-id">
+    <xs:annotation>
+      <xs:documentation>
+        The unique id of the forest.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:unsignedLong"/>
+  </xs:simpleType>
+  <xs:element name="forest-id" type="forest-id">
+    <xs:annotation>
+      <xs:documentation>
+        The unique id of the forest.
+      </xs:documentation>
+      <xs:appinfo>
+        <admin:hidden>true</admin:hidden>
+        <admin:default>xdmp:random()</admin:default>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="status">
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:enumeration value="queued"/>
+      <xs:enumeration value="in-progress"/>
+      <xs:enumeration value="failed"/>
+      <xs:enumeration value="canceled"/>
+      <xs:enumeration value="completed"/>
+      <xs:enumeration value="unknown"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="status" type="status"/>
+  <xs:complexType name="forest">
+    <xs:annotation>
+      <xs:documentation>
+        A forest with id and status
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:all>
+      <xs:element ref="forest-id"/>
+      <xs:element ref="status"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="forest" type="forest">
+    <xs:annotation>
+      <xs:documentation>
+        A forest with id and status
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="forests">
+    <xs:annotation>
+      <xs:documentation>
+        A set of forests
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="forest"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="forests" type="forests">
+    <xs:annotation>
+      <xs:documentation>
+        The forests in a backup/restore job
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="job-id">
+    <xs:annotation>
+      <xs:documentation>
+        A job unique id.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:unsignedLong"/>
+  </xs:simpleType>
+  <xs:element name="job-id" type="job-id">
+    <xs:annotation>
+      <xs:documentation>
+        The unique ID of a job.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="start-time" type="timestamp">
+    <xs:annotation>
+      <xs:documentation>
+  	The time a backup or restore started.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="timestamp">
+    <xs:annotation>
+      <xs:documentation>
+        A timestamp of an event.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:dateTime"/>
+  </xs:simpleType>
+  <xs:complexType name="backup-job">
+    <xs:annotation>
+      <xs:documentation>
+        A backup job.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:all>
+      <xs:element ref="job-id"/>
+      <xs:element ref="path"/>
+      <xs:element ref="start-time"/>
+      <xs:element ref="forests"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="backup-job" type="backup-job">
+    <xs:annotation>
+      <xs:documentation>
+        The backup job.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="backup-jobs">
+    <xs:annotation>
+      <xs:documentation>
+        A sequence of backup jobs.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="backup-job"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="backup-jobs" type="backup-jobs">
+    <xs:annotation>
+      <xs:documentation>
+        The backup jobs the host is processing.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="restore-job">
+    <xs:annotation>
+      <xs:documentation>
+        A restore job.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:all>
+      <xs:element ref="job-id"/>
+      <xs:element ref="path"/>
+      <xs:element ref="start-time"/>
+      <xs:element ref="forests"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="restore-job" type="restore-job">
+    <xs:annotation>
+      <xs:documentation>
+        The restore job.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="restore-jobs">
+    <xs:annotation>
+      <xs:documentation>
+        A sequence of restore jobs.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="restore-job"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="restore-jobs" type="restore-jobs">
+    <xs:annotation>
+      <xs:documentation>
+        The restore jobs the host is processing.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="memory-size">
+    <xs:annotation>
+      <xs:documentation>
+        A number of megabytes of memory.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:unsignedInt"/>
+  </xs:simpleType>
+  <xs:simpleType name="percentage">
+    <xs:annotation>
+      <xs:documentation>
+        A percentage.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:float"/>
+  </xs:simpleType>
+  <xs:element name="partition-size" type="memory-size">
+    <xs:annotation>
+      <xs:documentation>
+        The size of a cache partition, in megabytes.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="partition-table" type="percentage">
+    <xs:annotation>
+      <xs:documentation>
+        The percentage of the table for a cache partition 
+	that is currently used.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="partition-busy" type="percentage">
+    <xs:annotation>
+      <xs:documentation>
+        The percentage of the space in a cache partition 
+	that is currently used and cannot be freed.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="partition-used" type="percentage">
+    <xs:annotation>
+      <xs:documentation>
+        The percentage of the space in a cache partition 
+	that is currently used.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="partition-free" type="percentage">
+    <xs:annotation>
+      <xs:documentation>
+        The percentage of the space in a cache partition 
+	that is currently free.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="partition-overhead" type="percentage">
+    <xs:annotation>
+      <xs:documentation>
+        The percentage of the space in a cache partition 
+	that is currently overhead.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="compressed-tree-cache-partition">
+    <xs:annotation>
+      <xs:documentation>
+        A compressed-tree cache partition.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:all>
+      <xs:element ref="partition-size"/>
+      <xs:element ref="partition-table"/>
+      <xs:element ref="partition-used"/>
+      <xs:element ref="partition-free"/>
+      <xs:element ref="partition-overhead"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="compressed-tree-cache-partition" type="compressed-tree-cache-partition">
+    <xs:annotation>
+      <xs:documentation>
+        The compressed-tree cache partition.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="compressed-tree-cache-partitions">
+    <xs:annotation>
+      <xs:documentation>
+        A sequence of compressed-tree cache partitions.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="compressed-tree-cache-partition"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="compressed-tree-cache-partitions" type="compressed-tree-cache-partitions">
+    <xs:annotation>
+      <xs:documentation>
+        The compressed-tree cache partitions on the host.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="expanded-tree-cache-partition">
+    <xs:annotation>
+      <xs:documentation>
+        A expanded-tree cache partition.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:all>
+      <xs:element ref="partition-size"/>
+      <xs:element ref="partition-table"/>
+      <xs:element ref="partition-busy"/>
+      <xs:element ref="partition-used"/>
+      <xs:element ref="partition-free"/>
+      <xs:element ref="partition-overhead"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="expanded-tree-cache-partition" type="expanded-tree-cache-partition">
+    <xs:annotation>
+      <xs:documentation>
+        The expanded-tree cache partition.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="expanded-tree-cache-partitions">
+    <xs:annotation>
+      <xs:documentation>
+        A sequence of expanded-tree cache partitions.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="expanded-tree-cache-partition"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="expanded-tree-cache-partitions" type="expanded-tree-cache-partitions">
+    <xs:annotation>
+      <xs:documentation>
+        The expanded-tree cache partitions on the host.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="list-cache-partition">
+    <xs:annotation>
+      <xs:documentation>
+        A list cache partition.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:all>
+      <xs:element ref="partition-size"/>
+      <xs:element ref="partition-table"/>
+      <xs:element ref="partition-busy"/>
+      <xs:element ref="partition-used"/>
+      <xs:element ref="partition-free"/>
+      <xs:element ref="partition-overhead"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="list-cache-partition" type="list-cache-partition">
+    <xs:annotation>
+      <xs:documentation>
+        The list cache partition.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="list-cache-partitions">
+    <xs:annotation>
+      <xs:documentation>
+        A sequence of list cache partitions.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="list-cache-partition"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="list-cache-partitions" type="list-cache-partitions">
+    <xs:annotation>
+      <xs:documentation>
+        The list cache partitions on the host.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="query-read-bytes" type="xs:unsignedLong">
+    <xs:annotation>
+      <xs:documentation>
+        The number of bytes read off disk.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="query-read-time" type="xs:dayTimeDuration">
+    <xs:annotation>
+      <xs:documentation>
+        The time (as xs:dayTimeDuration) to read query data from disk.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="query-read-rate" type="xs:float">
+    <xs:annotation>
+      <xs:documentation>
+        The moving average of reading query data from disk, in megabytes 
+	per second.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="query-read-load" type="xs:float">
+    <xs:annotation>
+      <xs:documentation>
+	The moving average of the read load on the query, in seconds per second.
+        This is summed for all of the contributing threads.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="journal-write-bytes" type="xs:unsignedLong">
+    <xs:annotation>
+      <xs:documentation>
+        The number of bytes written to the journal on disk.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="journal-write-time" type="xs:dayTimeDuration">
+    <xs:annotation>
+      <xs:documentation>
+        The time (as xs:dayTimeDuration) to write data to the journal.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="journal-write-rate" type="xs:float">
+    <xs:annotation>
+      <xs:documentation>
+        The moving average of writing data to the journal, in megabytes 
+	per second.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="journal-write-load" type="xs:float">
+    <xs:annotation>
+      <xs:documentation>
+	The moving average of the load for writing to the journal, in 
+	seconds per second.  This is summed for all of the threads 
+	writing on the host.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="save-write-bytes" type="xs:unsignedLong">
+    <xs:annotation>
+      <xs:documentation>
+        The number of bytes written when saving in-memory stands.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="save-write-time" type="xs:dayTimeDuration">
+    <xs:annotation>
+      <xs:documentation>
+        The time (as xs:dayTimeDuration) spent saving in-memory stands.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="save-write-rate" type="xs:float">
+    <xs:annotation>
+      <xs:documentation>
+        The moving average of writing data to in-memory stands, in megabytes 
+	per second.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="save-write-load" type="xs:float">
+    <xs:annotation>
+      <xs:documentation>
+        The moving average of the load for writing to in-memory stands, in 
+	seconds per second.  This is summed for all of the threads 
+	writing on the host.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="merge-read-bytes" type="xs:unsignedLong">
+    <xs:annotation>
+      <xs:documentation>
+        The number of bytes read during merges.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="merge-read-time" type="xs:dayTimeDuration">
+    <xs:annotation>
+      <xs:documentation>
+        The time (as xs:dayTimeDuration) to read data for merges.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="merge-read-rate" type="xs:float">
+    <xs:annotation>
+      <xs:documentation>
+        The moving average of reading merge data from disk, in megabytes 
+	per second.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="merge-read-load" type="xs:float">
+    <xs:annotation>
+      <xs:documentation>
+        The moving average of the read load on the merge, in seconds per second.
+        This is summed for all of the contributing threads.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="merge-write-bytes" type="xs:unsignedLong">
+    <xs:annotation>
+      <xs:documentation>
+        The number of bytes written to disk for merges.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="merge-write-time" type="xs:dayTimeDuration">
+    <xs:annotation>
+      <xs:documentation>
+        The time (as xs:dayTimeDuration) to write data for merges.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="merge-write-rate" type="xs:float">
+    <xs:annotation>
+      <xs:documentation>
+        The moving average of writing data for merges, in megabytes 
+	per second.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="merge-write-load" type="xs:float">
+    <xs:annotation>
+      <xs:documentation>
+        The moving average of the load for writing for merges, in 
+	seconds per second.  This is summed for all of the threads 
+	writing on the host.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="backup-read-bytes" type="xs:unsignedLong">
+    <xs:annotation>
+      <xs:documentation>
+        The number of bytes read from disk for backups.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="backup-read-time" type="xs:dayTimeDuration">
+    <xs:annotation>
+      <xs:documentation>
+        Thee time (as xs:dayTimeDuration) to read data for backups.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="backup-read-rate" type="xs:float">
+    <xs:annotation>
+      <xs:documentation>
+        The moving average of reading backup data from disk, in megabytes 
+	per second.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="backup-read-load" type="xs:float">
+    <xs:annotation>
+      <xs:documentation>
+	The moving average of the read load on the backup, in seconds per 
+	second.  This is summed for all of the contributing threads.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="backup-write-bytes" type="xs:unsignedLong">
+    <xs:annotation>
+      <xs:documentation>
+        The number of bytes written to disk for backups.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="backup-write-time" type="xs:dayTimeDuration">
+    <xs:annotation>
+      <xs:documentation>
+        The time (as xs:dayTimeDuration) to write data to backups.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="backup-write-rate" type="xs:float">
+    <xs:annotation>
+      <xs:documentation>
+        The moving average of writing data for backups, in megabytes 
+	per second.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="backup-write-load" type="xs:float">
+    <xs:annotation>
+      <xs:documentation>
+        The moving average of the load for writing for backups, in 
+	seconds per second.  This is summed for all of the threads 
+	writing on the host.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="restore-read-bytes" type="xs:unsignedLong">
+    <xs:annotation>
+      <xs:documentation>
+        The number of bytes read from disk for restores.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="restore-read-time" type="xs:dayTimeDuration">
+    <xs:annotation>
+      <xs:documentation>
+        Thee time (as xs:dayTimeDuration) to read data for restores.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="restore-read-rate" type="xs:float">
+    <xs:annotation>
+      <xs:documentation>
+        The moving average of reading restore data from disk, in megabytes 
+	per second.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="restore-read-load" type="xs:float">
+    <xs:annotation>
+      <xs:documentation>
+        The moving average of the read load on the backup, in seconds per 
+	second.  This is summed for all of the contributing threads.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="restore-write-bytes" type="xs:unsignedLong">
+    <xs:annotation>
+      <xs:documentation>
+        The number of bytes written to disk for restores.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="restore-write-time" type="xs:dayTimeDuration">
+    <xs:annotation>
+      <xs:documentation>
+        The time (as xs:dayTimeDuration) to write data for restores.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="restore-write-rate" type="xs:float">
+    <xs:annotation>
+      <xs:documentation>
+        The moving average of writing data for restores, in megabytes 
+	per second.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="restore-write-load" type="xs:float">
+    <xs:annotation>
+      <xs:documentation>
+        The moving average of the load for writing for restores, in 
+	seconds per second.  This is summed for all of the threads 
+	writing on the host.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="xdqp-client-receive-bytes" type="xs:unsignedLong">
+    <xs:annotation>
+      <xs:documentation>
+	 The number of bytes received by the xdqp client for host 
+	 communications.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="xdqp-client-receive-time" type="xs:dayTimeDuration">
+    <xs:annotation>
+      <xs:documentation>
+	 The time (as xs:dayTimeDuration) to receive xdqp client 
+	 communication.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="xdqp-client-receive-rate" type="xs:float">
+    <xs:annotation>
+      <xs:documentation>
+        The moving average of receiving xdqp client messages, in megabytes 
+	per second.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="xdqp-client-receive-load" type="xs:float">
+    <xs:annotation>
+      <xs:documentation>
+	The moving average of the receive load for the xdqp client, in 
+	seconds per second.  This is summed for all of the contributing threads.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="xdqp-client-send-bytes" type="xs:unsignedLong">
+    <xs:annotation>
+      <xs:documentation>
+        The number of bytes sent by the xdqp client for host 
+	communications.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="xdqp-client-send-time" type="xs:dayTimeDuration">
+    <xs:annotation>
+      <xs:documentation>
+        The time (as xs:dayTimeDuration) to send xdqp client 
+	communication.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="xdqp-client-send-rate" type="xs:float">
+    <xs:annotation>
+      <xs:documentation>
+        The moving average of sending xdqp client messages, in megabytes 
+	per second.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="xdqp-client-send-load" type="xs:float">
+    <xs:annotation>
+      <xs:documentation>
+        The moving average of the send load for the xdqp client, in 
+	seconds per second.  This is summed for all of the contributing threads.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="xdqp-server-receive-bytes" type="xs:unsignedLong">
+    <xs:annotation>
+      <xs:documentation>
+        The number of bytes received by the xdqp server for host 
+	communications.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="xdqp-server-receive-time" type="xs:dayTimeDuration">
+    <xs:annotation>
+      <xs:documentation>
+        The time (as xs:dayTimeDuration) to receive xdqp server 
+	communication.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="xdqp-server-receive-rate" type="xs:float">
+    <xs:annotation>
+      <xs:documentation>
+        The moving average of receiving xdqp server messages, in megabytes 
+	per second.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="xdqp-server-receive-load" type="xs:float">
+    <xs:annotation>
+      <xs:documentation>
+        The moving average of the receive load for the xdqp server, in 
+	seconds per second.  This is summed for all of the contributing threads.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="xdqp-server-send-bytes" type="xs:unsignedLong">
+    <xs:annotation>
+      <xs:documentation>
+        The number of bytes sent by the xdqp server for host 
+	communications.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="xdqp-server-send-time" type="xs:dayTimeDuration">
+    <xs:annotation>
+      <xs:documentation>
+        The time (as xs:dayTimeDuration) to send xdqp server 
+	communication.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="xdqp-server-send-rate" type="xs:float">
+    <xs:annotation>
+      <xs:documentation>
+        The moving average of sending xdqp server messages, in megabytes 
+	per second.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="xdqp-server-send-load" type="xs:float">
+    <xs:annotation>
+      <xs:documentation>
+        The moving average of the send load for the xdqp server, in 
+	seconds per second.  This is summed for all of the contributing threads.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="host-status">
+    <xs:annotation>
+      <xs:documentation>
+        A host status element.
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element ref="host-id"/>
+      <xs:element ref="error" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="host-name" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="group-id" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="current-time" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="bind-port" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="connect-port" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="last-startup" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="version" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="architecture" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="license-key" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="licensee" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="license-key-expires" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="license-key-cpus" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="license-key-cores" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="license-key-size" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="license-key-options" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="pre-release-expires" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="accepted-version" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="accepted-agreement" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="accepted-licensee" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="edition" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="cpus" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="cores" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="host-size" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="log-device-space" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="data-dir-space" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="config-file-timestamps" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="http-servers" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="xdbc-servers" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="task-server" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="assignments" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="hosts" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="backup-jobs" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="restore-jobs" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="compressed-tree-cache-partitions" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="expanded-tree-cache-partitions" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="list-cache-partitions" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="query-read-bytes" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="query-read-time" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="query-read-rate" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="query-read-load" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="journal-write-bytes" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="journal-write-time" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="journal-write-rate" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="journal-write-load" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="save-write-bytes" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="save-write-time" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="save-write-rate" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="save-write-load" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="merge-read-bytes" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="merge-read-time" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="merge-read-rate" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="merge-read-load" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="merge-write-bytes" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="merge-write-time" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="merge-write-rate" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="merge-write-load" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="backup-read-bytes" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="backup-read-time" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="backup-read-rate" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="backup-read-load" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="backup-write-bytes" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="backup-write-time" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="backup-write-rate" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="backup-write-load" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="restore-read-bytes" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="restore-read-time" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="restore-read-rate" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="restore-read-load" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="restore-write-bytes" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="restore-write-time" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="restore-write-rate" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="restore-write-load" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="xdqp-client-receive-bytes" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="xdqp-client-receive-time" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="xdqp-client-receive-rate" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="xdqp-client-receive-load" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="xdqp-client-send-bytes" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="xdqp-client-send-time" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="xdqp-client-send-rate" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="xdqp-client-send-load" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="xdqp-server-receive-bytes" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="xdqp-server-receive-time" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="xdqp-server-receive-rate" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="xdqp-server-receive-load" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="xdqp-server-send-bytes" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="xdqp-server-send-time" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="xdqp-server-send-rate" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="xdqp-server-send-load" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="host-status" type="host-status">
+    <xs:annotation>
+      <xs:documentation>
+  	The status of a host
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+</xs:schema>

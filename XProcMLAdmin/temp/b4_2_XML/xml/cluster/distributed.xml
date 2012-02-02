@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="distributed.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1043289"></A>
+<A ID="13921"></A>
+Getting Started with Enterprise Edition Distributed Deployments</Heading-1>
+<pagenum>
+<A ID="pgfId-1043814"></A>
+22</pagenum>
+<Body>
+<A ID="pgfId-1043291"></A>
+MarkLogic Server Enterprise Edition supports large-scale high-performance architectures through multi-host distributed architectures. These architectures introduce additional complexity to both the planning and the deployment processes. This chapter introduces key concepts and terminology, outlines some alternative distribution strategies, and provides a high-level guide to configuring a cluster from scratch. The following topics are included:</Body>
+<Body-bullet>
+<A ID="pgfId-1043639"></A>
+<A href="distributed.xml#id(_Toc61269871)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Terminology</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1043646"></A>
+<A href="distributed.xml#id(_Toc61269872)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Fundamentals</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1043650"></A>
+<A href="distributed.xml#id(_Toc61269873)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Advantages to Distributing</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1043654"></A>
+<A href="distributed.xml#id(_Toc61269874)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Considerations for a Distributed System</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1043658"></A>
+<A href="distributed.xml#id(43937)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Configuring a Cluster</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1043293"></A>
+<A ID="_Toc61269871"></A>
+Terminology</Heading-2>
+<Body>
+<A ID="pgfId-1043294"></A>
+It is important to understand the following terminology when considering a distributed implementation of MarkLogic Server: </Body>
+<Body>
+<A ID="pgfId-1043295"></A>
+<Emphasis>
+cluster</Emphasis>
+	A cluster is a set of one or more instances (see hosts, below) of MarkLogic Server that will work together as a unified whole to provide content services.</Body>
+<Body>
+<A ID="pgfId-1043296"></A>
+<Emphasis>
+host</Emphasis>
+	A host is a single instance of MarkLogic Server running on a single machine. MarkLogic Server Standard Edition can only be configured to run in single-host configurations. MarkLogic Server Enterprise Edition enables multi-host configurations. </Body>
+<Body>
+<A ID="pgfId-1043297"></A>
+<Emphasis>
+group</Emphasis>
+	A group is a set of hosts with uniform HTTP, WebDAV and XDBC server configurations (but not necessarily uniform forest configurations). Groups are used to simplify cluster management. </Body>
+<Body>
+<A ID="pgfId-1048521"></A>
+<Emphasis>
+forest</Emphasis>
+	A forest is a repository for documents. Each forest is managed by a single host. The mapping of which forest is managed by which host is transparent to queries, as queries are processed against databases, not forests. Hosts can manage more than one forest simultaneously. </Body>
+<Body>
+<A ID="pgfId-1048508"></A>
+<Emphasis>
+database</Emphasis>
+	A database is a set of one or more forests that appears as a single contiguous set of content for query purposes. Each forest in a database must be configured consistently. HTTP, WebDAV, and XDBC servers evaluate queries against a single database. In addition to databases created by the administrator for user content, MarkLogic Server maintains databases for administrative purposes: security databases, which contain user authentication and permissions information; schema databases, which are used to store schemas used by the system; <Emphasis>
+modules</Emphasis>
+ databases, which are used to store executable XQuery code; and <Emphasis>
+triggers</Emphasis>
+ databases, used to store trigger definitions. There are backup and restore utilities at both the forest and the database level.</Body>
+<Body>
+<A ID="pgfId-1043300"></A>
+<Emphasis>
+collection</Emphasis>
+	A collection is a subset of one or more documents within a database. Documents can belong to more than one collection simultaneously. Collections can span multiple forests, and are not relevant to the cluster configuration process.</Body>
+<Body>
+<A ID="pgfId-1043301"></A>
+The following diagram illustrates how the concepts of clusters, hosts and groups are implemented in an example multi-host distributed architecture. The diagram shows a single cluster involving six hosts that are segmented into two groups:</Body>
+<Body>
+<A ID="pgfId-1043307"></A>
+<IMAGE xml:link="simple" href="distributed-1.gif" show="embed" actuate="auto"/>
+</Body>
+<Body>
+<A ID="pgfId-1043308"></A>
+This second diagram shows how a single database called 'Documents' could comprise four forests spread across the three hosts in the group 'Data-Nodes' from the above diagram. The diagram also illustrates two internal databases maintained by the system for administrative usage:</Body>
+<Body>
+<A ID="pgfId-1043313"></A>
+<IMAGE xml:link="simple" href="distributed-2.gif" show="embed" actuate="auto"/>
+</Body>
+<Heading-2>
+<A ID="pgfId-1043317"></A>
+<A ID="_Toc61269872"></A>
+<A ID="_Exploring_the_Use_1"></A>
+<A ID="_Accessing_the_Help"></A>
+Fundamentals</Heading-2>
+<Body>
+<A ID="pgfId-1043318"></A>
+With the key terminology introduced, here is a short list of fundamentals to keep in mind while considering any multi-host deployment:</Body>
+<Number1>
+<A ID="pgfId-1043319"></A>
+<Emphasis>
+All hosts in a cluster must run on the same platform.</Emphasis>
+</Number1>
+<Body>
+<A ID="pgfId-1043320"></A>
+Because MarkLogic Server takes advantage of platform-specific optimizations, it is not possible to mix and match platforms in a single cluster. This means that you will need to consider the pros and cons of different CPU architectures and operating systems across all hosts in your cluster when planning a multi-host deployment.</Body>
+<NumberList>
+<Number>
+<A ID="pgfId-1043321"></A>
+<Emphasis>
+Backups are not portable across platforms.</Emphasis>
+</Number>
+</NumberList>
+<Body>
+<A ID="pgfId-1043322"></A>
+Not only must clusters be platform homogeneous, the internal data formats used by forests are platform-specific. Consequently, forests and forest backups are not portable across platforms. To move database or forest content from a MarkLogic Server implementation running on one platform to an implementation running on another platform, the database must be unloaded from the first system and loaded from scratch into the second database.</Body>
+<NumberList>
+<Number>
+<A ID="pgfId-1043323"></A>
+<Emphasis>
+All hosts in a cluster run identical software.</Emphasis>
+</Number>
+</NumberList>
+<Body>
+<A ID="pgfId-1043324"></A>
+Even though each host in a cluster can be configured to perform a different task, the full MarkLogic Server software runs on each host. Consequently, software installation is identical across the nodes. However, hosts can be reconfigured rapidly--on an individual or cluster-wide basis--to perform whatever role is required of them. Of course, it is quite possible that different hardware configurations will be used for different hosts in the cluster, depending on the roles they are expected to play.</Body>
+<NumberList>
+<Number>
+<A ID="pgfId-1043325"></A>
+<Emphasis>
+Front-end query distribution is the responsibility of external infrastructure.</Emphasis>
+</Number>
+</NumberList>
+<Body>
+<A ID="pgfId-1043326"></A>
+Multi-host deployments may incorporate multiple hosts running the same HTTP, WebDAV, or XDBC server applications, allowing queries to be distributed between those hosts for improved performance. MarkLogic Server transparently manages the distribution of content storage across forests within databases and the distribution of query execution across the hosts managing those forests. However, MarkLogic Server does not manage the distribution of queries across front-end hosts configured with equivalent HTTP, WebDAV, or XDBC server applications. The multi-host deployment relies on surrounding infrastructure for this load-balancing task.</Body>
+<NumberList>
+<Number>
+<A ID="pgfId-1043327"></A>
+<Emphasis>
+There is no master/slave relationship in the cluster.</Emphasis>
+</Number>
+</NumberList>
+<Body>
+<A ID="pgfId-1043328"></A>
+Many distributed architectures rely on a single designated 'master' to direct and manage the operations of the cluster. In MarkLogic's distributed architecture, all hosts are considered equal, regardless of the roles for which they are configured. Consequently, there is no designated 'master' in the cluster.</Body>
+<NumberList>
+<Number>
+<A ID="pgfId-1043329"></A>
+<Emphasis>
+Administration can be carried out through any host offering appropriate services.</Emphasis>
+</Number>
+</NumberList>
+<Body>
+<A ID="pgfId-1043330"></A>
+With no designated 'master' in the cluster, administrative operations can be conducted on any cluster host configured to offer browser-based administrative operations or to accept XQuery-based administrative directives.</Body>
+<NumberList>
+<Number>
+<A ID="pgfId-1043331"></A>
+<Emphasis>
+Each forest is assigned to a single host.</Emphasis>
+</Number>
+</NumberList>
+<Body>
+<A ID="pgfId-1043332"></A>
+All queries that need to check for content stored in that forest or retrieve content from that forest will be routed to that host for processing. MarkLogic Server does not support replicated forests across multiple hosts, either for improved parallelism or redundancy.</Body>
+<Heading-2>
+<A ID="pgfId-1043334"></A>
+<A ID="_Toc61269873"></A>
+Advantages to Distributing</Heading-2>
+<Body>
+<A ID="pgfId-1043335"></A>
+MarkLogic Server Standard Edition provides a powerful workgroup or departmental content platform. However, its single server architecture can constrain its scalability and performance in several ways:</Body>
+<Body-bullet>
+<A ID="pgfId-1043336"></A>
+Query capacity is constrained by the number of CPUs that can be put to work processing queries simultaneously.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1043337"></A>
+Content volume can be constrained both by available address space and by the amount of memory installed in the server.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1043338"></A>
+Data access rates across multiple queries can be gated by the limited I/O path(s) inherent in single server architectures.</Body-bullet>
+<Body>
+<A ID="pgfId-1043339"></A>
+MarkLogic Server Enterprise Edition's distributed architecture has been designed specifically to address these issues. Distributed deployments can be used to support scalability and performance across multiple dimensions:</Body>
+<Body-bullet>
+<A ID="pgfId-1043340"></A>
+Large volumes of content can be supported by increasing the number of hosts hosting forests.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1043341"></A>
+High data access rates can be supported by distributing the storage I/O requirements across more hosts.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1043342"></A>
+Large query volumes can be supported by increasing the number of hosts performing query evaluation.</Body-bullet>
+<Body>
+<A ID="pgfId-1043343"></A>
+In addition, MarkLogic Server Enterprise Edition's distributed architecture enables significantly more cost-effective implementations. Enterprise Edition allows data centers to distribute workload across a number of less-expensive entry-level servers or bladed infrastructures rather than requiring an investment in large expensive SMP systems.</Body>
+<Body>
+<A ID="pgfId-1043344"></A>
+For data centers with existing investments in SMP architectures, MarkLogic Server Enterprise Edition can still make effective use of those platforms.</Body>
+<Heading-2>
+<A ID="pgfId-1043346"></A>
+<A ID="_Toc61269874"></A>
+Considerations for a Distributed System</Heading-2>
+<Body>
+<A ID="pgfId-1043347"></A>
+Just as there are different reasons to deploy a distributed architecture, there are different issues to consider in determining a distribution strategy. Each strategy provides certain benefits and involves certain other compromises. In order to determine how best to deploy MarkLogic Server to meet your requirements, you should obtain assistance from MarkLogic's professional services group. </Body>
+<Body>
+<A ID="pgfId-1048127"></A>
+This section includes the following topics:</Body>
+<Body-bullet>
+<A ID="pgfId-1048128"></A>
+<A href="distributed.xml#id(_Toc61269875)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Hosts with Distinct Roles</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1048135"></A>
+<A href="distributed.xml#id(43144)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Scale of System</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1048140"></A>
+<A href="distributed.xml#id(44973)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Hardware Configuration</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1048145"></A>
+<A href="distributed.xml#id(87475)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Storage Architecture</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1043349"></A>
+<A ID="_Toc61269875"></A>
+Hosts with Distinct Roles</Heading-3>
+<Body>
+<A ID="pgfId-1043350"></A>
+Distributed deployments of MarkLogic Server can be configured using hosts which all play similar roles or hosts which play distinct roles, as illustrated below.</Body>
+<Graphic>
+<A ID="pgfId-1043357"></A>
+<IMAGE xml:link="simple" href="distributed-3.gif" show="embed" actuate="auto"/>
+</Graphic>
+<Body>
+<A ID="pgfId-1043358"></A>
+A first-cut approach to small-scale distribution will have a number of hosts, each providing query evaluation and data service capability. This model can work well it static environments, and when the anticipated loads for each role map well.</Body>
+<Body>
+<A ID="pgfId-1043359"></A>
+In more dynamic environments, when the scale of the environment relative to individual host capacity is large, or when the anticipated scales of the query evaluation and data service loads differ markedly, the recommended approach is to partition the hosts into different roles. This architecture makes it easier to scale role-based capacity independently, and can also have some configuration advantages when different services operating at different scales are being offered out of the same cluster.</Body>
+<Heading-3>
+<A ID="pgfId-1043360"></A>
+<A ID="43144"></A>
+Scale of System</Heading-3>
+<Body>
+<A ID="pgfId-1043361"></A>
+MarkLogic Server can be deployed on a small number of relatively larger-scale systems, or a larger number of relatively small-scale systems. Data center platform and system standards will be the primary driver for this architecture decision.</Body>
+<Body>
+<A ID="pgfId-1043362"></A>
+There is no requirement that all systems in a cluster be of the same scale. In fact, as outlined below, there are potential tuning advantages to be obtained from customizing systems within the cluster based on the role played by the hosts operating on that system.</Body>
+<Heading-3>
+<A ID="pgfId-1043363"></A>
+<A ID="44973"></A>
+Hardware Configuration</Heading-3>
+<Body>
+<A ID="pgfId-1043364"></A>
+While MarkLogic Server requires that all hosts in a cluster run on the same platform, the systems for each host can be configured to optimize performance for that host's particular function.</Body>
+<Body>
+<A ID="pgfId-1043365"></A>
+In deployments architected following a distinct role strategy, it is to be expected that the data service nodes would be configured differently from the query evaluation nodes. The configuration differences will begin with storage connectivity, but will likely extend to memory configuration and possibly to processor count.</Body>
+<Heading-3>
+<A ID="pgfId-1043366"></A>
+<A ID="87475"></A>
+Storage Architecture</Heading-3>
+<Body>
+<A ID="pgfId-1043367"></A>
+In addition to the alternatives outlined above, the underlying storage architecture can have a significant impact on scalability and performance.</Body>
+<Body>
+<A ID="pgfId-1043368"></A>
+Storage that is locally attached to each host offering data service can be cost- and performance-effective, but difficult to manage from a data center viewpoint. Centralized storage options include both NAS (network attached storage) and SAN (storage area network) approaches, with their own distinct trade-offs. Consult your MarkLogic professional services consultant for detailed deployment architecture advice.</Body>
+<Heading-2>
+<A ID="pgfId-1043369"></A>
+<A ID="43937"></A>
+Configuring a Cluster</Heading-2>
+<Body>
+<A ID="pgfId-1043370"></A>
+When first configuring and deploying a cluster, the best place to start is with the overall architecture and distribution strategy. With the right strategy in hand, you can rapidly develop the actual configuration parameter sets that you will need. This section includes the following topics:</Body>
+<Body-bullet>
+<A ID="pgfId-1048172"></A>
+<A href="distributed.xml#id(82768)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Building a Cluster from Scratch</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1048180"></A>
+<A href="distributed.xml#id(_Toc61269881)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Increasing the Size of an Existing Cluster</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1043371"></A>
+<A ID="82768"></A>
+Building a Cluster from Scratch</Heading-3>
+<Body>
+<A ID="pgfId-1043372"></A>
+There are four key stages to build a cluster from scratch:</Body>
+<Body-bullet>
+<A ID="pgfId-1043373"></A>
+Installing the initial host in the cluster</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1043374"></A>
+Configuring the initial host with the groups and databases that you will be using in the cluster</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1043375"></A>
+Filling out the cluster by installing the additional hosts and adding them to the cluster</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1043376"></A>
+Configuring the forest layout within the cluster.</Body-bullet>
+<Body>
+<A ID="pgfId-1043377"></A>
+The purpose of this process guide is to outline the overall workflow involved in setting up a cluster. For detailed explanations of each step below, see the <Emphasis>
+Installation Guide</Emphasis>
+.  The following are the steps to building a cluster:</Body>
+<Body-bullet>
+<A ID="pgfId-1048196"></A>
+<A href="distributed.xml#id(44749)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Installing the Initial Host</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1048204"></A>
+<A href="distributed.xml#id(19165)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Configuring the Initial Host</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1048209"></A>
+<A href="distributed.xml#id(12699)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Filling Out the Cluster</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1048214"></A>
+<A href="distributed.xml#id(44696)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Configuring Forest Layout</Hyperlink>
+</A></Body-bullet>
+<Heading-4>
+<A ID="pgfId-1043378"></A>
+<A ID="44749"></A>
+Installing the Initial Host</Heading-4>
+<Body>
+<A ID="pgfId-1043379"></A>
+To install the initial host in the cluster: </Body>
+<Number1>
+<A ID="pgfId-1043380"></A>
+Install MarkLogic Server Enterprise Edition on one of the systems that will act as a host in the cluster. Follow the directions outlined in the section 'Installing MarkLogic Server' in the <Emphasis>
+Installation Guide</Emphasis>
+.</Number1>
+<Note>
+<A ID="pgfId-1043381"></A>
+The system on which you install the first host of the cluster will be the system on which the cluster's default Security and Schema databases will reside. Consequently, do not choose a system on whose role is solely a query evaluator.</Note>
+<NumberList>
+<Number>
+<A ID="pgfId-1043382"></A>
+Start the server as outlined in the section 'Starting MarkLogic Server' in the <Emphasis>
+Installation Guide</Emphasis>
+.</Number>
+<Number>
+<A ID="pgfId-1043383"></A>
+Accept the software license as outlined in the section 'Accepting the License Agreement' in the <Emphasis>
+Installation Guide</Emphasis>
+.</Number>
+</NumberList>
+<Note>
+<A ID="pgfId-1043384"></A>
+Accepting this license agreement is optional. However, to begin using MarkLogic Server, you must accept the terms and conditions outlined in the license agreement. If you have executed a written software license with MarkLogic Corporation, the written license overrides the license displayed.</Note>
+<NumberList>
+<Number>
+<A ID="pgfId-1043385"></A>
+Configure the host by following the steps outlined in the section 'Configuring a Single Host or the First Host in a Cluster' in the <Emphasis>
+Installation Guide</Emphasis>
+.</Number>
+<Number>
+<A ID="pgfId-1043386"></A>
+Configure an initial administrative user in response to the Security Setup screen.</Number>
+</NumberList>
+<Body>
+<A ID="pgfId-1043387"></A>
+Once the Admin Interface displays, you have completed the first stage in the process.</Body>
+<Heading-4>
+<A ID="pgfId-1043388"></A>
+<A ID="19165"></A>
+Configuring the Initial Host</Heading-4>
+<Body>
+<A ID="pgfId-1043389"></A>
+To configure the initial host that you will be using in the system:</Body>
+<Number1>
+<A ID="pgfId-1043390"></A>
+Access the Admin Interface through port 8001 on the initial host.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1043391"></A>
+Use the Admin Interface to configure each of the databases that you will use in the cluster.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1048263"></A>
+Configuring Databases at this time will simplify the next step of configuring groups.</Body-indent>
+<Note>
+<A ID="pgfId-1048264"></A>
+Because the cluster does not yet include all of its hosts, you will not be able to configure Forests at this time. Set up the databases without any forests. </Note>
+<NumberList>
+<Number>
+<A ID="pgfId-1043394"></A>
+Use the Admin Interface to configure each of the groups that you will use in the cluster.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1043395"></A>
+Configuring groups at this time will accelerate the process of deploying the cluster.</Body-indent>
+<Heading-4>
+<A ID="pgfId-1043396"></A>
+<A ID="12699"></A>
+Filling Out the Cluster</Heading-4>
+<Body>
+<A ID="pgfId-1043397"></A>
+To fill out the cluster by installing the additional hosts and adding them to the cluster, repeat the following steps for each system that will be a host in the cluster:</Body>
+<Number1>
+<A ID="pgfId-1043398"></A>
+Install MarkLogic Server Enterprise Edition on the system. Follow the directions outlined in the section 'Installing MarkLogic Server' in the <Emphasis>
+Installation Guide</Emphasis>
+.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1043399"></A>
+Start the server as outlined in the section 'Starting MarkLogic Server' in the <Emphasis>
+Installation Guide</Emphasis>
+.</Number>
+<Number>
+<A ID="pgfId-1043400"></A>
+Join the cluster as outlined in the section 'Enterprise Edition: Configuring an Additional Host in the Cluster' in the <Emphasis>
+Installation Guide</Emphasis>
+.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1043401"></A>
+Refer to your distribution strategy and configuration plan to determine the Group to which this host should belong.</Body-indent>
+<Body>
+<A ID="pgfId-1043402"></A>
+Once the Admin Interface displays, you have added this new host to the cluster. Repeat these steps for each host you want to add.</Body>
+<Heading-4>
+<A ID="pgfId-1043403"></A>
+<A ID="44696"></A>
+Configuring Forest Layout</Heading-4>
+<Body>
+<A ID="pgfId-1043404"></A>
+To configure forest layout and complete database configuration across the cluster:</Body>
+<Number1>
+<A ID="pgfId-1043405"></A>
+Access the Admin Interface through port 8001 on any of the hosts you have configured in a group that offers the Admin Interface.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1043406"></A>
+Use the Admin Interface to configure forests throughout the cluster.</Number>
+<Number>
+<A ID="pgfId-1043407"></A>
+Use the Admin Interface to complete database configuration by attaching forests to the databases.</Number>
+<Number>
+<A ID="pgfId-1043408"></A>
+Use the Admin Interface to complete any other required configuration activities.</Number>
+</NumberList>
+<Body>
+<A ID="pgfId-1043409"></A>
+At this point, your cluster should be ready to load content and evaluate queries. See the <Emphasis>
+Administrator's Guide</Emphasis>
+ for more detailed information on any of the configuration steps outlined above.</Body>
+<Heading-3>
+<A ID="pgfId-1048557"></A>
+<A ID="_Toc61269881"></A>
+Increasing the Size of an Existing Cluster</Heading-3>
+<Body>
+<A ID="pgfId-1048554"></A>
+Adding a new host to an existing cluster is a simple task, outlined in the section 'Enterprise Edition: Configuring an Additional Host in the Cluster' in the <Emphasis>
+Installation Guide</Emphasis>
+. Once the new host has been added, you may need to reconfigure how hosts in your cluster are used to redistribute workload. See the <Emphasis>
+Administrator's Guide</Emphasis>
+ for the appropriate procedures.</Body>
+</XML>

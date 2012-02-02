@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="security.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1054672"></A>
+<A ID="87595"></A>
+Controlling Access to Application Builder and to Generated Applications</Heading-1>
+<pagenum>
+<A ID="pgfId-1055576"></A>
+40</pagenum>
+<Body>
+<A ID="pgfId-1055072"></A>
+Application Builder allows you to configure and generate search applications without the need to write any code. Both Application Builder and the applications it generates use the MarkLogic Server security model to control access. This chapter describes the security roles needed to run Application Builder and to run the applications it generates, and includes the following parts:</Body>
+<Body-bullet>
+<A ID="pgfId-1055097"></A>
+<A href="security.xml#id(67890)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Predefined Roles for Application Builder</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055098"></A>
+<A href="security.xml#id(47274)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Permissions on Documents</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055099"></A>
+<A href="security.xml#id(45747)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Adding Other Roles or Modifying the app-user Role or to Meet Your Requirements</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1054723"></A>
+<A ID="67890"></A>
+Predefined Roles for Application Builder</Heading-2>
+<Body>
+<A ID="pgfId-1054737"></A>
+There are three predefined roles that are used by Application Builder:</Body>
+<Body-bullet>
+<A ID="pgfId-1054744"></A>
+<A href="security.xml#id(95065)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+app-user Role</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054792"></A>
+<A href="security.xml#id(22627)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+app-builder Role</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054803"></A>
+<A href="security.xml#id(87849)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+app-builder-internal Role</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1055142"></A>
+For details about the MarkLogic Server security model and about configuring users and roles, see <Emphasis>
+Understanding and Using Security Guide</Emphasis>
+ and <A href="../admin/security.xml#id(73923)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Security Administration</Hyperlink>
+</A> in the <Emphasis>
+Administrator's Guide</Emphasis>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1054674"></A>
+<A ID="95065"></A>
+app-user Role</Heading-3>
+<Body>
+<A ID="pgfId-1054761"></A>
+The <code>
+app-user</code>
+ role is a minimally privileged role that is needed to run any application that Application Builder generates. You must grant this role to all users who are allowed to run the generated application.</Body>
+<Heading-3>
+<A ID="pgfId-1054675"></A>
+<A ID="22627"></A>
+app-builder Role</Heading-3>
+<Body>
+<A ID="pgfId-1054771"></A>
+The <code>
+app-builder</code>
+ role provides the privileges needed to run Application Builder. Application Builder performs many administrative tasks on MarkLogic Server (for example, creating databases and App Servers), and this role provides the privileges to perform those tasks. While the privileges are minimized to the needed functions and to amped functions, it still allows users with the role to create these resources on MarkLogic Server, and therefore, only trusted users (users who are assumed to be non-hostile, appropriately trained, and follow proper administrative procedures) should be granted the <code>
+app-builder</code>
+ role. Assign the <code>
+app-builder</code>
+ role to users who are allowed to generate applications with Application Builder.</Body>
+<Heading-3>
+<A ID="pgfId-1054676"></A>
+<A ID="87849"></A>
+app-builder-internal Role </Heading-3>
+<Body>
+<A ID="pgfId-1054677"></A>
+The <code>
+app-builder-internal</code>
+ role is used by Application Builder to amp certain functions that Application Builder performs. You should not explicitly grant the <code>
+app-builder-internal</code>
+ role to any user; it is only for internal use by Application Builder.</Body>
+<Heading-2>
+<A ID="pgfId-1054693"></A>
+<A ID="47274"></A>
+Permissions on Documents</Heading-2>
+<Body>
+<A ID="pgfId-1055307"></A>
+In order for users to be able to search the applications generated from Application Builder, all documents in that database must have a read permission for a role the users have. If you want all users to be able to search everything in the database, you can add a permission to every document for the <code>
+app-user</code>
+ role with the <code>
+read</code>
+ capability. You can give different users different access to content by having permissions on documents based on the level of access control you want to maintain. </Body>
+<Body>
+<A ID="pgfId-1055352"></A>
+For the Oscar sample application, Application Builder adds a <code>
+read</code>
+ permission for the <code>
+app-user</code>
+ role and an <code>
+update</code>
+ permission for the <code>
+app-builder</code>
+ role to all of the documents in the generated Oscars database. </Body>
+<Body>
+<A ID="pgfId-1055400"></A>
+To add a <code>
+read</code>
+ permission for the <code>
+app-user</code>
+ role and an <code>
+update</code>
+ permission for the <code>
+app-builder</code>
+ role to a document, perform an update to the document as in the following example:</Body>
+<Code>
+<A ID="pgfId-1055422"></A>
+xdmp:document-add-permissions(&quot;/example.xml&quot;, 
+&#160;&#160;(xdmp:permission(&quot;app-user&quot;, &quot;read&quot;), 
+&#160;&#160;&#160;xdmp:permission(&quot;app-builder&quot;, &quot;update&quot;)))</Code>
+<Body>
+<A ID="pgfId-1055376"></A>
+For your applications, you should come up with a security policy then add the appropriate permissions to the documents in your database to implement that security policy.</Body>
+<Body>
+<A ID="pgfId-1055387"></A>
+For more details on permissions, see <A href="../security/permissions.xml#id(20759)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Permissions on Documents</Hyperlink>
+</A> in the <Emphasis>
+Understanding and Using Security Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1055296"></A>
+<A ID="45747"></A>
+Adding Other Roles or Modifying the app-user Role or to Meet Your Requirements</Heading-2>
+<Body>
+<A ID="pgfId-1054694"></A>
+For the applications that Application Builder generates, the <code>
+app-user</code>
+ role provides sufficient privileges for any user to run the application. If you modify the application to perform other actions, however, you might need to provide users additional privileges. There are two basic techniques for providing additional privileges to your users: adding another role with the privileges and assigning that role to the application user, or modifying the existing <code>
+app-user</code>
+ role.</Body>
+<Body>
+<A ID="pgfId-1055533"></A>
+Depending on what your requirements are, it might make sense to add those privileges to another role and then grant that role to your users. This is the safer technique, as it leaves the <code>
+app-user</code>
+ role intact and will not affect future applications you might create with Application Builder. </Body>
+<Body>
+<A ID="pgfId-1055546"></A>
+In some cases, if you are comfortable about the implications, it might make sense to modify the <code>
+app-user</code>
+ role by adding other permissions to it. If you do modify the <code>
+app-user</code>
+ role, use caution, as that role is used by all applications Application Builder generates.</Body>
+</XML>

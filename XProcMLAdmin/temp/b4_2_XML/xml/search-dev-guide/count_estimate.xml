@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="count_estimate.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1043425"></A>
+<A ID="49739"></A>
+Using fn:count vs. xdmp:estimate</Heading-1>
+<pagenum>
+<A ID="pgfId-1043938"></A>
+134</pagenum>
+<Body>
+<A ID="pgfId-1043763"></A>
+This chapter descibes some of the differences between the <code>
+fn:count</code>
+ and <code>
+xdmp:estimate</code>
+ functions, and includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1043764"></A>
+<A href="count_estimate.xml#id(35337)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+fn:count is Accurate, xdmp:estimate is Fast</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1043772"></A>
+<A href="count_estimate.xml#id(19456)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+The xdmp:estimate Built-In Function</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1048337"></A>
+<A href="count_estimate.xml#id(71229)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Using cts:remainder to Estimate the Size of a Search</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1043777"></A>
+<A href="count_estimate.xml#id(63216)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+When to Use xdmp:estimate</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1043427"></A>
+<A ID="35337"></A>
+fn:count is Accurate, xdmp:estimate is Fast</Heading-2>
+<Body>
+<A ID="pgfId-1043428"></A>
+The XQuery language provides general support for counting the number of items in a sequence through the use of the <code>
+fn:count</code>
+ function.  However, the general-purpose nature of <code>
+fn:count</code>
+ makes it difficult to optimize.  Sequences to be counted can include arbitrarily complex combinations of sequences stored in the database, constructed dynamically, filtered after retrieval or construction, etc.  In most cases, MarkLogic Server must process the sequence in order to count it.  This can have significant I/O requirements that would impact performance.</Body>
+<Body>
+<A ID="pgfId-1043429"></A>
+MarkLogic Server provides the <code>
+xdmp:estimate</code>
+ XQuery built-in as an efficient way to approximate <code>
+fn:count</code>
+.  Unlike <code>
+fn:count</code>
+, which frequently must process its answer by inspecting the data directly (hence the heavy I/O loads), <code>
+xdmp:estimate</code>
+ computes its answer directly from indexes.  In certain situations, the index-derived value will be identical to the value returned by <code>
+fn:count</code>
+.  In others, the values differ to a varying degree depending on the specified sequence and the data.  In instances where <code>
+xdmp:estimate</code>
+ is not able to return a fast estimate, it will throw an error.  Hence, you can depend on <code>
+xdmp:estimate</code>
+ to be fast, just as you can depend on <code>
+fn:count</code>
+ to be accurate.</Body>
+<Body>
+<A ID="pgfId-1043430"></A>
+Effectively, <code>
+xdmp:estimate</code>
+ puts the decision to optimize counting through use of the indexes in the hands of the developer.  </Body>
+<Heading-2>
+<A ID="pgfId-1043431"></A>
+<A ID="19456"></A>
+The xdmp:estimate Built-In Function</Heading-2>
+<Body>
+<A ID="pgfId-1043432"></A>
+<code>
+xdmp:estimate</code>
+ accepts searchable XPath expressions as its parameter and returns an approximation of the number of items in the sequence:</Body>
+<Code>
+<A ID="pgfId-1047537"></A>
+xdmp:estimate(/book)
+xdmp:estimate(//titlepage[cts:contains(., &quot;primer&quot;)])
+xdmp:estimate(cts:search(//titlepage, cts:word-query(&quot;primer&quot;)))
+xdmp:estimate(/object[.//id = &quot;57483&quot;])</Code>
+<Body>
+<A ID="pgfId-1043437"></A>
+<code>
+xdmp:estimate</code>
+ does not always return the same value as <code>
+fn:count</code>
+. The <code>
+fn:count</code>
+ function returns the exact number of items in the sequence that is provided as a parameter. In contrast, <code>
+xdmp:estimate</code>
+ provides an answer based on the following rules:</Body>
+<Number1>
+<A ID="pgfId-1043438"></A>
+If the parameter passed to <code>
+xdmp:estimate</code>
+ is a searchable XPath expression, <code>
+xdmp:estimate</code>
+ returns the number of fragments that it will select from the database for post-filtering.  This number is computed directly from the indexes at extremely high performance.  It may, however, differ from the actual <code>
+fn:count</code>
+ of the sequence specified if either (a) there are multiple matching items within a single fragment or (b) there are fragments provisionally selected by the indexes that do not actually contain a matching item.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1043439"></A>
+If the parameter passed to <code>
+xdmp:estimate</code>
+ is not a searchable XPath expression (that is, it is not an XPath rooted at a <code>
+doc</code>
+, <code>
+collection()</code>
+, or <code>
+input()</code>
+ function, or a / or // step), <code>
+xdmp:estimate</code>
+ will throw an error.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1043440"></A>
+<code>
+xdmp:estimate</code>
+ is defined in this way to ensure a sharp contrast against the <code>
+fn:count</code>
+ function.  <code>
+xdmp:estimate</code>
+ will always execute quickly.  <code>
+fn:count</code>
+ will always return the 'correct' answer.  Over time, as MarkLogic improves the server's underlying optimization capability, there will be an increasing number of scenarios in which <code>
+fn:count</code>
+ is both correct and fast. But for the moment, we put the decision about which approach to take in the developer's hands.</EndList-root>
+<Heading-2>
+<A ID="pgfId-1043442"></A>
+<A ID="71229"></A>
+Using cts:remainder to Estimate the Size of a Search</Heading-2>
+<Body>
+<A ID="pgfId-1048336"></A>
+For times when you need both an estimate of the search size and need to actually run the search as part of the same query statement, you can use the <code>
+cts:remainder</code>
+ function to estimate the size of the search. Running <code>
+cts:remainder</code>
+ on a search and the search is more efficient that running <code>
+xdmp:estimate</code>
+ on a search and the search. If you just need the estimate, but not the actual search results, then <code>
+xdmp:estimate</code>
+ is more efficient. </Body>
+<Body>
+<A ID="pgfId-1048350"></A>
+<code>
+cts:remainder</code>
+ returns the number of nodes remaining from a particular node of a search result set. When you run it on the first node, it returns the same result as <code>
+xdmp:estimate</code>
+ on the search. <code>
+cts:remainder</code>
+ also has the flexibility to return the estimated results of a search starting with any item in the search (for example, how many results remain after the 500th search item), and it does this in an efficient way. </Body>
+<Body>
+<A ID="pgfId-1048360"></A>
+Like <code>
+xdmp:estimate</code>
+, <code>
+cts:remainder</code>
+ uses the indexes to find the <Emphasis>
+approximate</Emphasis>
+ results based on unfiltered results. For an explanation of unfiltered results, see 'Using Unfiltered Searches for Fast Pagination' in the <Emphasis>
+Query Performance and Tuning Guide</Emphasis>
+. For the syntax and examples of <code>
+cts:remainder</code>
+, see the <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1048335"></A>
+<A ID="63216"></A>
+When to Use xdmp:estimate</Heading-2>
+<Body>
+<A ID="pgfId-1043443"></A>
+MarkLogic Server uses its indexes to <Emphasis>
+approximate</Emphasis>
+ the identification of XML fragments that may contain constructs that matches the specified XPath.  This set of fragments is then filtered to determine the exact nodes to return for further processing.</Body>
+<Body>
+<A ID="pgfId-1043444"></A>
+For searchable XPath expressions, <code>
+xdmp:estimate</code>
+ returns the number of fragments selected in the first approximation step described above.  Because this operation is carried out directly from indexes, the operation is virtually instantaneous.  However, there are two scenarios in which this approximation will not match the results that would be returned by <code>
+fn:count</code>
+:</Body>
+<Number1>
+<A ID="pgfId-1043445"></A>
+If a fragment contains more than one matching item for the XPath specified, <code>
+xdmp:estimate</code>
+ will <Emphasis>
+undercount</Emphasis>
+ these items as a single item whereas <code>
+fn:count</code>
+ would count them individually.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1043446"></A>
+In addition, it is possible to <Emphasis>
+overcount</Emphasis>
+.  Index optimization sometimes must over-select in order to ensure that no matching item is missed.  During general query processing, these over-selected fragments are discarded in the second-stage filtering process.  But <code>
+xdmp:estimate</code>
+ will count these fragments as matching items whereas <code>
+fn:count</code>
+ would exclude them.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1043447"></A>
+Consider the sample query outlined below.  The first step in the optimization algorithm outlined above is illustrated by the <code>
+xdmp:query-trace</code>
+ output shown after the query:</EndList-root>
+<Body>
+<A ID="pgfId-1047553"></A>
+Query:</Body>
+<Code>
+<A ID="pgfId-1047554"></A>
+/MedlineCitationSet/MedlineCitation//Author[LastName=&quot;Smith&quot;])</Code>
+<Body>
+<A ID="pgfId-1047555"></A>
+Query trace output:</Body>
+<Code>
+<A ID="pgfId-1047556"></A>
+2004-04-06 17:49:39 Info: eval line 5: Analyzing path: fn:doc()/child::MedlineCitationSet/child::MedlineCitation/
+descendant::Author[child::LastName = &quot;Smith&quot;]
+2004-04-06 17:49:39 Info: eval line 5: Step 1 is searchable: fn:doc()
+2004-04-06 17:49:39 Info: eval line 4: Step 2 axis does not use indexes:child
+2004-04-06 17:49:39 Info: eval line 4: Step 2 test is searchable: MedlineCitationSet
+2004-04-06 17:49:39 Info: eval line 5: Step 2 is searchable: child::MedlineCitationSet
+2004-04-06 17:49:39 Info: eval line 4: Step 3 axis does not use indexes:child
+2004-04-06 17:49:39 Info: eval line 4: Step 3 test is searchable: MedlineCitation
+2004-04-06 17:49:39 Info: eval line 5: Step 3 is searchable: child::MedlineCitation
+2004-04-06 17:49:39 Info: eval line 5: Step 4 axis does not use indexes:descendant
+2004-04-06 17:49:39 Info: eval line 5: Step 4 test is searchable: Author
+2004-04-06 17:49:39 Info: eval line 5: Step 4 predicate 1 is searchable:
+child::LastName = &quot;Smith&quot;
+2004-04-06 17:49:39 Info: eval line 5: Step 4 is searchable: descendant::Author[child::LastName = &quot;Smith&quot;]
+2004-04-06 17:49:39 Info: eval line 5: Path is searchable.
+2004-04-06 17:49:39 Info: eval line 5: Gathering constraints.
+2004-04-06 17:49:39 Info: eval line 4: Step 2 test contributed 1 constraint: MedlineCitationSet
+2004-04-06 17:49:39 Info: eval line 4: Step 3 test contributed 2 constraints: MedlineCitation
+2004-04-06 17:49:39 Info: eval line 5: Step 4 test contributed 1 constraint: Author
+2004-04-06 17:49:39 Info: eval line 4: Comparison contributed hash value constraint: LastName = &quot;Smith&quot;
+2004-04-06 17:49:39 Info: eval line 5: Step 4 predicate 1 contributed 1 constraint: child::LastName = &quot;Smith&quot;
+2004-04-06 17:49:39 Info: eval line 5: Executing search.
+2004-04-06 17:49:39 Info: eval line 5: Selected 263 fragments to filter</Code>
+<Body>
+<A ID="pgfId-1043472"></A>
+In this scenario, applying <code>
+fn:count</code>
+ to the XPath provided would tell us that there are 271 authors with a last name of &quot;Smith&quot; in the database.  Using <code>
+xdmp:estimate</code>
+ yields an answer of 263. In this example, <code>
+xdmp:estimate</code>
+ undercounted because there are fragments with multiple authors named &quot;Smith&quot; in the database, and xdmp:estimate only counts the number of fragments.</Body>
+<Body>
+<A ID="pgfId-1043473"></A>
+Understanding when these situations will occur with a given database and dataset requires an in-depth understanding of the optimizer. Given that the optimizer evolves with every release of the server, this is a daunting task.</Body>
+<Body>
+<A ID="pgfId-1043474"></A>
+The following three sets of guidelines will help you know when and how to use <code>
+xdmp:estimate</code>
+:</Body>
+<Body-bullet>
+<A ID="pgfId-1047590"></A>
+<A href="count_estimate.xml#id(17291)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+When Estimates Are Good Enough</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1047598"></A>
+<A href="count_estimate.xml#id(33659)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+When XPaths Meet The Right Criteria</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1047603"></A>
+<A href="count_estimate.xml#id(43498)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+When Empirical Tests Demonstrate Correctness</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1043475"></A>
+<A ID="17291"></A>
+When Estimates Are Good Enough</Heading-3>
+<Body>
+<A ID="pgfId-1043476"></A>
+In some situations, an estimate of the correct answer is good enough.  Many search engines use this approach today, only estimating the total number of &quot;hits&quot; when displaying the first twenty results to the user.  In scenarios in which the exact count is not important,  it makes sense to use <code>
+xdmp:estimate</code>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1043477"></A>
+<A ID="33659"></A>
+When XPaths Meet The Right Criteria</Heading-3>
+<Body>
+<A ID="pgfId-1043478"></A>
+If you need to get the precise answer rather than just an approximation, there are some simple criteria to keep in mind if you want to use <code>
+xdmp:estimate</code>
+ for its performance benefits:</Body>
+<Number1>
+<A ID="pgfId-1043479"></A>
+Counting nodes that are either fragment or document roots will always return the correct result.</Number1>
+<Body-indent>
+<A ID="pgfId-1043480"></A>
+Examples:</Body-indent>
+<Code>
+<A ID="pgfId-1043916"></A>
+<code>
+xdmp:estimate(/node-name)</code>
+ is equivalent to <code>
+count(/node-name)</code>
+</Code>
+<Code>
+<A ID="pgfId-1043917"></A>
+<code>
+xdmp:estimate(//MedlineCitation)</code>
+ is equivalent to <code>
+count(//MedlineCitation)</code>
+</Code>
+<Body-indent>
+<A ID="pgfId-1043483"></A>
+if <code>
+MedlineCitation</code>
+ is a fragment-root.  For example, this constraint is how the sample Medline application is configured in the sample code on <code>
+http://support.marklogic.com</code>
+.</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1043484"></A>
+If a single fragment can contain more than one element that matches a predicate, you have the potential for undercounting.  Assume that the sample data below resides in a single fragment:</Number>
+</NumberList>
+<Code>
+<A ID="pgfId-1047610"></A>
+&lt;authors&gt;
+  &lt;author&gt;
+    &lt;last-name&gt;Smith&lt;/last-name&gt;
+    &lt;first-name&gt;Alison&lt;/first-name&gt;
+  &lt;/author&gt;
+  &lt;author&gt;
+    &lt;last-name&gt;Smith&lt;/last-name&gt;
+    &lt;first-name&gt;James&lt;/first-name&gt;
+  &lt;/author&gt;
+  &lt;author&gt;
+    &lt;last-name&gt;Peterson&lt;/last-name&gt;
+    &lt;first-name&gt;David&lt;/first-name&gt;
+  &lt;/author&gt;
+&lt;/authors&gt;</Code>
+<Body-indent>
+<A ID="pgfId-1043486"></A>
+In this case, an XPath which specifies <code>
+fn:doc()//author[last-name = &quot;Smith&quot;]</code>
+ will <Emphasis>
+undercount</Emphasis>
+, counting only one item for the two matches in the above sample data.</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1043487"></A>
+If the XPath contains multiple predicates, you have the potential of overcounting.  Using the sample data above, an XPath which specifies <code>
+fn:doc()//author[last-name = &quot;Smith&quot;][first-name = &quot;David&quot;]</code>
+ will not have any matches.  However, since the above fragment contains author elements that satisfy the predicates <code>
+[last-name = &quot;Smith&quot;]</code>
+ and <code>
+[first-name = &quot;David&quot;]</code>
+ individually, it will be selected for post-filtering.  In this case, <code>
+xdmp:estimate</code>
+ will consider the above fragment a match and overcount.</Number>
+</NumberList>
+<Heading-3>
+<A ID="pgfId-1043488"></A>
+<A ID="43498"></A>
+When Empirical Tests Demonstrate Correctness</Heading-3>
+<Body>
+<A ID="pgfId-1043489"></A>
+As a last step, you can use two techniques to understand the value that will be returned by <code>
+xdmp:estimate</code>
+:</Body>
+<Number1>
+<A ID="pgfId-1043490"></A>
+At development time, use <code>
+xdmp:estimate</code>
+ and <code>
+fn:count</code>
+ to count the same sequence and see if the results are different for datasets which exhibit all the structural variation you expect in your production dataset.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1043491"></A>
+Turn on <code>
+xdmp:query-trace</code>
+, evaluate the XPath sequence that you wish to use with <code>
+xdmp:estimate</code>
+, and inspect the query-trace output in the log file. This output will tell you how much of the XPath was searchable, how many fragments were selected (this is the answer that <code>
+xdmp:estimate</code>
+ will provide), and how many ultimately matched (this is the answer that <code>
+fn:count</code>
+ will provide).</Number>
+</NumberList>
+</XML>

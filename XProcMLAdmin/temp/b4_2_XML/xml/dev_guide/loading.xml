@@ -1,0 +1,748 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="loading.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1044208"></A>
+<A ID="46976"></A>
+Loading Documents into the Database</Heading-1>
+<pagenum>
+<A ID="pgfId-1045136"></A>
+58</pagenum>
+<Body>
+<A ID="pgfId-1044209"></A>
+This section describes how to load XML files, binary files (BLOBs), and character text files (CLOBs) into the database using a variety of techniques, including using built-in XQuery functions and using a WebDAV client. The following topics are included:</Body>
+<Body-bullet>
+<A ID="pgfId-1044457"></A>
+<A href="loading.xml#id(89015)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Document Formats</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044465"></A>
+<A href="loading.xml#id(98787)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Setting Formats During Loading</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044470"></A>
+<A href="loading.xml#id(45973)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Built-In Document Loading Functions</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044475"></A>
+<A href="loading.xml#id(24146)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Specifying a Forest in Which to Load a Document</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053561"></A>
+<A href="loading.xml#id(44534)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Specifying Encoding and Language During Loads</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053172"></A>
+<A href="loading.xml#id(19846)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Understanding the Locking and Journaling Database Settings for Bulk Loads</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044480"></A>
+<A href="loading.xml#id(50845)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Using WebDAV to Load Documents</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044523"></A>
+<A href="loading.xml#id(86350)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Permissions on Documents</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1044210"></A>
+<A ID="89015"></A>
+Document Formats</Heading-2>
+<Body>
+<A ID="pgfId-1044211"></A>
+Every document in a MarkLogic Server database has a <Emphasis>
+format</Emphasis>
+ associated with it. The format is based on the root node of the document, and is one of the following types:</Body>
+<Body-bullet>
+<A ID="pgfId-1044215"></A>
+<A href="loading.xml#id(33599)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+XML Format</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044219"></A>
+<A href="loading.xml#id(73867)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Binary (BLOB) Format</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044223"></A>
+<A href="loading.xml#id(79843)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Text (CLOB) Format</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1044224"></A>
+Once a document has been loaded as a particular format, you cannot change the format unless you replace the root node of the document with one of a different format. You can accomplish this in a number of ways, including reloading the document specifying a different format, deleting the document and then loading it again with the same URI, or replacing the root node with one of a different format.</Body>
+<Note>
+<A ID="pgfId-1045036"></A>
+Documents loaded into a MarkLogic Server database in XML or text format are always stored in UTF-8 encoding. Documents loaded in MarkLogic Server must either be in UTF-8 or you can specify the encoding of the document during loading in the load API (for example, use the <code>
+&lt;encoding&gt;</code>
+ option to xdmp:document-load). For details about encodings, see <A href="../search-dev-guide/encodings_collations.xml#id(40505)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Encodings and Collations</Hyperlink>
+</A> in the <Emphasis>
+Search Developer's Guide</Emphasis>
+.</Note>
+<Heading-3>
+<A ID="pgfId-1044226"></A>
+<A ID="33599"></A>
+XML Format</Heading-3>
+<Body>
+<A ID="pgfId-1044227"></A>
+Documents loaded with XML format have special characteristics that allow you to do more with them. For example, you can use XPath expressions to search through to particular parts of the document and you can use the whole range of <code>
+cts:query</code>
+ constructors to to fine-grained search, including element-level search. </Body>
+<Body>
+<A ID="pgfId-1044228"></A>
+XML documents are indexed when they are loaded. The indexing speeds up query response time. The type of indexing is determined by the options set in the database to which the document is loaded. You can fragment XML documents by various elements in the XML, allowing you to load extremely large XML documents. The maximum size of a single XML fragment is 128 MB for 32-bit machines, 512 MB for 64-bit machines. For more details about fragmenting documents, see the <Emphasis>
+Administrator's Guide</Emphasis>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1044230"></A>
+<A ID="73867"></A>
+Binary (BLOB) Format</Heading-3>
+<Body>
+<A ID="pgfId-1044231"></A>
+Binary large object (BLOB) documents are loaded into the database as binary nodes. Each binary document is a single node with no children. Binary documents are typically not textual in nature and require another application to read them. Some typical binary documents are image files (for example, <code>
+.gif</code>
+, <code>
+.jpg</code>
+), Microsoft Word <code>
+.doc</code>
+ files, executable program file, and so on.</Body>
+<Body>
+<A ID="pgfId-1044705"></A>
+For 32-bit machines, binary documents have a 128 MB size limit. For 64-bit machines, binary documents have a 512 MB size limit. The in memory tree size limit database property (on the database configuration screen in the Admin Interface) should be at least 1 or 2 megabytes larger than the largest binary document you plan on loading into the database.</Body>
+<Body>
+<A ID="pgfId-1044232"></A>
+Binary documents are not indexed when they are loaded. </Body>
+<Heading-3>
+<A ID="pgfId-1044234"></A>
+<A ID="79843"></A>
+Text (CLOB) Format</Heading-3>
+<Body>
+<A ID="pgfId-1044235"></A>
+Character large object (CLOB) documents, or <Emphasis>
+text</Emphasis>
+ documents, are loaded into the database as text nodes. Each text document is a single node with no children. Unlike binary documents, text documents are textual in nature, and you can therefore perform text searches on them. Because text documents only have a single node, however, you cannot navigate through the document structure using XPath expressions like you can with XML documents.</Body>
+<Body>
+<A ID="pgfId-1044570"></A>
+Some typical text documents are simple text files (<code>
+.txt</code>
+), source code files (<code>
+.cpp</code>
+, <code>
+.java</code>
+, and so on), non well-formed HTML files, or any non-XML text file.</Body>
+<Body>
+<A ID="pgfId-1044715"></A>
+For 32-bit machines, text documents have an 16 MB size limit. For 64-bit machines, text documents have a 64 MB size limit. The <code>
+in memory tree size</code>
+ limit database property (on the database configuration screen in the Admin Interface) should be at least 1 or 2 megabytes larger than the largest text document you plan on loading into the database.</Body>
+<Body>
+<A ID="pgfId-1044236"></A>
+The text indexing settings in the database apply to text documents (as well as XML documents), and the indexes are created when the text document is loaded.</Body>
+<Heading-2>
+<A ID="pgfId-1044237"></A>
+<A ID="98787"></A>
+Setting Formats During Loading </Heading-2>
+<Body>
+<A ID="pgfId-1044238"></A>
+Whenever a document is loaded into a database, it is loaded as one of the three formats: XML, binary, or text. The format is determined in the following ways:</Body>
+<Body-bullet>
+<A ID="pgfId-1044298"></A>
+<A href="loading.xml#id(21926)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Implicitly Setting the Format Based on the Mimetype</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1045104"></A>
+<A href="loading.xml#id(22111)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Explicitly Setting the Format with xdmp:document-load</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049317"></A>
+<A href="loading.xml#id(35839)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Determining the Format of a Document</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1044239"></A>
+<A ID="21926"></A>
+Implicitly Setting the Format Based on the Mimetype</Heading-3>
+<Body>
+<A ID="pgfId-1044240"></A>
+Unless the format is explicitly set in the <code>
+xdmp:document-load</code>
+ command, the format of a document is determined based on the mimetype that corresponds to the URI extension of the new document. The URI extension mimetypes, along with their default formats, are set in the Mimetypes section of the Admin Interface. For example, with the default mimetype settings, documents loaded with the <code>
+xml</code>
+ URI extension are loaded as XML files; therefore loading a document with a URI <code>
+http://marklogic.com/file.xml</code>
+ will result in loading an XML document.</Body>
+<Body>
+<A ID="pgfId-1044584"></A>
+You can also use the Mimetypes section of the Admin Interface to modify any of the default content setting, create new mimetypes, or add new extensions and associate a format. For example, if you know that all of your HTML files are well-formed (or clean up nicely with content repair), you might want to change the default content loading type of URIs ending with <code>
+.html</code>
+ and <code>
+.htm</code>
+ to XML.</Body>
+<Heading-3>
+<A ID="pgfId-1045091"></A>
+<A ID="22111"></A>
+Explicitly Setting the Format with xdmp:document-load</Heading-3>
+<Body>
+<A ID="pgfId-1045092"></A>
+When you load a document, you can explicitly set the format with on optional argument to the <code>
+xdmp:document-load</code>
+ function. Explicitly setting the format overrides the default settings specified in the Admin Interface mimetypes configuration screen. For example, HTML files have a default format of text, but you might have some HTML files that you know are well-formed, and can therefore be loaded as XML. </Body>
+<Note>
+<A ID="pgfId-1045093"></A>
+It is a good practice to explicitly set the format in the <code>
+xdmp:document-load</code>
+ function rather than relying on implicit format settings based on the MIME types. When you explicitly set the format, you always know for certain the format in which a document is loaded into the database, eliminating any surprises for a document that you might want in one format but have MIME type extensions which result in the document loading in a different format.</Note>
+<Body>
+<A ID="pgfId-1045094"></A>
+The following example shows a load function which explicitly sets the document type to XML:</Body>
+<Code>
+<A ID="pgfId-1045095"></A>
+xdmp:document-load(&quot;c:\myFiles\file.html&quot;, 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;options xmlns=&quot;xdmp:document-load&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;uri&gt;http://myCompany.com/file.html&lt;/uri&gt; 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;permissions&gt;{xdmp:default-permissions()}&lt;/permissions&gt; 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;collections&gt;{xdmp:default-collections()}&lt;/collections&gt; 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;format&gt;xml&lt;/format&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/options&gt;)</Code>
+<Body>
+<A ID="pgfId-1045115"></A>
+There are similar ways to explicitly set the format when loading documents using the XDBC libraries. For details, see the XDBC javadoc or the .NET XDBC API documentation.</Body>
+<Heading-3>
+<A ID="pgfId-1049302"></A>
+<A ID="35839"></A>
+Determining the Format of a Document</Heading-3>
+<Body>
+<A ID="pgfId-1049303"></A>
+After a document is loaded into a database, you cannot necessarily determine by its URI if it is an XML, text, or binary document (for example, a document could have been loaded as XML even if it has a URI that ends in <code>
+.txt</code>
+). To determine the format of a document in a database, you must do a node test on the root node of the document. XQuery includes node tests to determine if a node is text (<code>
+text()</code>
+) or if a node is an XML element (<code>
+element()</code>
+). MarkLogic Server has added a node test extension to XQuery to determine if a node is binary (<code>
+binary()</code>
+).</Body>
+<Body>
+<A ID="pgfId-1049323"></A>
+The following code sample shows how you can use a typeswitch to determine the format of a document.</Body>
+<Code>
+<A ID="pgfId-1049304"></A>
+(: Substitute in the URI of the document you want to test :)
+let $x:= doc(&quot;/my/uri.xml&quot;)/node()
+return
+typeswitch ( $x )
+ case element() return &quot;xml element node&quot;
+ case text() return &quot;text node&quot;
+ case binary() return &quot;binary node&quot;
+default return &quot;don't know&quot;</Code>
+<Heading-2>
+<A ID="pgfId-1044243"></A>
+<A ID="45973"></A>
+Built-In Document Loading Functions</Heading-2>
+<Body>
+<A ID="pgfId-1044244"></A>
+The <code>
+xdmp:document-load</code>
+, <code>
+xdmp:document-insert</code>
+, and <code>
+xdmp:document-get</code>
+ functions can all be used as part of loading documents into a database. The <code>
+xdmp:document-load</code>
+ function allows you to load documents from the filesystem into the database. The <code>
+xdmp:document-insert</code>
+ function allows you to insert an existing node into a document (either a new or an existing document). The <code>
+xdmp:document-get</code>
+ function loads a document from disk into memory. If you are loading a new document, the combination of <code>
+xdmp:get</code>
+ and <code>
+xdmp:document-insert</code>
+ is equivalent to <code>
+xdmp:document-load</code>
+ of a new document.</Body>
+<Note>
+<A ID="pgfId-1048724"></A>
+The version 2.x <code>
+xdmp:load</code>
+ and <code>
+xdmp:get</code>
+ functions are deprecated in the current version of MarkLogic Server; in their place, use the <code>
+xdmp:document-load</code>
+ and <code>
+xdmp:document-get</code>
+ functions.</Note>
+<Body>
+<A ID="pgfId-1044245"></A>
+The basic syntax of <code>
+xdmp:document-load</code>
+ is as follows:</Body>
+<Code>
+<A ID="pgfId-1044246"></A>
+xdmp:document-load(
+&#160;&#160;&#160;$location as xs:string,
+&#160;&#160;&#160;[$options as node()]
+) as empty-sequence()</Code>
+<Body>
+<A ID="pgfId-1044247"></A>
+The basic syntax of <code>
+xdmp:document-insert</code>
+ is as follows:</Body>
+<Code>
+<A ID="pgfId-1044248"></A>
+xdmp:document-insert(
+&#160;&#160;&#160;$uri as xs:string],
+&#160;&#160;&#160;$root as node()
+&#160;&#160;&#160;[$permissions as element(sec:permission)*],
+&#160;&#160;&#160;[$collections as xs:string*],
+&#160;&#160;&#160;[$quality as xs:integer],
+&#160;&#160;&#160;[$forest-ids as xs:unsignedLong*]
+) as empty-sequence()</Code>
+<Body>
+<A ID="pgfId-1044249"></A>
+The basic syntax of <code>
+xdmp:document-get</code>
+ is as follows:</Body>
+<Code>
+<A ID="pgfId-1044250"></A>
+xdmp:document-get(
+&#160;&#160;&#160;$location as xs:string],
+&#160;&#160;&#160;[$options as node()]
+) as xs:node()</Code>
+<Body>
+<A ID="pgfId-1044251"></A>
+See the online XQuery Built-In and Module Function Reference for a more detailed syntax description.</Body>
+<Heading-2>
+<A ID="pgfId-1044252"></A>
+<A ID="24146"></A>
+Specifying a Forest in Which to Load a Document</Heading-2>
+<Body>
+<A ID="pgfId-1044253"></A>
+When loading a document, you can use the <code>
+&lt;forests&gt;</code>
+ node in an options node for <code>
+xdmp:document-load</code>
+, or the <code>
+$forest-id</code>
+ argument to <code>
+xdmp:document-insert</code>
+ (the sixth argument) to specify one or more forests to which the document is loaded. Specifying multiple forest IDs loads the document into one of the forests specified; the system decides which one of the specified forests to load the document. Once the document is loaded into a forest, it stays in that forest unless you delete the document, reload it specifying a different forest, or clear the forest.</Body>
+<Note>
+<A ID="pgfId-1044254"></A>
+In order to load a document into a forest, the forest must exist and be attached to the database into which you are loading. Attempting to load a document into a forest that does not belong to the context database will throw an exception. </Note>
+<Heading-3>
+<A ID="pgfId-1044255"></A>
+Advantages of Specifying a Forest</Heading-3>
+<Body>
+<A ID="pgfId-1044256"></A>
+Because backup operations are performed at either the database or the forest level, loading a set of documents into specific forests allows you to effectively perform backup operations on that set of documents (by backing up the database or forest, for example). </Body>
+<Body>
+<A ID="pgfId-1044257"></A>
+Specifying a forest also allows you to have more control over the filesystems in which the documents reside.  Each forest configuration includes a directory where the files are stored. By specifying the forest in which a document resides, you can control the directories (and in turn, the filesystems) in which the documents are stored. For example, you might want to place large, frequently accessed documents in a forest which resides on a RAID filesystem with complete failover and redundancy, whereas you might want to place documents which are small and rarely accessed in a forest which resides in a slower (and less expensive) filesystem.</Body>
+<Note>
+<A ID="pgfId-1044785"></A>
+Once a document is loaded into a forest, you cannot move it to another forest. If you want to change the forest in which a document resides, you must reload the document and specify another forest.</Note>
+<Heading-3>
+<A ID="pgfId-1044258"></A>
+Example: Examining a Document to Decide Which Forest to Specify</Heading-3>
+<Body>
+<A ID="pgfId-1044259"></A>
+You can use the <code>
+xdmp:document-get</code>
+ function to a load a document into memory. One use for loading a document into memory is the ability to perform some processing or logic on the document before you load the document onto disk.</Body>
+<Body>
+<A ID="pgfId-1044260"></A>
+For example, if you want to make a decision about which forest to load a document into based on the document contents, you can put some simple logic in your load script as follows:</Body>
+<Code>
+<A ID="pgfId-1044261"></A>
+let $memoryDoc := xdmp:document-get(&quot;c:\myFiles\newDocument.xml&quot;)
+let $forest :=
+&#160;&#160;&#160;&#160;&#160;if( $memoryDoc//ID gt &quot;1000000&quot; )
+&#160;&#160;&#160;&#160;&#160;then xdmp:forest(&quot;LargeID&quot;)
+&#160;&#160;&#160;&#160;&#160;else xdmp:forest(&quot;SmallID&quot;)
+return
+&#160;&#160;&#160;&#160;&#160;xdmp:document-insert(&quot;/myCompany/newDocument.xml&quot;, 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$memoryDoc,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;xdmp:default-permissions(), 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;xdmp:default-collections(), 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;0,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$forest)</Code>
+<Body>
+<A ID="pgfId-1044262"></A>
+This code loads the document <code>
+newDocument.xml</code>
+ into memory, finds the <code>
+ID</code>
+ element in the in-memory document, and then inserts the node into the forest named <code>
+LargeID</code>
+ if the <code>
+ID</code>
+ is greater than 1,000,000, or inserts the node into the forest named <code>
+SmallID</code>
+ if the <code>
+ID</code>
+ is less than 1,000,000.</Body>
+<Heading-3>
+<A ID="pgfId-1044263"></A>
+More Examples</Heading-3>
+<Body>
+<A ID="pgfId-1044264"></A>
+The following command will load the document into the forest named <code>
+myForest</code>
+:</Body>
+<Code>
+<A ID="pgfId-1044265"></A>
+xdmp:document-load(&quot;c:\myFile.xml&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;options xmlns=&quot;xdmp:document-load&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;uri&gt;/myDocs/myDocument.xml&lt;/uri&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;permissions&gt;{xdmp:default-permissions()}&lt;/permissions&gt; 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;collections&gt;{xdmp:default-collections()}&lt;/collections&gt; 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;repair&gt;full&lt;/repair&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;forests&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;forest&gt;{xdmp:forest(&quot;myForest&quot;)}&lt;/forest&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/forests&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/options&gt; )</Code>
+<Body>
+<A ID="pgfId-1044266"></A>
+The following command will load the document into either the forest named <code>
+redwood</code>
+ or the forest named <code>
+aspen</code>
+:</Body>
+<Code>
+<A ID="pgfId-1044267"></A>
+xdmp:document-load(&quot;c:\myFile.xml&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;options xmlns=&quot;xdmp:document-load&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;uri&gt;/myDocs/myDocument.xml&lt;/uri&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;permissions&gt;{xdmp:default-permissions()}&lt;/permissions&gt; 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;collections&gt;{xdmp:default-collections()}&lt;/collections&gt; 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;repair&gt;full&lt;/repair&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;forests&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;forest&gt;{xdmp:forest(&quot;redwood&quot;)}&lt;/forest&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;forest&gt;{xdmp:forest(&quot;aspen&quot;)}&lt;/forest&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/forests&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/options&gt; )</Code>
+<Heading-2>
+<A ID="pgfId-1044268"></A>
+<A ID="44534"></A>
+Specifying Encoding and Language During Loads</Heading-2>
+<Body>
+<A ID="pgfId-1053579"></A>
+You can specify the encoding and default language while loading a document with <code>
+xdmp:document-load</code>
+. You can also automatically detect the encoding or manually detect the language using <code>
+xdmp:encoding-language-detect</code>
+. This section describes how to load documents with a specific encoding or language, and includes the following parts:</Body>
+<Body-bullet>
+<A ID="pgfId-1053586"></A>
+<A href="loading.xml#id(36848)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Specifying the Encoding Using xdmp:document-load</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053603"></A>
+<A href="loading.xml#id(69345)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Specifying the Default Language Using xdmp:document-load</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053717"></A>
+<A href="loading.xml#id(93952)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Automatically Detecting the Encoding Using xdmp:document-load</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053728"></A>
+<A href="loading.xml#id(47140)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Using xdmp:encoding-language-detect to Infer the Language and Encoding of a Node</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1053593"></A>
+For more information about languages, see <A href="../search-dev-guide/languages.xml#id(40505)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Language Support in MarkLogic Server</Hyperlink>
+</A> in the <Emphasis>
+Search Developer's Guide</Emphasis>
+. For more information about encodings, see <A href="../search-dev-guide/encodings_collations.xml#id(40505)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Encodings and Collations</Hyperlink>
+</A> in the <A href="../search-dev-guide/encodings_collations.xml#id(40505)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Encodings and Collations</Hyperlink>
+</A>.</Body>
+<Heading-3>
+<A ID="pgfId-1053629"></A>
+<A ID="36848"></A>
+Specifying the Encoding Using xdmp:document-load</Heading-3>
+<Body>
+<A ID="pgfId-1053639"></A>
+When you load a document with <code>
+xdmp:document-load</code>
+, you can specify the <code>
+&lt;encoding&gt;</code>
+ option if you know the encoding of the document you are loading. MarkLogic Server will then transcode the encoding to UTF-8 (because everything except binary document in MarkLogic Server is stored in UTF-8). </Body>
+<Body>
+<A ID="pgfId-1054155"></A>
+For example, the following will load the document using the ISO-8859-1 encoding, transcoding it to UTF-8 when it loads the document:</Body>
+<Code>
+<A ID="pgfId-1054183"></A>
+xdmp:document-load(&quot;c:/tmp/my-document.xml&quot;,
+  &lt;options xmlns=&quot;xdmp:document-load&quot;&gt;
+    &lt;uri&gt;/my-document.xml&lt;/uri&gt;
+    &lt;encoding&gt;ISO-8859-1&lt;/encoding&gt;
+  &lt;/options&gt;)</Code>
+<Body>
+<A ID="pgfId-1053751"></A>
+You can also specify the <code>
+&lt;encoding&gt;</code>
+ option for <code>
+xdmp:document-get</code>
+, <code>
+xdmp:zip-get</code>
+, and <code>
+xdmp:http:get</code>
+. For more details, see the <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+. For details on encodings, see <A href="../search-dev-guide/encodings_collations.xml#id(40505)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Encodings and Collations</Hyperlink>
+</A> in the <Emphasis>
+Search Developer's Guide</Emphasis>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1053664"></A>
+<A ID="69345"></A>
+Specifying the Default Language Using xdmp:document-load</Heading-3>
+<Body>
+<A ID="pgfId-1054225"></A>
+When you load a document with <code>
+xdmp:document-load</code>
+, you can specify the <code>
+&lt;default-language&gt;</code>
+ option if you know the language of the document you are loading. MarkLogic Server will then treat the document as if that is the default language. </Body>
+<Body>
+<A ID="pgfId-1054232"></A>
+For example, the following will load the document using French as the default languge:</Body>
+<Code>
+<A ID="pgfId-1054233"></A>
+xdmp:document-load(&quot;c:/tmp/my-document.xml&quot;,
+  &lt;options xmlns=&quot;xdmp:document-load&quot;&gt;
+    &lt;uri&gt;/my-document.xml&lt;/uri&gt;
+    &lt;default-language&gt;fr&lt;/default-language&gt;
+  &lt;/options&gt;)</Code>
+<Body>
+<A ID="pgfId-1053820"></A>
+If you have a license key for the French language option, it will tokenize any words in the document that do not have an <code>
+xml:lang</code>
+ set with French tokenization. Otherwise, it will use generic language tokenization, but it will still only match stemmed searches in French. For details on languages, see <A href="../search-dev-guide/languages.xml#id(40505)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Language Support in MarkLogic Server</Hyperlink>
+</A> in the <Emphasis>
+Search Developer's Guide</Emphasis>
+.</Body>
+<Body>
+<A ID="pgfId-1054482"></A>
+You can also specify the <code>
+&lt;default-language&gt;</code>
+ option for <code>
+xdmp:document-get</code>
+, <code>
+xdmp:zip-get</code>
+, and <code>
+xdmp:http:get</code>
+. For more details, see the <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+. </Body>
+<Heading-3>
+<A ID="pgfId-1053813"></A>
+<A ID="93952"></A>
+Automatically Detecting the Encoding Using xdmp:document-load</Heading-3>
+<Body>
+<A ID="pgfId-1053814"></A>
+When you load a document with <code>
+xdmp:document-load</code>
+, you can specify the <code>
+&lt;encoding&gt;auto&lt;/encoding&gt;</code>
+ option to have MarkLogic Server automatically detect the encoding. Encoding detection is not an exact science, as there are cases that can be ambiguous, but as long as your document is not too small, the encoding detection is fairly accurate. There are, however, cases where it might not get the encoding correct. The automatic encoding detection chooses an encoding equivalent to the first encoding returned by <code>
+xdmp:encoding-language-detect</code>
+ function. To specify automatic detection, load a document as in the following example:</Body>
+<Code>
+<A ID="pgfId-1054339"></A>
+xdmp:document-load(&quot;c:/tmp/my-document.xml&quot;,
+  &lt;options xmlns=&quot;xdmp:document-load&quot;&gt;
+    &lt;uri&gt;/my-document.xml&lt;/uri&gt;
+    &lt;encoding&gt;auto&lt;/encoding&gt;
+  &lt;/options&gt;)</Code>
+<Body>
+<A ID="pgfId-1054369"></A>
+You can also specify the <code>
+&lt;encoding&gt;auto&lt;/encoding&gt;</code>
+ option for <code>
+xdmp:document-get</code>
+, <code>
+xdmp:zip-get</code>
+, and <code>
+xdmp:http:get</code>
+. For more details, see the <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1053656"></A>
+<A ID="47140"></A>
+Using xdmp:encoding-language-detect to Infer the Language and Encoding of a Node</Heading-3>
+<Body>
+<A ID="pgfId-1053687"></A>
+If you do not want to rely on the automatic detection for the encoding or if you want to detect the language, you can use the <code>
+xdmp:encoding-language-detect</code>
+ function. The <code>
+xdmp:encoding-language-detect</code>
+ function returns XML elements, each of which specifies a possible encoding and language for the specified node. Each element also has a score, and the one with the highest score (the first element returned) has the most likely encoding and language. </Body>
+<Code>
+<A ID="pgfId-1053994"></A>
+xdmp:encoding-language-detect(
+&#160;&#160;xdmp:document-get(&quot;c:/tmp/session-login.css&quot;))
+=&gt;
+&lt;encoding-language xmlns=&quot;xdmp:encoding-language-detect&quot;&gt;
+  &lt;encoding&gt;utf-8&lt;/encoding&gt;
+  &lt;language&gt;en&lt;/language&gt;
+  &lt;score&gt;14.91&lt;/score&gt;
+&lt;/encoding-language&gt;
+&lt;encoding-language xmlns=&quot;xdmp:encoding-language-detect&quot;&gt;
+  &lt;encoding&gt;utf-8&lt;/encoding&gt;
+  &lt;language&gt;ro&lt;/language&gt;
+  &lt;score&gt;13.47&lt;/score&gt;
+&lt;/encoding-language&gt;
+&lt;encoding-language xmlns=&quot;xdmp:encoding-language-detect&quot;&gt;
+  &lt;encoding&gt;utf-8&lt;/encoding&gt;
+  &lt;language&gt;it&lt;/language&gt;
+  &lt;score&gt;12.84&lt;/score&gt;
+&lt;/encoding-language&gt;
+&lt;encoding-language xmlns=&quot;xdmp:encoding-language-detect&quot;&gt;
+  &lt;encoding&gt;utf-8&lt;/encoding&gt;
+  &lt;language&gt;fr&lt;/language&gt;
+  &lt;score&gt;12.71&lt;/score&gt;
+&lt;/encoding-language&gt;
+...</Code>
+<Body>
+<A ID="pgfId-1053925"></A>
+The encoding detection is typically fairly accurate when the score is greater than 10. The language detection tends to be less accurate, however, because it can be difficult to detect the difference between some languages. Because it gives you the raw data, you can use the output from <code>
+xdmp:encoding-language-detect</code>
+ with whatever logic you want to determine the language. For example, if you happen to know, based on your knowlege of the content, that the language is either Italian or Spanish, you can ignore entries for other languages.</Body>
+<Body>
+<A ID="pgfId-1053870"></A>
+Sometimes the language or the encoding of a block of text is ambiguous, therefore detecting languages and encodings is sometimes prone to error. As a rule, the larger the block of text, the higher the accuracy of the detection. If the size of the block of text you pass into xdmp:encoding-language-detect is more than a few paragraphs of text (several hundred bytes), then the detection is typically fairly accurate.</Body>
+<Heading-2>
+<A ID="pgfId-1053572"></A>
+<A ID="19846"></A>
+Understanding the Locking and Journaling Database Settings for Bulk Loads</Heading-2>
+<Body>
+<A ID="pgfId-1053190"></A>
+When you load content, MarkLogic Server performs updates transactionally, locking documents as needed and saving the content to disk in the journal before the transaction commits. By default, all documents are locked during an update and the journal is set to preserve committed transactions, even if the MarkLogic Server process ends unexpectedly. </Body>
+<Body>
+<A ID="pgfId-1053203"></A>
+The database settings <code>
+locking</code>
+ and <code>
+journaling</code>
+ control how fine-grained and robust you want this transactional process to behave. By default, it is set up to be a good balance of speed and data-integrity. All documents being loaded are locked, making it impossible for another transaction to update the same document being loaded or updated in a different transaction, and making it impossible to create duplicate URIs in your database. </Body>
+<Body>
+<A ID="pgfId-1053246"></A>
+There is a journal write to disk on transaction commit, and by default the system relies on the operating system to perform the disk write. Therefore, even if the MarkLogic Server process ends, the write to the journal will occur, unless the computer crashes before the operating system can perform the disk write. Protecting against the MarkLogic Server process ending unexpectedly is the <code>
+fast</code>
+ setting for the <code>
+journaling</code>
+ option. If you want to protect against the computer crashing unexpectedly, you can set the journaling to <code>
+strict</code>
+. A setting of <code>
+strict</code>
+ will force a filesystem sync before the transaction is committed. This will take a little longer for each transaction, but will also protect your transactions against the computer failing. </Body>
+<Body>
+<A ID="pgfId-1053309"></A>
+If you are sure that no other programs are updating content in the database, and if you are sure that your program is not updating a URI more than one time, it is possible to turn the <code>
+journaling</code>
+ and/or <code>
+locking</code>
+ database settings to <code>
+off</code>
+. Turning these <code>
+off</code>
+ might make sense, for example, during a bulk load. You should only do so if you are sure that no URIs are being updated more than once. Be sure to turn the <code>
+directory creation</code>
+ database setting to <code>
+manual</code>
+ before disabling <code>
+locking</code>
+ in a database, as automatic directory creation will create directories if they do not already exist, and, without locking, can result in duplicate directory URIs in some cases. If you set the <code>
+locking</code>
+ option to <code>
+fast</code>
+, it locks URIs for existing documents, but not for new documents. The default <code>
+locking</code>
+ setting of <code>
+strict</code>
+ locks for both new and existing documents, which is the safest option.</Body>
+<WarningList>
+<Warning>
+<A ID="pgfId-1053287"></A>
+Use extreme caution when changing these settings, as the <code>
+off</code>
+ and <code>
+fast</code>
+ settings disable and limit the transactional checks performed in the database, and doing so without understanding how it works can result in inconsistent data.</Warning>
+</WarningList>
+<Body>
+<A ID="pgfId-1053327"></A>
+The advantage of disabling the <code>
+locking</code>
+ or <code>
+journaling</code>
+ settings is that it makes the loads faster. For bulk loads, where if something goes wrong you can simple start over, this might be a trade-off worth considering.</Body>
+<Body>
+<A ID="pgfId-1053405"></A>
+For more details on how transactions work, see <A href="transactions.xml#id(44680)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Understanding Transactions in MarkLogic Server' on page&#160;12</A>.</Body>
+<Heading-2>
+<A ID="pgfId-1053183"></A>
+<A ID="50845"></A>
+Using WebDAV to Load Documents</Heading-2>
+<Body>
+<A ID="pgfId-1044485"></A>
+If you have configured a WebDAV server, you can use a WebDAV client to load documents into the database. WebDAV clients such as Windows Explorer allow drag and drop access to documents, just like any other documents on the filesystem. For details on setting up WebDAV servers, see the chapter on WebDAV in the <Emphasis>
+Administrator's Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1044501"></A>
+<A ID="86350"></A>
+Permissions on Documents</Heading-2>
+<Body>
+<A ID="pgfId-1044505"></A>
+When you load any documents in a database, make sure you either explicitly set permissions in the document loading API (for example, <code>
+xdmp:document-load</code>
+ or <code>
+xdmp:document-insert</code>
+) or have set default permissions on the user (or on roles that the user has) who is loading the documents. Default permissions specify what permissions a document has when it is loaded if you do not explicitly set permissions. </Body>
+<Body>
+<A ID="pgfId-1044514"></A>
+Permissions on a document control access to capabilities (<code>
+read</code>
+, <code>
+insert</code>
+, <code>
+update</code>
+, and <code>
+execute</code>
+) on the document. Each permission consists of a capability and a corresponding role. In order to have access to a capability for a document, a user must have the role paired with that capability on the document permission. Default permissions are specified on roles and on users in the Admin Interface. If you load a document without the needed permissions, users might not be able to read, update, or execute the document (even by the user who loaded the document). For an overview of security, see <Emphasis>
+Understanding and Using Security Guide</Emphasis>
+. For details on creating privileges and setting permissions, see the Security chapter of the <Emphasis>
+Administrator's Guide</Emphasis>
+.</Body>
+<Note>
+<A ID="pgfId-1044849"></A>
+When you load a document, ensure that a named role has update permissions. For any document created by a user who does not have the <code>
+admin</code>
+ role, the document must be created with at least one update permission or it will throw an <code>
+XDMP-MUSTHAVEUPDATE</code>
+ exception during document creation. If all named roles on the document permissions do not have update permissions, or if the document has no permissions, then only users with the <code>
+admin</code>
+ role will be able to update or delete the document.</Note>
+</XML>

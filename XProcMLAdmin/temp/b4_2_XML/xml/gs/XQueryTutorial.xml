@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="XQueryTutorial.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1040655"></A>
+Getting Started with XQuery</Heading-1>
+<pagenum>
+<A ID="pgfId-1050076"></A>
+29</pagenum>
+<Body>
+<A ID="pgfId-1040656"></A>
+This chapter describes how to use CQ to interactively create and execute XQuery code. This chapter includes the following sections::</Body>
+<Body-bullet>
+<A ID="pgfId-1040660"></A>
+<A href="XQueryTutorial.xml#id(53629)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+About CQ</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1061520"></A>
+<A href="XQueryTutorial.xml#id(22489)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Using CQ</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1040664"></A>
+<A href="XQueryTutorial.xml#id(19815)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+XQuery Mini Tutorial</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1060808"></A>
+<A href="XQueryTutorial.xml#id(15911)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+What Next?</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1040668"></A>
+<A ID="53629"></A>
+About CQ</Heading-2>
+<Body>
+<A ID="pgfId-1061460"></A>
+CQ is an interactive web-based query tool that allows you to write ad-hoc queries and view the results without using .xqy files. You can view the results as HTML, XML, or plain-text output. CQ is designed for use with an HTTP App Server instance and a modern web browser with JavaScript support and XML display. CQ is bundled with MarkLogic Server and is also available for download from the MarkLogic Developer Network:</Body>
+<Code>
+<A ID="pgfId-1061670"></A>
+http://developer.marklogic.com/code/</Code>
+<Body>
+<A ID="pgfId-1061483"></A>
+CQ is included in the <code>
+MarkLogic/Samples/cq </code>
+directory and is licensed under the open source Apache 2.0 license. You will also find the source code checked into the <code>
+developer.marklogic.com</code>
+ subversion repository. </Body>
+<Heading-2>
+<A ID="pgfId-1061505"></A>
+<A ID="22489"></A>
+Using CQ</Heading-2>
+<Body>
+<A ID="pgfId-1061415"></A>
+This section describes how to use CQ to execute queries and view the results.</Body>
+<Number1>
+<A ID="pgfId-1058911"></A>
+Copy the entire <code>
+MarkLogic/Samples/cq</code>
+ directory to the <code>
+MarkLogic/Test</code>
+ directory. This is the root directory used by the <code>
+TestServer</code>
+ App Server you created in <A href="procedures.xml#id(22010)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Creating a New Server' on page&#160;13</A>.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1061920"></A>
+Open a browser and enter the URL: <code>
+http://localhost:8005/cq</code>
+</Number>
+<Number>
+<A ID="pgfId-1061970"></A>
+In order to use CQ, you must have the privileges assigned to the <code>
+cq-basic</code>
+ role, as a minimum. If your MarkLogic Server is not yet configured with CQ roles, you will see the Security Configuration Problem page below. Click the <code>
+install-roles.xqy</code>
+ link to automatically install the roles. </Number>
+</NumberList>
+<Note>
+<A ID="pgfId-1062002"></A>
+You must have privileges to install new roles. Otherwise, you will receive a 500 error. In this case, request that your system administrator install the CQ roles and assign the <code>
+cq-basic</code>
+ role to your user account.</Note>
+<Body-indent>
+<A ID="pgfId-1061981"></A>
+<IMAGE xml:link="simple" href="images/securityonfig1.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1059060"></A>
+Once you have gained access to CQ, you should see a page that looks like the following. In CQ, a <Emphasis>
+session</Emphasis>
+ is a group of <Emphasis>
+query buffers</Emphasis>
+. Each query is displayed in the <code>
+Current XQuery</code>
+ pane and is saved in a persistent query buffer. The list of query buffers are displayed in the <code>
+Queries</code>
+ pane on the right, The results of the executed query are displayed below in the <code>
+Query Results</code>
+ pane.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1061005"></A>
+<IMAGE xml:link="simple" href="images/cq.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1059113"></A>
+Each query is executed against the database selected in the <code>
+content-source</code>
+ drop-down menu:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1061076"></A>
+<IMAGE xml:link="simple" href="images/cq-databases.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1061069"></A>
+You can execute a query in either plain text, XML, or HTML formats. For the default 'hello world' query, click on <code>
+TEXT</code>
+ and note the results:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1059267"></A>
+<IMAGE xml:link="simple" href="images/cq-formats.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1059120"></A>
+Click on the <code>
+XML</code>
+ and <code>
+HTML</code>
+ buttons to see the query output in XML and HTML formats.</Number>
+<Number>
+<A ID="pgfId-1059197"></A>
+Click on <code>
+Profile</code>
+ to see statistics about the performance characteristics of the query, along with the query results. For details on profiling queries and the meaning of the profile fields, see the <A href="../performance/profile.xml#id(94939)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Profiling Requests to Evaluate Performance</Hyperlink>
+</A> chapter in the <Emphasis>
+Query Performance and Tuning Guide</Emphasis>
+ guide.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1059398"></A>
+<IMAGE xml:link="simple" href="images/cq-profile.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1059221"></A>
+In the upper left portion of the page, click on <code>
+explore</code>
+ to view the documents loaded into the database:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1059296"></A>
+<IMAGE xml:link="simple" href="images/cq-explore.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1059230"></A>
+Click on <code>
+pretty-print</code>
+ to run the pretty-print utility to reformat the content in the Current XQuery window.</Number>
+<Number>
+<A ID="pgfId-1062068"></A>
+Click on <code>
+session</code>
+ to manage your CQ session and to create new sessions. </Number>
+</NumberList>
+<Body>
+<A ID="pgfId-1059315"></A>
+<IMAGE xml:link="simple" href="images/cq-sessions.gif" show="embed" actuate="auto"/>
+</Body>
+<NumberList>
+<Number>
+<A ID="pgfId-1059337"></A>
+The navigation pane on the right side of the page lists all of the query buffers, Click on <code>
++ </code>
+to add a new query buffer to your session (Query 11, in the example below):</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1059344"></A>
+<IMAGE xml:link="simple" href="images/cq-add-query.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1059351"></A>
+Click on <code>
+History</code>
+ to provide a list of previously executed queries in your session:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1059358"></A>
+<IMAGE xml:link="simple" href="images/cq-history.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<Heading-2>
+<A ID="pgfId-1040670"></A>
+<A ID="19815"></A>
+XQuery Mini Tutorial</Heading-2>
+<Body>
+<A ID="pgfId-1061712"></A>
+This section includes the following procedures to demonstrate how to use CQ to take a closer look at the XQuery code in the modules from <A href="procedures.xml#id(15787)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Sample XQuery Application' on page&#160;15</A>:</Body>
+<Body-bullet>
+<A ID="pgfId-1061720"></A>
+<A href="XQueryTutorial.xml#id(19323)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating and Inserting a Document into the Database</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1060458"></A>
+<A href="XQueryTutorial.xml#id(46634)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Querying the Document</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1060480"></A>
+<A href="XQueryTutorial.xml#id(24331)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Modifying the Document</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1060502"></A>
+<A href="XQueryTutorial.xml#id(37614)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Adding a New Element to the Document</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1058423"></A>
+<A ID="19323"></A>
+Creating and Inserting a Document into the Database</Heading-3>
+<Body>
+<A ID="pgfId-1059523"></A>
+Open a query buffer in CQ and cut and paste the following code into the query window. Click the <code>
+TEXT</code>
+ button.</Body>
+<Code>
+<A ID="pgfId-1059496"></A>
+xquery version &quot;1.0-ml&quot;;
+xdmp:document-insert(&quot;books.xml&quot;,
+&#160;&#160;&lt;books xmlns=&quot;http://www.marklogic.com/ns/gs-books&quot;&gt;
+&#160;&#160;&#160;&#160;&lt;book bookid=&quot;1&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;title&gt;A Quick Path to an Application&lt;/title&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;author&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;last&gt;Smith&lt;/last&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;first&gt;Jim&lt;/first&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;/author&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;publisher&gt;Scribblers Press&lt;/publisher&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;isbn&gt;1494-3930392-3&lt;/isbn&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;abstract&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;This book describes in detail the power of how 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;to use XQuery to build powerful web applications 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;that are built on the MarkLogic Server platform.
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;/abstract&gt;
+&#160;&#160;&#160;&#160;&lt;/book&gt;
+&#160;&#160;&lt;/books&gt;
+)</Code>
+<Body>
+<A ID="pgfId-1060031"></A>
+Taking a closer look at this code, we see it uses the <code>
+xdmp:document-insert</code>
+ function to insert a <code>
+books</code>
+ node into a document with the URI, <code>
+books.xml</code>
+. The <code>
+books</code>
+ node is in the <code>
+http://www.marklogic.com/ns/gs-books</code>
+ namespace, which is specified with the following namespace declaration:</Body>
+<Code>
+<A ID="pgfId-1060023"></A>
+xmlns=&quot;http://www.marklogic.com/ns/gs-books&quot;</Code>
+<Body>
+<A ID="pgfId-1060928"></A>
+For details on the use of namespaces, see <A href="../xquery/namespaces.xml#id(82094)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Understanding XML Namespaces in XQuery</Hyperlink>
+</A> in the <Emphasis>
+XQuery and XSLT Reference Guide</Emphasis>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1059881"></A>
+<A ID="46634"></A>
+Querying the Document</Heading-3>
+<Body>
+<A ID="pgfId-1060007"></A>
+In another CQ query buffer, cut and paste the following code from the <code>
+dump.xqy</code>
+ module and click on the <code>
+HTML</code>
+ button to view the output in HTML.</Body>
+<Code>
+<A ID="pgfId-1059908"></A>
+xquery version &quot;1.0-ml&quot;;
+(: dump.xqy :)
+declare namespace bk = &quot;http://www.marklogic.com/ns/gs-books&quot;;
+
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+&#160;&#160;&lt;head&gt;
+&#160;&#160;&#160;&#160;&lt;title&gt;Database dump&lt;/title&gt;
+&#160;&#160;&lt;/head&gt;
+&#160;&#160;&lt;body&gt;
+&#160;&#160;&lt;b&gt;XML Content&lt;/b&gt;
+{
+&#160;&#160;&#160;&#160;for $book in doc(&quot;books.xml&quot;)/bk:books/bk:book
+&#160;&#160;&#160;&#160;return
+&#160;&#160;&#160;&#160;&lt;pre&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Title: { $book/bk:title/text() }
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Author: { ($book/bk:author/bk:first/text(), &quot; &quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$book/bk:author/bk:last/text()) }
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Publisher: { $book/bk:publisher/text() }
+&#160;&#160;&#160;&#160;&lt;/pre&gt;
+}
+&#160;&#160;&lt;/body&gt;
+&lt;/html&gt;</Code>
+<Body>
+<A ID="pgfId-1059873"></A>
+Taking a closer look at the this query, we see it binds the <code>
+bk </code>
+prefix to the namespace in which the inserted <code>
+books</code>
+ node resides.</Body>
+<Code>
+<A ID="pgfId-1059836"></A>
+declare namespace bk = &quot;http://www.marklogic.com/ns/gs-books&quot;;</Code>
+<Body>
+<A ID="pgfId-1059847"></A>
+This <code>
+bk</code>
+ prefix can now be used throughout the query to reference the namespace. </Body>
+<Body>
+<A ID="pgfId-1061268"></A>
+The query also defines a <code>
+for</code>
+ clause with an XPath expression that iterates through each element inside the <code>
+book</code>
+ element. Note that the <code>
+books</code>
+ and <code>
+book</code>
+ elements are in the namespace bound by the <code>
+bk</code>
+ prefix:</Body>
+<Code>
+<A ID="pgfId-1059598"></A>
+for $book in doc(&quot;books.xml&quot;)/bk:books/bk:book</Code>
+<Body>
+<A ID="pgfId-1060608"></A>
+For details on the <code>
+for</code>
+ clause, see <A href="../xquery/langoverview.xml#id(11626)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+FLWOR Expressions</Hyperlink>
+</A> in the <Emphasis>
+XQuery and XSLT Reference Guide</Emphasis>
+.</Body>
+<Body>
+<A ID="pgfId-1059621"></A>
+The following lines include simple XPath expressions that return the text node inside each specified element. Note that each element is in the namespace bound by the <code>
+bk</code>
+ prefix:</Body>
+<Code>
+<A ID="pgfId-1059631"></A>
+Title: { $book/bk:title/text() }
+Author: { ($book/bk:author/bk:first/text(), &quot; &quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$book/bk:author/bk:last/text()) }
+Publisher: { $book/bk:publisher/text() }</Code>
+<Body>
+<A ID="pgfId-1060558"></A>
+For details on XPath, see <A href="../xquery/xpath.xml#id(_Toc61258626)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+XPath Quick Reference</Hyperlink>
+</A> in the <Emphasis>
+XQuery and XSLT Reference Guide</Emphasis>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1059765"></A>
+<A ID="24331"></A>
+Modifying the Document</Heading-3>
+<Body>
+<A ID="pgfId-1059467"></A>
+In another CQ query buffer, cut and paste the following code to change the text in the publisher element:</Body>
+<Code>
+<A ID="pgfId-1059708"></A>
+xquery version &quot;1.0-ml&quot;;</Code>
+<Code>
+<A ID="pgfId-1059710"></A>
+declare namespace bk = &quot;http://www.marklogic.com/ns/gs-books&quot;;</Code>
+<Code>
+<A ID="pgfId-1059712"></A>
+xdmp:node-replace(doc(&quot;books.xml&quot;)//bk:publisher, 
+&#160;&#160;&lt;bk:publisher&gt;Pirate's Press&lt;/bk:publisher&gt;) </Code>
+<Body>
+<A ID="pgfId-1060884"></A>
+Now rerun the query in <A href="XQueryTutorial.xml#id(46634)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Querying the Document' on page&#160;27</A>.</Body>
+<Heading-3>
+<A ID="pgfId-1059700"></A>
+<A ID="37614"></A>
+Adding a New Element to the Document</Heading-3>
+<Body>
+<A ID="pgfId-1059474"></A>
+In another CQ query buffer, cut and paste the following code to add another <code>
+book</code>
+ to the <code>
+books</code>
+ element described in <A href="XQueryTutorial.xml#id(19323)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Creating and Inserting a Document into the Database' on page&#160;26</A>:</Body>
+<Code>
+<A ID="pgfId-1060178"></A>
+xquery version &quot;1.0-ml&quot;;</Code>
+<Code>
+<A ID="pgfId-1060180"></A>
+declare namespace bk = &quot;http://www.marklogic.com/ns/gs-books&quot;;</Code>
+<Code>
+<A ID="pgfId-1060182"></A>
+xdmp:node-insert-child(doc(&quot;books.xml&quot;)/bk:books,
+&#160;&#160;&lt;book bookid=&quot;2&quot; xmlns=&quot;http://www.marklogic.com/ns/gs-books&quot;&gt;
+&#160;&#160;&#160;&#160;&lt;title&gt;An Alternate Path to an Application&lt;/title&gt;
+&#160;&#160;&#160;&#160;&lt;author&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;last&gt;Smith&lt;/last&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;first&gt;Jim&lt;/first&gt;
+&#160;&#160;&#160;&#160;&lt;/author&gt;
+&#160;&#160;&#160;&#160;&lt;publisher&gt;Scribblers Press&lt;/publisher&gt;
+&#160;&#160;&#160;&#160;&lt;isbn&gt;3491-3234352-1&lt;/isbn&gt;
+&#160;&#160;&#160;&#160;&lt;abstract&gt;This book describes another way to use XQuery to build powerful web applications that are built on the MarkLogic Server platform.&lt;/abstract&gt;
+&#160;&#160;&lt;/book&gt; )</Code>
+<Body>
+<A ID="pgfId-1060654"></A>
+Taking a closer look at this query, we see it uses the <code>
+xdmp:node-insert-child</code>
+ function to insert the <code>
+book</code>
+ element as a child of the existing <code>
+books</code>
+ element. To construct the <code>
+book</code>
+ element in the same namespace as the <code>
+books</code>
+ element, we explicitly declare the inserted <code>
+book</code>
+ element to be in the same namespace as the <code>
+books</code>
+ element:</Body>
+<Code>
+<A ID="pgfId-1060347"></A>
+&lt;book bookid=&quot;2&quot; xmlns=&quot;http://www.marklogic.com/ns/gs-books&quot;&gt;</Code>
+<Body>
+<A ID="pgfId-1060646"></A>
+Now rerun the query in <A href="XQueryTutorial.xml#id(46634)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Querying the Document' on page&#160;27</A>.</Body>
+<Heading-2>
+<A ID="pgfId-1060796"></A>
+<A ID="15911"></A>
+What Next?</Heading-2>
+<Body>
+<A ID="pgfId-1058681"></A>
+For more detail on the XQuery language, see the <Emphasis>
+XQuery and XSLT Reference Guide</Emphasis>
+. For a complete list of standard XQuery functions and MarkLogic Server enhanced functions, see the <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+. For details on how to build XQuery applications, see the <Emphasis>
+Application Developer's Guide</Emphasis>
+ and the <Emphasis>
+Search Developer's Guide</Emphasis>
+.</Body>
+</XML>

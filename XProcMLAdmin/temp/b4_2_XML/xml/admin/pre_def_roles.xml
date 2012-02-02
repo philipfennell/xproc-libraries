@@ -1,0 +1,2251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="pre_def_roles.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1038359"></A>
+<A ID="84238"></A>
+Appendix C: Pre-defined Roles</Heading-1>
+<pagenum>
+<A ID="pgfId-1038884"></A>
+308</pagenum>
+<Body>
+<A ID="pgfId-1038360"></A>
+The following roles are pre-defined in every installation of MarkLogic Server. To give a user execute privileges listed for each pre-defined role, you may add the execute privileges individually to an existing role for the user, or add the pre-defined role to the user's set of roles.  </Body>
+<Body>
+<A ID="pgfId-1042417"></A>
+The following are the pre-built roles in MarkLogic Server:</Body>
+<Body-bullet>
+<A ID="pgfId-1042428"></A>
+<A href="pre_def_roles.xml#id(89081)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+admin</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1042435"></A>
+<A href="pre_def_roles.xml#id(11270)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+admin-builtins</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1047294"></A>
+<A href="pre_def_roles.xml#id(66410)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+admin-module-internal</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1046686"></A>
+<A href="pre_def_roles.xml#id(44177)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+alert-admin</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1047317"></A>
+<A href="pre_def_roles.xml#id(87485)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+alert-execution</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1046687"></A>
+<A href="pre_def_roles.xml#id(94486)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+alert-internal</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1046767"></A>
+<A href="pre_def_roles.xml#id(19316)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+alert-user</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1047340"></A>
+<A href="pre_def_roles.xml#id(89954)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+app-builder</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1047369"></A>
+<A href="pre_def_roles.xml#id(86516)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+app-builder-internal</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1047393"></A>
+<A href="pre_def_roles.xml#id(21422)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+app-user</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053692"></A>
+<A href="pre_def_roles.xml#id(91040)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+appservices-internal</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053718"></A>
+<A href="pre_def_roles.xml#id(72292)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+cpf-restart</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1047416"></A>
+<A href="pre_def_roles.xml#id(75196)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+dls-admin</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1047438"></A>
+<A href="pre_def_roles.xml#id(70018)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+dls-internal</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1047462"></A>
+<A href="pre_def_roles.xml#id(25256)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+dls-user</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1042451"></A>
+<A href="pre_def_roles.xml#id(24095)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+domain-management</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1042439"></A>
+<A href="pre_def_roles.xml#id(55062)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+filesystem-access</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053742"></A>
+<A href="pre_def_roles.xml#id(96062)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+flexrep-admin</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053764"></A>
+<A href="pre_def_roles.xml#id(98212)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+flexrep-internal</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053786"></A>
+<A href="pre_def_roles.xml#id(27668)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+flexrep-user</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053808"></A>
+<A href="pre_def_roles.xml#id(24866)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+infostudio-admin-internal</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053830"></A>
+<A href="pre_def_roles.xml#id(90316)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+infostudio-internal</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053852"></A>
+<A href="pre_def_roles.xml#id(20605)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+infostudio-user</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1042443"></A>
+<A href="pre_def_roles.xml#id(87650)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+merge</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1047485"></A>
+<A href="pre_def_roles.xml#id(84829)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+pipeline-execution</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1042452"></A>
+<A href="pre_def_roles.xml#id(85036)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+pipeline-management</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1047508"></A>
+<A href="pre_def_roles.xml#id(52232)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+pki</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053880"></A>
+<A href="pre_def_roles.xml#id(47751)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+plugin-internal</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1047531"></A>
+<A href="pre_def_roles.xml#id(48546)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+search-internal</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1042447"></A>
+<A href="pre_def_roles.xml#id(54683)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+security</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1042453"></A>
+<A href="pre_def_roles.xml#id(55077)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+trigger-management</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053903"></A>
+<A href="pre_def_roles.xml#id(40091)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+welcome-internal</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1047554"></A>
+<A href="pre_def_roles.xml#id(97658)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+xinclude</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1038362"></A>
+<A ID="89081"></A>
+admin</Heading-2>
+<Body>
+<A ID="pgfId-1038363"></A>
+The <code>
+admin</code>
+ role is given all privileges and permissions to perform any action in the system.  There are no default permissions associated with the <code>
+admin</code>
+ role. Users with the <code>
+admin</code>
+ role are considered authorized administrators; they are trusted personnel and are assumed to be non-hostile, appropriately trained, and follow proper administrative procedures.</Body>
+<Heading-2>
+<A ID="pgfId-1038365"></A>
+<A ID="11270"></A>
+admin-builtins</Heading-2>
+<Body>
+<A ID="pgfId-1038366"></A>
+The <code>
+admin-builtins</code>
+ role has the execute privileges to call the admin built-in functions.  The execute privileges given to the admin-builtins role are: </Body>
+<TableAnchor>
+<A ID="pgfId-1038528"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1042362"></A>
+Name</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1042364"></A>
+Action URI</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1043252"></A>
+cancel-any-request</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1043254"></A>
+http://marklogic.com/xdmp/privileges/cancel-any-request</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1043376"></A>
+cancel-my-request</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1043378"></A>
+http://marklogic.com/xdmp/privileges/cancel-my-request</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1043240"></A>
+count-builtins</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1043242"></A>
+http://marklogic.com/xdmp/privileges/counts</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038373"></A>
+xdmp:address-bindable</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038375"></A>
+http://marklogic.com/xdmp/privileges/xdmp-address-bindable</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038377"></A>
+xdmp:amp-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038379"></A>
+http://marklogic.com/xdmp/privileges/xdmp-amp-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038381"></A>
+xdmp:castable-as</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038383"></A>
+http://marklogic.com/xdmp/privileges/xdmp-castable-as</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1043388"></A>
+xdmp:compressed-tree-cache-size</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1043390"></A>
+http://marklogic.com/xdmp/privileges/xdmp-compressed-tree-cache-size</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038385"></A>
+xdmp:compressed-tree-cache-partitions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038387"></A>
+http://marklogic.com/xdmp/privileges/xdmp-compressed-tree-cache-partitions</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038389"></A>
+xdmp:default-in-memory-limit</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038391"></A>
+http://marklogic.com/xdmp/privileges/xdmp-default-in-memory-limit</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038393"></A>
+xdmp:default-in-memory-list-size</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038395"></A>
+http://marklogic.com/xdmp/privileges/xdmp-default-in-memory-list-size</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038397"></A>
+xdmp:default-in-memory-range-index-size</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038399"></A>
+http://marklogic.com/xdmp/privileges/xdmp-default-in-memory-range-index-size</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038401"></A>
+xdmp:in-memory-tree-size</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038403"></A>
+http://marklogic.com/xdmp/privileges/xdmp-in-memory-tree-size</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038405"></A>
+xdmp:delete-cluster-config-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038407"></A>
+http://marklogic.com/xdmp/privileges/xdmp-delete-cluster-config-file</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038409"></A>
+xdmp:delete-host-config-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038411"></A>
+http://marklogic.com/xdmp/privileges/xdmp-delete-host-config-file</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038413"></A>
+xdmp:directory</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038415"></A>
+http://marklogic.com/xdmp/privileges/xdmp-directory</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038417"></A>
+xdmp:disable-event</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038419"></A>
+http://marklogic.com/xdmp/privileges/xdmp-disable-event</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038421"></A>
+xdmp:email</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038423"></A>
+http://marklogic.com/xdmp/privileges/xdmp-email</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038425"></A>
+xdmp:email-address</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038427"></A>
+http://marklogic.com/xdmp/privileges/xdmp-email-address</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038429"></A>
+xdmp:enable-event</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038431"></A>
+http://marklogic.com/xdmp/privileges/xdmp-enable-event</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038433"></A>
+xdmp:expanded-tree-cache-size</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038435"></A>
+http://marklogic.com/xdmp/privileges/xdmp-expanded-tree-cache-size</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1043400"></A>
+xdmp:expanded-tree-cache-partitions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1043402"></A>
+http://marklogic.com/xdmp/privileges/xdmp-expanded-tree-cache-partitions</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038437"></A>
+xdmp:forest-backup</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038439"></A>
+http://marklogic.com/xdmp/privileges/xdmp-forest-backup</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038441"></A>
+xdmp:forest-clear</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038443"></A>
+http://marklogic.com/xdmp/privileges/xdmp-forest-clear</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038445"></A>
+xdmp:forest-delete</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038447"></A>
+http://marklogic.com/xdmp/privileges/xdmp-forest-delete</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038449"></A>
+xdmp:forest-restore</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038451"></A>
+http://marklogic.com/xdmp/privileges/xdmp-forest-restore</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038453"></A>
+xdmp:forest-status</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038455"></A>
+http://marklogic.com/xdmp/privileges/xdmp-forest-status</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038457"></A>
+xdmp:forest-keys</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038459"></A>
+http://marklogic.com/xdmp/privileges/xdmp-forest-keys</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038461"></A>
+xdmp:get-hot-updates</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038463"></A>
+http://marklogic.com/xdmp/privileges/xdmp-get-hot-updates</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038465"></A>
+xdmp:host-name</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038467"></A>
+http://marklogic.com/xdmp/privileges/xdmp-hostname</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038469"></A>
+xdmp:license-accepted</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038471"></A>
+http://marklogic.com/xdmp/privileges/xdmp-license-accepted</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038473"></A>
+xdmp:list-cache-size</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038475"></A>
+http://marklogic.com/xdmp/privileges/xdmp-list-cache-size</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1043408"></A>
+xdmp:list-cache-partitions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1043410"></A>
+http://marklogic.com/xdmp/privileges/xdmp-list-cache-partitions</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038477"></A>
+xdmp:pre-release-expires</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038479"></A>
+http://marklogic.com/xdmp/privileges/xdmp-pre-release-expires</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038481"></A>
+xdmp:read-cluster-config-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038483"></A>
+http://marklogic.com/xdmp/privileges/xdmp-read-cluster-config-file</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038485"></A>
+xdmp:read-host-config-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038487"></A>
+http://marklogic.com/xdmp/privileges/xdmp-read-host-config-file</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038489"></A>
+xdmp:restart</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038491"></A>
+http://marklogic.com/xdmp/privileges/xdmp-restart</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038493"></A>
+xdmp:server-backup</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038495"></A>
+http://marklogic.com/xdmp/privileges/xdmp-server-backup</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038497"></A>
+xdmp:server-import-qualities</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038499"></A>
+http://marklogic.com/xdmp/privileges/xdmp-server-import-qualities</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038501"></A>
+xdmp:server-restore</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038503"></A>
+http://marklogic.com/xdmp/privileges/xdmp-server-restore</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038505"></A>
+xdmp:set-hot-updates</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038507"></A>
+http://marklogic.com/xdmp/privileges/xdmp-set-hot-updates</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038509"></A>
+xdmp:shutdown</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038511"></A>
+http://marklogic.com/xdmp/privileges/xdmp-shutdown</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038513"></A>
+xdmp:smtp-relay</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038515"></A>
+http://marklogic.com/xdmp/privileges/xdmp-smtp-relay</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038517"></A>
+xdmp:username</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038519"></A>
+http://marklogic.com/xdmp/privileges/xdmp-username</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038521"></A>
+xdmp:write-cluster-config-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038523"></A>
+http://marklogic.com/xdmp/privileges/xdmp-write-cluster-config-file</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038525"></A>
+xdmp:write-host-config-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038527"></A>
+http://marklogic.com/xdmp/privileges/xdmp-write-host-config-file</Table-text>
+</CELL>
+</ROW>
+</TABLE>
+<Body>
+<A ID="pgfId-1038529"></A>
+There are no default permissions associated with the <code>
+admin-builtins</code>
+ role.</Body>
+<Heading-2>
+<A ID="pgfId-1046961"></A>
+<A ID="66410"></A>
+admin-module-internal</Heading-2>
+<Body>
+<A ID="pgfId-1046972"></A>
+The <code>
+admin-module-internal</code>
+ role is used internally by the Admin Library Module and should not be assigned to any user. For details, see <A href="admin-api.xml#id(87529)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Scripting Administrative Tasks With the Admin API' on page&#160;266</A>.</Body>
+<Heading-2>
+<A ID="pgfId-1038531"></A>
+<A ID="44177"></A>
+alert-admin</Heading-2>
+<Body>
+<A ID="pgfId-1046689"></A>
+The <code>
+alert-admin</code>
+ role is used for administrators of an alerting application. For details, see the <A href="../search-dev-guide/alerts.xml#id(86523)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating Alerting Applications</Hyperlink>
+</A> chapter of the <Emphasis>
+Search Developer's Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1047711"></A>
+<A ID="87485"></A>
+alert-execution</Heading-2>
+<Body>
+<A ID="pgfId-1047726"></A>
+The <code>
+alert-execution</code>
+ role is used internally by the Alerting API to amp privileges in a protected way. You should not give this role to any individual users. For details, see the <A href="../search-dev-guide/alerts.xml#id(86523)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating Alerting Applications</Hyperlink>
+</A> chapter of the <Emphasis>
+Search Developer's Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1047720"></A>
+<A ID="94486"></A>
+alert-internal</Heading-2>
+<Body>
+<A ID="pgfId-1046712"></A>
+The <code>
+alert-internal</code>
+ role is used internally by the Alerting API to amp privileges in a protected way. You should not give this role to any individual users. For details, see the <A href="../search-dev-guide/alerts.xml#id(86523)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating Alerting Applications</Hyperlink>
+</A> chapter of the <Emphasis>
+Search Developer's Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1046702"></A>
+<A ID="19316"></A>
+alert-user</Heading-2>
+<Body>
+<A ID="pgfId-1046718"></A>
+The <code>
+alert-user</code>
+ role is used by users of an alerting application. For details, see the <A href="../search-dev-guide/alerts.xml#id(86523)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating Alerting Applications</Hyperlink>
+</A> chapter of the <Emphasis>
+Search Developer's Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1047030"></A>
+<A ID="89954"></A>
+app-builder</Heading-2>
+<Body>
+<A ID="pgfId-1047749"></A>
+The <code>
+app-builder</code>
+ role provides the privileges needed to run Application Builder. Application Builder performs many administrative tasks on MarkLogic Server (for example, creating databases and App Servers), and this role provides the privileges to perform those tasks. While the privileges are minimized to the needed functions and to amped functions, it still allows users with the role to create these resources on MarkLogic Server, and therefore, only trusted users (users who are assumed to be non-hostile, appropriately trained, and follow proper administrative procedures) should be granted the app-builder role. Assign the <code>
+app-builder</code>
+ role to users who are allowed to generate applications with Application Builder.</Body>
+<Body>
+<A ID="pgfId-1047880"></A>
+For details, see the <Emphasis>
+Application Builder Developer's Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1047059"></A>
+<A ID="86516"></A>
+app-builder-internal</Heading-2>
+<Body>
+<A ID="pgfId-1047768"></A>
+The <code>
+app-builder-internal</code>
+ role is used by Application Builder to amp certain functions that Application Builder performs. You should not explicitly grant the <code>
+app-builder-internal</code>
+ role to any user; it is only for internal use by Application Builder.</Body>
+<Body>
+<A ID="pgfId-1047901"></A>
+For details, see the <Emphasis>
+Application Builder Developer's Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1047089"></A>
+<A ID="21422"></A>
+app-user</Heading-2>
+<Body>
+<A ID="pgfId-1048007"></A>
+The <code>
+app-user</code>
+ role is a minimally privileged role that is needed to run any application that Application Builder generates. You must grant this role to all users who are allowed to run the generated application.</Body>
+<Body>
+<A ID="pgfId-1048029"></A>
+For details, see the <Emphasis>
+Application Builder Developer's Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1053487"></A>
+<A ID="91040"></A>
+appservices-internal</Heading-2>
+<Body>
+<A ID="pgfId-1053933"></A>
+The <code>
+appservices-internal</code>
+ role is used by Application Services to amp certain functions that Application Services performs. You should not explicitly grant the <code>
+appservices-internal</code>
+ role to any user; it is only for internal use by Application Services.</Body>
+<Heading-2>
+<A ID="pgfId-1053520"></A>
+<A ID="72292"></A>
+cpf-restart</Heading-2>
+<Body>
+<A ID="pgfId-1053542"></A>
+The <code>
+cpf-restart</code>
+ role is used by CPF to control access to the CPF restart trigger. The CPF restart user should have the <code>
+cpf-restart </code>
+role, as well as all of the permissions and privileges that normal users have on the documents.</Body>
+<Heading-2>
+<A ID="pgfId-1047134"></A>
+<A ID="75196"></A>
+dls-admin</Heading-2>
+<Body>
+<A ID="pgfId-1047833"></A>
+The <code>
+dls-admin</code>
+ role is designed to give administrators of Library Services applications all of the privileges that are needed to use the Library Services API. It has the needed privileges to perform operations such as inserting retention policies and breaking checkouts, so only trusted users (users who are assumed to be non-hostile, appropriately trained, and follow proper administrative procedures) should be granted the <code>
+dls-admin</code>
+ role. Assign the <code>
+dls-admin</code>
+ role to administrators of your Library Services application.</Body>
+<Body>
+<A ID="pgfId-1047918"></A>
+For details, see the <A href="../dev_guide/dls.xml#id(22516)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Library Services Applications</Hyperlink>
+</A> chapter in the <Emphasis>
+Application Developer's Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1047135"></A>
+<A ID="70018"></A>
+dls-internal</Heading-2>
+<Body>
+<A ID="pgfId-1047869"></A>
+The <code>
+dls-internal</code>
+ role is a role that is used internally by the Library Services API, but you should not explicitly grant it to any user or role. This role is used to amp special privileges within the context of certain functions of the Library Services API. Assigning this role to users would give them privileges on the system that you typically do not want them to have; do not assign this role to any users.</Body>
+<Body>
+<A ID="pgfId-1047950"></A>
+For details, see the <A href="../dev_guide/dls.xml#id(22516)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Library Services Applications</Hyperlink>
+</A> chapter in the <Emphasis>
+Application Developer's Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1047126"></A>
+<A ID="25256"></A>
+dls-user</Heading-2>
+<Body>
+<A ID="pgfId-1047849"></A>
+The <code>
+dls-user</code>
+ role is a minimally privileged role. It is used in the Library Services API to allow regular users of the Library Services application (as opposed to <code>
+dls-admin</code>
+ users) to be able to execute code in the Library Services API. It allows users, with document update permission, to manage, checkout, and checkin managed documents. </Body>
+<Body>
+<A ID="pgfId-1047850"></A>
+The <code>
+dls-user</code>
+ role only has privileges that are needed to run the Library Services API; it does not provide execute privileges to any functions outside the scope of the Library Services API. The Library Services API uses the <code>
+dls-user</code>
+ role as a mechanism to amp more privileged operations in a controlled way. It is therefore reasonably safe to assign this role to any user whom you trust to use your Library Services application. Assign the <code>
+dls-user</code>
+ role to all users of your Library Services application.</Body>
+<Body>
+<A ID="pgfId-1047973"></A>
+For details, see the <A href="../dev_guide/dls.xml#id(22516)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Library Services Applications</Hyperlink>
+</A> chapter in the <Emphasis>
+Application Developer's Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1046688"></A>
+<A ID="24095"></A>
+domain-management</Heading-2>
+<Body>
+<A ID="pgfId-1042456"></A>
+The <code>
+domain-management</code>
+ role has the privileges to create and modify content processing domains.  The domain-management role has no execute privileges associated with it, but it has the following default permissions:</Body>
+<TableAnchor>
+<A ID="pgfId-1042516"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1042501"></A>
+Role</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1042503"></A>
+Capability</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1042505"></A>
+domain-management</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1042507"></A>
+Read</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1042513"></A>
+domain-management</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1042515"></A>
+Update</Table-text>
+</CELL>
+</ROW>
+</TABLE>
+<Heading-2>
+<A ID="pgfId-1042454"></A>
+<A ID="55062"></A>
+filesystem-access</Heading-2>
+<Body>
+<A ID="pgfId-1038532"></A>
+The <code>
+filesystem-access</code>
+ role has the privileges to access the file system.  The execute privileges given to the <code>
+filesystem-access</code>
+ role are:</Body>
+<TableAnchor>
+<A ID="pgfId-1038546"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1042409"></A>
+Name</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1042411"></A>
+Action URI</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1042352"></A>
+xdmp:document-get</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1042354"></A>
+http://marklogic.com/xdmp/privileges/xdmp-document-get</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1043232"></A>
+xdmp:document-load</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1043234"></A>
+http://marklogic.com/xdmp/privileges/xdmp-document-load</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1042369"></A>
+xdmp:get</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1042371"></A>
+http://marklogic.com/xdmp/privileges/xdmp-get</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038539"></A>
+xdmp:load</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038541"></A>
+http://marklogic.com/xdmp/privileges/xdmp-load</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038543"></A>
+xdmp:save</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038545"></A>
+http://marklogic.com/xdmp/privileges/xdmp-save</Table-text>
+</CELL>
+</ROW>
+</TABLE>
+<Body>
+<A ID="pgfId-1038547"></A>
+There are no default permissions associated with the filesystem-access role.</Body>
+<Heading-2>
+<A ID="pgfId-1053557"></A>
+<A ID="96062"></A>
+flexrep-admin</Heading-2>
+<Body>
+<A ID="pgfId-1053576"></A>
+The <code>
+flexrep-admin</code>
+  role is required to configure replication. </Body>
+<Heading-2>
+<A ID="pgfId-1053558"></A>
+<A ID="98212"></A>
+flexrep-internal</Heading-2>
+<Body>
+<A ID="pgfId-1054126"></A>
+The <code>
+flexrep-internal</code>
+ role is used by Flexible Replication to amp certain functions that Flexible Replication performs. You should not explicitly grant the <code>
+flexrep-internal</code>
+ role to any user; it is only for internal use by Flexible Replication.</Body>
+<Heading-2>
+<A ID="pgfId-1053559"></A>
+<A ID="27668"></A>
+flexrep-user</Heading-2>
+<Body>
+<A ID="pgfId-1053590"></A>
+The <code>
+flexrep-user</code>
+ role user is required to access the Replica App Server when configured for push replication and the Master App Server when configured for pull replication. The replication user must be given the <code>
+flexrep-user </code>
+role and have the privileges necessary to update the domain content. </Body>
+<Heading-2>
+<A ID="pgfId-1053560"></A>
+<A ID="24866"></A>
+infostudio-admin-internal</Heading-2>
+<Body>
+<A ID="pgfId-1053597"></A>
+The <code>
+infostudio-admin-user</code>
+ role provides the privileges needed to handle CPF restart and resume unfinished Information Studio tasks in the event of an unexpected shutdown and restart of MarkLogic Server. When MarkLogic Server is restarted, long-running collectors resume loading documents in the database. In this situation, the original user that started the collector is unknown, so the purpose of the <code>
+infostudio-admin user</code>
+ is to resume control of the collector.</Body>
+<Body>
+<A ID="pgfId-1054405"></A>
+For more details, see the <A href="../info_studio/security.xml#id(87595)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Controlling Access to Information Studio</Hyperlink>
+</A> chapter in the <Emphasis>
+Information Studio Developer's Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1053561"></A>
+<A ID="90316"></A>
+infostudio-internal</Heading-2>
+<Body>
+<A ID="pgfId-1054266"></A>
+The <code>
+infostudio-user</code>
+ role is used by Information Studio to amp certain functions that Information Studio performs. You should not explicitly grant the <code>
+infostudio-internal</code>
+ role to any user; it is only for internal use by Information Studio.</Body>
+<Heading-2>
+<A ID="pgfId-1053549"></A>
+<A ID="20605"></A>
+infostudio-user</Heading-2>
+<Body>
+<A ID="pgfId-1054303"></A>
+The <code>
+infostudio-user</code>
+  role is a minimally privileged role that is needed to use Information Studio. You must grant this role to all users who are allowed to access Information Studio.</Body>
+<Body>
+<A ID="pgfId-1054305"></A>
+The <code>
+infostudio-user</code>
+ role has the following execute privileges:</Body>
+<Body-bullet>
+<A ID="pgfId-1054307"></A>
+<code>
+infostudio</code>
+ (http://marklogic.com/xdmp/privileges/infostudio)</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054309"></A>
+<code>
+unprotected-collections</code>
+</Body-bullet>
+<Heading-2>
+<A ID="pgfId-1038549"></A>
+<A ID="87650"></A>
+merge</Heading-2>
+<Body>
+<A ID="pgfId-1038550"></A>
+The <code>
+merge</code>
+ role has the privileges related to forest merging.  The execute privileges given to the <code>
+merge</code>
+ role are:</Body>
+<TableAnchor>
+<A ID="pgfId-1038564"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1042395"></A>
+Name</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1042397"></A>
+Action URI</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038557"></A>
+xdmp:merge</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038559"></A>
+http://marklogic.com/xdmp/privileges/xdmp-merge</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038561"></A>
+xdmp:merging</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038563"></A>
+http://marklogic.com/xdmp/privileges/xdmp-merging</Table-text>
+</CELL>
+</ROW>
+</TABLE>
+<Body>
+<A ID="pgfId-1038565"></A>
+There are no default permissions associated with the <code>
+merge</code>
+ role.</Body>
+<Heading-2>
+<A ID="pgfId-1047177"></A>
+<A ID="84829"></A>
+pipeline-execution</Heading-2>
+<Body>
+<A ID="pgfId-1048074"></A>
+The <code>
+pipeline-execution </code>
+role is used in the XQuery code to allow any user (who can write a document to the domain) to execute code in the pipeline. </Body>
+<Body>
+<A ID="pgfId-1048075"></A>
+For details, see the <Emphasis>
+Content Processing Framework Guide</Emphasis>
+ guide.</Body>
+<Heading-2>
+<A ID="pgfId-1048077"></A>
+<A ID="85036"></A>
+pipeline-management</Heading-2>
+<Body>
+<A ID="pgfId-1042525"></A>
+The <code>
+pipeline-management</code>
+ role has the privileges to create and modify content processing pipelines.  The <code>
+pipeline-management</code>
+ role has no execute privileges associated with it, but it has the following default permissions:</Body>
+<TableAnchor>
+<A ID="pgfId-1042539"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1042528"></A>
+Role</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1042530"></A>
+Capability</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1042532"></A>
+pipeline-management</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1042534"></A>
+Read</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1042536"></A>
+pipeline-management</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1042538"></A>
+Update</Table-text>
+</CELL>
+</ROW>
+</TABLE>
+<Heading-2>
+<A ID="pgfId-1047206"></A>
+<A ID="52232"></A>
+pki</Heading-2>
+<Body>
+<A ID="pgfId-1047213"></A>
+The <code>
+pki</code>
+ role has the privileges to use the PKI Library functions. For details, see <A href="SSL.xml#id(85783)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Configuring SSL on App Servers' on page&#160;58</A>.</Body>
+<Heading-2>
+<A ID="pgfId-1053625"></A>
+<A ID="47751"></A>
+plugin-internal</Heading-2>
+<Body>
+<A ID="pgfId-1054423"></A>
+The <code>
+plugin-user</code>
+ role is used to amp certain functions assocated with plugins. You should not explicitly grant the <code>
+plugin-internal</code>
+ role to any user; it is only for internal use by MarkLogic Server.</Body>
+<Heading-2>
+<A ID="pgfId-1047220"></A>
+<A ID="48546"></A>
+search-internal</Heading-2>
+<Body>
+<A ID="pgfId-1047255"></A>
+The <code>
+search-internal</code>
+ role is a role that is used internally by the search API. You should not explicitly grant it to any user or role. </Body>
+<Heading-2>
+<A ID="pgfId-1038567"></A>
+<A ID="54683"></A>
+security</Heading-2>
+<Body>
+<A ID="pgfId-1038568"></A>
+The <code>
+security</code>
+ role has the privileges needed to perform security functions.  The execute privileges given to the <code>
+security</code>
+ role are:</Body>
+<TableAnchor>
+<A ID="pgfId-1038826"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1042388"></A>
+Name</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1042390"></A>
+Action URI</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038575"></A>
+amp-add-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038577"></A>
+http://marklogic.com/xdmp/privileges/amp-add-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038579"></A>
+amp-get-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038581"></A>
+http://marklogic.com/xdmp/privileges/amp-get-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038583"></A>
+amp-remove-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038585"></A>
+http://marklogic.com/xdmp/privileges/amp-remove-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038587"></A>
+amp-set-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038589"></A>
+http://marklogic.com/xdmp/privileges/amp-set-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038591"></A>
+any-collection</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038593"></A>
+http://marklogic.com/xdmp/privileges/any-collection</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038595"></A>
+any-uri</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038597"></A>
+http://marklogic.com/xdmp/privileges/any-uri</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038599"></A>
+collection-add-permissions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038601"></A>
+http://marklogic.com/xdmp/privileges/collection-add-permissions</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038603"></A>
+collection-get-permissions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038605"></A>
+http://marklogic.com/xdmp/privileges/collection-get-permissions</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038607"></A>
+collection-remove-permissions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038609"></A>
+http://marklogic.com/xdmp/privileges/collection-remove-permissions</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038611"></A>
+collection-set-permissions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038613"></A>
+http://marklogic.com/xdmp/privileges/collection-set-permissions</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038615"></A>
+create-amp</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038617"></A>
+http://marklogic.com/xdmp/privileges/create-amp</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038619"></A>
+create-privilege</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038621"></A>
+http://marklogic.com/xdmp/privileges/create-privilege</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038623"></A>
+create-role</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038625"></A>
+http://marklogic.com/xdmp/privileges/create-role</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038627"></A>
+create-user</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038629"></A>
+http://marklogic.com/xdmp/privileges/create-user</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038631"></A>
+get-amp</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038633"></A>
+http://marklogic.com/xdmp/privileges/get-amp</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038635"></A>
+get-privilege</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038637"></A>
+http://marklogic.com/xdmp/privileges/get-privilege</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038639"></A>
+get-role-ids</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038641"></A>
+http://marklogic.com/xdmp/privileges/get-role-ids</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038643"></A>
+grant-all-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038645"></A>
+http://marklogic.com/xdmp/privileges/grant-all-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038647"></A>
+grant-my-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038649"></A>
+http://marklogic.com/xdmp/privileges/grant-my-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038651"></A>
+permission</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038653"></A>
+http://marklogic.com/xdmp/privileges/permission</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038655"></A>
+privilege-add-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038657"></A>
+http://marklogic.com/xdmp/privileges/privilege-add-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038659"></A>
+privilege-get-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038661"></A>
+http://marklogic.com/xdmp/privileges/privilege-get-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038663"></A>
+privilege-remove-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038665"></A>
+http://marklogic.com/xdmp/privileges/privilege-remove-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038667"></A>
+privilege-set-name</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038669"></A>
+http://marklogic.com/xdmp/privileges/privilege-set-name</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038671"></A>
+privilege-set-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038673"></A>
+http://marklogic.com/xdmp/privileges/privilege-set-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038675"></A>
+protect-collection</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038677"></A>
+http://marklogic.com/xdmp/privileges/protect-collection</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038679"></A>
+remove-amp</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038681"></A>
+http://marklogic.com/xdmp/privileges/remove-amp</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038683"></A>
+remove-privilege</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038685"></A>
+http://marklogic.com/xdmp/privileges/remove-privilege</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038687"></A>
+remove-role</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038689"></A>
+http://marklogic.com/xdmp/privileges/remove-role</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038691"></A>
+remove-role-from-amps</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038693"></A>
+http://marklogic.com/xdmp/privileges/remove-role-from-amps</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038695"></A>
+remove-role-from-privileges</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038697"></A>
+http://marklogic.com/xdmp/privileges/remove-role-from-privileges</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038699"></A>
+remove-role-from-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038701"></A>
+http://marklogic.com/xdmp/privileges/remove-role-from-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038703"></A>
+remove-role-from-users</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038705"></A>
+http://marklogic.com/xdmp/privileges/remove-role-from-users</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038707"></A>
+remove-user</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038709"></A>
+http://marklogic.com/xdmp/privileges/remove-user</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038711"></A>
+ role-add-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038713"></A>
+http://marklogic.com/xdmp/privileges/role-add-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038715"></A>
+role-get-default-collections</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038717"></A>
+http://marklogic.com/xdmp/privileges/role-get-default-collections</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038719"></A>
+role-get-default-permissions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038721"></A>
+http://marklogic.com/xdmp/privileges/role-get-default-permissions</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038723"></A>
+role-get-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038725"></A>
+http://marklogic.com/xdmp/privileges/role-get-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038727"></A>
+role-privileges</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038729"></A>
+http://marklogic.com/xdmp/privileges/role-privileges</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038731"></A>
+role-remove-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038733"></A>
+http://marklogic.com/xdmp/privileges/role-remove-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038735"></A>
+role-set-default-collections</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038737"></A>
+http://marklogic.com/xdmp/privileges/role-set-default-collections</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038739"></A>
+role-set-default-permissions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038741"></A>
+http://marklogic.com/xdmp/privileges/role-set-default-permissions</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038743"></A>
+role-set-description</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038745"></A>
+http://marklogic.com/xdmp/privileges/role-set-description</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038747"></A>
+role-set-name</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038749"></A>
+http://marklogic.com/xdmp/privileges/role-set-name</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038751"></A>
+role-set-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038753"></A>
+http://marklogic.com/xdmp/privileges/role-set-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038755"></A>
+unprotect-collection</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038757"></A>
+http://marklogic.com/xdmp/privileges/unprotect-collection</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038759"></A>
+user-add-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038761"></A>
+http://marklogic.com/xdmp/privileges/user-add-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038763"></A>
+user-get-default-collections</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038765"></A>
+http://marklogic.com/xdmp/privileges/user-gt-default-collections</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038767"></A>
+user-get-default-permissions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038769"></A>
+http://marklogic.com/xdmp/privileges/user-get-default-permissions</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038771"></A>
+user-get-description</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038773"></A>
+http://marklogic.com/xdmp/privileges/user-get-description</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038775"></A>
+user-get-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038777"></A>
+http://marklogic.com/xdmp/privileges/user-get-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038779"></A>
+user-privileges</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038781"></A>
+http://marklogic.com/xdmp/privileges/user-privileges</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038783"></A>
+user-remove-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038785"></A>
+http://marklogic.com/xdmp/privileges/user-remove-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038787"></A>
+user-set-default-collections</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038789"></A>
+http://marklogic.com/xdmp/privileges/user-set-default-collections</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038791"></A>
+user-set-default-permissions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038793"></A>
+http://marklogic.com/xdmp/privileges/user-set-default-permissions</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038795"></A>
+user-set-description</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038797"></A>
+http://marklogic.com/xdmp/privileges/user-set-description</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038799"></A>
+user-set-name</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038801"></A>
+http://marklogic.com/xdmp/privileges/user-set-name</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038803"></A>
+user-set-password</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038805"></A>
+http://marklogic.com/xdmp/privileges/user-set-password</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038807"></A>
+user-set-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038809"></A>
+http://marklogic.com/xdmp/privileges/user-set-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038811"></A>
+xdmp:amp-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038813"></A>
+http://marklogic.com/xdmp/privileges/xdmp:amp-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038815"></A>
+xdmp:privilege-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038817"></A>
+http://marklogic.com/xdmp/privileges/xdmp:privilege-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038819"></A>
+xdmp:role-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038821"></A>
+http://marklogic.com/xdmp/privileges/xdmp:role-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038823"></A>
+xdmp:user-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038825"></A>
+http://marklogic.com/xdmp/privileges/xdmp:user-roles</Table-text>
+</CELL>
+</ROW>
+</TABLE>
+<Body>
+<A ID="pgfId-1038827"></A>
+Default permissions for the <code>
+security</code>
+ role are:</Body>
+<TableAnchor>
+<A ID="pgfId-1038845"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1042381"></A>
+Role</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1042383"></A>
+Capability</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038834"></A>
+security</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038836"></A>
+Read</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038838"></A>
+security</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038840"></A>
+Insert</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038842"></A>
+security</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1038844"></A>
+Update</Table-text>
+</CELL>
+</ROW>
+</TABLE>
+<Heading-2>
+<A ID="pgfId-1042555"></A>
+<A ID="55077"></A>
+trigger-management</Heading-2>
+<Body>
+<A ID="pgfId-1042556"></A>
+The <code>
+trigger-management</code>
+ role has the privileges to create and modify triggers.  The <code>
+trigger-management</code>
+ role has no execute privileges associated with it, but it has the following default permissions:</Body>
+<TableAnchor>
+<A ID="pgfId-1042570"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1042559"></A>
+Role</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1042561"></A>
+Capability</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1042563"></A>
+trigger-management</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1042565"></A>
+Read</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1042567"></A>
+trigger-management</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1042569"></A>
+Update</Table-text>
+</CELL>
+</ROW>
+</TABLE>
+<Heading-2>
+<A ID="pgfId-1053661"></A>
+<A ID="40091"></A>
+welcome-internal</Heading-2>
+<Body>
+<A ID="pgfId-1053685"></A>
+The <code>
+welcome-internal</code>
+ role is a role that is used internally by the MarkLogic Server Welcome Page. You should not explicitly grant it to any user or role. </Body>
+<Heading-2>
+<A ID="pgfId-1047265"></A>
+<A ID="97658"></A>
+xinclude</Heading-2>
+<Body>
+<A ID="pgfId-1048108"></A>
+The <code>
+xinclude role </code>
+provides the privileges to run the XInclude code used in the XInclude CPF application. For details, see <A href="../dev_guide/mod-docs.xml#id(86523)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Reusing Content With Modular Document Applications</Hyperlink>
+</A> in the <Emphasis>
+Application Developer's Guide</Emphasis>
+.</Body>
+</XML>

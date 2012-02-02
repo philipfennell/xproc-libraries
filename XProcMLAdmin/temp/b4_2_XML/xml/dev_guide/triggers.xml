@@ -1,0 +1,579 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="triggers.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1053802"></A>
+<A ID="17020"></A>
+ Using Triggers to Spawn Actions</Heading-1>
+<pagenum>
+<A ID="pgfId-1053806"></A>
+173</pagenum>
+<Body>
+<A ID="pgfId-1054435"></A>
+MarkLogic Server includes pre-commit and post-commit triggers. This chapter describes how triggers work in MarkLogic Server and includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1054331"></A>
+<A href="triggers.xml#id(82328)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Overview of Triggers Used in the Content Processing Framework</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054468"></A>
+<A href="triggers.xml#id(70464)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Pre-Commit Versus Post-Commit Triggers</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054335"></A>
+<A href="triggers.xml#id(31747)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Trigger Events</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054339"></A>
+<A href="triggers.xml#id(15862)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Trigger Scope</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054343"></A>
+<A href="triggers.xml#id(98123)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Modules Invoked or Spawned by Triggers</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054347"></A>
+<A href="triggers.xml#id(13796)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating and Managing Triggers With triggers.xqy</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055072"></A>
+<A href="triggers.xml#id(66092)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Simple Trigger Example</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1060457"></A>
+<A href="triggers.xml#id(83795)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Avoiding Infinite Trigger Loops (Trigger Storms)</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1054452"></A>
+The Content Processing Framework uses triggers to capture events and then set states in content processing pipelines. Any applications that use the Content Processing Framework Status Change Handling pipeline do not need to explicitly create triggers, as it automatically creates and manages the triggers as part of the Content Processing installation for a database. For details, see the <Emphasis>
+Content Processing Framework Guide</Emphasis>
+ manual.</Body>
+<Heading-2>
+<A ID="pgfId-1054349"></A>
+<A ID="82328"></A>
+Overview of Triggers Used in the Content Processing Framework</Heading-2>
+<Body>
+<A ID="pgfId-1054350"></A>
+Conceptually, a trigger listens for certain events (document create, delete, update, or the database coming online) to occur, and then invokes an XQuery module to run after the event occurs. Trigger definitions are stored as XML documents in a database, and they contain information about the following:</Body>
+<Body-bullet>
+<A ID="pgfId-1054351"></A>
+The type of event that causes the trigger to fire.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054352"></A>
+The scope of documents to listen for events.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054474"></A>
+Whether the trigger is of type pre-commit or post-commit.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054353"></A>
+What XQuery module to invoke or spawn when the event occurs.</Body-bullet>
+<Body>
+<A ID="pgfId-1054354"></A>
+In a pipeline used with the Content Processing Framework, a trigger fires after one stage is complete (from a document update, for example) and then the XQuery module specified in the trigger is executed. When it completes, the next trigger in the pipeline fires, and so on. In this way, you can create complex pipelines to process documents.</Body>
+<Body>
+<A ID="pgfId-1054808"></A>
+The Status Change Handling pipeline, installed when you install Content Processing in a database, creates and manages all of the triggers needed for your content processing applications, so it is not necessary to directly create or manage any triggers in your content applications.</Body>
+<Heading-2>
+<A ID="pgfId-1054409"></A>
+<A ID="70464"></A>
+Pre-Commit Versus Post-Commit Triggers</Heading-2>
+<Body>
+<A ID="pgfId-1054410"></A>
+There are two ways to configure the transactional semantics of a trigger: pre-commit and post-commit. This section describes each type of trigger and includes the following parts:</Body>
+<Body-bullet>
+<A ID="pgfId-1054411"></A>
+<A href="triggers.xml#id(34175)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Pre-Commit Triggers</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054482"></A>
+<A href="triggers.xml#id(69912)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Post-Commit Triggers</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1054412"></A>
+<A ID="34175"></A>
+Pre-Commit Triggers</Heading-3>
+<Body>
+<A ID="pgfId-1054487"></A>
+The module invoked as the result of a pre-commit trigger is evaluated as part of the same transaction that produced the triggering event. It is evaluated by invoking the module on the same App Server in which the triggering transaction is run. It differs from invoking the module with <code>
+xdmp:invoke</code>
+ in one way, however; the module invoked by the pre-commit trigger sees the updates made to the triggering document. </Body>
+<Body>
+<A ID="pgfId-1054805"></A>
+Therefore, pre-commit triggers and the modules from which the triggers are invoked execute in a single context; if the trigger fails to complete for some reason (if it throws an exception, for example), then the entire transaction, including the triggering transaction, is rolled back to the point before the transaction began its evaluation. </Body>
+<Body>
+<A ID="pgfId-1054511"></A>
+This transactional integrity is useful when you are doing something that does not make sense to break up into multiple asynchronous steps. For example, if you have an application that has a trigger that fires when a document is created, and the document needs to have an initial property set on it so that some subsequent processing can know what state the document is in, then it makes sense that the creation of the document and the setting of the initial property occur as a single transaction. As a single transaction (using a pre-commit trigger), if something failed while adding the property, the document creation would fail and the application could deal with that failure. If it were not a single transaction, then it is possible to get in a situation where the document is created, but the initial property was never created, leaving the content processing application in a state where it does not know what to do with the new document.</Body>
+<Heading-3>
+<A ID="pgfId-1054823"></A>
+<A ID="69912"></A>
+Post-Commit Triggers</Heading-3>
+<Body>
+<A ID="pgfId-1054824"></A>
+The module spawned as the result of a post-commit trigger is evaluated as a separate transaction from the module that produced the triggering event. It executes asynchronously, and if the trigger module fails, it does not roll back the calling transaction. Furthermore, there is no guarantee that the trigger module will complete if it is called.</Body>
+<Body>
+<A ID="pgfId-1054828"></A>
+When a post-commit trigger spawns an XQuery module, it is put in the queue on the <Emphasis>
+task server</Emphasis>
+. The task server maintains this queue of tasks, and initiates each task in the order it was received. The task server has multiple threads to service the queue. There is one task server per group, and you can set task server parameters in the Admin Interface under Groups&#160;&gt;&#160;<Emphasis>
+group_name</Emphasis>
+&#160;&gt;&#160;Task Server.</Body>
+<Body>
+<A ID="pgfId-1054500"></A>
+Because post-commit triggers are asynchronous, the code that calls them must not rely on something in the trigger module to maintain data consistency. For example, the state transitions in the Content Processing Framework code uses post-commit triggers. The code that initiates the triggering event updates the property state before calling the trigger, allowing a consistent state in case the trigger code does not complete for some reason. Asynchronous processing has many advantages for state processing, as each state might take some time to complete. Asynchronous processing (using post-commit triggers) allows you to build applications that will not lose all of the processing that has already occurred should something happen in the middle of processing your pipeline. When the system is available again, the Content Processing Framework will simply continue the processing where it left off.</Body>
+<Heading-2>
+<A ID="pgfId-1054358"></A>
+<A ID="31747"></A>
+Trigger Events</Heading-2>
+<Body>
+<A ID="pgfId-1054359"></A>
+Triggers can listen for the following events:</Body>
+<Body-bullet>
+<A ID="pgfId-1054360"></A>
+document create</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054361"></A>
+document update</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054362"></A>
+document delete</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054363"></A>
+any property change (does <Emphasis>
+not</Emphasis>
+ include MarkLogic Server-controlled properties such as <code>
+last-modified</code>
+ and <code>
+directory</code>
+)</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054364"></A>
+specific (named) property change</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054365"></A>
+database coming online</Body-bullet>
+<Body>
+<A ID="pgfId-1054369"></A>
+Whether the module that the trigger invokes commits before or after the module that produced the triggering event depends if the trigger is a pre-commit or post-commit trigger. Pre-commit triggers in MarkLogic Server listen for the event and then invoke the trigger module <Emphasis>
+before</Emphasis>
+ the transaction commits, making the entire process a single transaction that either all completes or all fails (although the module invoked from a pre-commit trigger sees the updates from the triggering event).</Body>
+<Body>
+<A ID="pgfId-1054520"></A>
+Post-commit triggers in MarkLogic Server initiate after the event is committed, and the module that the trigger spawns is run in a separate transaction from the one that updated the document. For example, a trigger on a document update event occurs <Emphasis>
+after</Emphasis>
+ the transaction that updates the document commits to the database. </Body>
+<Body>
+<A ID="pgfId-1054370"></A>
+Because the post-commit trigger module runs in a separate transaction from the one that caused the trigger to spawn the module (for example, the create or update event), the trigger module transaction cannot, in the event of a transaction failure, automatically roll back to the original state of the document (that is, the state <Emphasis>
+before</Emphasis>
+ the update that caused the trigger to fire). If this will leave your document in an inconsistent state, then the application must have logic to handle this state. </Body>
+<Body>
+<A ID="pgfId-1054523"></A>
+For more information on pre- and post-commit triggers, see <A href="triggers.xml#id(70464)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Pre-Commit Versus Post-Commit Triggers' on page&#160;165</A>.</Body>
+<Heading-2>
+<A ID="pgfId-1054372"></A>
+<A ID="15862"></A>
+Trigger Scope</Heading-2>
+<Body>
+<A ID="pgfId-1055135"></A>
+The <Emphasis>
+trigger scope</Emphasis>
+ is the scope with which to listen for create, update, delete, or property change events. The scope represents a portion of the database corresponding to one of the trigger scope values: <code>
+document</code>
+, <code>
+directory</code>
+, or <code>
+collection</code>
+. </Body>
+<Body>
+<A ID="pgfId-1058659"></A>
+A <code>
+document</code>
+ trigger scope specifies a given document URI, and the trigger responds to the specified trigger events only on that document.</Body>
+<Body>
+<A ID="pgfId-1058670"></A>
+A <code>
+collection</code>
+ trigger scope specifies a given collection URI, and the trigger responds to the specified trigger events for any document in the specified collection. </Body>
+<Body>
+<A ID="pgfId-1058648"></A>
+A <code>
+directory</code>
+ scope represents documents that are in a specified directory, either in the immediate directory (depth of <code>
+1</code>
+); or in the immediate or any recursive subdirectory of the specified directory. For example, if you have a directory scope of the URI <code>
+/</code>
+ (a forward-slash character) with a depth of <code>
+infinity</code>
+, that means that any document in the database with a URI that begins with a forward-slash character ( <code>
+/</code>
+ ) will fire a trigger with this scope upon the specified trigger event. Note that in this directory example, a document called <code>
+hello.xml</code>
+ is <Emphasis>
+not</Emphasis>
+ included in this trigger scope (because it is not in the <code>
+/</code>
+ directory), while documents with the URIs <code>
+/hello.xml</code>
+ or <code>
+/mydir/hello.xml</code>
+ are included. </Body>
+<Heading-2>
+<A ID="pgfId-1055137"></A>
+<A ID="98123"></A>
+Modules Invoked or Spawned by Triggers</Heading-2>
+<Body>
+<A ID="pgfId-1055138"></A>
+Trigger definitions specify the URI of a module. This module is evaluated when the trigger is fired (when the event completes). The way this works is different for pre-commit and post-commit triggers. This section describes what happens when the trigger modules are invoked and spawned and includes the following subsections:</Body>
+<Body-bullet>
+<A ID="pgfId-1055145"></A>
+<A href="triggers.xml#id(16222)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Difference in Module Behavior for Pre- and Post-Commit Triggers</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055151"></A>
+<A href="triggers.xml#id(55340)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Module External Variables trgr:uri and trgr:trigger</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1055152"></A>
+<A ID="16222"></A>
+Difference in Module Behavior for Pre- and Post-Commit Triggers</Heading-3>
+<Body>
+<A ID="pgfId-1054713"></A>
+For pre-commit triggers, the module is invoked when the trigger is fired (when the event completes). The invoked module is evaluated in an analogous way to calling <code>
+xdmp:invoke</code>
+ in an XQuery statement, and the module evaluates synchronously in the same App Server as the calling XQuery module. The difference is that, with a pre-commit trigger, the invoked module sees the result of the triggering event. For example, if there is a pre-commit trigger defined to fire upon a document being updated, and the module counts the number of paragraphs in the document, it will count the number of paragraphs <Emphasis>
+after</Emphasis>
+ the update that fired the trigger. Furthermore, if the trigger module fails for some reason (a syntax error, for example), then the entire transaction, including the update that fired the trigger, is rolled back to the state before the update.</Body>
+<Body>
+<A ID="pgfId-1054717"></A>
+For post-commit triggers, the module is spawned onto the task server when the trigger is fired (when the event completes). The spawned module is evaluated in an analogous way to calling <code>
+xdmp:spawn</code>
+ in an XQuery statement, and the module evaluates asynchronously on the task server. Once the post-commit trigger module is spawned, it waits in the task server queue until it is evaluated. When the spawned module evaluates, it is run as its own transaction. Under normal circumstances the modules in the task server queue will initiate in the order in which they were added to the queue. Because the task server queue does not persist in the event of a system shutdown, however, the modules in the task server queue are not guaranteed to run. </Body>
+<Heading-3>
+<A ID="pgfId-1055157"></A>
+<A ID="55340"></A>
+Module External Variables trgr:uri and trgr:trigger</Heading-3>
+<Body>
+<A ID="pgfId-1055166"></A>
+There are two external variables that are available to trigger modules:</Body>
+<Body-bullet>
+<A ID="pgfId-1055175"></A>
+<code>
+trgr:uri as xs:string</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055179"></A>
+<code>
+trgr:trigger as node()</code>
+</Body-bullet>
+<Body>
+<A ID="pgfId-1055180"></A>
+The <code>
+trgr:uri</code>
+ external variable is the URI of the document which caused the trigger to fire (it is only available on triggers with data events, not on triggers with database online events). The <code>
+trgr:trigger</code>
+ external variable is the trigger XML node, which is stored in the triggers database with the URI <code>
+http://marklogic.com/xdmp/triggers/</code>
+<Emphasis>
+trigger_id</Emphasis>
+, where <Emphasis>
+trigger_id</Emphasis>
+ is the ID of the trigger. You can use these external variables in the trigger module by declaring them in the prolog as follows:</Body>
+<Code>
+<A ID="pgfId-1055221"></A>
+xquery version &quot;1.0-ml&quot;;
+import module namespace trgr='http://marklogic.com/xdmp/triggers' 
+   at '/MarkLogic/triggers.xqy';
+
+declare variable $trgr:uri as xs:string external;
+declare variable $trgr:trigger as node() external;</Code>
+<Heading-2>
+<A ID="pgfId-1054378"></A>
+<A ID="13796"></A>
+Creating and Managing Triggers With triggers.xqy</Heading-2>
+<Body>
+<A ID="pgfId-1054379"></A>
+The <code>
+&lt;install_dir&gt;/Modules/MarkLogic/triggers.xqy</code>
+ XQuery module file contains functions to create, delete, and manage triggers. If you are using the Status Change Handling pipeline, it takes care of all of the trigger details; you do not need to create or manage any triggers. For details on the trigger functions, see the <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+.</Body>
+<Body>
+<A ID="pgfId-1054383"></A>
+For real-world examples of XQuery code that creates triggers, see the <code>
+&lt;install_dir&gt;/Modules/MarkLogic/cpf/domains.xqy</code>
+ XQuery module file. For a sample trigger example, see <A href="triggers.xml#id(66092)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Simple Trigger Example' on page&#160;169</A>. The functions in this module are used to create the needed triggers when you use the Admin Interface to create a domain.</Body>
+<Heading-2>
+<A ID="pgfId-1054840"></A>
+<A ID="66092"></A>
+Simple Trigger Example</Heading-2>
+<Body>
+<A ID="pgfId-1054852"></A>
+The following example shows a simple trigger that fires when a document is created.</Body>
+<Number1>
+<A ID="pgfId-1054856"></A>
+Use the Admin Interface to set up the database to use a triggers database. You can specify any database as the triggers database. The following screenshot shows the database named test used as both the database for the content and the triggers.</Number1>
+<Body-indent>
+<A ID="pgfId-1054869"></A>
+<IMAGE xml:link="simple" href="images/triggers_db.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1054868"></A>
+Create a trigger that listens for documents that are created under the directory <code>
+/myDir/</code>
+ with the following XQuery code. Note that this code must be evaluated against the triggers database for the database in which your content is stored.</Number>
+</NumberList>
+<Code>
+<A ID="pgfId-1054889"></A>
+xquery version &quot;1.0-ml&quot;;
+import module namespace trgr=&quot;http://marklogic.com/xdmp/triggers&quot; 
+   at &quot;/MarkLogic/triggers.xqy&quot;;
+
+trgr:create-trigger(&quot;myTrigger&quot;, &quot;Simple trigger example&quot;, 
+  trgr:trigger-data-event(
+      trgr:directory-scope(&quot;/myDir/&quot;, &quot;1&quot;),
+      trgr:document-content(&quot;create&quot;),
+      trgr:post-commit()),
+  trgr:trigger-module(xdmp:database(&quot;test&quot;), &quot;/modules/&quot;, &quot;log.xqy&quot;),
+  fn:true(), xdmp:default-permissions() )</Code>
+<Body-indent>
+<A ID="pgfId-1054881"></A>
+This code returns the ID of the trigger. The trigger document you just created is stored in the document with the URI <code>
+http://marklogic.com/xdmp/triggers/</code>
+<Emphasis>
+trigger_id</Emphasis>
+, where <Emphasis>
+trigger_id</Emphasis>
+ is the ID of the trigger you just created.</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1054911"></A>
+Load a document whose contents is the XQuery module of the trigger action. This is the module that is spawned when the when the previously specified create trigger fires. For this example, the URI of the module must be <code>
+/modules/log.xqy</code>
+ in the database named <code>
+test</code>
+ (from the <code>
+trgr:trigger-module</code>
+ part of the <code>
+trgr:create-trigger</code>
+ code above). Note that the document you load, because it is an XQuery document, must be loaded as a text document and it must have execute permissions. For example, create a trigger module in the <code>
+test</code>
+ database by evaluating the following XQuery against the modules database for the App Server in which the triggering actions will be evaluated:</Number>
+</NumberList>
+<Code>
+<A ID="pgfId-1055012"></A>
+xquery version '1.0-ml';
+(: evaluate this against the database specified 
+&#160;&#160;&#160;in the trigger definition (test in this example)
+:)
+xdmp:document-insert(&quot;/modules/log.xqy&quot;, 
+  text{ &quot;
+xquery version '1.0-ml';
+import module namespace trgr='http://marklogic.com/xdmp/triggers' 
+   at '/MarkLogic/triggers.xqy';
+
+declare variable $trgr:uri as xs:string external;
+
+xdmp:log(fn:concat('*****Document ', $trgr:uri, ' was created.*****'))&quot;
+}, xdmp:permission('app-user', 'execute'))</Code>
+<NumberList>
+<Number>
+<A ID="pgfId-1054952"></A>
+The trigger should now fire when you create documents in the database named <code>
+test</code>
+ in the <code>
+/myDir/ </code>
+directory. For example, the following:</Number>
+</NumberList>
+<Code>
+<A ID="pgfId-1054950"></A>
+xdmp:document-insert(&quot;/myDir/test.xml&quot;, &lt;test/&gt;)</Code>
+<Body-indent>
+<A ID="pgfId-1055039"></A>
+will write a message to the <code>
+ErrorLog.txt</code>
+ file similar to the following:</Body-indent>
+<Code>
+<A ID="pgfId-1055056"></A>
+2007-03-12 20:14:44.972 Info: TaskServer: *****Document /myDir/test.xml was created.*****</Code>
+<EndList-root>
+<A ID="pgfId-1055062"></A>
+Note that this example only fires the trigger when the document is created. If you want it to fire a trigger when the document is updated, you will need a separate trigger with a <code>
+trgr:document-content</code>
+ of <code>
+&quot;modify&quot;</code>
+.</EndList-root>
+<Heading-2>
+<A ID="pgfId-1059075"></A>
+<A ID="83795"></A>
+Avoiding Infinite Trigger Loops (Trigger Storms)</Heading-2>
+<Body>
+<A ID="pgfId-1059089"></A>
+If you create a trigger for a document to update itself, the result is an infinite loop, which is also known as a 'trigger storm.'</Body>
+<Body>
+<A ID="pgfId-1059108"></A>
+When a pre-commit trigger fires, its actions are part of the same transaction. Therefore, any updates performed in the trigger should not fire the same trigger again. To do so is to guarantee trigger storms, which generally result in an <code>
+XDMP-MAXTRIGGERDEPTH</code>
+ error message. </Body>
+<Body>
+<A ID="pgfId-1059127"></A>
+In the following example, we create a trigger that calls a module when a document in the <code>
+/storm/ </code>
+directory is modified the database. The triggered module attempts to update the document with a new child node. This triggers another update of the document, which triggers another update, and so on, ad infinitum. The end result is an <code>
+XDMP-MAXTRIGGERDEPTH</code>
+ error message and no updates to the document.</Body>
+<Body>
+<A ID="pgfId-1060256"></A>
+To create a trigger storm, do the following:</Body>
+<Number1>
+<A ID="pgfId-1059603"></A>
+In the <code>
+Modules</code>
+ database, create a <code>
+storm.xqy</code>
+ module to be called by the trigger:</Number1>
+<Code>
+<A ID="pgfId-1059142"></A>
+xquery version &quot;1.0-ml&quot;; </Code>
+<Code>
+<A ID="pgfId-1059610"></A>
+import module namespace trgr=&quot;http://marklogic.com/xdmp/triggers&quot; 
+&#160;&#160;&#160;&#160;at &quot;/MarkLogic/triggers.xqy&quot;;</Code>
+<Code>
+<A ID="pgfId-1059623"></A>
+if (xdmp:database() eq xdmp:database(&quot;Modules&quot;)) 
+&#160;&#160;&#160;then ()
+&#160;&#160;&#160;else error((), 'NOTMODULESDB', xdmp:database()) , </Code>
+<Code>
+<A ID="pgfId-1059632"></A>
+xdmp:document-insert( '/triggers/storm.xqy', text { 
+&#160;&#160;&#160;&lt;code&gt;
+&#160;&#160;&#160;xquery version &quot;1.0-ml&quot;;
+&#160;&#160;&#160;import module namespace trgr='http://marklogic.com/xdmp/triggers'
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;at '/MarkLogic/triggers.xqy';</Code>
+<Code>
+<A ID="pgfId-1059643"></A>
+&#160;&#160;&#160;&#160;declare variable $trgr:uri as xs:string external;
+&#160;&#160;&#160;&#160;declare variable $trgr:trigger as node() external;</Code>
+<Code>
+<A ID="pgfId-1059650"></A>
+&#160;&#160;&#160;&#160;xdmp:log(text {{ 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;'storm:', 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$trgr:uri, 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;xdmp:describe($trgr:trigger) 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}}) ,</Code>
+<Code>
+<A ID="pgfId-1059844"></A>
+&#160;&#160;&#160;&#160;let $root := doc($trgr:uri)/*
+&#160;&#160;&#160;&#160;return xdmp:node-insert-child(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$root, 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;element storm 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{{ count($root/*) }})
+&#160;&#160;&#160;&lt;/code&gt; 
+} ) </Code>
+<NumberList>
+<Number>
+<A ID="pgfId-1059845"></A>
+In the <code>
+Triggers</code>
+ database, create the following trigger to call the <code>
+storm.xqy</code>
+ module each time a document in the <code>
+/storm/ </code>
+directory in the database is modified:</Number>
+</NumberList>
+<Code>
+<A ID="pgfId-1059846"></A>
+xquery version &quot;1.0-ml&quot;; </Code>
+<Code>
+<A ID="pgfId-1059776"></A>
+import module namespace trgr=&quot;http://marklogic.com/xdmp/triggers&quot; 
+&#160;&#160;&#160;&#160;at &quot;/MarkLogic/triggers.xqy&quot;;</Code>
+<Code>
+<A ID="pgfId-1059367"></A>
+if (xdmp:database() eq xdmp:database(&quot;Triggers&quot;)) 
+&#160;&#160;&#160;then ()
+&#160;&#160;&#160;else error((), 'NOTTRIGGERSDB', xdmp:database()) ,</Code>
+<Code>
+<A ID="pgfId-1060088"></A>
+trgr:create-trigger(
+&#160;&#160;&#160;&#160;&#160;&quot;storm&quot;, 
+&#160;&#160;&#160;&#160;&#160;&quot;storm&quot;,
+&#160;&#160;&#160;&#160;&#160;trgr:trigger-data-event(trgr:directory-scope(&quot;/storm/&quot;, &quot;1&quot;),
+&#160;&#160;&#160;&#160;&#160;trgr:document-content(&quot;modify&quot;),
+&#160;&#160;&#160;&#160;&#160;trgr:pre-commit()),
+&#160;&#160;&#160;&#160;&#160;trgr:trigger-module(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;xdmp:database(&quot;Modules&quot;), 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;/triggers/&quot;, 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;storm.xqy&quot;),
+&#160;&#160;&#160;&#160;&#160;fn:true(), 
+&#160;&#160;&#160;&#160;&#160;xdmp:default-permissions(),
+&#160;&#160;&#160;&#160;&#160;fn:true() ) </Code>
+<NumberList>
+<Number>
+<A ID="pgfId-1059134"></A>
+Now insert a document twice into any database that uses <code>
+Triggers</code>
+ as its triggers database:</Number>
+</NumberList>
+<Code>
+<A ID="pgfId-1059830"></A>
+xquery version &quot;1.0-ml&quot;; </Code>
+<Code>
+<A ID="pgfId-1059810"></A>
+xdmp:document-insert('/storm/test', &lt;test/&gt; ) </Code>
+<NumberList>
+<Number>
+<A ID="pgfId-1059869"></A>
+The second attempt to insert the document will fire the trigger, which should result in an <code>
+XDMP-MAXTRIGGERDEPTH</code>
+ error message and repeated messages in <code>
+ErrorLog.txt</code>
+ that look like the following:</Number>
+</NumberList>
+<Code>
+<A ID="pgfId-1059906"></A>
+2010-08-12 15:04:42.176 Info: Docs: storm: /storm/test 
+&lt;trgr:trigger xmlns:trgr=&quot;http://marklogic.com/xdmp/triggers&quot;&gt;
+&#160;&#160;&lt;trgr:trigger-id&gt;1390446271155923614&lt;/trgr:trigger-id&gt;
+&lt;trgr:trig...&lt;/trgr:trigger&gt;</Code>
+<Body>
+<A ID="pgfId-1059898"></A>
+If you encounter similar circumstances in your application and it's not possible to modify your application logic, you can avoid trigger storms by setting the <code>
+$recursive</code>
+ parameter in the <code>
+trgr:create-trigger</code>
+ function to <code>
+fn:false()</code>
+. So your new trigger would look like:</Body>
+<Code>
+<A ID="pgfId-1060371"></A>
+trgr:create-trigger(
+&#160;&#160;&#160;&#160;&#160;&quot;storm&quot;, 
+&#160;&#160;&#160;&#160;&#160;&quot;storm&quot;,
+&#160;&#160;&#160;&#160;&#160;trgr:trigger-data-event(trgr:directory-scope(&quot;/storm/&quot;, &quot;1&quot;),
+&#160;&#160;&#160;&#160;&#160;trgr:document-content(&quot;modify&quot;),
+&#160;&#160;&#160;&#160;&#160;trgr:pre-commit()),
+&#160;&#160;&#160;&#160;&#160;trgr:trigger-module(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;xdmp:database(&quot;Modules&quot;), 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;/triggers/&quot;, 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;storm.xqy&quot;),
+&#160;&#160;&#160;&#160;&#160;fn:true(), 
+&#160;&#160;&#160;&#160;&#160;xdmp:default-permissions(),
+&#160;&#160;&#160;&#160;&#160;fn:false() ) </Code>
+<Body>
+<A ID="pgfId-1060363"></A>
+The result will be a single update to the document and no further recursion. </Body>
+</XML>

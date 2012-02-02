@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="intro.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1062302"></A>
+Introduction to Information Studio </Heading-1>
+<pagenum>
+<A ID="pgfId-1062451"></A>
+7</pagenum>
+<Body>
+<A ID="pgfId-1062303"></A>
+The MarkLogic Server Application Services suite includes Information Studio, which is a browser-based Interface and XQuery API that enables you to quickly create MarkLogic Server databases and load them with content. Information Studio simplifies how you load and transform content by enabling you to collect content from different sources, process it with XSLT and built-in transformation logic, and load it into a MarkLogic database. You can customize Information Studio to connect to any data source and create your own solutions for transforming content as it is collected and loaded into the database.</Body>
+<Body>
+<A ID="pgfId-1063298"></A>
+This chapter includes the following sections.</Body>
+<Body-bullet>
+<A ID="pgfId-1062310"></A>
+<A href="intro.xml#id(29398)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Information Studio Components</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1062751"></A>
+<A href="intro.xml#id(50587)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Application Services App Server and Databases</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1062784"></A>
+<A href="intro.xml#id(61433)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Information Studio APIs</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1064298"></A>
+<A href="intro.xml#id(12187)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Starting Application Services</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1062312"></A>
+<A ID="29398"></A>
+Information Studio Components</Heading-2>
+<Body>
+<A ID="pgfId-1062322"></A>
+The following are the definitions for the main Information Studio components:</Body>
+<Body-bullet>
+<A ID="pgfId-1064148"></A>
+A <Emphasis>
+flow</Emphasis>
+ is a content load configuration that determines which documents are to be loaded into which database, as well as how they are to be loaded into the database. A flow consists of a unique collector, transformer, and ingestion policy. Flows are described in <A href="loadingContent.xml#id(95867)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Creating a New Flow' on page&#160;21</A>.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1062983"></A>
+A <Emphasis>
+collector</Emphasis>
+ is an Information Studio plugin used to gather the content to be loaded into the database. There are two basic types of collectors: one-shot and long-running. Specific collector implementations gather content in different ways. For example, a one-shot collector may scan and load files from a filesystem directory and then stop, while a long-running collector may 'listen' for documents from some source and load them into the database until it is explicitly stopped by a user. The collectors bundled with Information Studio are described in <A href="loadingContent.xml#id(45125)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Collect' on page&#160;22</A>. You can also create your own custom collectors, as described in <A href="plugins.xml#id(56499)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Creating Custom Collectors' on page&#160;59</A>.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1063464"></A>
+A <Emphasis>
+transformer</Emphasis>
+ is an Information Studio plugin used to modify content as it is loaded into the database. Specific transformer implementations modify the content in different ways. The transformers bundled with Information Studio are described in <A href="loadingContent.xml#id(15084)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Transform' on page&#160;29</A>. You can also create your own custom transformers, as described in <A href="plugins.xml#id(11981)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Creating Custom Transformers' on page&#160;71</A>.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1063583"></A>
+An <Emphasis>
+ingestion policy</Emphasis>
+ is a unit of XML configuration, in the form of a stored &lt;options&gt; node, that specifies how to load content into a database. An Information Studio database may have multiple named policies, as well as a default policy. Ingestion policies are described in <A href="loadingContent.xml#id(11451)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Configuring Ingestion Options' on page&#160;26</A> and <A href="infoAPI.xml#id(84299)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Establishing Ingestion Policies' on page&#160;48</A>.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1062072"></A>
+A <Emphasis>
+ticket</Emphasis>
+ is a mechanism for tracking a database load process and recording any errors that may have occurred. A ticket has a unique ID, which can be used to obtain status reports. Tickets persist in a database until they reach their expiration date or are explicitly deleted by a user.</Body-bullet>
+<Heading-2>
+<A ID="pgfId-1063007"></A>
+<A ID="50587"></A>
+Application Services App Server and Databases</Heading-2>
+<Body>
+<A ID="pgfId-1063017"></A>
+Information Studio makes use of an HTTP App Server at port 8002, named <code>
+App-Services</code>
+, which stores data in the <code>
+App-Services</code>
+ database described below. In addition, Information Studio internally makes use of a database named <code>
+Fab</code>
+. </Body>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1063119"></A>
+Database</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1063121"></A>
+Purpose</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1063123"></A>
+App-Services</Body>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1063125"></A>
+The <code>
+App-Services</code>
+ database stores the Information Studio configuration data for the flows, as well as all of the tickets and log messages generated by the load operations. The <code>
+App-Services</code>
+ database also serves as the triggers database for both the <code>
+App-Services</code>
+ and <code>
+Fab</code>
+ databases.</Body>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1063127"></A>
+Fab</Body>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1063129"></A>
+The <code>
+Fab</code>
+ database stores state information related to the document transformation and distribution processes. Documents that generated errors during a load operation are also stored in the <code>
+Fab</code>
+ database. </Body>
+</CELL>
+</ROW>
+</TABLE>
+<Body>
+<A ID="pgfId-1063952"></A>
+When a flow is created, the following two scheduled tasks are created to garbage-collect the content in the Information Studio databases:</Body>
+<Body-bullet>
+<A ID="pgfId-1063980"></A>
+A scheduled task for deleting expired documents from the <code>
+Fab</code>
+ database. By default, this task is scheduled to run in 30 days at 11:59 pm. This start time can be configured programmatically by means of the <code>
+fab-retention-duration</code>
+ element in the ingestion policy, as described in <A href="infoAPI.xml#id(84299)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Establishing Ingestion Policies' on page&#160;48</A>. The task logs a message at the &quot;Debug&quot; level when no documents remain to be removed. </Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1064893"></A>
+A scheduled task for deleting expired tickets from the <code>
+App-Services</code>
+ database. By default, this task is scheduled to run in 30 days at 11:59 pm. This start time can be configured programmatically by means of the <code>
+ticket-retention-duration</code>
+ element in the ingestion policy, as described in <A href="infoAPI.xml#id(84299)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Establishing Ingestion Policies' on page&#160;48</A>. The task logs a message at the &quot;Debug&quot; level for every ticket it deletes as well as a final message when complete, or a default message indicating that the task has run and no tickets were deleted.</Body-bullet>
+<Note>
+<A ID="pgfId-1064903"></A>
+See <A href="../appbuilder/intro.xml#id(24413)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Upgrade Installation</Hyperlink>
+</A> in the <Emphasis>
+Application Builder Developer's Guide</Emphasis>
+ for details on what to expect when upgrading from MarkLogic Server versions 4.0 or 4.1 to version 4.2.</Note>
+<Heading-2>
+<A ID="pgfId-1064898"></A>
+<A ID="61433"></A>
+Information Studio APIs </Heading-2>
+<Body>
+<A ID="pgfId-1062649"></A>
+The <code>
+info</code>
+ and <code>
+infodev</code>
+ APIs allow you to programmatically configure and use Information Studio and to create custom collector and transformer plugins. For reference documentation on each function, see the <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+.</Body>
+<Body>
+<A ID="pgfId-1063722"></A>
+The purpose of the <code>
+info</code>
+ and <code>
+infodev</code>
+ APIs are shown in the table below.</Body>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1063708"></A>
+Module</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1063710"></A>
+Purpose</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1063712"></A>
+<code>
+info</code>
+</Body>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1063714"></A>
+The API provided by the <code>
+info</code>
+ module allows you to script the processes reflected in the Information Studio Interface. These processes include creating, configuring, and deleting databases; loading content; setting policy; getting status information (via info:ticket) and error information (info:ticket-errors), and running a flow configured in the Information Studio Interface.</Body>
+<Body>
+<A ID="pgfId-1063737"></A>
+The use of the <code>
+info</code>
+ API is described in <A href="infoAPI.xml#id(29470)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Scripting Information Studio Tasks' on page&#160;45</A>.</Body>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1063716"></A>
+<code>
+infodev</code>
+</Body>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Body>
+<A ID="pgfId-1063718"></A>
+The API provided by the <code>
+infodev</code>
+ module is specifically for developers creating custom collector and transformer plugins. The functions in this API provide the hooks into the plugin framework. </Body>
+<Body>
+<A ID="pgfId-1063848"></A>
+The use of the <code>
+infodev</code>
+ API is described in <A href="plugins.xml#id(74246)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Creating Custom Collectors and Transformers' on page&#160;57</A>.</Body>
+</CELL>
+</ROW>
+</TABLE>
+<Heading-2>
+<A ID="pgfId-1064185"></A>
+<A ID="12187"></A>
+Starting Application Services</Heading-2>
+<Body>
+<A ID="pgfId-1064189"></A>
+Information Studio is bundled as part of the Application Services suite of applications. To start Application Services, open the following URL in a browser window:</Body>
+<Code>
+<A ID="pgfId-1064190"></A>
+http://localhost:8002</Code>
+<Body>
+<A ID="pgfId-1064197"></A>
+If your instance of MarkLogic Server is running on a different host, or if Information Studio is configured on a different port, substitute the appropriate values for host and port.</Body>
+<Body>
+<A ID="pgfId-1064198"></A>
+In order to use Information Studio, you must have the <code>
+infostudio-user</code>
+ role assigned to your login account. To use Application Builder, you must have the <code>
+app-builder</code>
+ role. Users with the <code>
+admin</code>
+ role have access to both applications. </Body>
+</XML>

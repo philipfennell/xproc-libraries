@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<connection xmlns="http://www.marklogic.com" 
+		user="admin" password="admin" host="localhost" port="8003"
+		debug="no" dry-run="yes" silent="no"/>

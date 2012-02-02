@@ -1,0 +1,825 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="default.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1044208"></A>
+<A ID="64749"></A>
+The Default Conversion Option</Heading-1>
+<pagenum>
+<A ID="pgfId-1045136"></A>
+60</pagenum>
+<Body>
+<A ID="pgfId-1044209"></A>
+This chapter describes the Default Conversion Option, which is designed to convert Microsoft Office, Adobe PDF, and HTML files to XHTML and DocBook. It includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1045252"></A>
+<A href="default.xml#id(89015)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Installing the Conversion Pipelines and Framework</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1045256"></A>
+<A href="default.xml#id(76620)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Simple Drag-and-Drop Conversion</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049020"></A>
+<A href="default.xml#id(52547)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+What the Conversion Pipeline Generates</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1045260"></A>
+<A href="default.xml#id(28183)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Understanding and Using the Default Conversion Option</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049084"></A>
+<A href="default.xml#id(44144)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Modifying the Default Conversion Option</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1053753"></A>
+<A ID="89015"></A>
+Installing the Conversion Pipelines and Framework</Heading-2>
+<Body>
+<A ID="pgfId-1053754"></A>
+The Default Conversion Option installation installs the Content Processing Framework for your database, sets up the domain for the pipeline, loads the needed triggers into the triggers database, and performs other pipeline initialization tasks. You need to install the Default Conversion Option for each database in which you plan on using conversion. </Body>
+<Body>
+<A ID="pgfId-1053755"></A>
+Complete the following steps to install the Default Conversion Option into a database.</Body>
+<Number1>
+<A ID="pgfId-1053762"></A>
+If it is not already installed, install MarkLogic Server.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1053763"></A>
+Open the Admin Interface to the database page for the database in which you want to install the Default Conversion Option. For example, if you want to install the pipeline into the <Emphasis>
+Documents</Emphasis>
+ database, open the database page for the <Emphasis>
+Documents</Emphasis>
+ database.</Number>
+</NumberList>
+<Note>
+<A ID="pgfId-1053764"></A>
+MarkLogic recommends creating a new database to use when testing the Default Conversion Option.</Note>
+<NumberList>
+<Number>
+<A ID="pgfId-1053765"></A>
+On the database configuration page, select a <code>
+triggers database</code>
+ to use with your database (for example, <Emphasis>
+Triggers</Emphasis>
+). You can use any database for the triggers database. It can be the same database as the one you are configuring (for example, you can set the <Emphasis>
+Documents</Emphasis>
+ database as the triggers database for the <Emphasis>
+Documents</Emphasis>
+ database) or it can be a different database (for example, the <Emphasis>
+Triggers</Emphasis>
+ database created as part of the installation process).</Number>
+<Number>
+<A ID="pgfId-1053766"></A>
+Click OK to apply the changes to the database configuration.</Number>
+<Number>
+<A ID="pgfId-1055559"></A>
+Click the Content Processing link under the database to which you want to install the Default Conversion Option. The Content Processing Summary page appears.</Number>
+<Number>
+<A ID="pgfId-1055563"></A>
+On the Content Processing Summary page, click the Install tab. The Content Processing Installation page appears.</Number>
+<Number>
+<A ID="pgfId-1055535"></A>
+On the Content Processing Installation page, select <code>
+true</code>
+ for the <code>
+enable conversion</code>
+ option and click Install. Make sure <code>
+enable conversion</code>
+ is set to <code>
+true</code>
+. If this is set to <code>
+false</code>
+, then you will only install the Content Processing Framework, not the Default Conversion Option.</Number>
+<Number>
+<A ID="pgfId-1055546"></A>
+Click OK to confirm the installation of content processing in your database.</Number>
+<Number>
+<A ID="pgfId-1055547"></A>
+When the installation is complete, the Content Processing Summary page appears. It should show content processing installed in your database. </Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1055570"></A>
+<IMAGE xml:link="simple" href="images/cp_summary.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<Body>
+<A ID="pgfId-1053781"></A>
+The Default Conversion Option is now installed for the database. You can modify the domain settings if you want the Default Conversion Option to apply to a different set of documents. To modify the domain settings, click the default domain for your database (for example, <Emphasis>
+Default Documents</Emphasis>
+ if you chose the <Emphasis>
+Documents</Emphasis>
+ database) on the Content Processing Summary pages and make the needed modifications. For details on domains, see <A href="domains.xml#id(11600)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Understanding and Using Domains' on page&#160;14</A>.</Body>
+<Heading-2>
+<A ID="pgfId-1053783"></A>
+<A ID="76620"></A>
+Simple Drag-and-Drop Conversion</Heading-2>
+<Body>
+<A ID="pgfId-1053784"></A>
+To try out the pipeline, you need to load some Adobe PDF, Microsoft Office, and/or HTML files into the database. You can load the documents using any method you like. This section describes an easy way to load documents using a WebDAV server and client. You can then use this configuration to test document conversion with the Default Conversion Option. For more information on WebDAV servers, see 'WebDAV Servers' in the <Emphasis>
+Administrator's Guide</Emphasis>
+.</Body>
+<Body>
+<A ID="pgfId-1053788"></A>
+Complete the following steps to load and process documents in a database.</Body>
+<Number1>
+<A ID="pgfId-1053789"></A>
+Create a WebDAV server with root <code>
+/</code>
+ that accesses the database in which you installed the Content Processing Pipeline.</Number1>
+<NumberAList>
+<NumberA>
+<A ID="pgfId-1053790"></A>
+In the Admin Interface, go to the Groups &gt; Default &gt; AppServers page.</NumberA>
+<NumberA>
+<A ID="pgfId-1053791"></A>
+Click the Add WebDAV tab.</NumberA>
+<NumberA>
+<A ID="pgfId-1053792"></A>
+Enter a server name (for example, <code>
+CPF</code>
+).</NumberA>
+<NumberA>
+<A ID="pgfId-1053793"></A>
+Enter <code>
+/</code>
+ for the root.</NumberA>
+<NumberA>
+<A ID="pgfId-1053794"></A>
+Enter a port number (for example, <code>
+9999</code>
+).</NumberA>
+<NumberA>
+<A ID="pgfId-1053795"></A>
+Select the database in which you installed the content processing pipeline (for example, <code>
+Documents</code>
+).</NumberA>
+<NumberA>
+<A ID="pgfId-1053796"></A>
+Click OK.</NumberA>
+<Number>
+<A ID="pgfId-1053797"></A>
+If you will not be logging into the WebDAV client as a privileged user, set up the needed security requirements for your WebDAV root directory and your WebDAV user. For a sample of how to set this up, see <A href="default.xml#id(85082)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Set the Needed Permissions on the Root Directory' on page&#160;55</A>.</Number>
+<Number>
+<A ID="pgfId-1055715"></A>
+Create a WebDAV client that accesses the WebDAV server you just created. For example, on Windows:</Number>
+<NumberA>
+<A ID="pgfId-1053798"></A>
+Double-click My Network Places from your desktop.</NumberA>
+<NumberA>
+<A ID="pgfId-1053799"></A>
+Double-click Add Network Place.</NumberA>
+<NumberA>
+<A ID="pgfId-1053800"></A>
+For the location of the network place, enter the address with the hostname and port number of the WebDAV server you created. For example, if your server is on port 9999 of the local machine, enter the following:</NumberA>
+</NumberAList>
+<Code>
+<A ID="pgfId-1053801"></A>
+http://localhost:9999</Code>
+<NumberAList>
+<NumberA>
+<A ID="pgfId-1053802"></A>
+Click the Next button.</NumberA>
+<NumberA>
+<A ID="pgfId-1053803"></A>
+If prompted, enter a username and password for your WebDAV server.</NumberA>
+<NumberA>
+<A ID="pgfId-1053804"></A>
+Enter a name for your WebDAV folder (for example, <code>
+conversion</code>
+).</NumberA>
+<NumberA>
+<A ID="pgfId-1053805"></A>
+Click Finish.</NumberA>
+<NumberA>
+<A ID="pgfId-1053806"></A>
+If prompted, enter the username and password for your WebDAV server.</NumberA>
+<Number>
+<A ID="pgfId-1053807"></A>
+Drag-and-drop Microsoft Word, Excel, Powerpoint, and/or Adobe PDF files into the WebDAV folder. This loads the documents in the database.</Number>
+<Number>
+<A ID="pgfId-1055653"></A>
+After some time has passed, refresh the WebDAV folder (for example, View &gt; Refresh). The amount of time it takes to convert depends on the number, size, and the complexity of the documents being converted. For simple and small documents, it will take just a few seconds. For larger documents, it might take significantly longer.</Number>
+</NumberAList>
+<Body>
+<A ID="pgfId-1055654"></A>
+The converted documents, as well as the original documents and any parts generated as part of the conversion, will appear in the WebDAV folder. If you have large documents or if you load many documents into the database, the processing might continue for several minutes or longer.</Body>
+<Heading-2>
+<A ID="pgfId-1053811"></A>
+<A ID="52547"></A>
+What the Conversion Pipeline Generates</Heading-2>
+<Body>
+<A ID="pgfId-1053812"></A>
+After the conversion process is finished, for each HTML, Word, Excel, Powerpoint, and PDF document you loaded, the Default Conversion Option produces the following:</Body>
+<Body-bullet>
+<A ID="pgfId-1053813"></A>
+The original document </Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053814"></A>
+An XHTML document (<code>
+*.xhtml</code>
+)</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053815"></A>
+A simplified DocBook XML document (*<code>
+.xml</code>
+)</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053816"></A>
+A directory (<code>
+*_parts</code>
+) containing various parts generated as part of the conversion process. The parts are typically any images that were in the original document, a cascading style sheet document (<code>
+conv.css</code>
+), and a document containing an analysis of the stylesheet (<code>
+css.xml</code>
+). PDF documents also include toc.xml, which is an analysis of the table of contents structure.</Body-bullet>
+<Body>
+<A ID="pgfId-1055056"></A>
+The generated XHTML and XML documents have a URI that includes the suffix of the original document. For example, a document called <code>
+word.doc</code>
+ produces <code>
+word_doc.xml</code>
+ and <code>
+word_doc.xhtml</code>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1049238"></A>
+<A ID="28183"></A>
+Understanding and Using the Default Conversion Option</Heading-2>
+<Body>
+<A ID="pgfId-1049351"></A>
+The Default Conversion Option uses the components of Content Processing Framework, as well as converters to create XML documents from Microsoft Office and Adobe PDF files, to create a unified conversion process which converts Microsoft Office, Adobe PDF, and HTML files to well-structured XHTML and simplified DocBook format XML documents. This section provides some background on how the default conversion process works, and includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1054996"></A>
+<A href="default.xml#id(55663)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Components of the Default Conversion Option</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055004"></A>
+<A href="default.xml#id(37167)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Steps in the Conversion Process</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055009"></A>
+<A href="default.xml#id(16194)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Default Conversion Option States</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055021"></A>
+<A href="default.xml#id(86367)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Errors, Troubleshooting, Debugging, and Recovery</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1049400"></A>
+<A ID="55663"></A>
+Components of the Default Conversion Option</Heading-3>
+<Body>
+<A ID="pgfId-1049398"></A>
+The Default Conversion Option includes the following components:</Body>
+<Body-bullet>
+<A ID="pgfId-1055026"></A>
+Status Change Handling Pipeline</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055032"></A>
+Microsoft Office Pipeline</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055033"></A>
+PDF Pipelines</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055034"></A>
+HTML Pipeline</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055035"></A>
+Supporting XQuery modules</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055036"></A>
+Microsoft Office XML converter</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055037"></A>
+Adobe PDF XML converter</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055047"></A>
+The <code>
+xdmp:tidy</code>
+ function built into MarkLogic Server</Body-bullet>
+<Body>
+<A ID="pgfId-1055451"></A>
+There are also supporting XQuery modules for the Default Conversion Option for the following:</Body>
+<Body-bullet>
+<A ID="pgfId-1055452"></A>
+Generic Conversion</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055453"></A>
+PDF Conversion</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055454"></A>
+DocBook Conversion</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055455"></A>
+CSS Conversion</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055456"></A>
+XHTML Conversion</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055479"></A>
+Microsoft Office Conversion</Body-bullet>
+<Body>
+<A ID="pgfId-1055471"></A>
+These XQuery modules include the XQuery source code, so you can analyze them and use their functions in your own applications. The XQuery modules are installed into the following directory:</Body>
+<Code>
+<A ID="pgfId-1055472"></A>
+&lt;<Emphasis>
+install_dir</Emphasis>
+&gt;/Modules/MarkLogic/conversion</Code>
+<Body>
+<A ID="pgfId-1055476"></A>
+For details on these functions, see the <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1049410"></A>
+<A ID="37167"></A>
+Steps in the Conversion Process</Heading-3>
+<Body>
+<A ID="pgfId-1049414"></A>
+The steps in the conversion process differ for the different document formats (Microsoft Office, Adobe PDF, and HTML). The steps are defined in the following pipelines:</Body>
+<Body-bullet>
+<A ID="pgfId-1055073"></A>
+<code>
+html-pipeline.xml</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055078"></A>
+<code>
+msoffice-pipeline.xml</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055079"></A>
+<code>
+pdf-pipeline.xml</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055080"></A>
+<code>
+pipeline.xml</code>
+</Body-bullet>
+<Body>
+<A ID="pgfId-1055074"></A>
+Generally, the conversion process perform the following tasks:</Body>
+<Body-bullet>
+<A ID="pgfId-1055085"></A>
+Check to see what kind of document it is.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055089"></A>
+Convert the document to XHTML based on its type.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055090"></A>
+Cleans up the converted XHTML.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055327"></A>
+Extract the style information into a CSS document.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055092"></A>
+Transform the XHTML to infer the table of contents structure for the document.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055093"></A>
+Transform the XHTML to create a simplified DocBook structured format for the document.</Body-bullet>
+<Heading-3>
+<A ID="pgfId-1049479"></A>
+<A ID="16194"></A>
+Default Conversion Option States</Heading-3>
+<Body>
+<A ID="pgfId-1049483"></A>
+The conversion states are defined in the pipelines and are stored in the properties document for each document. The conversion process includes the following states:</Body>
+<Body-bullet>
+<A ID="pgfId-1049484"></A>
+http://marklogic.com/states/initial</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054946"></A>
+http://marklogic.com/states/updated</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054950"></A>
+http://marklogic.com/states/xhtml</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054954"></A>
+http://marklogic.com/states/cleaned-xhtml</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054958"></A>
+http://marklogic.com/states/structured-xhtml</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054988"></A>
+http://marklogic.com/states/enhanced-xhtml</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054962"></A>
+http://marklogic.com/states/pdf-xhtml</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054982"></A>
+http://marklogic.com/states/analyzed-styles</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054966"></A>
+http://marklogic.com/states/final</Body-bullet>
+<Heading-3>
+<A ID="pgfId-1049492"></A>
+<A ID="86367"></A>
+Errors, Troubleshooting, Debugging, and Recovery</Heading-3>
+<Body>
+<A ID="pgfId-1049423"></A>
+This section describes the following error and troubleshooting situations you might encounter with the Default Conversion Option:</Body>
+<Body-bullet>
+<A ID="pgfId-1054863"></A>
+<A href="default.xml#id(34412)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Microsoft Word 95 and Other Microsoft Office Errors</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055667"></A>
+<A href="default.xml#id(85082)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Set the Needed Permissions on the Root Directory</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054871"></A>
+<A href="default.xml#id(51754)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Default or Inherited Collections and Permissions</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054884"></A>
+<A href="default.xml#id(48600)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Enable Debugging Capabilities</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055594"></A>
+<A href="default.xml#id(49721)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Create Your Own Error Handling Pipeline</Hyperlink>
+</A></Body-bullet>
+<Heading-4>
+<A ID="pgfId-1054746"></A>
+<A ID="34412"></A>
+Microsoft Word 95 and Other Microsoft Office Errors</Heading-4>
+<Body>
+<A ID="pgfId-1049566"></A>
+The Default Conversion Option only converts Microsoft Office 97 and newer documents; it cannot convert Microsoft Office 95 and earlier documents. If you try to convert Microsoft Word&#160;95 or older documents (or other Microsoft Office 95 documents), the conversion will fail, putting the document in the <code>
+http://marklogic.com/states/error</code>
+ state. If this happens, you can do the following:</Body>
+<Body-bullet>
+<A ID="pgfId-1049567"></A>
+Find all of the documents that are in the error state (For details, see <A href="error.xml#id(13652)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Find Documents in the Error State' on page&#160;48</A>).</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049571"></A>
+Open the documents in a newer version of Microsoft Word and then re-save them (as newer Word documents, not Word 95 or older documents).</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049572"></A>
+Reload the saved files into the database. </Body-bullet>
+<Body>
+<A ID="pgfId-1055200"></A>
+Once you reload the documents into a database with content processing installed and configured, the new documents will be converted.</Body>
+<Body>
+<A ID="pgfId-1055351"></A>
+There are other types of errors you might get with Microsoft Office documents. For example, if a document is password protected, the conversion will fail because it needs the password to open the document. In general, you can address these types of issues by opening the document in the appropriate Microsoft Office application, changing the cause of the error (for example, removing the password protection), re-saving the document, and reloading the document into the conversion domain.</Body>
+<Heading-4>
+<A ID="pgfId-1054885"></A>
+<A ID="85082"></A>
+Set the Needed Permissions on the Root Directory</Heading-4>
+<Body>
+<A ID="pgfId-1055669"></A>
+When you add documents to the database for conversion, the user who adds the documents must have the needed permissions to add and modify documents. If you are using WebDAV server to drag-and-drop documents into the database, the root directory of the WebDAV server must also have the needed permissions.</Body>
+<Body>
+<A ID="pgfId-1055672"></A>
+One simple way to accomplish these security requirements is to do the following:</Body>
+<Body-bullet>
+<A ID="pgfId-1055680"></A>
+Create a URI privilege for the URI that is configured as the root directory of your WebDAV server.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055684"></A>
+Create a role that has the URI privilege and has default permissions of read. insert, and update for the role.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055689"></A>
+Set the permissions on the WebDAV root directory for the role you created. For example, if the role you created is named <code>
+webdav</code>
+, and the root directory has the URI <code>
+/webdav/root/</code>
+, run a query (as a privileged user) similar to the following:</Body-bullet>
+<Code>
+<A ID="pgfId-1055695"></A>
+xdmp:document-set-permissions(&quot;/webdav/root/&quot;,
+&#160;&#160;( xdmp:permission(&quot;webdav&quot;, &quot;read&quot;),
+&#160;&#160;&#160;&#160;xdmp:permission(&quot;webdav&quot;, &quot;insert&quot;),
+&#160;&#160;&#160;&#160;xdmp:permission(&quot;webdav&quot;, &quot;update&quot;) ) )</Code>
+<Body-indent>
+<A ID="pgfId-1055723"></A>
+You can check the permissions with the following query:</Body-indent>
+<Code>
+<A ID="pgfId-1055732"></A>
+xdmp:document-get-permissions(&quot;/webdav/root/&quot;)</Code>
+<Body-bullet>
+<A ID="pgfId-1055739"></A>
+Grant the new role (<code>
+webdav</code>
+ in the example above) to the user who accesses the WebDAV server.</Body-bullet>
+<Heading-4>
+<A ID="pgfId-1055668"></A>
+<A ID="51754"></A>
+Default or Inherited Collections and Permissions</Heading-4>
+<Body>
+<A ID="pgfId-1054757"></A>
+If you are using a collection in the domain to specify which documents to convert, the new documents created by the conversion process must be created as part of the collection specified in the domain. You can do this in the following ways:</Body>
+<Body-bullet>
+<A ID="pgfId-1055660"></A>
+Set the <code>
+inherit collections</code>
+ option at the database level to <code>
+true</code>
+ and make sure the parent directory belongs to the collection.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054792"></A>
+The user who runs the Default Conversion Option (that is, the user who originally creates the documents to be converted, whether by drag and dropping into a WebDAV folder or by some other means) can have the collection specified as a default collection (or a role to which the user is assigned). </Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055620"></A>
+You can explicitly set the collection on a document (for example, in your XQuery module code or through XDBC).</Body-bullet>
+<Body>
+<A ID="pgfId-1055629"></A>
+Otherwise only the first phase of conversion will occur (because documents created during the conversion process will not be part of the collection specified in the domain). Similarly, you must have either the appropriate default permissions assigned to the user (or a role to which the user is assigned) or you should set the permissions to inherit at the database level. </Body>
+<Body>
+<A ID="pgfId-1054917"></A>
+For information on inherited collections and inherited permissions, see the <Emphasis>
+Administrator's Guide</Emphasis>
+. For information on permissions, see <Emphasis>
+Understanding and Using Security Guide</Emphasis>
+.</Body>
+<Heading-4>
+<A ID="pgfId-1054922"></A>
+<A ID="48600"></A>
+Enable Debugging Capabilities</Heading-4>
+<Body>
+<A ID="pgfId-1054923"></A>
+If you need debugging capabilities, you can set trace events on the server for the Content Processing Framework. For details, see <A href="error.xml#id(74588)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Debugging and Recovering from Error Conditions' on page&#160;41</A>.</Body>
+<Heading-4>
+<A ID="pgfId-1049554"></A>
+<A ID="49721"></A>
+Create Your Own Error Handling Pipeline</Heading-4>
+<Body>
+<A ID="pgfId-1055599"></A>
+If you have special error handling needs, you can always extend the Default Conversion Option application by adding your own custom error handling pipeline. For details on pipelines and creating custom code, see <A href="pipelines.xml#id(80553)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Understanding and Using Pipelines' on page&#160;19</A> and <A href="custom.xml#id(52182)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Using the Framework to Create Custom Applications' on page&#160;35</A>.</Body>
+<Heading-2>
+<A ID="pgfId-1055595"></A>
+<A ID="44144"></A>
+Modifying the Default Conversion Option</Heading-2>
+<Body>
+<A ID="pgfId-1056455"></A>
+This section describes ways to modify the Default Conversion Option, and includes the following subsections:</Body>
+<Body-bullet>
+<A ID="pgfId-1056459"></A>
+<A href="default.xml#id(18562)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Copy Defaults and Modify</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1056463"></A>
+<A href="default.xml#id(18210)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+PDF Alternate Pipelines</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1056464"></A>
+<A href="default.xml#id(78400)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Modifying the Options for Default Conversion</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1056465"></A>
+<A ID="18562"></A>
+Copy Defaults and Modify</Heading-3>
+<Body>
+<A ID="pgfId-1049356"></A>
+All of the XQuery code and all of the pipelines for the Default Conversion Option are installed with MarkLogic Server. The pipelines are installed in the following directory:</Body>
+<Code>
+<A ID="pgfId-1049227"></A>
+&lt;<Emphasis>
+install_dir</Emphasis>
+&gt;/Installer</Code>
+<Body>
+<A ID="pgfId-1055121"></A>
+The XQuery modules are installed under the Modules directory in the following location:</Body>
+<Code>
+<A ID="pgfId-1055122"></A>
+&lt;<Emphasis>
+install_dir</Emphasis>
+&gt;/Modules/MarkLogic/conversion/actions</Code>
+<Body>
+<A ID="pgfId-1055134"></A>
+You can create your own pipelines by copying and modifying the Default Conversion Option code to suit your needs. Make sure you understand domains, pipelines, the concepts of the Content Processing Framework, and the rules for XQuery modules in content processing applications before modifying the pipelines. For information on these topics, see the rest of this document. </Body>
+<Body>
+<A ID="pgfId-1055149"></A>
+The modification possibilities are endless. You can add phases to the pipeline to do your own processing, add email notification to your application, add entity extraction from a semantic tagging service, and so on. For information on creating custom applications, see <A href="custom.xml#id(52182)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Using the Framework to Create Custom Applications' on page&#160;35</A>.</Body>
+<Heading-3>
+<A ID="pgfId-1056472"></A>
+<A ID="18210"></A>
+PDF Alternate Pipelines</Heading-3>
+<Body>
+<A ID="pgfId-1056478"></A>
+There are several alternate PDF pipelines available to attach to a domain instead of the default PDF pipeline. The Default Conversion Option is designed to have only one PDF pipeline attached to a domain at a time; do not attach several alternate PDF pipelines to the same domain. The following table lists the PDF pipelines with a description of each (choose the one that best matches your needs).</Body>
+<TableAnchor>
+<A ID="pgfId-1056487"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1056517"></A>
+PDF Pipeline</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1056519"></A>
+Description</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1056521"></A>
+PDF Conversion</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1056523"></A>
+This is the default pipeline. It is set up to extract the most out of the text in PDF files, concentrating more on structure than page layout. It is not optimized for page layout fidelity.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1056844"></A>
+PDF Conversion (Page Layout)</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1056846"></A>
+This pipeline preserves the page layout fidelity as closely as possible. It converts the PDF file on a page-by-page basis, producing a new element for each page. This can make it difficult to render logical parts of the document together, unless they correspond to page breaks, but makes it easy to process the document one page at a time. You cannot do the docbook processing (with the DocBook Conversion pipeline) when using this pipeline.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1056852"></A>
+PDF Conversion (Page Layout with Reblocking)</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1056854"></A>
+This pipeline attempts to preserve more exact rendering of content then the default PDF pipeline, while making it more feasible to extract and render logical subunits instead of just pages. It is possible to lose some page-layout fidelity with this pipeline compared withe the Page Layout pipeline. This pipeline requires more processing time than the others.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1056525"></A>
+PDF Conversion (Page Layout, Image Batching)</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1056580"></A>
+This pipeline preserves the page layout fidelity as closely as possible, and also batch-processes images. It converts the PDF file on a page-by-page basis, producing a new element for each page. This can make it difficult to render logical parts of the document together, unless they correspond to page breaks, but makes it easy to process the document one page at a time. You cannot do the docbook processing (with the DocBook Conversion pipeline) when using this pipeline.</CellBody>
+<CellBody>
+<A ID="pgfId-1057175"></A>
+This pipeline is intended to minimize the memory requirements when converting PDF documents containing many large images (for example, scanned PDF files). The overall processing time will increase, however, because of the additional image extraction steps. You can adjust the <code>
+batch-size</code>
+ parameter to tune memory needs against overall throughput. This pipeline is useful for page-layout conversion of very large PDF documents with many large images. </CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1056529"></A>
+PDF Conversion (Image Batching)</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1056531"></A>
+This pipeline performs the extraction of the default pipeline and also extracts images in batches, increasing the overall processing time but decreasing the memory usage. You can adjust the <code>
+batch-size</code>
+ parameter to tune memory needs against overall throughput. This pipeline is useful for default conversion of very large PDF documents with many large images.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1056676"></A>
+PDF Conversion (Paged Text, No Rendering)</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1056688"></A>
+This pipeline produces a very simple XML structure that is suitable for word searches within pages, but not rendering. Paragraph and section structure is lost. By default images are not extracted. This variant emphasizes speed of extraction and word search. To make best use of the output of this pipeline, define the elements <code>
+a</code>
+ and <code>
+page</code>
+ in the <code>
+http://marklogic.com/cpf/paged-text</code>
+ namespace as phrase-throughs in the database configuration. You cannot do the docbook processing (with the DocBook Conversion pipeline) when using this pipeline.</CellBody>
+</CELL>
+</ROW>
+</TABLE>
+<Heading-3>
+<A ID="pgfId-1056495"></A>
+<A ID="78400"></A>
+Modifying the Options for Default Conversion</Heading-3>
+<Body>
+<A ID="pgfId-1056499"></A>
+The Default Conversion Option uses the built-in functions <code>
+xdmp:excel-convert</code>
+, <code>
+xdmp:pdf-convert</code>
+, <code>
+xdmp:powerpoint-convert</code>
+, <code>
+xdmp:tidy</code>
+, and <code>
+xdmp:word-convert</code>
+. The pipelines reference various XQuery modules that call these functions. Each of these functions takes an options node to control its behavior. The options are set to somewhat generic defaults that work well with a large variety of documents. Your own documents might have some more specific needs, however, and the pipelines are designed with the ability to pass in options nodes which specify conversion options. </Body>
+<Body>
+<A ID="pgfId-1056877"></A>
+Each condition and action step in the MarkLogic pipelines has an <code>
+options</code>
+ node. The options node is defined in a namespace with a URI corresponding to the module path invoked by that step. In these option nodes, you can enter options from any of the Document Conversion functions (<code>
+xdmp:excel-convert</code>
+, <code>
+xdmp:pdf-convert</code>
+, <code>
+xdmp:powerpoint-convert</code>
+, <code>
+xdmp:tidy</code>
+, <code>
+xdmp:word-convert</code>
+) in the namespace corresponding to that conversion function. </Body>
+<Body>
+<A ID="pgfId-1056476"></A>
+For example, the action for the default PDF Pipeline (<code>
+pdf-pipeline.xml</code>
+) has the following options node:</Body>
+<Code>
+<A ID="pgfId-1056925"></A>
+&lt;action&gt;
+&lt;module&gt;/MarkLogic/conversion/actions/convert-pdf-action.xqy&lt;/module&gt;
+&lt;options xmlns=&quot;/MarkLogic/conversion/actions/convert-pdf-action.xqy&quot;&gt;
+&#160;&#160;&lt;destination-root/&gt;
+&#160;&#160;&lt;wrap xmlns=&quot;xdmp:tidy&quot;&gt;0&lt;/wrap&gt;
+&#160;&#160;&lt;tidy-mark xmlns=&quot;xdmp:tidy&quot;&gt;false&lt;/tidy-mark&gt;
+&#160;&#160;&lt;show-warnings xmlns=&quot;xdmp:tidy&quot;&gt;false&lt;/show-warnings&gt;
+&lt;/options&gt;
+&lt;/action&gt;</Code>
+<Body>
+<A ID="pgfId-1056920"></A>
+In this options node, the <code>
+destination-root</code>
+ is an option for this pipeline step. The <code>
+wrap</code>
+ element is an option passed into the <code>
+xdmp:tidy</code>
+ built-in function (which the PDF Pipeline uses to clean the generated xhtml), and the <code>
+tidy-mark</code>
+ and <code>
+show-warnings</code>
+ elements are also options passed into tidy.</Body>
+<Body>
+<A ID="pgfId-1057084"></A>
+Suppose the PDF documents you want to convert all are password protected and all have the same password. You can then add the following to the <code>
+options</code>
+ node to specify a password:</Body>
+<Code>
+<A ID="pgfId-1057089"></A>
+&lt;password xmlns=&quot;xdmp:pdf-convert&quot;&gt;your_password&lt;/password&gt;</Code>
+<Body>
+<A ID="pgfId-1057093"></A>
+Notice the namespace of the <code>
+password</code>
+ option is <code>
+xdmp:pdf-convert</code>
+, and this option will be passed in when the pipeline processing calls <code>
+xdmp:pdf-convert</code>
+.</Body>
+<Body>
+<A ID="pgfId-1057077"></A>
+All of the pipelines have options nodes, and you can pass in any option to each pipeline. You can change the default options or add other options that make sense for your content. See the <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+ for the options for each of the Document Conversion functions. Also, the format conversion steps in a pipeline have the following options:</Body>
+<Body-bullet>
+<A ID="pgfId-1057106"></A>
+<code>
+destination-root</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1057111"></A>
+<code>
+default-language</code>
+</Body-bullet>
+<Body>
+<A ID="pgfId-1057107"></A>
+The <code>
+destination-root</code>
+ option specifies an alternate directory URI where the output of the conversion processing is saved. The <code>
+default-language</code>
+ option is only used on the Microsoft Office conversion pipelines, and it specifies the value of an <code>
+xml:lang</code>
+ attribute to put on the root node of the converted Office documents.</Body>
+</XML>

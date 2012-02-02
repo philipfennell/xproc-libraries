@@ -1,0 +1,415 @@
+<apidoc:module name="SecurityBuiltins" category="Security" lib="xdmp" xmlns:apidoc="http://marklogic.com/xdmp/apidoc">
+  <apidoc:summary access="public">
+The security built-in functions are XQuery functions to perform many 
+security-related tasks in MarkLogic Server.
+</apidoc:summary>
+  <apidoc:function name="can-grant-roles" type="builtin" lib="xdmp" category="Security" hidden="false" bucket="MarkLogic Built-In Functions">
+    <apidoc:summary>
+  Tests whether a user can grant or revoke a set of roles.  Raises an error if the session user can not.
+</apidoc:summary>
+    <apidoc:params>
+      <apidoc:param name="roles" type="xs:string*" optional="false">
+    A set of role names
+  </apidoc:param>
+    </apidoc:params>
+    <apidoc:return>empty-sequence()</apidoc:return>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+  xdmp:can-grant-roles(("development", "qa"))
+</pre></apidoc:example>
+    <algorithm xmlns="http://www.w3.org/1999/xhtml"></algorithm>
+  </apidoc:function>
+  <apidoc:function name="security-assert" type="builtin" lib="xdmp" category="Security" hidden="false" bucket="MarkLogic Built-In Functions">
+    <apidoc:summary>
+  Tests whether the current user has at least one of a given set of privileges.
+  Raises an error if the user does not have any of the privileges.
+</apidoc:summary>
+    <apidoc:params>
+      <apidoc:param name="privileges" type="xs:string*" optional="false">
+    The set of privilege URIs.  These are the action URIs for the privileges, 
+    not the names of the privileges.
+  </apidoc:param>
+      <apidoc:param name="kind" type="xs:string" optional="false">
+    The kind of privileges (either "execute" or "uri").  
+  </apidoc:param>
+    </apidoc:params>
+    <apidoc:return>empty-sequence()</apidoc:return>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+xdmp:security-assert("http://my-function/function-foo", "execute")
+</pre></apidoc:example>
+    <algorithm xmlns="http://www.w3.org/1999/xhtml"></algorithm>
+  </apidoc:function>
+  <apidoc:function name="has-privilege" type="builtin" lib="xdmp" category="Security" hidden="false" bucket="MarkLogic Built-In Functions">
+    <apidoc:summary>
+  Tests whether the current user has at least one of a given set of privileges.
+  Returns true if they do, false otherwise.
+</apidoc:summary>
+    <apidoc:params>
+      <apidoc:param name="privileges" type="xs:string*" optional="false">
+    The set of privilege URIs.  These are the URIs for the privileges, not 
+    the names of the privileges.
+  </apidoc:param>
+      <apidoc:param name="kind" type="xs:string" optional="false">
+    The kind of privileges (either "execute" or "uri").
+  </apidoc:param>
+    </apidoc:params>
+    <apidoc:return>xs:boolean</apidoc:return>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+xdmp:has-privilege("http://myprivs/function-foo", "execute")
+  =&gt; true if the current user has the execute privilege on a 
+     privilege with the URI "http://myprivs/function-foo" 
+</pre></apidoc:example>
+    <algorithm xmlns="http://www.w3.org/1999/xhtml"></algorithm>
+  </apidoc:function>
+  <apidoc:function name="user-roles" type="builtin" lib="xdmp" category="Security" hidden="false" bucket="MarkLogic Built-In Functions">
+    <apidoc:summary>
+  Returns all roles assigned to a user, including roles directly assigned
+  to the user and roles inherited by other roles.
+</apidoc:summary>
+    <apidoc:params>
+      <apidoc:param name="name" type="xs:string" optional="false">
+    The user name.
+  </apidoc:param>
+    </apidoc:params>
+    <apidoc:return>xs:unsignedLong*</apidoc:return>
+    <privilege xmlns="http://www.w3.org/1999/xhtml">
+  http://marklogic.com/xdmp/privileges/xdmp-user-roles
+</privilege>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+  xdmp:user-roles("ian")
+  =&gt;(2349872340, 432987324)
+</pre></apidoc:example>
+    <algorithm xmlns="http://www.w3.org/1999/xhtml"></algorithm>
+  </apidoc:function>
+  <apidoc:function name="role-roles" type="builtin" lib="xdmp" category="Security" hidden="false" bucket="MarkLogic Built-In Functions">
+    <apidoc:summary>
+  Returns the set of all roles inherited by a given role, including roles
+  directly assigned to the role and roles inherited from other roles.
+</apidoc:summary>
+    <apidoc:params>
+      <apidoc:param name="name" type="xs:string" optional="false">
+    The role name.
+  </apidoc:param>
+    </apidoc:params>
+    <apidoc:return>xs:unsignedLong*</apidoc:return>
+    <privilege xmlns="http://www.w3.org/1999/xhtml">
+  http://marklogic.com/xdmp/privileges/xdmp-role-roles
+</privilege>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+  xdmp:role-roles("vp")
+  =&gt;(2349872340, 432987324)
+</pre></apidoc:example>
+    <algorithm xmlns="http://www.w3.org/1999/xhtml"></algorithm>
+  </apidoc:function>
+  <apidoc:function name="privilege-roles" type="builtin" lib="xdmp" category="Security" hidden="false" bucket="MarkLogic Built-In Functions">
+    <apidoc:summary>
+  Returns the set of all roles that have a given privilege.
+</apidoc:summary>
+    <apidoc:params>
+      <apidoc:param name="action" type="xs:string" optional="false">
+    The privilege action.
+  </apidoc:param>
+      <apidoc:param name="kind" type="xs:string" optional="false">
+    The privilege kind.
+  </apidoc:param>
+    </apidoc:params>
+    <apidoc:return>xs:unsignedLong*</apidoc:return>
+    <privilege xmlns="http://www.w3.org/1999/xhtml">
+  http://marklogic.com/xdmp/privileges/xdmp-privilege-roles
+</privilege>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+  xdmp:privilege-roles(
+         "http://marklogic.com/privileges/delete-all", 
+         "execute")
+  =&gt;(2349872340, 432987324)
+</pre></apidoc:example>
+    <algorithm xmlns="http://www.w3.org/1999/xhtml"></algorithm>
+  </apidoc:function>
+  <apidoc:function name="amp-roles" type="builtin" lib="xdmp" category="Security" hidden="false" bucket="MarkLogic Built-In Functions">
+    <apidoc:summary>
+  Returns the set of all roles assigned to an amp, including roles directly
+  assigned to the amp and roles inherited by other roles.
+</apidoc:summary>
+    <apidoc:params>
+      <apidoc:param name="namespace-uri" type="xs:string" optional="false">
+    The amped function namespace URI.
+  </apidoc:param>
+      <apidoc:param name="localname" type="xs:string" optional="false">
+    The amped function localname.
+  </apidoc:param>
+      <apidoc:param name="document-uri" type="xs:string" optional="false">
+    The amped function module URI.
+  </apidoc:param>
+      <apidoc:param name="database-id" type="xs:unsignedLong" optional="false">
+    The database ID containing the module.
+  </apidoc:param>
+    </apidoc:params>
+    <apidoc:return>xs:unsignedLong*</apidoc:return>
+    <privilege xmlns="http://www.w3.org/1999/xhtml">
+  http://marklogic.com/xdmp/privileges/xdmp-amp-roles
+</privilege>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+  xdmp:amp-roles("http://marklogic.com", 
+                 "read-docs", 
+                 "/app/docs.xqy",
+                 239487239487)
+  =&gt;(2349872340, 432987324)
+</pre></apidoc:example>
+    <algorithm xmlns="http://www.w3.org/1999/xhtml"></algorithm>
+  </apidoc:function>
+  <apidoc:function name="document-get-collections" type="builtin" lib="xdmp" category="Extension" hidden="false" bucket="MarkLogic Built-In Functions">
+    <apidoc:summary>
+  Returns the collections to which a given document belongs.
+</apidoc:summary>
+    <apidoc:params>
+      <apidoc:param name="uri" type="xs:string" optional="false">
+    The document URI.
+  </apidoc:param>
+    </apidoc:params>
+    <apidoc:return>xs:string*</apidoc:return>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+  xdmp:document-get-collections("chapter5.xml")
+  =&gt;("http://marklogic.com/all-books", 
+        "http://marklogic.com/xml-books")
+</pre></apidoc:example>
+    <algorithm xmlns="http://www.w3.org/1999/xhtml"></algorithm>
+  </apidoc:function>
+  <apidoc:function name="document-get-permissions" type="builtin" lib="xdmp" category="Security" hidden="false" bucket="MarkLogic Built-In Functions">
+    <apidoc:summary>
+  Returns the permissions to a given document.
+</apidoc:summary>
+    <apidoc:params>
+      <apidoc:param name="uri" type="xs:string" optional="false">
+    The document URI.
+  </apidoc:param>
+    </apidoc:params>
+    <apidoc:return>element()*</apidoc:return>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+  xdmp:document-get-permissions("chapter5.xml")
+  =&gt;(&lt;sec:permission&gt;
+          &lt;sec:capability&gt;read&lt;/sec:capability&gt;
+          &lt;sec:role-id&gt;324978243&lt;/sec:role-id&gt;
+        &lt;/sec:permission&gt;,
+        &lt;sec:permission&gt;
+          &lt;sec:capability&gt;read&lt;/sec:capability&gt;
+          &lt;sec:role-id&gt;32493478578243&lt;/sec:role-id&gt;
+        &lt;/sec:permission&gt;,
+        &lt;sec:permission&gt;
+          &lt;sec:capability&gt;update&lt;/sec:capability&gt;
+          &lt;sec:role-id&gt;32493478578243&lt;/sec:role-id&gt;
+        &lt;/sec:permission&gt;)
+</pre></apidoc:example>
+    <algorithm xmlns="http://www.w3.org/1999/xhtml"></algorithm>
+  </apidoc:function>
+  <apidoc:function name="default-permissions" type="builtin" lib="xdmp" category="Security" hidden="false" bucket="MarkLogic Built-In Functions">
+    <apidoc:summary>
+  Returns the permissions any new document would get if the current user 
+  were to insert a document without specifying the default permissions.
+</apidoc:summary>
+    <apidoc:params>
+      <apidoc:param name="uri" type="xs:string" optional="true">
+    The document URI to get parent directory.
+  </apidoc:param>
+    </apidoc:params>
+    <apidoc:return>element()*</apidoc:return>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+  xdmp:default-permissions("http://example.com/content/foo.xml")
+  =&gt;(&lt;sec:permission&gt;
+          &lt;sec:capability&gt;read&lt;/sec:capability&gt;
+          &lt;sec:role-id&gt;324978243&lt;/sec:role-id&gt;
+        &lt;/sec:permission&gt;,
+        &lt;sec:permission&gt;
+          &lt;sec:capability&gt;read&lt;/sec:capability&gt;
+          &lt;sec:role-id&gt;32493478578243&lt;/sec:role-id&gt;
+        &lt;/sec:permission&gt;,
+        &lt;sec:permission&gt;
+          &lt;sec:capability&gt;update&lt;/sec:capability&gt;
+          &lt;sec:role-id&gt;32493478578243&lt;/sec:role-id&gt;
+        &lt;/sec:permission&gt;)
+</pre></apidoc:example>
+    <algorithm xmlns="http://www.w3.org/1999/xhtml"></algorithm>
+  </apidoc:function>
+  <apidoc:function name="default-collections" type="builtin" lib="xdmp" category="Security" hidden="false" bucket="MarkLogic Built-In Functions">
+    <apidoc:summary>
+  Returns the collections any new document would get if the current user 
+  were to insert a document without specifying the collections.
+</apidoc:summary>
+    <apidoc:params>
+      <apidoc:param name="uri" type="xs:string" optional="true">
+    The document URI to get parent directory.
+  </apidoc:param>
+    </apidoc:params>
+    <apidoc:return>element()*</apidoc:return>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+  xdmp:default-collections()
+  =&gt;("http://example.com/docs",
+        "http://example.com/manuals")
+</pre></apidoc:example>
+    <algorithm xmlns="http://www.w3.org/1999/xhtml"></algorithm>
+  </apidoc:function>
+  <apidoc:function name="get-current-user" type="builtin" lib="xdmp" category="Security" hidden="false" bucket="MarkLogic Built-In Functions">
+    <apidoc:summary>
+  Returns the name of the current user.
+</apidoc:summary>
+    <apidoc:params/>
+    <apidoc:return>xs:string</apidoc:return>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+  xdmp:get-current-user()
+  =&gt;"ian"
+</pre></apidoc:example>
+    <algorithm xmlns="http://www.w3.org/1999/xhtml"></algorithm>
+  </apidoc:function>
+  <apidoc:function name="get-request-user" type="builtin" lib="xdmp" category="Security" hidden="false" bucket="MarkLogic Built-In Functions">
+    <apidoc:summary>
+  Returns the id of the current user.
+</apidoc:summary>
+    <apidoc:params/>
+    <apidoc:return>xs:unsignedLong</apidoc:return>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+  xdmp:get-request-user()
+  =&gt;23987236
+</pre></apidoc:example>
+    <algorithm xmlns="http://www.w3.org/1999/xhtml"></algorithm>
+  </apidoc:function>
+  <apidoc:function name="get-current-roles" type="builtin" lib="xdmp" category="Security" hidden="false" bucket="MarkLogic Built-In Functions">
+    <apidoc:summary>
+  Returns all the current roles, both assigned and inherited by the 
+  current user and any received from amps.
+</apidoc:summary>
+    <apidoc:params/>
+    <apidoc:return>xs:unsignedLong*</apidoc:return>
+    <privilege xmlns="http://www.w3.org/1999/xhtml">
+  http://marklogic.com/xdmp/privileges/xdmp-get-current-roles
+</privilege>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+  xdmp:get-current-roles()
+  =&gt;(2349872340, 432987324)
+</pre></apidoc:example>
+    <algorithm xmlns="http://www.w3.org/1999/xhtml"></algorithm>
+  </apidoc:function>
+  <apidoc:function name="permission" type="builtin" lib="xdmp" category="Security" hidden="false" bucket="MarkLogic Built-In Functions">
+    <apidoc:summary>
+  Returns a permission element in the security namespace corresponding
+  to the named role and capability given.
+</apidoc:summary>
+    <apidoc:params>
+      <apidoc:param name="role" type="xs:string" optional="false">
+    A role name.
+  </apidoc:param>
+      <apidoc:param name="capability" type="xs:string" optional="false">
+    A capability (read, update, insert, or execute).
+  </apidoc:param>
+    </apidoc:params>
+    <apidoc:return>element()</apidoc:return>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+  xdmp:permission("development", "read")
+  =&gt;&lt;sec:permission&gt;
+          &lt;sec:capability&gt;read&lt;/sec:capability&gt;
+          &lt;sec:role-id&gt;32497824353&lt;/sec:role-id&gt;
+       &lt;/sec:permission&gt;
+</pre></apidoc:example>
+    <algorithm xmlns="http://www.w3.org/1999/xhtml"></algorithm>
+  </apidoc:function>
+  <apidoc:function name="user" type="builtin" lib="xdmp" category="Security" hidden="false" bucket="MarkLogic Built-In Functions">
+    <apidoc:summary>
+  Returns the user ID for the specified user name.  Unlike the security
+  library module function <code xmlns="http://www.w3.org/1999/xhtml">sec:uid-for-name</code>, this function
+  can be evaluted against any database and does not need to be evaluated
+  directly against the security database.  It returns the user ID from the
+  security database configured for the database in which the App Server
+  evaluates against.
+</apidoc:summary>
+    <apidoc:params>
+      <apidoc:param name="user" type="xs:string" optional="false">
+    A user name.
+  </apidoc:param>
+    </apidoc:params>
+    <apidoc:return>xs:integer</apidoc:return>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+  xdmp:user("sylvester")
+  =&gt; 239871567325
+</pre></apidoc:example>
+    <algorithm xmlns="http://www.w3.org/1999/xhtml"></algorithm>
+  </apidoc:function>
+  <apidoc:function name="role" type="builtin" lib="xdmp" category="Security" hidden="false" bucket="MarkLogic Built-In Functions">
+    <apidoc:summary>
+  Returns the role ID for the specified role name.  Unlike the security
+  library module function <code xmlns="http://www.w3.org/1999/xhtml">sec:uid-for-name</code>, this function
+  can be evaluted against any database and does not need to be evaluated
+  directly against the security database.  It returns the role ID from the
+  security database configured for the database in which the App Server
+  evaluates against.
+</apidoc:summary>
+    <apidoc:params>
+      <apidoc:param name="role" type="xs:string" optional="false">
+    A role name.
+  </apidoc:param>
+    </apidoc:params>
+    <apidoc:return>xs:integer</apidoc:return>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+  xdmp:role("editor")
+  =&gt; 2392349873545
+</pre></apidoc:example>
+    <algorithm xmlns="http://www.w3.org/1999/xhtml"></algorithm>
+  </apidoc:function>
+  <apidoc:function name="privilege" type="builtin" lib="xdmp" category="Security" hidden="false" bucket="MarkLogic Built-In Functions">
+    <apidoc:summary>
+  Returns the privilege ID for the specified privilege name.  Unlike the security
+  library module function <code xmlns="http://www.w3.org/1999/xhtml">sec:uid-for-name</code>, this function
+  can be evaluted against any database and does not need to be evaluated
+  directly against the security database.  It returns the privilege ID from the
+  security database configured for the database in which the App Server
+  evaluates against.
+</apidoc:summary>
+    <apidoc:params>
+      <apidoc:param name="action" type="xs:string" optional="false">
+    A privilege action.
+  </apidoc:param>
+      <apidoc:param name="kind" type="xs:string" optional="false">
+    A privilege kind: "execute" or "URI".
+  </apidoc:param>
+    </apidoc:params>
+    <apidoc:return>xs:integer</apidoc:return>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+  xdmp:privilege("http://my-app/test","execute")
+  =&gt; 2392349873545
+</pre></apidoc:example>
+    <algorithm xmlns="http://www.w3.org/1999/xhtml"></algorithm>
+  </apidoc:function>
+  <apidoc:function name="amp" type="builtin" lib="xdmp" category="Security" hidden="false" bucket="MarkLogic Built-In Functions">
+    <apidoc:summary>
+  Returns the amp ID for the specified amp.  Unlike the security
+  library module function <code xmlns="http://www.w3.org/1999/xhtml">sec:uid-for-name</code>, this function
+  can be evaluted against any database and does not need to be evaluated
+  directly against the security database.  It returns the amp ID from the
+  security database configured for the database in which the App Server
+  evaluates against.
+</apidoc:summary>
+    <apidoc:params>
+      <apidoc:param name="namespace" type="xs:string" optional="false">
+    A function namespace.
+  </apidoc:param>
+      <apidoc:param name="localname" type="xs:string" optional="false">
+    A function localname.  </apidoc:param>
+      <apidoc:param name="module-uri" type="xs:string" optional="false">
+    The module URI for the amp.
+  </apidoc:param>
+      <apidoc:param name="database" type="xs:unsignedLong" optional="false">
+    The ID of the database in which the module to which this amp refers is
+    stored.  If the module is on the filesystem under the <code xmlns="http://www.w3.org/1999/xhtml">Modules</code>
+    directory, then specify 0 for the database ID.
+  </apidoc:param>
+    </apidoc:params>
+    <apidoc:return>xs:integer</apidoc:return>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+  xdmp:amp("http://my-app/test","my-func","/modules/my-module.xqy",
+            xdmp:modules-database())
+  =&gt; 2392349873545
+</pre></apidoc:example>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+  xdmp:amp("http://marklogic.com/xdmp/security", "amp-add-roles", 
+         "/MarkLogic/security.xqy", 0) 
+  =&gt; 3548369234520018804
+</pre></apidoc:example>
+    <algorithm xmlns="http://www.w3.org/1999/xhtml"></algorithm>
+  </apidoc:function>
+</apidoc:module>

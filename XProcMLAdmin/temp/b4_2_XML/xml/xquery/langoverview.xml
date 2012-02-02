@@ -1,0 +1,1744 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="langoverview.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1043259"></A>
+<A ID="16356"></A>
+XQuery Language</Heading-1>
+<pagenum>
+<A ID="pgfId-1054143"></A>
+<A ID="_Exploring_the_Use"></A>
+42</pagenum>
+<Body>
+<A ID="pgfId-1043261"></A>
+The chapter describes selected parts of the XQuery language. It is not a complete language reference, but it touches on many of the widely used language constructs. For complete details on the language and complete syntax for the language, see the W3C XQuery specification (<Hyperlink>
+<A href="http://www.w3.org/TR/xquery/" xml:link="simple" show="replace" actuate="user" CLASS="URL">http://www.w3.org/TR/xquery/</A></Hyperlink>
+). Additionally, there are many third-party books available on the XQuery language which can help with the basics of the language. This chapter has the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1058412"></A>
+<A href="langoverview.xml#id(88685)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Expressions Return Items</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1058915"></A>
+<A href="langoverview.xml#id(46972)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+XML and XQuery</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1058881"></A>
+<A href="langoverview.xml#id(70883)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+XQuery Modules</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1058882"></A>
+<A href="langoverview.xml#id(48211)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+XQuery Prolog</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059738"></A>
+<A href="langoverview.xml#id(16854)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+XQuery Comments</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059742"></A>
+<A href="langoverview.xml#id(63247)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+XQuery Expressions</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1060088"></A>
+<A href="langoverview.xml#id(74341)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+XQuery Comparison Operators</Hyperlink>
+</A></Body-bullet>
+<Note>
+<A ID="pgfId-1058897"></A>
+This chapter describes a subset of the XQuery 1.0 recommendation syntax, which is used in the <code>
+1.0</code>
+ and <code>
+1.0-ml</code>
+ dialects. The syntax for the <code>
+0.9-ml</code>
+ dialect (3.2 compatible) is similar, but not identical to what is described here; most of the differences are in the XQuery prolog. For an overview of the different XQuery dialects, see <A href="dialects.xml#id(_Toc61258621)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'XQuery Dialects in MarkLogic Server' on page&#160;7</A>.</Note>
+<Heading-2>
+<A ID="pgfId-1043266"></A>
+<A ID="88685"></A>
+Expressions Return Items</Heading-2>
+<Body>
+<A ID="pgfId-1058417"></A>
+The fundamental building block in XQuery is the <Emphasis>
+XQuery expression</Emphasis>
+, which is what the XQuery specification refers to as one or more <Emphasis>
+ExprSingle</Emphasis>
+ expressions. Each XQuery expression returns a sequence of items; that is, it returns zero or more items, each of which can be anything returned by XQuery (for example, a string, a node, a numeric value, and so on).</Body>
+<Body>
+<A ID="pgfId-1064165"></A>
+Any valid XQuery expression is a valid XQuery. For example, the following is a valid XQuery:</Body>
+<Code>
+<A ID="pgfId-1064166"></A>
+&quot;Hello World&quot;</Code>
+<Body>
+<A ID="pgfId-1064167"></A>
+It returns the string <code>
+Hello World</code>
+. It is a simple string literal, and is a valid XQuery. You can combine expressions together using the concatenation operator, which is a comma ( <code>
+, </code>
+), as follows:</Body>
+<Code>
+<A ID="pgfId-1064179"></A>
+&quot;Hello&quot;, &quot;World&quot;</Code>
+<Body>
+<A ID="pgfId-1064177"></A>
+This expression also returns a sequnce of two string <code>
+Hello</code>
+ and <code>
+World</code>
+. It is two expressions, each returning a single item (therefore it returns a sequence of two strings). In some contexts (a browser, for example), the two strings will be concatenated together into the string <code>
+Hello World</code>
+. </Body>
+<Body>
+<A ID="pgfId-1066101"></A>
+Expressions can also return no items (the empty sequence), or they can return sequences of items. The following adds a third expression:</Body>
+<Code>
+<A ID="pgfId-1064199"></A>
+&quot;Hello&quot;, &quot;World&quot;, 1 to 10</Code>
+<Body>
+<A ID="pgfId-1064197"></A>
+This expression returns the sequence <code>
+Hello World 1 2 3 4 5 6 7 8 9 10</code>
+, where the sequence 1&#160;to&#160;10 is a sequence of numeric values. You can create arbitrarily complex expressions in XQuery, and they will always return zero or more items.</Body>
+<Heading-2>
+<A ID="pgfId-1058416"></A>
+<A ID="46972"></A>
+XML and XQuery</Heading-2>
+<Body>
+<A ID="pgfId-1059056"></A>
+XQuery is designed for working with XML, and there are several ways to construct and return XML from XQuery expressions. This section describes some of the basic ways to combine XML and XQuery, and contains the following parts:</Body>
+<Body-bullet>
+<A ID="pgfId-1064219"></A>
+<A href="langoverview.xml#id(85526)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Direct Element Constructors: Switching Between XQuery and XML Using Curly Braces</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1064227"></A>
+<A href="langoverview.xml#id(39188)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Computed Element and Attribute Constructors</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1064232"></A>
+<A href="langoverview.xml#id(58318)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Returning XML From an XQuery Program</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1059057"></A>
+<A ID="85526"></A>
+Direct Element Constructors: Switching Between XQuery and XML Using Curly Braces</Heading-3>
+<Body>
+<A ID="pgfId-1059066"></A>
+As described in the previous section, an XQuery expression by itself is a valid XQuery program. You can create XML nodes as XQuery expressions. Therefore, the following is valid XQuery:</Body>
+<Code>
+<A ID="pgfId-1064237"></A>
+&lt;my-element&gt;content goes here&lt;/my-element&gt;</Code>
+<Body>
+<A ID="pgfId-1064238"></A>
+It simply returns the element. The XQuery syntax also allows you to embed XQuery between XML, effectively 'switching' back and forth between an XML syntax and an XQuery syntax to populate parts of the XML content. The separator characters to 'switch' back and forth between XML and XQuery are the open curly brace ( <code>
+{</code>
+ ) and close curly brace ( <code>
+}</code>
+ ) characters. For example, consider the following XQuery:</Body>
+<Code>
+<A ID="pgfId-1064249"></A>
+&lt;my-element&gt;{fn:current-date()}&lt;/my-element&gt;</Code>
+<Body>
+<A ID="pgfId-1064250"></A>
+This expression returns an XML element named <code>
+my-element</code>
+ with content that is the result of evaluating the expression between the curly braces. This expression returns the current date, so you get an element that looks like the following:</Body>
+<Code>
+<A ID="pgfId-1064271"></A>
+&lt;my-element&gt;2008-06-25-07:00&lt;/my-element&gt;</Code>
+<Body>
+<A ID="pgfId-1064272"></A>
+You can create complex expressions that go 'back and forth' between XML and XQuery as often as is needed. For example, the following is slightly more complex:</Body>
+<Code>
+<A ID="pgfId-1064283"></A>
+&lt;my-element id=&quot;{xdmp:random()}&quot;&gt;{fn:current-date()}&lt;/my-element&gt;</Code>
+<Body>
+<A ID="pgfId-1064296"></A>
+This returns an element like the following:</Body>
+<Code>
+<A ID="pgfId-1064291"></A>
+&lt;my-element id=&quot;9175848626240925436&quot;&gt;2008-06-25-07:00&lt;/my-element&gt;</Code>
+<Body>
+<A ID="pgfId-1064300"></A>
+This technique of constructing XML are called direct element constructors. There are many more rules for how to use these direct element constructors to create XML nodes. For more details, see the of the XQuery specification (<Hyperlink>
+<A href="http://www.w3.org/TR/xquery/#doc-xquery-DirCommentConstructor" xml:link="simple" show="replace" actuate="user" CLASS="URL">http://www.w3.org/TR/xquery/#doc-xquery-DirCommentConstructor</A></Hyperlink>
+).</Body>
+<Heading-3>
+<A ID="pgfId-1059061"></A>
+<A ID="39188"></A>
+Computed Element and Attribute Constructors</Heading-3>
+<Body>
+<A ID="pgfId-1059065"></A>
+You can also create XML nodes by using computed constructors. There are computed constructors for all types of XML nodes (element, attribute, document, text, comment, and processing instruction). The following is the basic syntax for computed constructors:</Body>
+<Graphic>
+<A ID="pgfId-1064366"></A>
+<IMAGE xml:link="simple" href="langoverview-1.gif" show="embed" actuate="auto"/>
+</Graphic>
+<Body>
+<A ID="pgfId-1064961"></A>
+The following is an example of some XML that is created using computed constructors:</Body>
+<Code>
+<A ID="pgfId-1064965"></A>
+element hello { attribute myatt { &quot;world&quot; } , &quot;hello world&quot; }
+(: 
+&#160;&#160;&#160;returns the following XML:
+&#160;&#160;&#160;&lt;hello myatt=&quot;world&quot;&gt;hello world&lt;/hello&gt;
+:)</Code>
+<Body>
+<A ID="pgfId-1064978"></A>
+In this example, the comma operator concatenates a constructed attribute (the <code>
+myatt</code>
+ attribute on the <code>
+hello</code>
+ element) and a literal expression (<code>
+hello world</code>
+, which becomes the element text node content) to create the content for the element node.</Body>
+<Heading-3>
+<A ID="pgfId-1059064"></A>
+<A ID="58318"></A>
+Returning XML From an XQuery Program</Heading-3>
+<Body>
+<A ID="pgfId-1059067"></A>
+Using the direct and computed constructors described above, it is natural to have the output of an XQuery program be XML. Besides computed and direct constructors, XML can be the result of an XPath expression, a <code>
+cts:search</code>
+ expression, or any other expression that returns XML. The XML can be constructed as any well-formed XML. </Body>
+<Body>
+<A ID="pgfId-1065001"></A>
+When you construct XML in XQuery, the XQuery evaluator will always construct well-formed XML (assuming your XQuery is valid). Compared with other languages where you construct strings that represent XML, the fact that the XQuery rules ensure that an XML node is well formed tends to eliminate a whole class of bugs in your code that you might encounter using other languages. </Body>
+<Heading-2>
+<A ID="pgfId-1059055"></A>
+<A ID="70883"></A>
+XQuery Modules</Heading-2>
+<Body>
+<A ID="pgfId-1059035"></A>
+While expressions are the building blocks of XQuery coding, <Emphasis>
+modules</Emphasis>
+ are the building blocks of XQuery programs. There are two kinds of XQuery modules: <Emphasis>
+main modules</Emphasis>
+ and <Emphasis>
+library modules</Emphasis>
+. This section describes XQuery modules and includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1065015"></A>
+<A href="langoverview.xml#id(95538)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+XQuery Version Declaration</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1065023"></A>
+<A href="langoverview.xml#id(31249)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Main Modules</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1065028"></A>
+<A href="langoverview.xml#id(31505)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Library Modules</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1059790"></A>
+This section provides some basic syntax for XQuery modules. For the complete syntax of XQuery modules, see the XQuery specification (<Hyperlink>
+<A href="http://www.w3.org/TR/xquery/#doc-xquery-Module" xml:link="simple" show="replace" actuate="user" CLASS="URL">http://www.w3.org/TR/xquery/#doc-xquery-Module</A></Hyperlink>
+).</Body>
+<Heading-3>
+<A ID="pgfId-1059036"></A>
+<A ID="95538"></A>
+XQuery Version Declaration</Heading-3>
+<Body>
+<A ID="pgfId-1059755"></A>
+Every XQuery module (both main and library) can have an optional XQuery version declaration. The version declaration tells MarkLogic Server which dialect of XQuery to use. MarkLogic Server supports three values for the XQuery version declaration: <code>
+1.0-ml</code>
+, <code>
+1.0</code>
+, and <code>
+0.9-ml</code>
+. For details on the three dialects, including rules for the combining different dialects, see <A href="dialects.xml#id(_Toc61258621)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'XQuery Dialects in MarkLogic Server' on page&#160;7</A>.</Body>
+<Body>
+<A ID="pgfId-1065056"></A>
+The following is the basic syntax of the XQuery version declaration:</Body>
+<Graphic>
+<A ID="pgfId-1065132"></A>
+<IMAGE xml:link="simple" href="langoverview-2.gif" show="embed" actuate="auto"/>
+</Graphic>
+<Body>
+<A ID="pgfId-1065239"></A>
+The following is an example of an XQuery version declaration:</Body>
+<Code>
+<A ID="pgfId-1065240"></A>
+xquery version &quot;1.0-ml&quot;;</Code>
+<Heading-3>
+<A ID="pgfId-1059754"></A>
+<A ID="31249"></A>
+Main Modules</Heading-3>
+<Body>
+<A ID="pgfId-1067412"></A>
+A main module contains an XQuery program to be evaluated. You can call a main module directly and it will return the results of the evaluation. A main module contains an optional XQuery version declaration, a prolog (the prolog can be empty, so it is in effect optional), and a body. The XQuery body can be any XQuery expression. </Body>
+<Body>
+<A ID="pgfId-1067438"></A>
+In <code>
+1.0-ml</code>
+, you can construct programs that have multiple main modules separated by semi-colons, as described in <A href="enhanced.xml#id(41212)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Semi-Colon as Transaction Separator' on page&#160;16</A>. </Body>
+<Body>
+<A ID="pgfId-1067437"></A>
+The following is an example of a very simple main module:</Body>
+<Code>
+<A ID="pgfId-1067422"></A>
+xquery version &quot;1.0-ml&quot;;
+&quot;hello world&quot;</Code>
+<Body>
+<A ID="pgfId-1067420"></A>
+For another example of a main module, see the example at the end of the <A href="langoverview.xml#id(31505)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Library Modules' on page&#160;26</A>. </Body>
+<Heading-3>
+<A ID="pgfId-1067417"></A>
+<A ID="31505"></A>
+Library Modules</Heading-3>
+<Body>
+<A ID="pgfId-1059042"></A>
+A library module contains function definitions and/or variable definitions. You cannot call a library module to directly evaluate it, and it cannot have a query body. To use a library module, it must be imported from another module (main or library). A library module contains a module declaration followed by a prolog. For details on the prolog, see <A href="langoverview.xml#id(48211)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'XQuery Prolog' on page&#160;27</A>. The following is the basic syntax of a library module:</Body>
+<Graphic>
+<A ID="pgfId-1065347"></A>
+<IMAGE xml:link="simple" href="langoverview-3.gif" show="embed" actuate="auto"/>
+</Graphic>
+<Body>
+<A ID="pgfId-1065417"></A>
+The following is a very simple XQuery library module</Body>
+<Code>
+<A ID="pgfId-1065421"></A>
+xquery version &quot;1.0-ml&quot;;
+module namespace my-library=&quot;my.library.uri&quot; ;
+
+declare function hello() { &quot;hello&quot; };</Code>
+<Body>
+<A ID="pgfId-1065425"></A>
+If you stored this module under an App Server root as <code>
+hello.xqy</code>
+, you could call this function with the following very simple main module:</Body>
+<Code>
+<A ID="pgfId-1065441"></A>
+xquery version &quot;1.0-ml&quot;;
+import module namespace my-library=&quot;my.library.uri&quot; at &quot;hello.xqy&quot;;
+
+my-library:hello()
+&#160;&#160;&#160;&#160;&#160;(: this returns the string &quot;hello&quot; :)</Code>
+<Heading-2>
+<A ID="pgfId-1059070"></A>
+<A ID="48211"></A>
+XQuery Prolog</Heading-2>
+<Body>
+<A ID="pgfId-1059753"></A>
+The XQuery prolog contains any module imports, namespace declarations, function definitions, and variable definitions for a module. You can have a prolog in either a main module or a library module. The prolog is optional, as you can write an XQuery program with no prolog. This section briefly describes the following parts of the XQuery prolog:</Body>
+<Body-bullet>
+<A ID="pgfId-1059797"></A>
+<A href="langoverview.xml#id(64010)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Importing Modules or Schemas</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059801"></A>
+<A href="langoverview.xml#id(61657)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Declaring Namespaces</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1068318"></A>
+<A href="langoverview.xml#id(47415)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Declaring Options</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1065585"></A>
+<A href="langoverview.xml#id(39573)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Declaring Functions</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1065590"></A>
+<A href="langoverview.xml#id(52597)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Declaring Variables</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1065602"></A>
+<A href="langoverview.xml#id(10700)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Declaring a Default Collation</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1059810"></A>
+<A ID="64010"></A>
+Importing Modules or Schemas</Heading-3>
+<Body>
+<A ID="pgfId-1059815"></A>
+You can import modules and schemas in the XQuery prolog. The following are sample module and schema import declarations:</Body>
+<Code>
+<A ID="pgfId-1065461"></A>
+import module namespace my-library=&quot;my.library.uri&quot; at &quot;hello.xqy&quot;;</Code>
+<Code>
+<A ID="pgfId-1065485"></A>
+import schema namespace xhtml=&quot;http://www.w3.org/1999/xhtml&quot; 
+&#160;&#160;&#160;at &quot;xhtml1.1.xsd&quot;;</Code>
+<Body>
+<A ID="pgfId-1067821"></A>
+The library module location and the schema location are not technically required. The location must be supplied for module imports, however, as they are used to determine the location of the library module and the module will not be found without it. Also, all modules for a given namespace should be imported with a single import statement (with comma-separated locations). For schema imports, if the location is not supplied, MarkLogic Server resolves the schema URI using the in-scope schemas (schemas in the schemas database and the <code>
+&lt;marklogic-dir&gt;/Config</code>
+ directory). If there are multiple schemas with the same URI, MarkLogic Server chooses one of them. Therefore, to ensure you are importing the correct schema, you should use the location for the schema import, too. For details on the rules for resolving the locations, see <A href="../dev_guide/import_modules.xml#id(68169)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Importing XQuery Modules, XSLT Stylesheets, and Resolving Paths</Hyperlink>
+</A> in the <Emphasis>
+Application Developer's Guide</Emphasis>
+.</Body>
+<Body>
+<A ID="pgfId-1066118"></A>
+For more details on imports, see the XQuery specification for schema imports (<Hyperlink>
+<A href="http://www.w3.org/TR/xquery/#id-schema-import" xml:link="simple" show="replace" actuate="user" CLASS="URL">http://www.w3.org/TR/xquery/#id-schema-import</A></Hyperlink>
+) and for module imports (<Hyperlink>
+<A href="http://www.w3.org/TR/xquery/#id-module-import" xml:link="simple" show="replace" actuate="user" CLASS="URL">http://www.w3.org/TR/xquery/#id-module-import</A></Hyperlink>
+).</Body>
+<Heading-3>
+<A ID="pgfId-1059802"></A>
+<A ID="61657"></A>
+Declaring Namespaces</Heading-3>
+<Body>
+<A ID="pgfId-1059816"></A>
+Namespace declarations are used to bind a namespace prefix to a namespace URI. The following is a sample namespace declaration:</Body>
+<Code>
+<A ID="pgfId-1065486"></A>
+declare namespace my-namespace=&quot;my.namespace.uri&quot;;</Code>
+<Body>
+<A ID="pgfId-1065666"></A>
+For more details on namespace declarations, see the XQuery specification (<Hyperlink>
+<A href="http://www.w3.org/TR/xquery/#id-namespace-declaration" xml:link="simple" show="replace" actuate="user" CLASS="URL">http://www.w3.org/TR/xquery/#id-namespace-declaration</A></Hyperlink>
+)</Body>
+<Heading-3>
+<A ID="pgfId-1059817"></A>
+<A ID="47415"></A>
+Declaring Options</Heading-3>
+<Body>
+<A ID="pgfId-1068336"></A>
+MarkLogic Server has several options you can declare in the XQuery prolog:</Body>
+<Code>
+<A ID="pgfId-1068346"></A>
+declare option xdmp:mapping &quot;false&quot;;</Code>
+<Body>
+<A ID="pgfId-1068387"></A>
+The <code>
+xdmp:mapping</code>
+ option sets whether function mapping is enabled in a module. For details on function mapping, see <A href="enhanced.xml#id(55459)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Function Mapping' on page&#160;15</A>.</Body>
+<Code>
+<A ID="pgfId-1068356"></A>
+declare option xdmp:update &quot;true&quot;;</Code>
+<Body>
+<A ID="pgfId-1068403"></A>
+The <code>
+xdmp:update</code>
+ option forces a request to either be an update (<code>
+&quot;true&quot;</code>
+) or to determine the update mode of the query at compile time (<code>
+&quot;false&quot;</code>
+). Without this option, the request will behave as if the option is set to <code>
+&quot;false&quot;</code>
+ and determine at compile time whether to run as an update statement (in readers/writers mode) or whether to run at a timestamp. For details on update statements versus query statements, see <A href="../dev_guide/transactions.xml#id(44680)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Understanding Transactions in MarkLogic Server</Hyperlink>
+</A> in the <Emphasis>
+Application Developer's Guide</Emphasis>
+.</Body>
+<Code>
+<A ID="pgfId-1068474"></A>
+declare option xdmp:copy-on-validate &quot;true&quot;;</Code>
+<Body>
+<A ID="pgfId-1068462"></A>
+The <code>
+xdmp:copy-on-validate</code>
+ option defines the behavior of the <code>
+validate</code>
+ expression. You can set the option to make a copy of the node during schema validation. For details, see <A href="langoverview.xml#id(55039)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Validate Expression' on page&#160;39</A>.</Body>
+<Body>
+<A ID="pgfId-1068933"></A>
+The <code>
+xdmp:output</code>
+ option determines how the output is serialized. The options mirror the serialization options for xslt using the <code>
+&lt;xsl:output&gt;</code>
+ XSLT instruction. The following example causes html serialization:</Body>
+<Code>
+<A ID="pgfId-1068952"></A>
+declare option xdmp:output &quot;method = html&quot;;</Code>
+<Body>
+<A ID="pgfId-1069529"></A>
+For details on the <code>
+&lt;xsl:output&gt;</code>
+ XSLT instruction, from which many of the <code>
+xdmp:output</code>
+ options are derived, see <Hyperlink>
+<A href="http://www.w3.org/TR/xslt#output" xml:link="simple" show="replace" actuate="user" CLASS="URL">http://www.w3.org/TR/xslt#output</A></Hyperlink>
+ in the XSLT specification. You can combine options by having multiple <code>
+delcare option</code>
+ statements.</Body>
+<Body>
+<A ID="pgfId-1068959"></A>
+Valid values for the <code>
+xdmp:output</code>
+ option are (the values must be string literals):</Body>
+<Body-bullet>
+<A ID="pgfId-1068972"></A>
+<code>
+method = xml</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1068985"></A>
+<code>
+method = html</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1068992"></A>
+<code>
+method = text</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1069006"></A>
+<code>
+cdata-section-elements = &lt;QName&gt;</code>
+</Body-bullet>
+<Body-bullet-2>
+<A ID="pgfId-1069511"></A>
+where <code>
+&lt;QName&gt;</code>
+ is a list of QNames to output as <code>
+CDATA</code>
+ elements</Body-bullet-2>
+<Body-bullet>
+<A ID="pgfId-1069025"></A>
+<code>
+encoding = &lt;encoding&gt;</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1069283"></A>
+<code>
+use-character-maps=xdmp:sgml-entities-normal</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1069299"></A>
+<code>
+use-character-maps=xdmp:sgml-entities-math</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1069018"></A>
+<code>
+use-character-maps=xdmp:sgml-entities-pub</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1069329"></A>
+<code>
+media-type = &lt;media&gt;</code>
+</Body-bullet>
+<Body-bullet-2>
+<A ID="pgfId-1069339"></A>
+<code>
+media-type = text/plain</code>
+</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1069359"></A>
+<code>
+media-type = text/xml</code>
+</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1069366"></A>
+and so on with other valid mimetypes...</Body-bullet-2>
+<Body-bullet>
+<A ID="pgfId-1069394"></A>
+<code>
+byte-order-mark = yes</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1069380"></A>
+<code>
+byte-order-mark = no</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1069425"></A>
+<code>
+indent = yes</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1069426"></A>
+<code>
+indent = no</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1069411"></A>
+<code>
+include-content-type = yes</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1069346"></A>
+<code>
+include-content-type = no</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1069449"></A>
+<code>
+escape-uri-attributes = yes</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1069450"></A>
+<code>
+escape-uri-attributes = no</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1069492"></A>
+<code>
+doctype-public = &lt;publicid1&gt;</code>
+</Body-bullet>
+<Body-bullet-2>
+<A ID="pgfId-1069493"></A>
+where <code>
+&lt;publicid1&gt;</code>
+ is the public identifier to use on the emitted <Page-Number>
+DOCTYPE</Page-Number>
+</Body-bullet-2>
+<Body-bullet>
+<A ID="pgfId-1069441"></A>
+<code>
+doctype-system = &lt;systemid1&gt;</code>
+</Body-bullet>
+<Body-bullet-2>
+<A ID="pgfId-1069472"></A>
+where <code>
+&lt;systemid1&gt;</code>
+ is the system identifier to use on the emitted <Page-Number>
+DOCTYPE</Page-Number>
+</Body-bullet-2>
+<Body-bullet>
+<A ID="pgfId-1069721"></A>
+<code>
+omit-xml-declaration = no</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1069701"></A>
+<code>
+omit-xml-declaration = yes</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1069776"></A>
+<code>
+encoding = &lt;encoding&gt;</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1069799"></A>
+<code>
+standalone = yes</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1069785"></A>
+<code>
+standalone = no</code>
+</Body-bullet>
+<Heading-3>
+<A ID="pgfId-1069778"></A>
+<A ID="39573"></A>
+Declaring Functions</Heading-3>
+<Body>
+<A ID="pgfId-1069779"></A>
+Functions are a fundamental part of programming in XQuery. Functions provide more than a mechanism to modularize your code (although they certainly are that), as functions allow you to easily perform recursive actions. This is a powerful design pattern in XQuery. </Body>
+<Body>
+<A ID="pgfId-1065493"></A>
+Functions can optionally be typed, both for parmeters to the function and for results of the function. The following is a very simple function declaration that takes a string as input and returns a sentence indicating the length of the string:</Body>
+<Code>
+<A ID="pgfId-1065507"></A>
+declare function simple($input as xs:string) as xs:string* {
+&#160;&#160;&#160;fn:concat('The string &quot;', $input, '&quot; is ', 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;(fn:string-length($input)), 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;' characters in length.')
+} ;</Code>
+<Heading-3>
+<A ID="pgfId-1059822"></A>
+<A ID="52597"></A>
+Declaring Variables</Heading-3>
+<Body>
+<A ID="pgfId-1059988"></A>
+You can declare variables in a main or library module to reference elsewhere in your programs. If you put variable definitions in a library module, you can reference those variables from any module that imports the library module. Because the content of a variable can be any valid XQuery expression, you can create variables with dynamic content. The following is a variable declaration that returns a string indicating if it is January or not:</Body>
+<Code>
+<A ID="pgfId-1065532"></A>
+declare variable $is-it-january as xs:string :=
+  if ( fn:month-from-date(fn:current-date()) eq 1 )
+  then &quot;it is January&quot;
+  else &quot;it is not January&quot; ;</Code>
+<Body>
+<A ID="pgfId-1065547"></A>
+If this variable were defined in a library module named <code>
+mylib.xqy</code>
+ stored under your App Server root, and if you imported that library module bound to the namespace prefix <code>
+mylib</code>
+ into a main module, then you can reference this variable in the main module as follows:</Body>
+<Code>
+<A ID="pgfId-1065554"></A>
+xquery version &quot;1.0-ml&quot;;
+import module namespace mylib=&quot;my.library.uri&quot; at &quot;mylib.xqy&quot;;
+
+$mylib:is-it-january</Code>
+<Heading-3>
+<A ID="pgfId-1059990"></A>
+<A ID="10700"></A>
+Declaring a Default Collation</Heading-3>
+<Body>
+<A ID="pgfId-1059826"></A>
+The default collation declaration defines the collation that is in effect for a query. In general, everything that uses a collation in a query with a default collation declaration will use the collation specified. The exceptions are for functions that have options which explicitly override the default collation, and for FLWOR expressions that explicitly state the collation in the order by clause. The following is a sample collation declaration:</Body>
+<Code>
+<A ID="pgfId-1065610"></A>
+declare default collation &quot;http://marklogic.com/collation/&quot;;</Code>
+<Body>
+<A ID="pgfId-1065273"></A>
+For more details on collations, see the <A href="../search-dev-guide/encodings_collations.xml#id(40505)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Encodings and Collations</Hyperlink>
+</A> chapter of the <Emphasis>
+Application Developer's Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1065275"></A>
+<A ID="16854"></A>
+XQuery Comments</Heading-2>
+<Body>
+<A ID="pgfId-1065276"></A>
+You can add comments throughout an XQuery program. Comments are surrounded by 'smiley face' symbols. The open parenthesis followed by the colon characters ( <code>
+(:</code>
+ ) denote the start of a comment, and the colon followed by a close parenthesis characters ( <code>
+(:</code>
+ ) denote the end of a comment. Comments can be nested within comments, which is useful when cutting and pasting code with comments in it into a comment. The following is an example of an XQuery that starts with a comment:</Body>
+<Code>
+<A ID="pgfId-1065298"></A>
+(: everything between the smiley faces is a comment :)
+&quot;some XQuery goes here&quot;</Code>
+<Note>
+<A ID="pgfId-1066146"></A>
+You cannot put a comment inside of a text literal or inside of element content. For example, the following is <Emphasis>
+not</Emphasis>
+ interpreted as having a comment:</Note>
+<Code>
+<A ID="pgfId-1066170"></A>
+<code>
+&#160;&#160;&#160;&#160;&#160;&lt;node&gt;(: not a comment :)&lt;/node&gt;</code>
+</Code>
+<Heading-2>
+<A ID="pgfId-1059836"></A>
+<A ID="63247"></A>
+XQuery Expressions</Heading-2>
+<Body>
+<A ID="pgfId-1059839"></A>
+This section describes the following XQuery expressions:</Body>
+<Body-bullet>
+<A ID="pgfId-1059840"></A>
+<A href="langoverview.xml#id(21981)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+XPath Expressions</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1065253"></A>
+<A href="langoverview.xml#id(11626)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+FLWOR Expressions</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1065257"></A>
+<A href="langoverview.xml#id(75915)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+The typeswitch Expression</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1065261"></A>
+<A href="langoverview.xml#id(99448)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+The if Expression</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1065265"></A>
+<A href="langoverview.xml#id(42705)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Quantified Expressions (some/every ... satisfies ...)</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1067842"></A>
+<A href="langoverview.xml#id(55039)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Validate Expression</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1059838"></A>
+<A ID="21981"></A>
+XPath Expressions</Heading-3>
+<Body>
+<A ID="pgfId-1068916"></A>
+XPath expressions search for XML content. They can be combined with other XQuery expressions to form other arbitrarily complex expressions. For more details on XPath expressions, see <A href="xpath.xml#id(_Toc61258626)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'XPath Quick Reference' on page&#160;43</A>.</Body>
+<Heading-3>
+<A ID="pgfId-1068921"></A>
+<A ID="11626"></A>
+FLWOR Expressions</Heading-3>
+<Body>
+<A ID="pgfId-1068922"></A>
+The FLWOR expression (<code>
+for</code>
+, <code>
+let</code>
+, <code>
+where</code>
+, <code>
+order by</code>
+, <code>
+return</code>
+) is used to generate items or sequences. A FLWOR expression binds variables, applies a predicate, orders the data set, and constructs a new result:</Body>
+<Body>
+<A ID="pgfId-1059072"></A>
+The following is the basic syntax of a FLWOR expression:</Body>
+<Graphic>
+<A ID="pgfId-1059105"></A>
+<IMAGE xml:link="simple" href="langoverview-4.gif" show="embed" actuate="auto"/>
+</Graphic>
+<Body>
+<A ID="pgfId-1059917"></A>
+The following sections examine each of the five clauses in more detail:</Body>
+<Body-bullet>
+<A ID="pgfId-1059930"></A>
+<A href="langoverview.xml#id(80339)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+The for Clause</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059938"></A>
+<A href="langoverview.xml#id(94711)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+The let Clause</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059943"></A>
+<A href="langoverview.xml#id(46150)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+The where Clause</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059955"></A>
+<A href="langoverview.xml#id(71283)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+The order by Clause</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059960"></A>
+<A href="langoverview.xml#id(50810)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+The return Clause</Hyperlink>
+</A></Body-bullet>
+<Heading-4>
+<A ID="pgfId-1059106"></A>
+<A ID="80339"></A>
+The for Clause</Heading-4>
+<Body>
+<A ID="pgfId-1059107"></A>
+The for clause is used for iterating over one or more sequences:</Body>
+<Body>
+<A ID="pgfId-1059134"></A>
+<IMAGE xml:link="simple" href="langoverview-5.gif" show="embed" actuate="auto"/>
+</Body>
+<Body>
+<A ID="pgfId-1067524"></A>
+The <code>
+for</code>
+ clause iterates over each item in the expression to which the variable is bound. In the <code>
+return</code>
+ clause, an action is typically performed on each item in the variable bound to the expression. For example, the following binds a sequence of integers to a variable and then performs an action (multiplies it by 2) on each item in the sequence:</Body>
+<Code>
+<A ID="pgfId-1060570"></A>
+for $x in (1, 2, 3, 4, 5)
+return
+$x * 2
+
+(: returns the sequence (2, 4, 6, 8, 10) :)</Code>
+<Body>
+<A ID="pgfId-1060557"></A>
+As is common in XQuery, order is significant, and the items are bound to the variable in the order they are output from the expression.</Body>
+<Body>
+<A ID="pgfId-1060589"></A>
+You can also bind multiple variables in one or more <code>
+for</code>
+ clauses. The FLWOR expression then iterates over each item in the subsequent variables once for each item in the first variable. For example:</Body>
+<Code>
+<A ID="pgfId-1060599"></A>
+for $x in (1,2,3)
+for $y in (4,5,6)
+return
+$x * 2
+
+(: returns the sequence (2, 2, 2, 4, 4, 4, 6, 6, 6) :)</Code>
+<Body>
+<A ID="pgfId-1060590"></A>
+In this case, the inner <code>
+for</code>
+ loop (with <code>
+$y</code>
+) is executed one complete iteration for each of the items in the outer <code>
+for</code>
+ loop (the one with <code>
+$x</code>
+). Even though it does not return anything from $y, the expression in the return clause is evaluated once for each item in <code>
+$y</code>
+, and that happens once for each item in <code>
+$x</code>
+.</Body>
+<Body>
+<A ID="pgfId-1060625"></A>
+You could return something from each iteration of $y, as in the following example:</Body>
+<Code>
+<A ID="pgfId-1060645"></A>
+for $x in (1,2,3)
+for $y in (4,5,6)
+return
+($x * 2, $y * 3)
+
+(: returns the sequence 
+(2, 12, 2, 15, 2, 18, 4, 12, 4, 15, 4, 18, 6, 12, 6, 15, 6, 18) :)</Code>
+<Body>
+<A ID="pgfId-1060646"></A>
+Alternately, you could write the two for clauses as follows, with the same results:</Body>
+<Code>
+<A ID="pgfId-1060653"></A>
+for $x in (1,2,3), $y in (4,5,6)</Code>
+<Body>
+<A ID="pgfId-1059172"></A>
+When you have multiple variables bound in <code>
+for</code>
+ clauses, it is an effective way of joining content from one variable with the other. Note that if the content from each variable comes from a different document, then multiple <code>
+for</code>
+ clauses in a FLOWR expression ends up performing a join of the documents.</Body>
+<Heading-4>
+<A ID="pgfId-1060686"></A>
+<A ID="94711"></A>
+The let Clause</Heading-4>
+<Body>
+<A ID="pgfId-1060687"></A>
+The <code>
+let</code>
+ clause is used for binding variables (without iteration) to a single value or to sequences of values:</Body>
+<Body>
+<A ID="pgfId-1059198"></A>
+<IMAGE xml:link="simple" href="langoverview-6.gif" show="embed" actuate="auto"/>
+</Body>
+<Body>
+<A ID="pgfId-1059199"></A>
+A <code>
+let</code>
+ clause produces a single binding for each variable. Consequently, <code>
+let</code>
+ clauses do not affect the number of binding tuples evaluated in a FLWOR expression. Variables bound in a <code>
+let</code>
+ clause are available to anything that follows in the FLWOR expression (for example, subsequent <code>
+for</code>
+ or <code>
+let</code>
+ clauses, the <code>
+where</code>
+ clause, the <code>
+order by</code>
+ clause, or the <code>
+return</code>
+ clause).</Body>
+<Body>
+<A ID="pgfId-1060718"></A>
+In its simplest form, the let clause allows you to build a FLWOR expression that outputs the sequence to which the variable is bound. For example, the following expression:</Body>
+<Code>
+<A ID="pgfId-1060719"></A>
+let $seq := (&quot;hello&quot;, &quot;goodbye&quot;) return $seq</Code>
+<Body>
+<A ID="pgfId-1060737"></A>
+is equivalent to the following expression:</Body>
+<Code>
+<A ID="pgfId-1060724"></A>
+&quot;hello&quot;, &quot;goodbye&quot;</Code>
+<Body>
+<A ID="pgfId-1060720"></A>
+They each return the two item sequence <code>
+hello goodbye</code>
+. </Body>
+<Body>
+<A ID="pgfId-1060746"></A>
+A typical use for a let clause is to bind a sequence to a variable, then use the variable in a for clause to iterate over each item. For example:</Body>
+<Code>
+<A ID="pgfId-1060747"></A>
+let $x := (1 to 5)
+for $y in $x
+return 
+$x * 2
+
+(: returns the sequence (2, 4, 6, 8, 10) :)</Code>
+<Body>
+<A ID="pgfId-1060748"></A>
+Again, this is a trivial example, but it could be that the expression in the <code>
+let</code>
+ binding is complicated, and this technique allows you to cleanly structure your code. </Body>
+<Heading-4>
+<A ID="pgfId-1059216"></A>
+<A ID="46150"></A>
+The where Clause</Heading-4>
+<Body>
+<A ID="pgfId-1059217"></A>
+The <code>
+where</code>
+ clause specifies a filter condition on the tuples emerging from the <code>
+for</code>
+-<code>
+let</code>
+ portion of a FLWOR expression:</Body>
+<Body>
+<A ID="pgfId-1059226"></A>
+<IMAGE xml:link="simple" href="langoverview-7.gif" show="embed" actuate="auto"/>
+</Body>
+<Body>
+<A ID="pgfId-1059227"></A>
+Only tuples for which the boolean-expression evaluates to true will contribute to the result sequence of the FLWOR expression The where clause preserves the order of tuples, if any. boolean-expression may contain and, or and not, among other operators.</Body>
+<Body>
+<A ID="pgfId-1060779"></A>
+Typically, you use comparison operators to test for some condition in a <code>
+where</code>
+ clause. For example, if you only want to output from the FLWOR items that start with the letter 'a', you can do something like the following:</Body>
+<Code>
+<A ID="pgfId-1060788"></A>
+for $x in (&quot;a&quot;, &quot;B&quot;, &quot;c&quot;, &quot;A&quot;, &quot;apple&quot;)
+where fn:starts-with(fn:lower-case($x), &quot;a&quot;)
+return
+$x
+
+(: returns the sequence (&quot;a&quot;, &quot;A&quot;, &quot;apple&quot;) :)</Code>
+<Heading-4>
+<A ID="pgfId-1059248"></A>
+<A ID="71283"></A>
+The order by Clause</Heading-4>
+<Body>
+<A ID="pgfId-1059249"></A>
+The <code>
+order by</code>
+ clause specifies the order (ascending or descending) to sort items returned from a FLWOR expression, and also provides an option to specify a collation URI with which to determine the order:</Body>
+<Body>
+<A ID="pgfId-1059288"></A>
+<IMAGE xml:link="simple" href="langoverview-8.gif" show="embed" actuate="auto"/>
+</Body>
+<Body>
+<A ID="pgfId-1059289"></A>
+The <code>
+order by</code>
+ clause can be used to specify an order in which the tuple sequence will be passed to the <code>
+return</code>
+ clause. The <code>
+order by</code>
+ clause can specify any sort key, regardless of whether that sort key is contained in the result sequence. You can reorder sequences on an ascending or descending basis. The following sorts the sequence bound to <code>
+$x</code>
+ (in collation order) by each item:</Body>
+<Code>
+<A ID="pgfId-1060836"></A>
+for $x in ( &quot;B&quot;, &quot;c&quot;, &quot;a&quot;, &quot;d&quot;)
+order by $x
+return $x (: returns the sequence (&quot;a&quot;, &quot;B&quot;, &quot;c&quot;, &quot;d&quot;) :)</Code>
+<Heading-4>
+<A ID="pgfId-1059299"></A>
+<A ID="50810"></A>
+The return Clause</Heading-4>
+<Body>
+<A ID="pgfId-1059300"></A>
+The <code>
+return</code>
+ clause constructs the result of a FLWOR expression:</Body>
+<Body>
+<A ID="pgfId-1059309"></A>
+<IMAGE xml:link="simple" href="langoverview-9.gif" show="embed" actuate="auto"/>
+</Body>
+<Body>
+<A ID="pgfId-1059310"></A>
+The return expression is evaluated once for each tuple of bound variables. This evaluation preserves the order of tuples, if any, or it can impose a new order using the <code>
+order by</code>
+ clause.</Body>
+<Body>
+<A ID="pgfId-1059316"></A>
+Because the return <code>
+clause</code>
+ specifies an expression, any legal XQuery expression can be used to construct the result, including another FLWOR expression.</Body>
+<Heading-3>
+<A ID="pgfId-1059350"></A>
+<A ID="75915"></A>
+The typeswitch Expression</Heading-3>
+<Body>
+<A ID="pgfId-1059351"></A>
+The <code>
+typeswitch</code>
+ expression allows conditional evaluation of a set of sub-expressions based on the type of a specified expression:</Body>
+<Body>
+<A ID="pgfId-1059394"></A>
+<IMAGE xml:link="simple" href="langoverview-10.gif" show="embed" actuate="auto"/>
+</Body>
+<Body>
+<A ID="pgfId-1059395"></A>
+A <code>
+typeswitch</code>
+ expression evaluates the first <Emphasis>
+case_expr</Emphasis>
+ whose <Emphasis>
+sequenceType</Emphasis>
+ matches the type of the specified <Emphasis>
+expression</Emphasis>
+. If there is no <Emphasis>
+sequenceType</Emphasis>
+ match, <Emphasis>
+expr_default</Emphasis>
+ is evaluated.</Body>
+<Body>
+<A ID="pgfId-1059396"></A>
+Typeswitch provides a powerful mechanism for processing node contents:</Body>
+<Code>
+<A ID="pgfId-1059513"></A>
+typeswitch ($address) 
+  case $a as element(*, USAddress) return handleUS($a) 
+  case $a as element(*, CanadaAddress) return handleCanada($a)  
+  default return handleUnknown($address)</Code>
+<Body>
+<A ID="pgfId-1059401"></A>
+This code snippet determines the <Emphasis>
+sequenceType</Emphasis>
+ of the variable $address, then evaluates one of three sub-expressions. In this case:</Body>
+<Body-bullet>
+<A ID="pgfId-1059402"></A>
+If <code>
+$address</code>
+ is of type <code>
+USAddress</code>
+, the function <code>
+handleUS($a)</code>
+ is evaluated.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059403"></A>
+If <code>
+$address</code>
+ is of type <code>
+CanadaAddress</code>
+, the function <code>
+handleCanada($a)</code>
+ is evaluated.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059404"></A>
+If the type of variable <code>
+$address</code>
+ matches none of the above, the function <code>
+handleUnknown($a)</code>
+ is evaluated.</Body-bullet>
+<Body>
+<A ID="pgfId-1059405"></A>
+A <Emphasis>
+sequenceType</Emphasis>
+ can also be a kind test (such as an element test). It is possible to construct <code>
+case</code>
+ clauses in which a particular <Emphasis>
+expression</Emphasis>
+ matches multiple <Emphasis>
+sequenceTypes</Emphasis>
+. In this case, the <Emphasis>
+case_expr</Emphasis>
+ of only the first matching <Emphasis>
+sequenceType</Emphasis>
+ is evaluated. You can also use the typeswitch expression in a recursive function to iterate through a document and perform transformation of the document. For details about using recursive typeswitches, see the <A href="../dev_guide/typeswitch.xml#id(37159)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Transforming XML Structures With a Recursive typeswitch Expression</Hyperlink>
+</A> chapter of the <Emphasis>
+Application Developer's Guide</Emphasis>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1059407"></A>
+<A ID="99448"></A>
+The if Expression</Heading-3>
+<Body>
+<A ID="pgfId-1059408"></A>
+The <code>
+if</code>
+ expression allows conditional evaluation of sub-expressions:</Body>
+<Body>
+<A ID="pgfId-1059417"></A>
+<IMAGE xml:link="simple" href="langoverview-11.gif" show="embed" actuate="auto"/>
+</Body>
+<Body>
+<A ID="pgfId-1059418"></A>
+If expression <Emphasis>
+expr_c1</Emphasis>
+ evaluates to true, then the value of the <code>
+if</code>
+ expression is the value of expression <Emphasis>
+expr_r1</Emphasis>
+, otherwise the value of the <code>
+if</code>
+ expression is the value of <Emphasis>
+expr_r2</Emphasis>
+. The <code>
+else</code>
+ clause is not optional; if no action is to be taken, an empty sequence should be used for <Emphasis>
+expr_r2</Emphasis>
+; there is no 'end if' or similar construct in XQuery:</Body>
+<Code>
+<A ID="pgfId-1067544"></A>
+if (1 eq 2) 
+then &quot;this is strange&quot; 
+else ()</Code>
+<Body>
+<A ID="pgfId-1059419"></A>
+The extent of <Emphasis>
+expr_r1</Emphasis>
+ and <Emphasis>
+expr_r2</Emphasis>
+ is limited to a single expression. If a more complex set of actions are required, an element constructor, sequence, or function call must be used. </Body>
+<Body>
+<A ID="pgfId-1059420"></A>
+<code>
+If</code>
+ expressions can be nested:</Body>
+<Code>
+<A ID="pgfId-1059500"></A>
+if ($year &lt; 1994)
+then
+   &lt;available&gt;archive&lt;/available&gt;
+else if ($year = $current_year) then
+   &lt;available&gt;current&lt;/available&gt;
+else
+   &lt;available&gt;inventory&lt;/available&gt;</Code>
+<Heading-3>
+<A ID="pgfId-1058878"></A>
+<A ID="42705"></A>
+Quantified Expressions (some/every ... satisfies ...)</Heading-3>
+<Body>
+<A ID="pgfId-1060011"></A>
+XQuery provides predicates that simplify the evaluation of quantified expressions. The basic syntax for these expressions follows:</Body>
+<Body>
+<A ID="pgfId-1060026"></A>
+<IMAGE xml:link="simple" href="langoverview-12.gif" show="embed" actuate="auto"/>
+</Body>
+<Body>
+<A ID="pgfId-1060027"></A>
+These expressions are particularly useful when trying to select a node based on a condition satisfied by at least one or alternatively all of a particular set of its children.</Body>
+<Body>
+<A ID="pgfId-1060028"></A>
+Imagine an XML document containing log messages. The document has the following structure:</Body>
+<Code>
+<A ID="pgfId-1060067"></A>
+&lt;log&gt;
+   &lt;event&gt;
+      &lt;program&gt;   .... &lt;/program&gt;
+      &lt;message&gt;   .... &lt;/message&gt;
+      &lt;level&gt;     .... &lt;/level&gt;
+      &lt;error&gt;
+         &lt;code&gt;      .... &lt;/code&gt;
+         &lt;severity&gt;  .... &lt;/severity&gt;
+         &lt;resolved&gt;  .... &lt;/resolved&gt;
+      &lt;/error&gt;
+      &lt;error&gt;
+         ....
+      &lt;/error&gt;
+      ....
+   &lt;/event&gt;
+   ....
+&lt;/log&gt;</Code>
+<Body>
+<A ID="pgfId-1060033"></A>
+Every &lt;event&gt; node has &lt;program&gt;, &lt;message&gt;, and &lt;level&gt; children. Some &lt;event&gt; nodes have one or more &lt;error&gt; children.</Body>
+<Body>
+<A ID="pgfId-1060034"></A>
+Consider a query to report on those events that have unresolved errors:</Body>
+<Code>
+<A ID="pgfId-1060057"></A>
+for $event in /log/event
+where some $error in $event/error satisfies $error/resolved = &quot;false&quot;
+return
+   $event</Code>
+<Body>
+<A ID="pgfId-1060039"></A>
+This query returns only those &lt;event&gt; nodes in which there is an &lt;error&gt; node with a &lt;resolved&gt; element whose value is 'false'.</Body>
+<Heading-3>
+<A ID="pgfId-1067843"></A>
+<A ID="55039"></A>
+Validate Expression</Heading-3>
+<Body>
+<A ID="pgfId-1067847"></A>
+The validate expression is used to validate element and document nodes against in-scope schemas (schemas that are in the schemas database). The following is the basic syntax of the validate expression:</Body>
+<Body>
+<A ID="pgfId-1067945"></A>
+<IMAGE xml:link="simple" href="langoverview-13.gif" show="embed" actuate="auto"/>
+</Body>
+<Body>
+<A ID="pgfId-1067948"></A>
+The expression to validate should be a node referencing an in-scope schema. The node can reference a schema. The default validation mode is <code>
+strict</code>
+. When performing <code>
+lax</code>
+ validation, the validate expression first tries to validate the node using an in-scope schema, and then if no schema is found and none is referenced in the node, the validation occurs without a schema. If a node is not valid, an exception is thrown. If a node is valid, then the node is returned. For more details, see the XQuery specification (<Hyperlink>
+<A href="http://www.w3.org/TR/xquery/#id-validate" xml:link="simple" show="replace" actuate="user" CLASS="URL">http://www.w3.org/TR/xquery/#id-validate</A></Hyperlink>
+). </Body>
+<Body>
+<A ID="pgfId-1068256"></A>
+You can also set a prolog option to determine if the node returned is a copy of the original node (losing its context) or the original node (keeping its context). The XQuery specification calls for the node to be a copy, but it is often useful for the node to retain its original context (for example, so you can look at its ancestor elements). The following is the prolog option:</Body>
+<Code>
+<A ID="pgfId-1068269"></A>
+declare option xdmp:copy-on-validate &quot;true&quot;;</Code>
+<Body>
+<A ID="pgfId-1068276"></A>
+You can specify <code>
+true</code>
+ or <code>
+false</code>
+. This option is <code>
+true</code>
+ by default in the <code>
+1.0</code>
+ dialect, and <code>
+false</code>
+ by default in the <code>
+1.0-ml</code>
+ dialect.</Body>
+<Body>
+<A ID="pgfId-1068161"></A>
+The following is a simple validate expression:</Body>
+<Code>
+<A ID="pgfId-1068811"></A>
+xquery version &quot;1.0-ml&quot;;
+validate { &lt;p xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;hello there&lt;/p&gt; }
+
+(: 
+validates against the in-scope xhtml schema and returns the element:
+&lt;p xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;hello there&lt;/p&gt; 
+:)</Code>
+<Body>
+<A ID="pgfId-1068819"></A>
+The <code>
+as </code>
+<Emphasis>
+XML_type</Emphasis>
+ validation mode allows you to specify the type to validate as (rather than use the in-scope schema definitions for the type). This mode is an extension to the XQuery 1.0 syntax and is only available in the <code>
+1.0-ml</code>
+ dialect. </Body>
+<Code>
+<A ID="pgfId-1068861"></A>
+xquery version &quot;1.0-ml&quot;;
+
+validate as xs:boolean { &lt;foo&gt;{fn:true()}&lt;/foo&gt; }</Code>
+<Body>
+<A ID="pgfId-1068839"></A>
+In the <code>
+1.0</code>
+ dialect (or also in the <code>
+1.0-ml</code>
+ dialect), you can specify the an <code>
+xdmp:validate-type</code>
+ pragma before an expression to perform the same <code>
+as </code>
+<Emphasis>
+XML_type</Emphasis>
+ validation, but without the <code>
+validate&#160;as</code>
+ syntax, as in the following example:</Body>
+<Code>
+<A ID="pgfId-1068820"></A>
+xquery version &quot;1.0&quot;;
+declare namespace xdmp=&quot;http://marklogic.com/xdmp&quot;;
+
+(# xdmp:validate-type xs:boolean #) { &lt;foo&gt;{fn:true()}&lt;/foo&gt; }</Code>
+<Heading-2>
+<A ID="pgfId-1060000"></A>
+<A ID="74341"></A>
+XQuery Comparison Operators</Heading-2>
+<Body>
+<A ID="pgfId-1060092"></A>
+This section lists the comparison operators in XQuery. The purpose of the operators are to compare expressions. This section includes the following parts:</Body>
+<Body-bullet>
+<A ID="pgfId-1065637"></A>
+<A href="langoverview.xml#id(64761)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Node Comparison Operators</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1065645"></A>
+<A href="langoverview.xml#id(54120)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Sequence and Item Operators</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1060101"></A>
+<A ID="64761"></A>
+Node Comparison Operators</Heading-3>
+<Body>
+<A ID="pgfId-1060106"></A>
+You can specify node comparisons to test if two nodes are before or after each other (in document order), or if the nodes are the exact same node. These tests return true or false. The following are the node comparison operators:</Body>
+<TableAnchor>
+<A ID="pgfId-1067185"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1067144"></A>
+Operator</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1067146"></A>
+Description</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1067148"></A>
+Example</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1067150"></A>
+&lt;&lt;</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067152"></A>
+The node before operator. Tests if a node comes before another node in document order.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1067210"></A>
+let $x := &lt;foo&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;bar&gt;hello&lt;/bar&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;baz&gt;goodbye&lt;/baz&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/foo&gt;
+return
+($x/baz &lt;&lt; $x/bar, $x/bar &lt;&lt; $x/baz)
+(: returns false, true :)</CodeLeft>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1067156"></A>
+&gt;&gt;</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067158"></A>
+The node after operator. Tests if a node comes after another node in document order.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1067225"></A>
+let $x := &lt;foo&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;bar&gt;hello&lt;/bar&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;baz&gt;goodbye&lt;/baz&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/foo&gt;
+return
+($x/baz &gt;&gt; $x/bar, $x/bar &gt;&gt; $x/baz)
+(: returns true, false :)</CodeLeft>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1067162"></A>
+is</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067164"></A>
+The is operator. Tests if a node is the exact same node as another (does not just test equality).</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1067240"></A>
+let $x := &lt;foo&gt;
+            &lt;bar&gt;hello&lt;/bar&gt;
+            &lt;baz&gt;goodbye&lt;/baz&gt;
+          &lt;/foo&gt;
+return
+($x/baz is $x/bar, $x/bar is $x/bar)
+(: returns false, true :)</CodeLeft>
+</CELL>
+</ROW>
+</TABLE>
+<Body>
+<A ID="pgfId-1065633"></A>
+Node comparison tests are useful when creating logic that relies on document order. For example, if you wanted to verify if a particular node came before another node, you can test as follows:</Body>
+<Code>
+<A ID="pgfId-1065650"></A>
+$x &lt;&lt; $y</Code>
+<Body>
+<A ID="pgfId-1065654"></A>
+If this test returns true, you know that the node bound to <code>
+$x</code>
+ comes before the node bound to <code>
+$y</code>
+, based on document order.</Body>
+<Heading-3>
+<A ID="pgfId-1060107"></A>
+<A ID="54120"></A>
+Sequence and Item Operators</Heading-3>
+<Body>
+<A ID="pgfId-1060122"></A>
+XQuery has separate operators for to compare sequences and items.The following tabled lists XQuery operators for sequences and for items, along with a description and example for each operator. These operators are used to form expressions that compare values, and those expressions return a boolean value. This section consists of the following parts:</Body>
+<Body-bullet>
+<A ID="pgfId-1067658"></A>
+<A href="langoverview.xml#id(29997)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Sequence Operators</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1067666"></A>
+<A href="langoverview.xml#id(82278)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Item Operators</Hyperlink>
+</A></Body-bullet>
+<Heading-4>
+<A ID="pgfId-1067647"></A>
+<A ID="29997"></A>
+Sequence Operators</Heading-4>
+<Body>
+<A ID="pgfId-1067655"></A>
+The following operators work on sequences. Note that a single item is a sequence, so the sequence operators can work to compare single items. A sequence operator is true if any of the comparisons are true.</Body>
+<TableAnchor>
+<A ID="pgfId-1067631"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1060129"></A>
+Operator</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1060131"></A>
+Description</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1060152"></A>
+Example</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1060137"></A>
+=</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1060139"></A>
+The equality operator. Operates on sequences (which can contain 0 or more items).</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1060156"></A>
+1 eq 1 =&gt; true
+1 eq (1, 2) =&gt; true</CodeLeft>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1067277"></A>
+&gt;</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067279"></A>
+Greater than operator. Operates on sequences (which can contain 0 or more items).</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1067281"></A>
+1 &gt; 1 =&gt; false</CodeLeft>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1067283"></A>
+&gt;=</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067285"></A>
+Greater than or equal operator. Operates on sequences (which can contain 0 or more items).</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1067287"></A>
+1 &gt;= 1 =&gt; true
+1 &gt;= (1, 2) =&gt; true</CodeLeft>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1067289"></A>
+&lt;</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067291"></A>
+Less than operator. Operates on sequences (which can contain 0 or more items). Returns true if any item in the sequence is greater.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1067293"></A>
+1 &lt; 1 =&gt; false
+1 &lt; (1, 2) =&gt; true</CodeLeft>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1067356"></A>
+&lt;=</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067358"></A>
+Less than or equal operator. Operates on sequences (which can contain 0 or more items). Returns true if any item in the sequence is less than or equal to.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1067360"></A>
+1 &lt;= 1 =&gt; true
+1 &lt;= (1, 2) =&gt; true</CodeLeft>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1067301"></A>
+!=</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067303"></A>
+The not equal operator. Operates on sequences (which can contain 0 or more items). Returns true if any item in the sequence is not equal</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1067305"></A>
+1 != (1, 2) =&gt; true</CodeLeft>
+</CELL>
+</ROW>
+</TABLE>
+<Heading-4>
+<A ID="pgfId-1067759"></A>
+<A ID="82278"></A>
+Item Operators</Heading-4>
+<Body>
+<A ID="pgfId-1067760"></A>
+The following operators work on items. If you use these operators on a sequence, in the <code>
+1.0-ml</code>
+ dialect they will perform function mapping, and the value will be the effective boolean value of the sequence of results. In 1.0 and 0.9-ml, they will throw an <code>
+XDMP-MANYITEMSEQ</code>
+ exception if you try to compare a sequence of more than one item.</Body>
+<TableAnchor>
+<A ID="pgfId-1060123"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1067673"></A>
+Operator</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1067675"></A>
+Description</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1067677"></A>
+Example</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1067679"></A>
+eq</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067681"></A>
+The equality operator. Operates only on single items.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1067683"></A>
+1 eq 1 =&gt; true
+1 eq (1, 2) =&gt; error</CodeLeft>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1067691"></A>
+gt</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067693"></A>
+Greater than operator. Operates only on single items.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1067695"></A>
+1 gt 1 =&gt; false</CodeLeft>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1067703"></A>
+ge</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067705"></A>
+Greater than or equal operator. Operates only on single items.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1067707"></A>
+1 ge 1 =&gt; true</CodeLeft>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1067715"></A>
+lt</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067717"></A>
+Less than operator. Operates only on single items.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1067719"></A>
+1 lt 1 =&gt; false</CodeLeft>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1067727"></A>
+le</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067729"></A>
+Less than or equal operator. Operates only on single items.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1067731"></A>
+1 le 1 =&gt; true</CodeLeft>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1067739"></A>
+ne</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067741"></A>
+The not equal operator. Operates on single items.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1067743"></A>
+1 ne 1 =&gt; false</CodeLeft>
+</CELL>
+</ROW>
+</TABLE>
+</XML>

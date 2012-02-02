@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="fields.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1038002"></A>
+<A ID="61682"></A>
+Fields Database Settings</Heading-1>
+<pagenum>
+<A ID="pgfId-1040305"></A>
+137</pagenum>
+<Body>
+<A ID="pgfId-1038003"></A>
+This chapter describes how to configure fields in the database settings. Fields are used with the <code>
+cts:field-word-query</code>
+, <code>
+cts:field-words</code>
+, and <code>
+cts:field-word-match</code>
+ APIs, and allow you to define a named field consisting of several elements over which you can search. The following topics are included:</Body>
+<Body-bullet>
+<A ID="pgfId-1038821"></A>
+<A href="fields.xml#id(40202)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Overview of Fields</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1038839"></A>
+<A href="fields.xml#id(69956)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Understanding Field Configurations</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1038843"></A>
+<A href="fields.xml#id(34615)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Field Word Lexicons</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1038847"></A>
+<A href="fields.xml#id(34027)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Configuring Fields</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1051578"></A>
+This chapter describes how to use the Admin Interface to create and configure fields. For details on how to create and configure fields programmatically, see <A href="../AdminAPI/configure.xml#id(70285)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Adding a Database Field and Included Element</Hyperlink>
+</A> in the <Emphasis>
+Scripting Administrative Tasks Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1046819"></A>
+<A ID="40202"></A>
+Overview of Fields</Heading-2>
+<Body>
+<A ID="pgfId-1047026"></A>
+Fields provide a convenient mechanism for querying a portion of the database based on element QNames. Unlike collections or directories, which allow you to query portions of a database based on document URIs, fields allow you to query portions of a database based on elements. This offers extra convenience for the application developers, and also offers performance boosts over other methods of querying a portion of the database. Fields are extremely useful when you have content in one or more elements that you want to query simply and efficiently as a single unit.</Body>
+<Body>
+<A ID="pgfId-1048086"></A>
+Field query is similar to word query (in its default configuration, with everything included), but instead of querying everything in the database, fields query only what is configured for the specified field. Fields have their own set of indexes, independent of the database indexes. Because fields have their own indexes, and a field is typically a small subset of the whole database, querying a field is often more efficient than querying those same elements directly (with <code>
+cts:word-query</code>
+, for example). </Body>
+<Body>
+<A ID="pgfId-1047770"></A>
+Also, because fields have their own sets of indexes, relevance for fields is calculated based on the content in the field, not based on all of the content in the database. This provides finer-grain relevance for field searches than for other searches. </Body>
+<Body>
+<A ID="pgfId-1047033"></A>
+You can use fields to create portions of the content that you might want to query as a single unit. Additionally, you can configure a field with indexing options over and above the ones configured in the database. For example, consider a database containing many technical articles, each article containing an brief abstract. You might want to build an application that allows greater capabilities for searching through the abstracts than for searching through the rest of the articles. Assume your main content does not have wildcard indexes, but you want to be able to search through the abstracts using wildcard searches. You can create a field on the abstract, and then add wildcard indexes to that field. Because the field represents only a relatively small percentage of the content, the relative cost of the extra indexing is small.</Body>
+<Heading-2>
+<A ID="pgfId-1047022"></A>
+<A ID="69956"></A>
+Understanding Field Configurations</Heading-2>
+<Body>
+<A ID="pgfId-1038803"></A>
+Field search of words and phrases in MarkLogic Server is based on the query constructor <code>
+cts:field-word-query</code>
+. You can control the behavior of these field searches by changing the database configuration for the field you query. You can exclude and/or include elements from fields, and you can add extra indexing options for some elements. This section describes the options available in the configuration and includes the following parts:</Body>
+<Body-bullet>
+<A ID="pgfId-1047002"></A>
+<A href="fields.xml#id(16929)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Overview of Field Configuration Options</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1047008"></A>
+<A href="fields.xml#id(78911)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Understanding Which Elements are Included and Excluded</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1047009"></A>
+<A href="fields.xml#id(38755)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Adding a Weight to Boost or Lower the Relevance of an Included Element</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1047010"></A>
+<A href="fields.xml#id(55786)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Specifying An Attribute Value for an Included Element</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1047459"></A>
+<A href="fields.xml#id(83944)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Understanding the Index Option Configuration</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1047015"></A>
+<A ID="16929"></A>
+Overview of Field Configuration Options</Heading-3>
+<Body>
+<A ID="pgfId-1047074"></A>
+The following lists the main options you can set in the field query configuration to control how queries against the specified field are resolved:</Body>
+<Body-bullet>
+<A ID="pgfId-1047075"></A>
+By default, no elements are included in the field query configuration and the indexing options are the same as the database indexing options. You must specify at least one element to include for the field to include anything.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1047076"></A>
+All field configurations are set on a per-database basis.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1047077"></A>
+The field configuration controls the behavior of the <code>
+cts:field-word-query</code>
+, <code>
+cts:field-words</code>
+, and <code>
+cts:field-word-match</code>
+ APIs. This includes controlling the words that get indexed as well as controlling the words that are returned from the filter (evaluator) portion of query evaluation.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1047078"></A>
+Fields inherit the database index settings as a starting point for its index settings.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1047079"></A>
+You can add extra index options for each field. These added index options will not affect other queries (for example, <code>
+cts:word-query</code>
+, <code>
+cts:element-word-query</code>
+, <code>
+cts:element-attribute-word-query</code>
+).</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1047080"></A>
+You cannot turn off indexing options that are enabled in the database settings.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1047081"></A>
+If you check index options in a field that are enabled in the database, it will not change any behavior. However, if you subsequently disable a database index setting that is checked in the field setting, it will remain for the field.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1047082"></A>
+You can include and/or exclude named elements from each field.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1047083"></A>
+For any element you include, you can optionally constrain it by a value for a specified attribute.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1047084"></A>
+For any element you include, you can optionally specify a weight. The weight is used when determining relevance scores, where a weight greater than 1.0 will boost scores and a weight lower than 1.0 will lower scores for matches within the element.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1046943"></A>
+Each field has its own set of indexes; it does not share the indexes with the word query indexes. Therefore, if you have a field with fewer elements than word query, there is a smaller amount of content to index and fewer I/O operations are needed to resolve the query from the indexes (index resolution phase of query processing). </Body-bullet>
+<Heading-3>
+<A ID="pgfId-1047152"></A>
+<A ID="78911"></A>
+Understanding Which Elements are Included and Excluded</Heading-3>
+<Body>
+<A ID="pgfId-1047153"></A>
+You can include and/or exclude elements from a field. This is useful if you know you will never want to search some element content. This section describes how MarkLogic Server determines what content is included in the field and what is not when you include and/or exclude elements from the field configuration.</Body>
+<Body>
+<A ID="pgfId-1047161"></A>
+By default, no element content (all text node children of elements) is included in a field. When you include and/or exclude any elements from a field, there are rules that govern which non-specified elements are indexed and which are not. The rules are based on inheriting the include state from the parent element. For example, if the parent element is marked as an included element (and is therefore indexed and evaluated for field-based queries), then its children, if they do not appear on the exclude list, are also included.</Body>
+<Body>
+<A ID="pgfId-1047165"></A>
+When MarkLogic Server determines which elements to include/exclude, it walks the XML tree using the following rules (note that these are the same rules used for including/excluding elements in the word query configuration):</Body>
+<Number1>
+<A ID="pgfId-1047166"></A>
+Start at the root node of the document.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1047167"></A>
+If the root node is included (either because it is explicitly included or because <code>
+include document root</code>
+ is set to true), MarkLogic Server includes the immediate text node children of the document root element and then moves to its element children. If it is excluded, the text nodes are not included and MarkLogic Server moves down the XML tree to its element children.</Number>
+<Number>
+<A ID="pgfId-1047177"></A>
+If the parent element (the root element in this case) was included, MarkLogic Server keeps walking down the tree and including the text node children until it encounters an explicitly excluded element.</Number>
+<Number>
+<A ID="pgfId-1047181"></A>
+If the parent element (the root element in this case) was not included, MarkLogic Server keeps walking down the tree, not including the text node children, until it encounters an explicitly included element.</Number>
+<Number>
+<A ID="pgfId-1047185"></A>
+MarkLogic Server keeps walking down the tree, including or not according to the state inherited from the parent element, until it encounters the next included element (if it is in the <Emphasis>
+not included</Emphasis>
+ state) or excluded element (if it is in the <Emphasis>
+included</Emphasis>
+ state). </Number>
+<Number>
+<A ID="pgfId-1047186"></A>
+During this process, when an element is encountered that is neither included nor excluded, it inherits the included state (<Emphasis>
+not included</Emphasis>
+ or <Emphasis>
+included</Emphasis>
+) from the parent element.</Number>
+<Number>
+<A ID="pgfId-1047190"></A>
+MarkLogic Server keeps walking down the XML tree using this logic to determine its included state, until it reaches the end of the document.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1047191"></A>
+The only way to guarantee an element's text node children will be included (assuming you have any elements included and/or excluded) is to add it to the included list, and the only way to guarantee an element is not included is to add it to the excluded list.</EndList-root>
+<Body>
+<A ID="pgfId-1047192"></A>
+The following figure shows what is included for two configurations, one with the root node included and one with the root node excluded. Note that the includes and excludes are the same. The lines below the element names represent the text nodes, and the yes/no indicates whether the content in the text nodes is included in word queries. The <code>
+root</code>
+ represents the rode node of an XML structure, with elements <code>
+A</code>
+ and <code>
+B</code>
+ included and elements <code>
+C</code>
+ and <code>
+D</code>
+ excluded. Elements that are not explicitly included or excluded (for example, <code>
+E</code>
+, <code>
+F</code>
+, and <code>
+Z</code>
+) inherit from their parents.</Body>
+<Body>
+<A ID="pgfId-1048050"></A>
+<IMAGE xml:link="simple" href="fields-1.gif" show="embed" actuate="auto"/>
+</Body>
+<Body>
+<A ID="pgfId-1047315"></A>
+Notice that the <code>
+Z</code>
+ node, which is not explicitly included or excluded, sometimes is included and sometimes is not included, depending on the include state of its parent element.</Body>
+<Heading-3>
+<A ID="pgfId-1047317"></A>
+<A ID="38755"></A>
+Adding a Weight to Boost or Lower the Relevance of an Included Element</Heading-3>
+<Body>
+<A ID="pgfId-1048054"></A>
+When you include an element, one of the options is to add a <code>
+weight</code>
+ to the included element specification. When you add a weight, all text in this element (including any text in all text node descendants of the element) are weighted by the specified value, changing the relevance at query time. Specifying a weight greater than 1.0 will boost scores and a weight lower than 1.0 will lower scores for matches within the element. </Body>
+<Body>
+<A ID="pgfId-1048055"></A>
+When you specify a weight, the term frequency for any tokens in that element (including tokens in descendant text nodes) is multiplied by that number. This happens during document load, update, or reindexing. For example, if you specify a weight of 2.0, each term will have a term frequency of 2.0, making it as if each term appeared twice (for score calculation purposes). Similarly, if you specify a weight of 0.5, each term will have a term frequency of 0.5. </Body>
+<Body>
+<A ID="pgfId-1047319"></A>
+Adding a weight is useful to boost or lower scores on searches where the match occurs in a given element. For example, if you want matches in <code>
+TITLE</code>
+ elements to contribute more towards the relevancy score than matches in other elements, you can specify a weight of <code>
+2.0</code>
+ for the <code>
+TITLE</code>
+ element. Conversely, if you want matches in <code>
+TITLE</code>
+ elements to contribute less to the relevancy score than matches in other elements, you can specify a weight of <code>
+0.5</code>
+ for the <code>
+TITLE</code>
+ element. For details on how relevance is calculated, see the chapter <A href="../search-dev-guide/cts_query.xml#id(51991)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Composing cts:query Expressions</Hyperlink>
+</A> in the <Emphasis>
+Search Developer's Guide</Emphasis>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1047327"></A>
+<A ID="55786"></A>
+Specifying An Attribute Value for an Included Element</Heading-3>
+<Body>
+<A ID="pgfId-1048073"></A>
+When you include an element, one of the options is to specify an attribute value. This option allows you to only include elements with a particular attribute/value pair. The attribute/value pair acts as a predicate on which to constrain the content. For example, consider the following XML snippet:</Body>
+<Code>
+<A ID="pgfId-1048074"></A>
+&lt;chapter class=&quot;history&quot;&gt;some text here&lt;/chapter&gt;
+&lt;chapter class=&quot;mathematics&quot;&gt;some more text here&lt;/chapter&gt;
+&lt;chapter class=&quot;english&quot;&gt;some other text here&lt;/chapter&gt;
+&lt;chapter class=&quot;history&quot;&gt;some different text here&lt;/chapter&gt;
+&lt;chapter class=&quot;french&quot;&gt;other text here&lt;/chapter&gt;
+&lt;chapter class=&quot;linguistics&quot;&gt;still other text here&lt;/chapter&gt;</Code>
+<Body>
+<A ID="pgfId-1048075"></A>
+For the element <code>
+chapter</code>
+, if you specify the attribute/value pair of <code>
+class</code>
+ and <code>
+history</code>
+, then only the following elements will be included:</Body>
+<Code>
+<A ID="pgfId-1048076"></A>
+&lt;chapter class=&quot;history&quot;&gt;some text here&lt;/chapter&gt;
+&lt;chapter class=&quot;history&quot;&gt;some different text here&lt;/chapter&gt;</Code>
+<Body>
+<A ID="pgfId-1048077"></A>
+You can only specify an attribute value for an included element; you cannot specify one for an excluded element.</Body>
+<Heading-3>
+<A ID="pgfId-1047334"></A>
+<A ID="83944"></A>
+Understanding the Index Option Configuration</Heading-3>
+<Body>
+<A ID="pgfId-1047335"></A>
+The field configuration allows you to add some extra indexing options from the ones that are currently set in the database configuration. Adding any index options to the field configuration does not add those options to the element-based index options. </Body>
+<Body>
+<A ID="pgfId-1047336"></A>
+To add a particular index option to a field, you check the box corresponding to the index option. Adding any index options that are not enabled in the database configuration will cause new and updated documents to use the new indexing for the field, and will trigger a reindex operation if <code>
+reindex enable</code>
+ is set to true in the database configuration.</Body>
+<Body>
+<A ID="pgfId-1047337"></A>
+Options that are enabled in the database configuration appear in bold on the field configuration. If you check the box next to an option with bold-face type, it does not change your configuration. However, if you subsequently disable that index option in the database configuration, it will remain enabled for word query as long as the box is checked.</Body>
+<Heading-2>
+<A ID="pgfId-1046824"></A>
+<A ID="34615"></A>
+Field Word Lexicons</Heading-2>
+<Body>
+<A ID="pgfId-1046956"></A>
+As with word lexicons, you can create a word lexicon for each field. A <Emphasis>
+field word lexicon</Emphasis>
+ is a list of all of the unique words in the database that occur in the field. The list is ordered in the specified collation. You can create multiple field lexicons on the same field with different collations. The field word lexicons are accessed with the <code>
+cts:field-words</code>
+ and <code>
+cts:field-word-match</code>
+ APIs. For details about lexicons, see <A href="../search-dev-guide/lexicon.xml#id(29002)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Browsing With Lexicons</Hyperlink>
+</A> in the <Emphasis>
+Search Developer's Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1046955"></A>
+<A ID="34027"></A>
+Configuring Fields</Heading-2>
+<Body>
+<A ID="pgfId-1047487"></A>
+This section provides procedures to create and modify field configurations in a database. For details on what the meaning of the various configuration options in fields, see <A href="fields.xml#id(69956)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Understanding Field Configurations' on page&#160;127</A>. This section includes the following procedures:</Body>
+<Body-bullet>
+<A ID="pgfId-1047494"></A>
+<A href="fields.xml#id(30410)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Configuring a New Field</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1047502"></A>
+<A href="fields.xml#id(24977)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Modifying an Existing Field</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1047488"></A>
+<A ID="30410"></A>
+Configuring a New Field</Heading-3>
+<Body>
+<A ID="pgfId-1046825"></A>
+Use the Admin Interface to perform the following steps to add a new field configuration to a database.</Body>
+<Number1>
+<A ID="pgfId-1047480"></A>
+Navigate to and click the database for which you want to create a field, either from one of the summary tables or in the left tree menu.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1047514"></A>
+Under the database in which you want to create the field, click the Fields link. The Field Summary page appears.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1047481"></A>
+<IMAGE xml:link="simple" href="images/fieldsummary.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1047468"></A>
+Click the Create tab. The Create Field in Database page appears.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1047536"></A>
+<IMAGE xml:link="simple" href="images/fieldcreate.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1047537"></A>
+Enter a name for the field.</Number>
+<Number>
+<A ID="pgfId-1047544"></A>
+If you want the field to include any extra index options from the database, check those index settings. Index settings shown in bold indicate the setting is inherited from the database setting. For details, see <A href="fields.xml#id(83944)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Understanding the Index Option Configuration' on page&#160;131</A>.</Number>
+<Number>
+<A ID="pgfId-1047565"></A>
+If you want the field to include the root element of the document, even if it is not explicitly included, click the <code>
+true</code>
+ button for include document root. Typically, you leave this set to the default of <code>
+false</code>
+, unless your field will include most of the elements in the database.</Number>
+<Number>
+<A ID="pgfId-1047582"></A>
+Click OK. The configuration page with the field appears, adding the following parts to the bottom of the configuration page:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1047583"></A>
+<IMAGE xml:link="simple" href="images/fieldbottom.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1047584"></A>
+<A ID="87728"></A>
+If you want to add a word lexicon for the field, enter the collation URI next in the add text box. The URI for the UCA Default Collation, <code>
+http://marklogic.com/collation/</code>
+, is useful for many applications. For details on collations, see the <A href="../search-dev-guide/languages.xml#id(40505)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Language Support in MarkLogic Server</Hyperlink>
+</A> chapter in the <Emphasis>
+Search Developer's Guide</Emphasis>
+. Click the OK button to add the field word lexicon (if you want to create one). If you want to create other field word lexicons with different collations, repeat this step specifying a different collation URI for the new lexicon.</Number>
+<Number>
+<A ID="pgfId-1047607"></A>
+<A ID="65880"></A>
+Click the Includes tab to specify elements to include in the field.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1047610"></A>
+<IMAGE xml:link="simple" href="images/fieldinclude.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1047611"></A>
+On the Included Element page, specify a localname for the element to include. If the element is in a namespace, specify the namespace URI for the element to include.</Number>
+<Number>
+<A ID="pgfId-1047622"></A>
+[OPTIONAL] If you want to boost or lower the relevance contribution for matches within this element, specify a weight other than the default of 1.0. Weights greater than 1.0 will boost the relevance contribution and weights lower than 1.0 will lower the contribution.</Number>
+<Number>
+<A ID="pgfId-1047633"></A>
+[OPTIONAL] If you want to only include elements that have an attribute with a specified value, enter the attribute namespace URI (if needed), the attribute localname, and a value for the attribute. Then only elements containing attributes with the specified value will be included. You must specify the exact value; no wildcard characters are used.</Number>
+<Number>
+<A ID="pgfId-1047642"></A>
+<A ID="96752"></A>
+When you have specified everything for this element, click OK.</Number>
+<Number>
+<A ID="pgfId-1047650"></A>
+Repeat steps <A href="fields.xml#id(65880)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+9</Hyperlink>
+</A> through <A href="fields.xml#id(96752)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+13</Hyperlink>
+</A> for each element you want to include.</Number>
+<Number>
+<A ID="pgfId-1047659"></A>
+<A ID="44355"></A>
+If you want to exclude any elements from the field, click the Excludes tab.</Number>
+<Number>
+<A ID="pgfId-1047660"></A>
+Enter the namespace URI (if needed) and the localname for the excluded element.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1047663"></A>
+<IMAGE xml:link="simple" href="images/fieldexcludes.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1047664"></A>
+<A ID="39281"></A>
+Click OK.</Number>
+<Number>
+<A ID="pgfId-1047671"></A>
+Repeat steps <A href="fields.xml#id(44355)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+15</Hyperlink>
+</A> through <A href="fields.xml#id(39281)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+17</Hyperlink>
+</A> for each element you want to exclude.</Number>
+<Number>
+<A ID="pgfId-1047682"></A>
+You can delete any included or excluded fields from the tables at the bottom of the field configuration page.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1047683"></A>
+<IMAGE xml:link="simple" href="images/fielddelete.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<Heading-3>
+<A ID="pgfId-1047503"></A>
+<A ID="24977"></A>
+Modifying an Existing Field</Heading-3>
+<Body>
+<A ID="pgfId-1047507"></A>
+Perform the following steps to modify an existing field:</Body>
+<Number1>
+<A ID="pgfId-1047690"></A>
+To modify an existing field, click on the Fields link in the left tree menu. The Fields Summary page appears.</Number1>
+<Body-indent>
+<A ID="pgfId-1047704"></A>
+<IMAGE xml:link="simple" href="images/fieldsummary2.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1047705"></A>
+Click on the name of the field you want to edit. The Field Configuration page appears.</Number>
+<Number>
+<A ID="pgfId-1047716"></A>
+If you want to change any of the settings, make any desired modifications and click OK.</Number>
+<Number>
+<A ID="pgfId-1047717"></A>
+The remainder of the procedure is the same as the previous procedure for creating a field, starting with step <A href="fields.xml#id(87728)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+8</Hyperlink>
+</A> to create a field word lexicon, and continuing on to add/delete included and excluded elements. </Number>
+</NumberList>
+</XML>

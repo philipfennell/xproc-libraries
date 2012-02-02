@@ -1,0 +1,374 @@
+<?xml-stylesheet href="common.css" type="text/css"?>
+
+
+<Ignore>
+
+  <module name="alert">
+      <function>config-repair-cpf-domains</function>  
+      <function>create-triggers-internal</function>
+      <function>get-uri-for-trigger</function>
+      <function>get-uri-for-cpf-trigger</function>
+      <function>remove-triggers-internal</function>
+      <function>invoke-action</function>
+      <function>spawn-action</function>
+      <function>user-restriction</function>
+  </module>
+
+  <module name="entity">
+      <function>get-entity-type</function>
+      <function>add-entity-prefix</function>
+  </module>  
+  <module name="flexrep">
+      <function>_get-doc-version</function>
+  </module>
+  <module name="pki"> 
+      <function>integer-to-hex</function>
+      <function>hex-to-integer</function>      
+  </module>
+
+
+  <module name="thesaurus">
+      <function>entry-equal</function>
+      <function>synonym-equal</function>
+      <function>filter-entries</function>
+      <function>unique-entries</function>
+      <function>query-lookup-help</function>
+      <function>expand-help</function>
+      <function>expand-word-query</function>
+      <function>expand-field-word-query</function>
+      <function>expand-element-value-query</function>
+      <function>expand-element-word-query</function>
+      <function>expand-element-attribute-value-query</function>
+      <function>expand-element-attribute-word-query</function>
+      <function>validate-thesaurus</function>
+      <function>validate-entry</function>
+      <function>validate-synonym</function>
+      <function>validate-term</function>
+      <function>validate-qualifiers</function>
+      <function>validate-scope-notes</function>
+      <function>validate-part-of-speech</function>
+  </module>  
+
+  <module name="admin">   
+      <paramFunction name="group-set-audit-uri-restriction">
+         <ignoreParam>$uris</ignoreParam>	 
+     </paramFunction>
+  </module> 
+
+  <module name="dls"/>
+  <module name="security">
+      <function>privilege-add-roles-by-id</function>
+      <function>get-element</function>
+      <function>collection-doc-collections</function>
+      <function>role-children</function>
+      <function>role-get-users</function>
+      <paramFunction name="role-add-roles">
+         <ignoreParam>$new-roles</ignoreParam>	 
+     </paramFunction>
+  </module>  
+
+  <module name="spell"/>
+
+  <module name="triggers">
+      <function>handle-unique-id-collisions</function>
+      <paramFunction name="document-content">
+         <ignoreParam>$update-kind</ignoreParam>	 
+     </paramFunction>
+      <paramFunction name="property-content">
+         <ignoreParam>$property-name</ignoreParam>	 
+     </paramFunction>
+      <paramFunction name="trigger-set-name">
+         <ignoreParam>$description</ignoreParam>	 
+     </paramFunction>     
+  </module>
+
+  <module name="entity"/>
+
+  <module name="info"/>  
+  <module name="infodev"/> 
+  <module name="plugin"/> 
+  <module name="ec2-2009-11-30"/> 
+
+  <module name="cpf">
+      <function>calculate-property-hash</function>
+      <function>log</function>
+      <paramFunction name="check-transition">
+         <ignoreParam>$docid</ignoreParam>	 
+     </paramFunction>
+      <paramFunction name="document-set-error">
+         <ignoreParam>$error</ignoreParam>	 
+     </paramFunction>
+      <paramFunction name="failure">
+         <ignoreParam>$docid</ignoreParam>	 
+     </paramFunction>
+      <paramFunction name="success">
+         <ignoreParam>$docid</ignoreParam>	 
+     </paramFunction>     
+  </module>
+
+
+  <module name="domains">
+      <function>get-by-id</function>
+      <function>configuration-remove</function>
+      <function>configuration-set-conversion-enabled</function>
+      <function>configuration-set-recovery-host</function>
+      <function>get-pipelines-for-trigger</function>
+      <function>get-domain-for-trigger</function>
+      <function>upgrade-triggers</function>
+      <function>update-trigger-name</function>
+      <function>validate-context</function>
+      <function>validate-scope</function>
+      <function>domains-using-pipeline</function>
+      <paramFunction name="configuration-set-restart-user">
+         <ignoreParam>$restart-user</ignoreParam>	 
+     </paramFunction>  
+      <paramFunction name="create">
+         <ignoreParam>$name</ignoreParam>	 
+         <ignoreParam>$description</ignoreParam>	 
+         <ignoreParam>$scope</ignoreParam>	  
+         <ignoreParam>$context</ignoreParam>	 
+     </paramFunction>
+      <paramFunction name="set-pipelines">
+         <ignoreParam>$pipelines</ignoreParam>	 
+     </paramFunction>     
+  </module>
+
+
+  <module name="links">
+      <function>clean</function>
+      <function>clean-all</function>
+      <function>find-deleted</function>
+      <function>find-dangling</function>
+      <function>propagate-delete</function>
+      <function>propagate-rename</function>
+      <function>insert-property</function>
+      <function>remove-property</function>
+      <function>get-property</function>
+      <function>from-property</function>
+      <function>to-property</function>
+      <function>get-properties</function>
+      <function>remove-properties</function>
+      <function>check-property</function>
+      <function>clean-property</function>
+      <function>from-properties</function>
+      <function>to-properties</function>
+      <function>ok-link</function>
+      <function>safe-link</function>
+      <function>make-link</function>
+      <function>set-no-propagation</function>
+      <function>is-no-propagation</function>
+  </module>
+
+  <module name="pipelines"> 
+      <function>uri</function>
+      <function>get-unique-id</function>
+      <function>default-success-action</function>
+      <function>default-failure-action</function>
+      <function>validate-pipeline</function>
+      <function>validate-state-transition</function>
+      <function>validate-status-transition</function>
+      <function>validate-transition</function>
+      <function>validate-action</function>
+      <function>validate-execute</function>
+      <paramFunction name="create">
+         <ignoreParam>$name</ignoreParam>
+         <ignoreParam>$description</ignoreParam>	 
+     </paramFunction> 
+      <paramFunction name="insert">
+         <ignoreParam>$pipeline</ignoreParam>	 
+     </paramFunction>      
+  </module>
+
+  <module name="convert">   
+      <function>resolve-uri-no-error</function>
+      <function>construct-index</function>
+      <paramFunction name="destination-uri">
+         <ignoreParam>$uri</ignoreParam>	 
+     </paramFunction>   
+      <paramFunction name="part-uri">
+         <ignoreParam>$uri</ignoreParam>
+         <ignoreParam>$part</ignoreParam>	 
+     </paramFunction>        
+  </module>
+
+  <module name="css">
+      <function>serialize</function>
+  </module>
+
+  <module name="docbook">
+      <function>transform</function>
+      <function>row-attributes</function>
+      <function>transform-header</function>
+      <function>make-id</function>
+      <function>transform-anchor</function>
+      <function>table-attributes</function>
+      <function>transform-table</function>
+      <function>cell-attributes</function>
+      <function>transform-cell</function>
+      <function>process-image</function>
+  </module>
+
+  <module name="excel">  
+      <function>do-make-sheet-div</function>
+      <function>split-sheet-root</function>
+      <function>split-sheets</function>
+  </module>
+
+  <module name="msword"/>  
+
+  <module name="pdf">  
+      <function>get-toc-ids</function>
+      <function>reparent-orphan-toc-anchors</function>
+      <function>split-toc-anchors</function>
+      <function>do-insert-toc-headers</function>
+      <function>do-strip-anchor</function>
+      <function>fix-toc-anchors</function>
+      <function>do-headerize</function>
+      <function>do-split-p</function>
+      <function>split-page-into-blocks</function>
+      <function>recalculate-positions</function>
+      <function>split-pages</function>
+  </module>
+
+
+  <module name="powerpoint"> 
+      <function>do-make-slide-div</function>
+      <function>split-slide-root</function>
+      <function>split-slides</function>
+      <function>page-style</function>
+      <function>greyed</function>
+      <function>fix-invisible-text</function>
+      <function>rewrite-bad-tops</function>
+      <function>rewrite-bad-widths</function>
+      <function>fix-styles</function>
+  </module>
+
+
+  <module name="xhtml"> 
+      <function>replace-headers</function>
+      <function>fix-metadata</function>
+      <function>style-to-head</function>
+      <function>set-xml-lang</function>
+      <function>do-replace-headers</function>
+      <function>remove-markers</function>
+      <function>useless</function>
+      <function>do-collapse-spans</function>
+      <function>collapse-spans</function>
+      <function>prune-empty</function>
+      <function>fix-styles</function>
+      <function>do-fix-metadata</function>
+      <function>do-style-to-head</function>
+      <function>split-root</function>
+      <function>sig</function>
+      <function>make-all-divs</function>
+      <function>rval</function>
+      <function>roman-to-int</function>
+      <function>ival</function>
+      <function>xval</function>
+      <function>cval</function>
+      <function>mval</function>
+      <function>int-to-roman</function>
+      <function>increment-roman</function>
+      <function>next-sub-value-expr</function>
+      <function>next-top-level-value-expr</function>
+      <function>this-value-expr</function>
+      <function>find-top-list-start</function>
+      <function>find-top-list-next</function>
+      <function>mark-top-list-items</function>
+      <function>do-listify</function>
+      <function>do-itemify</function>
+      <function>listify</function>
+      <function>find-sub-list-start</function>
+      <function>find-sub-list-next</function>
+      <function>mark-sub-list-items</function>
+      <function>sublistify</function>
+      <function>internal-listify</function>
+      <function>do-internal-listify</function>
+      <function>do-set-xml-lang</function>
+  </module>
+
+
+  <module name="xinclude">
+      <function>memoize-ref</function>
+      <function>get-href</function>
+      <function>do-resolve</function>
+      <function>link-context</function>
+      <function>node-expand-helper</function>
+      <function>link-reference-uri</function>
+      <function>link-references-helper</function>
+      <function>internal-link-expand</function>
+  </module>
+
+  <module name="xpointer">
+      <function>xp:parse-xpointer</function>
+      <function>xp:path-from-element-scheme</function>
+      <function>xp:alt-path-from-element-scheme</function>
+      <function>xp:do-dereference</function>
+      <function>xp:dereference</function>
+  </module>
+
+  <module name="georss">
+      <function>polygon</function>
+      <function>geospatial-query-from-elements</function>
+  </module>
+
+  <module name="geospatial"> 
+      <paramFunction name="polygon">
+         <ignoreParam>$points</ignoreParam>
+         <ignoreParam>$polygon</ignoreParam>	 
+     </paramFunction>   
+  </module>
+
+  <module name="gml">
+      <paramFunction name="polygon">
+         <ignoreParam>$points</ignoreParam>
+         <ignoreParam>$polygon</ignoreParam>	 
+     </paramFunction>  
+      <paramFunction name="geospatial-query-from-elements">
+         <ignoreParam>$regions</ignoreParam>
+     </paramFunction>     
+  </module>
+
+  <module name="kml">
+      <paramFunction name="box">
+         <ignoreParam>$envelope</ignoreParam> 
+     </paramFunction> 
+      <paramFunction name="interior-polygon">
+         <ignoreParam>$points</ignoreParam>	 
+     </paramFunction> 
+      <paramFunction name="polygon">
+         <ignoreParam>$points</ignoreParam>	 
+     </paramFunction>     
+  </module>
+
+  <module name="mcgm"> 
+      <paramFunction name="geospatial-query-from-elements">
+         <ignoreParam>$regions</ignoreParam> 
+     </paramFunction> 
+      <paramFunction name="polygon">
+         <ignoreParam>$center</ignoreParam>	 
+     </paramFunction>     
+  </module>
+
+  <module name="package">
+      <function>list-length-error</function>
+      <function>validate-list-length-equal</function>
+      <function>validate-list-length-equal-strings</function>
+      <function>validate-list-length-equal-2</function>
+      <function>validate-directory</function>
+  </module>
+
+  <module name="word-processing-ml"> 
+      <function>update-document-xml</function>
+      <function>passthru</function>
+      <function>dispatch</function>
+      <function>mergeruns</function>
+      <function>descend</function>
+      <function>map</function>
+  </module>
+
+  <module name="searchapi"/>
+
+
+</Ignore>
+

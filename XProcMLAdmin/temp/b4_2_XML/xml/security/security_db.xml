@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="security_db.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1043743"></A>
+<A ID="66642"></A>
+Administering Security</Heading-1>
+<pagenum>
+<A ID="pgfId-1045136"></A>
+37</pagenum>
+<Body>
+<A ID="pgfId-1045140"></A>
+This chapter describes the basic steps needed to administer security in MarkLogic Server. It does not provide the detailed procedures for creating users, roles, privileges, and so on. For those procedures, see the 'Security Administration' chapter of the <Emphasis>
+Administrator's Guide</Emphasis>
+. This chapter includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1044138"></A>
+<A href="security_db.xml#id(33818)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Overview of the Security Database</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044146"></A>
+<A href="security_db.xml#id(50783)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Associating a Security Database With a Documents Database</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044151"></A>
+<A href="security_db.xml#id(26613)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Managing and Using Objects in the Security Database</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044654"></A>
+<A href="security_db.xml#id(65229)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Backing Up the Security Database</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044342"></A>
+<A href="security_db.xml#id(87889)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Example: Using the Security Database in Different Servers</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1043434"></A>
+<A ID="33818"></A>
+Overview of the Security Database</Heading-2>
+<Body>
+<A ID="pgfId-1045308"></A>
+Authentication in MarkLogic Server occurs via the <Emphasis>
+security database</Emphasis>
+. The security database contains security objects such as privileges, roles, and users. A security database is associated with each HTTP, WebDAV, or XDBC server; typically, a single security database services all of the servers configured in a system. Actions against the server are authorized based on the security database. The security database works the same way for Enterprise Edition clustered systems as it does for Standard Edition single-node systems; there is always a single security database associated with each HTTP, WebDAV, or XDBC server. </Body>
+<Body>
+<A ID="pgfId-1045185"></A>
+The configuration which associates the security database with the database and servers is at the database level. HTTP, WebDAV, and XDBC servers each access a single documents database, and each database in turn accesses a single security database. Multiple documents databases can access the same security database. The following figure shows many servers accessing some shared and some different documents databases, but all accessing the same security database.</Body>
+<Body>
+<A ID="pgfId-1044394"></A>
+<IMAGE xml:link="simple" href="security_db-1.gif" show="embed" actuate="auto"/>
+</Body>
+<Body>
+<A ID="pgfId-1044354"></A>
+Sharing the security database across multiple servers provides a common security configuration. You can set up different privileges for different databases if that makes sense, but they are all stored in a common security database. For an example of this type of configuration, see <A href="security_db.xml#id(87889)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Example: Using the Security Database in Different Servers' on page&#160;35</A>.</Body>
+<Body>
+<A ID="pgfId-1044643"></A>
+Besides storing users, roles, and privileges that you create, the security database also stores many pre-defined privileges and several pre-defined roles. These objects help to control access to privileged activities in MarkLogic Server. Examples of privileged activities include loading data, accessing URIs, and so on. The security database is initialized during the installation process. For a list of all of the pre-defined privileges and roles, see the corresponding appendixes in the <Emphasis>
+Administrator's Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1044066"></A>
+<A ID="50783"></A>
+Associating a Security Database With a Documents Database</Heading-2>
+<Body>
+<A ID="pgfId-1044118"></A>
+When you configure a database, you must specify which database is its security database. You can associate the security database to another database in the database configuration screen of the Admin interface. This configuration specifies which database the server will use to authenticate users and authorize requests. By default, the security database is named <Emphasis>
+Security</Emphasis>
+. The following screen shot shows the server configuration screen drop-list which specifies the security database.</Body>
+<Body>
+<A ID="pgfId-1044620"></A>
+<IMAGE xml:link="simple" href="images/sec_db.gif" show="embed" actuate="auto"/>
+</Body>
+<Heading-2>
+<A ID="pgfId-1044095"></A>
+<A ID="26613"></A>
+Managing and Using Objects in the Security Database</Heading-2>
+<Body>
+<A ID="pgfId-1044341"></A>
+There are two mechanisms you can use to add, change, delete, and use objects in the security database: the Admin interface and the <code>
+security.xqy</code>
+ XQuery functions. This section describes the types of things you can do with each of these mechanisms, and includes the following subsections:</Body>
+<Body-bullet>
+<A ID="pgfId-1044690"></A>
+<A href="security_db.xml#id(15680)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Using the Admin Interface</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044698"></A>
+<A href="security_db.xml#id(36881)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Using the security.xqy Module Functions</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1044096"></A>
+<A ID="15680"></A>
+Using the Admin Interface</Heading-3>
+<Body>
+<A ID="pgfId-1044097"></A>
+The Admin interface is an application installed with MarkLogic Server for administering databases, servers, clusters, and security objects. The Admin interface is essentially an application designed to manage the objects in the security database (although it manages other things, such as configuration information, too). You use the Admin interface to create, change, or delete objects in the security database. Activities such as creating users, creating roles, assigning privileges to roles, and so on are all done in the Admin interface. By default, the Admin interface application runs on port 8001.</Body>
+<Body>
+<A ID="pgfId-1044712"></A>
+For the procedures for creating, deleting, and modifying security objects, see the <Emphasis>
+Administrator's Guide</Emphasis>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1044098"></A>
+<A ID="36881"></A>
+Using the security.xqy Module Functions</Heading-3>
+<Body>
+<A ID="pgfId-1044101"></A>
+The installation process installs an XQuery library to help you use security objects in your XQuery code. The <code>
+security.xqy</code>
+ module file includes many functions which help you to access user and privilege information, as well as functions to create, modify, and delete objects in the security database.</Body>
+<Body>
+<A ID="pgfId-1044739"></A>
+The functions in <code>
+security.xqy</code>
+ must be executed against the security database. You can use these functions to do a wide variety of things. For example, you can write code to test which collections a user has access to, and use that information in some logic in your code. There are many functions and a very wide variety of things you can do with the <code>
+security.xqy</code>
+ functions.</Body>
+<Body>
+<A ID="pgfId-1044728"></A>
+For the signatures and descriptions of the functions in <code>
+security.xqy</code>
+, see the <Hyperlink>
+<A href="http://developer.marklogic.com/pubs/4.0/apidocs/Securitysec.html" xml:link="simple" show="replace" actuate="user" CLASS="URL">'MarkLogic Server Built-In and Module Function Reference.'</A></Hyperlink>
+</Body>
+<Heading-2>
+<A ID="pgfId-1035177"></A>
+<A ID="65229"></A>
+Backing Up the Security Database</Heading-2>
+<Body>
+<A ID="pgfId-1044656"></A>
+The security database is the central entry point to all of your MarkLogic Server applications. If the security database becomes unavailable, no users will be able to access any applications. Therefore, it is very important to create a backup of the security database. Use the database backup utility in the Admin interface to back up the security database. For details, see the 'Backing Up and Restoring a Database' chapter of the <Emphasis>
+Administrator's Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1044655"></A>
+<A ID="87889"></A>
+Example: Using the Security Database in Different Servers</Heading-2>
+<Body>
+<A ID="pgfId-1044161"></A>
+The security database typically is used for the entire system, including all of the HTTP, WebDAV, and XDBC servers configured. You can create distinct privileges to control access to each server. If each server accesses a different document database, these privileges can effectively control access to each database (because the database is associated with the server). Users then must have the appropriate <Emphasis>
+login privileges</Emphasis>
+ to login to the a server, and they therefore have no way of accessing either the applications or the content stored in the database accessed through that server without possessing the appropriate privilege. This example describes such a scenario.</Body>
+<Body>
+<A ID="pgfId-1044163"></A>
+Consider an example with two databases--DocumentsA and DocumentsB. DocumentsA and DocumentsB share a single security database, Security. Security is the default security database managed by the Admin interface on port 8001. There are two HTTP servers, ApplicationA and ApplicationB, connected to DocumentsA and DocumentsB respectively.</Body>
+<Body>
+<A ID="pgfId-1044164"></A>
+ExecutePrivilegeA controls login access to ApplicationA, and ExecutePrivilegeB to ApplicationB. RoleA is granted ExecutePrivilegeA and RoleB is granted ExecutePrivilegeB.</Body>
+<Body>
+<A ID="pgfId-1044165"></A>
+With this configuration, users who are assigned RoleA can access documents in DocumentsA and users of RoleB can access documents in DocumentsB. Assuming that ExecutePrivilegeA or ExecutePrivilegeB are appropriately configured as login privileges on every HTTP and XDBC server that accesses either DocumentsA or DocumentsB, user access to these databases can conveniently be managed by assigning users the role(s) RoleA and/or RoleB as required. </Body>
+<Graphic>
+<A ID="pgfId-1044186"></A>
+<IMAGE xml:link="simple" href="security_db-3.gif" show="embed" actuate="auto"/>
+</Graphic>
+<Note>
+<A ID="pgfId-1044187"></A>
+The Admin interface at port 8001 is also used to configure all databases, HTTP servers, hosts, and so on. The connection between the Admin interface and Security in the diagram simply indicates that the Admin interface is storing all security objects--users, roles, and privileges--in Security.</Note>
+<Body>
+<A ID="pgfId-1044188"></A>
+The steps below outline the process to create the configuration in the above example. </Body>
+<Number1>
+<A ID="pgfId-1044189"></A>
+Create two document databases: DocumentsA and DocumentsB. Leave the security database for the document databases as Security (the default setting). </Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1044190"></A>
+Create two execute privileges: ExecutePrivilegeA and ExecutePrivilegeB. They represent the privilege to access ApplicationA and ApplicationB respectively. ApplicationA and ApplicationB are two HTTP servers that will be created later in the process.</Number>
+</NumberList>
+<Note>
+<A ID="pgfId-1044191"></A>
+The new execute privileges created using the Admin interface are stored in Security. The new roles and users created below will also be stored in Security.</Note>
+<NumberList>
+<Number>
+<A ID="pgfId-1044192"></A>
+Create two new roles. These roles will be used to organize users into groups and to facilitate granting access to users as a group.</Number>
+</NumberList>
+<NumberA1>
+<A ID="pgfId-1044193"></A>
+Create a new role. Name it RoleA. </NumberA1>
+<NumberAList>
+<NumberA>
+<A ID="pgfId-1044194"></A>
+Scroll down to the Execute Privileges section and select ExecutePrivilegeA. This associates ExecutePrivilegeA with RoleA. Any user assigned RoleA will be granted ExecutePrivilegeA. </NumberA>
+<NumberA>
+<A ID="pgfId-1044195"></A>
+Repeat the steps for RoleB, selecting ExecutePrivilegeB instead.</NumberA>
+<Number>
+<A ID="pgfId-1044196"></A>
+Create two new HTTP servers: </Number>
+</NumberAList>
+<NumberA1>
+<A ID="pgfId-1044197"></A>
+Create a new HTTP server. Name it ApplicationA. </NumberA1>
+<NumberAList>
+<NumberA>
+<A ID="pgfId-1044198"></A>
+Select DocumentsA as the database. ApplicationA is now attached to DocumentsA which in turn uses Security as its security database.</NumberA>
+<NumberA>
+<A ID="pgfId-1044199"></A>
+Select basic, digest or digest-basic authentication scheme.</NumberA>
+<NumberA>
+<A ID="pgfId-1044200"></A>
+Select ExecutePrivilegeA in the privilege drop down menu. This indicates that ExecutePrivilegeA is required to access ApplicationA. </NumberA>
+<NumberA>
+<A ID="pgfId-1044201"></A>
+Repeat the steps for ApplicationB, selecting ExecutePrivilegeB instead.</NumberA>
+<Number>
+<A ID="pgfId-1044202"></A>
+Create new users. </Number>
+</NumberAList>
+<NumberA1>
+<A ID="pgfId-1044203"></A>
+Create a new user named UserA1.</NumberA1>
+<NumberAList>
+<NumberA>
+<A ID="pgfId-1044204"></A>
+Scroll down to the Roles section and select RoleA. </NumberA>
+<NumberA>
+<A ID="pgfId-1044205"></A>
+Repeat the steps for UserB1, selecting RoleB in the roles section.</NumberA>
+</NumberAList>
+<Body-indent>
+<A ID="pgfId-1044206"></A>
+UserA1 will be granted ExecutePrivilegeA by virtue of its role (RoleA) and will have login access to ApplicationA. Because ApplicationA is connected to DocumentsA, UserA1 will be able to access documents in DocumentsA assuming no additional security requirements are implemented in ApplicationA, or added to documents in DocumentsA. The corresponding is true for UserB1. </Body-indent>
+<Body>
+<A ID="pgfId-1044207"></A>
+The configuration process is now complete. Additional users can be created by simply repeating step 5 and selecting the appropriate role. All users assigned RoleA will have login access to ApplicationA and all users assigned RoleB will have login access to ApplicationB.</Body>
+<Body>
+<A ID="pgfId-1044208"></A>
+This approach can also be easily extended to handle additional discrete databases and user groups by creating additional document databases, roles and execute privileges as necessary. </Body>
+<Body>
+<A ID="pgfId-1044252"></A>
+</Body>
+</XML>

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="loading_schemas.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1043425"></A>
+<A ID="68942"></A>
+Loading Schemas</Heading-1>
+<pagenum>
+<A ID="pgfId-1043772"></A>
+26</pagenum>
+<Body>
+<A ID="pgfId-1043427"></A>
+MarkLogic Server has the concept of a <Emphasis>
+schema database</Emphasis>
+. The schema database stores schema documents that can be shared across many different databases within the same MarkLogic Server cluster. This chapter introduces the basics of loading schema documents into MarkLogic Server, and includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1047392"></A>
+<A href="loading_schemas.xml#id(43644)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Configuring Your Database</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1047402"></A>
+<A href="loading_schemas.xml#id(57846)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Loading Your Schema</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1047407"></A>
+<A href="loading_schemas.xml#id(70282)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Referencing Your Schema</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1047412"></A>
+<A href="loading_schemas.xml#id(17666)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Working With Your Schema</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1051537"></A>
+<A href="loading_schemas.xml#id(42480)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Validating XML Against a Schema</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1047417"></A>
+For more information about configuring schemas in the Admin Interface, see the 'Understanding and Defining Schemas' chapter of the <Emphasis>
+Administrator's Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1043428"></A>
+<A ID="43644"></A>
+Configuring Your Database</Heading-2>
+<Body>
+<A ID="pgfId-1043429"></A>
+MarkLogic Server automatically creates an empty schema database, named <Emphasis>
+Schemas</Emphasis>
+, at installation time.</Body>
+<Body>
+<A ID="pgfId-1043430"></A>
+Every document database that is created references both a schema database and a security database. By default, when a new database is created, it automatically references <Emphasis>
+Schemas</Emphasis>
+ as its schema database. In most cases, this default configuration (shown below) will be correct:</Body>
+<Body>
+<A ID="pgfId-1043434"></A>
+<IMAGE xml:link="simple" href="images/schema_db.gif" show="embed" actuate="auto"/>
+</Body>
+<Body>
+<A ID="pgfId-1043435"></A>
+In other cases, it may be desirable to configure your database to reference a different schema database. It may be necessary, for example, to be able to have two different databases reference different versions of the same schema using a common schema name. In these situations, simply select the database from the drop-down schema database menu that you want to use in place of the default Schemas database. Any database in the system can be used as a schema database.</Body>
+<Body>
+<A ID="pgfId-1043436"></A>
+In select cases, it may be efficient to configure your database to reference itself as the schema database. This is a perfectly acceptable configuration which can be set up through the same drop-down menu. In these situations, a single database stores both content and schema relevant to a set of applications. </Body>
+<Note>
+<A ID="pgfId-1043437"></A>
+To create a database that references itself as its schema database, you must first create the database in a configuration that references the default <Emphasis>
+Schemas</Emphasis>
+ database. Once the new database has been created, you can change its schema database configuration to point to itself using the drop-down menu.</Note>
+<Heading-2>
+<A ID="pgfId-1043438"></A>
+<A ID="57846"></A>
+Loading Your Schema</Heading-2>
+<Body>
+<A ID="pgfId-1043439"></A>
+HTTP and XDBC Servers connect to document databases. Document insertion operations conducted through those HTTP and XDBC Servers (using <code>
+xdmp:document-load()</code>
+, <code>
+xdmp:document-insert()</code>
+ and the various XDBC document insertion methods) insert documents into the document databases connected to those servers.</Body>
+<Body>
+<A ID="pgfId-1043440"></A>
+This makes loading schemas slightly tricky. Because the system looks in the schema database referenced by the current document database when requesting schema documents, you need to make sure that the schema documents are loaded into the current database's <Emphasis>
+schema database</Emphasis>
+ rather than into the current <Emphasis>
+document database</Emphasis>
+.</Body>
+<Body>
+<A ID="pgfId-1043441"></A>
+There are several ways to accomplish this:</Body>
+<Number1>
+<A ID="pgfId-1043442"></A>
+You can use the Admin Interface's load utility to load schema documents directly into a schema database. Go to the Database screen for the schema database into which you want to load documents. Select the load tab at top-right and proceed to load your schema as you would load any other document.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1043443"></A>
+You can create an XQuery program that uses the <code>
+xdmp:eval</code>
+ built-in, specifying the <code>
+&lt;database&gt;</code>
+ option to load a schema directly into the current database's schema database:</Number>
+</NumberList>
+<Code>
+<A ID="pgfId-1047363"></A>
+xdmp:eval('xdmp:document-load(&quot;sample.xsd&quot;)', (),
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;options xmlns=&quot;xdmp:eval&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;database&gt;{xdmp:schema-database()}&lt;/database&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/options&gt;)</Code>
+<NumberList>
+<Number>
+<A ID="pgfId-1047364"></A>
+You can create an XDBC or HTTP Server that directly references the schema database in question as its document database, and then use any document insertion function to load one or more schemas into that schema database.  This approach should not be necessary.</Number>
+<Number>
+<A ID="pgfId-1051705"></A>
+You can create a WebDAV Server that references the Schemas database and then drag-and-drop schema documents in using a WebDAV client.</Number>
+</NumberList>
+<Heading-2>
+<A ID="pgfId-1043446"></A>
+<A ID="70282"></A>
+Referencing Your Schema</Heading-2>
+<Body>
+<A ID="pgfId-1043447"></A>
+Schemas are automatically invoked by the server when loading documents (for conducting content repair) and when evaluating queries (for proper data typing).  For any given document, the server looks for a matching schema in the schema database referenced by the current document database.</Body>
+<Number1>
+<A ID="pgfId-1043448"></A>
+If a schema with a matching target namespace is not found, a schema is not used in processing the document.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1043449"></A>
+If one matching schema is found, that schema is used for processing the document.</Number>
+<Number>
+<A ID="pgfId-1043450"></A>
+If there are more than one matching schema in the schema database, a schema is selected based on the precedence rules in the order listed:</Number>
+</NumberList>
+<NumberA1>
+<A ID="pgfId-1043451"></A>
+If the <code>
+xsi:schemaLocation</code>
+ or <code>
+xsi:noNamespaceSchemaLocation</code>
+ attribute of the document root element specifies a URI, the schema with the specified URI is used.</NumberA1>
+<NumberAList>
+<NumberA>
+<A ID="pgfId-1043452"></A>
+If there is an import schema prolog expression with a matching target namespace, the schema with the specified URI is used.  Note that if the target namespace of the import schema expression and that of the schema document referenced by that expression do not match, the import schema expression is not applied.</NumberA>
+<NumberA>
+<A ID="pgfId-1043453"></A>
+If there is a schema with a matching namespace configured within the current HTTP or XDBC Server's Schema panel, that schema is used.  Note that if the target namespace specified in the configuration panel does not match the target namespace of the schema document, the Admin Interface schema configuration information is not used.</NumberA>
+<NumberA>
+<A ID="pgfId-1043454"></A>
+If none of these rules apply, the server uses the first schema that it finds.  Given that document ordering within the database is not defined, this is not generally a predictable selection mechanism, and is not recommended.</NumberA>
+</NumberAList>
+<Heading-2>
+<A ID="pgfId-1043455"></A>
+<A ID="17666"></A>
+Working With Your Schema</Heading-2>
+<Body>
+<A ID="pgfId-1043456"></A>
+It is sometimes useful to be able to explicitly read a schema from the database, either to return it to the outside world or to drive certain schema-driven query processing activities.</Body>
+<Body>
+<A ID="pgfId-1043457"></A>
+Schemas are treated just like any other document by the system.  They can be inserted, read, updated and deleted just like any other document.  The difference is that schemas are usually stored in a secondary schema database, not in the document database itself.</Body>
+<Body>
+<A ID="pgfId-1043458"></A>
+The most common activity developers want to carry out with schema is to read them.  There are two approaches to fetching a schema from the server explicitly:</Body>
+<Number1>
+<A ID="pgfId-1043459"></A>
+You can create an XQuery that uses the <code>
+xdmp:eval-in()</code>
+ built-in to read a schema directly from the current database's schema database.  For example, the following expression will return the schema document loaded in the code example given above:</Number1>
+<Code>
+<A ID="pgfId-1043460"></A>
+xdmp:eval-in('doc(&quot;sample.xsd&quot;)', xdmp:schema-database())</Code>
+<Body-indent>
+<A ID="pgfId-1043461"></A>
+The use of the <code>
+xdmp:schema-database()</code>
+ built-in ensures that the sample.xsd document will be read from the current database's schema database.</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1043462"></A>
+You can create an XDBC or HTTP Server that directly references the schema database in question as its document database, and then submit any XQuery as appropriate to read, analyze, update or otherwise work with the schemas stored in that schema database.  This approach should not be necessary in most instances.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1043463"></A>
+Other tasks that involve working with schema can be accomplished similarly.  For example, if you need to delete a schema, an approach modeled on either of the above (using <code>
+xdmp:document-delete(&quot;sample.xsd&quot;)</code>
+) will work as expected.  </EndList-root>
+<Heading-2>
+<A ID="pgfId-1051548"></A>
+<A ID="42480"></A>
+Validating XML Against a Schema</Heading-2>
+<Body>
+<A ID="pgfId-1051558"></A>
+You can use the XQuery <code>
+validate</code>
+ expression to check if an element is valid according to a schema. For details on the validate expression, see <A href="../xquery/langoverview.xml#id(55039)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Validate Expression</Hyperlink>
+</A> in the <Emphasis>
+XQuery and XSLT Reference Guide</Emphasis>
+ and see the W3C XQuery recommendation (<Hyperlink>
+<A href="http://www.w3.org/TR/xquery/#id-validate" xml:link="simple" show="replace" actuate="user" CLASS="URL">http://www.w3.org/TR/xquery/#id-validate</A></Hyperlink>
+).</Body>
+<Body>
+<A ID="pgfId-1051598"></A>
+If you want to validate a document before loading it, you can do so by first getting the node for the document, validate the node, and then insert it into the database. For example:</Body>
+<Code>
+<A ID="pgfId-1051616"></A>
+xquery version &quot;1.0-ml&quot;;
+
+let $node := xdmp:document-get(&quot;c:/tmp/test.xml&quot;)
+return
+try { xdmp:document-insert(&quot;/my-valid-document.xml&quot;, 
+        validate lax { $node } ) 
+    }
+catch ($e) { &quot;Validation failed: &quot;,
+             $e/error:format-string/text() } </Code>
+</XML>

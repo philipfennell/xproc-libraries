@@ -1,0 +1,386 @@
+<apidoc:module name="ThesaurusModule" category="Thesaurus" bucket="XQuery Library Modules" 
+  xmlns:apidoc="http://marklogic.com/xdmp/apidoc"
+  xmlns="http://www.w3.org/1999/xhtml" lib="thsr">
+  <apidoc:summary access="public">
+  <p>The thesaurus functions are designed to help you manage thesaurus 
+  documents and then use those thesaurus documents to lookup synonyms 
+  for words used in queries. The thesaurus function module is installed as 
+  the following file:</p>
+  <ul><li><code><em>install_dir</em>/Modules/MarkLogic/thesaurus.xqy</code></li></ul>
+  <p>where <code><em>install_dir</em></code> is the directory in which 
+  MarkLogic Server is installed.</p>
+  <p>To use the <code>thesaurus.xqy</code> module in your own XQuery modules, 
+  include the following line in your XQuery prolog:</p>
+  <p><code>import module namespace 
+     thsr="http://marklogic.com/xdmp/thesaurus" at "/MarkLogic/thesaurus.xqy";</code></p>
+  </apidoc:summary>
+
+<apidoc:function name="load" type="thesaurus" lib="thsr" 
+                 category="Thesaurus" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Load the file specified in $path to the thesaurus at $uri.
+  Exisiting documents at $uri are overwritten.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="path" type="xs:string">
+    The path to a file containing thesaurus entries.
+    </apidoc:param>
+    <apidoc:param name="uri" type="xs:string">
+    The URI of a thesaurus document.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+  <apidoc:usage>
+  If $path contains XML that does not conform to the thesaurus schema, an 
+  error is raised.
+
+  If $uri contains XML that does not conform to the thesaurus schema (located 
+  in <code><em>install_dir</em>/Config/thesaurus.xsd</code>), an error is 
+  raised.<br /><br />
+  </apidoc:usage>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+  import module namespace 
+	thsr="http://marklogic.com/xdmp/thesaurus" 
+                             at "/MarkLogic/thesaurus.xqy";
+
+  thsr:load("c:\thesaurus\roget.xml", "/myThsrDocs/roget.xml")
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+
+<apidoc:function name="insert" type="thesaurus" lib="thsr" 
+                 category="Thesaurus" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Load the entries in $thsr into the thesaurus at $uri. If there is no
+  document at $uri a new one will be created.  If there is a document
+  at $uri it will be overwritten.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">
+    The URI of a thesaurus document.
+    </apidoc:param>
+    <apidoc:param name="thsr" type="element(thsr:thesaurus)">
+    A thesaurus document.  
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+  <apidoc:usage>
+  If $uri contains XML that does not conform to the thesaurus schema (located 
+  in <code><em>install_dir</em>/Config/thesaurus.xsd</code>), an error is 
+  raised.<br /><br />
+
+  If $thsr contains XML that does not conform to the thesaurus schema, an 
+  error is raised.
+  </apidoc:usage>
+   <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+  import module namespace 
+	thsr="http://marklogic.com/xdmp/thesaurus" 
+                             at "/MarkLogic/thesaurus.xqy";
+
+  thsr:insert("/myThsrDocs/roget.xml", 
+               xdmp:get("c:\thesaurus\roget.xml") )
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+
+<apidoc:function name="set-entry" type="thesaurus" lib="thsr" 
+                 category="Thesaurus" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Adds the entry $entry to the thesaurus at $uri.  
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">
+    The URI of a thesaurus document.
+    </apidoc:param>
+    <apidoc:param name="entry" type="element(thsr:entry)">
+    An entry to add to the thesaurus.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+  <apidoc:usage>
+    set the entry $entry in the thesaurus at $uri.  If $entry does not
+    contain a valid entry node, an error will be raised.  If an entry
+    matching $entry does not exist in the thesaurus, $entry is added to
+    the thesaurus.
+    If $entry contains XML that does not conform to the thesaurus schema 
+    (located in
+    <code><em>install_dir</em>/Config/thesaurus.xsd</code>), an error
+    is raised.
+  </apidoc:usage>
+   <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+  import module namespace 
+	thsr="http://marklogic.com/xdmp/thesaurus" 
+                             at "/MarkLogic/thesaurus.xqy";
+
+  thsr:set-entry("/myThsrDocs/roget.xml", 
+   <entry xmlns="http://marklogic.com/xdmp/thesaurus">
+      <term>Car</term>
+      <synonym>
+        <term>Ford</term>
+        <part-of-speech>noun</part-of-speech>
+      </synonym>
+      <synonym>
+        <term>automobile</term>
+        <part-of-speech>noun</part-of-speech>
+      </synonym>
+      <synonym>
+        <term>Fiat</term>
+        <part-of-speech>noun</part-of-speech>
+      </synonym>
+   </entry>)
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="remove-term" type="thesaurus" lib="thsr" 
+                 category="Thesaurus" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Removes all entries with term $term from the thesaurus document(s) at $uri.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string*">
+    The URI of the thesaurus document(s).
+    </apidoc:param>
+    <apidoc:param name="term" type="xs:string">
+    A term to remove from the thesaurus.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+  <apidoc:usage>
+  </apidoc:usage>
+   <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+  import module namespace 
+	thsr="http://marklogic.com/xdmp/thesaurus" 
+                             at "/MarkLogic/thesaurus.xqy";
+
+  thsr:remove-term("/myThsrDocs/roget.xml", "Car")
+
+   => removes all entries for "Car" from the thesaurus with the 
+      specified URI 
+   
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="remove-entry" type="thesaurus" lib="thsr" 
+                 category="Thesaurus" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Removes all entries that exactly match $entry from the thesaurus 
+  documents(s) at $uri.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string*">
+    The URI of the thesaurus document(s).
+    </apidoc:param>
+    <apidoc:param name="entry" type="element(thsr:entry)">A thesaurus entry.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+  <apidoc:usage>
+  </apidoc:usage>
+   <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+  import module namespace 
+	thsr="http://marklogic.com/xdmp/thesaurus" 
+                             at "/MarkLogic/thesaurus.xqy";
+
+   (: removes the second "Car" entry from the 
+      thesaurus document :)
+  thsr:remove-entry("/myThsrDocs/roget.xml", 
+            thsr:lookup("/myThsrDocs/roget.xml","Car")[2])
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+
+<apidoc:function name="add-synonym" type="thesaurus" lib="thsr" 
+                 category="Thesaurus" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Adds a synonym to the specified thesaurus entry. 
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="entry" type="element(thsr:entry)">A thesaurus entry.
+    </apidoc:param>
+    <apidoc:param name="synonym" type="element(thsr:synonym)">
+    A synonym to add to a thesaurus entry.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+  <apidoc:usage>
+  The synonym and the entry specified must conform to the thesaurus 
+  schema and must be namespace-qualified with the 
+  "http://marklogic.com/xdmp/thesaurus" namespace.
+  </apidoc:usage>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+  import module namespace 
+	thsr="http://marklogic.com/xdmp/thesaurus" 
+                             at "/MarkLogic/thesaurus.xqy";
+  thsr:add-synonym(thsr:lookup("/myThsrDocs/roget.xml", 
+                               "car")[1],
+                 <thsr:synonym>
+                    <thsr:term>Alfa Romeo</thsr:term>
+                 </thsr:synonym>)
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+
+<apidoc:function name="remove-synonym" type="thesaurus" lib="thsr" 
+                 category="Thesaurus" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Removes synonym $synonym from thesaurus entry $entry.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="entry" type="element(thsr:entry)">A thesaurus entry.
+    </apidoc:param>
+    <apidoc:param name="synonym" type="element(thsr:synonym)">
+    A synonym to add to a thesaurus entry.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return> empty-sequence() </apidoc:return>
+  <apidoc:usage>
+  </apidoc:usage>
+   <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+  import module namespace 
+	   thsr="http://marklogic.com/xdmp/thesaurus" 
+                             at "/MarkLogic/thesaurus.xqy";
+
+  thsr:remove-synonym(thsr:lookup("/myThsrDocs/roget.xml",  
+                                   "car")[1],
+                           <thsr:synonym>
+                                <thsr:term>Fiat</thsr:term>
+                           </thsr:synonym>)
+   
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="lookup" type="thesaurus" lib="thsr" 
+                 category="Thesaurus" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns all entries for term $term in the thesaurus document(s) at $uri.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string*">
+    The URI of the thesaurus document(s).
+    </apidoc:param>
+    <apidoc:param name="term" type="xs:string">
+    A term to lookup in the thesaurus.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>element(thsr:entry)*</apidoc:return>
+  <apidoc:usage>
+  </apidoc:usage>
+   <apidoc:example><pre xml:space="preserve"><![CDATA[
+   thsr:lookup("/myThsrDocs/thesaurus.xml", "weary")
+   => returns the thesaurus entry for the term "weary"
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="query-lookup" type="thesaurus" lib="thsr" 
+                 category="Thesaurus" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns a sequence of all entries that are found by looking up terms
+  in the query and/or subqueries of $query in the thesaurus document(s)
+  at $uri.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string*">
+    The URI of the thesaurus document(s).
+    </apidoc:param>
+    <apidoc:param name="query" type="cts:query">
+    A cts:query item from any of the 
+    <code>cts:*-query</code> functions (<code>cts:word-query</code>, 
+    <code>cts:and-query</code>, etc.).
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>element(thsr:entry)*</apidoc:return>
+  <apidoc:usage>
+  </apidoc:usage>
+   <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+  import module namespace 
+	   thsr="http://marklogic.com/xdmp/thesaurus" 
+                           at "/MarkLogic/thesaurus.xqy";
+
+  let $query := cts:word-query("weary")
+  return 
+      thsr:query-lookup("/myThsrDocs/thesaurus.xml", 
+                        $query)
+
+   => All entries for the term "weary" in the specified 
+      thsesaurus document
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="expand" type="thesaurus" lib="thsr" 
+                 category="Thesaurus" bucket="XQuery Library Modules">
+  <apidoc:summary>
+  Returns a query that searches for all the query strings specified in $query 
+  and their synonyms as found in $entries. 
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="query" type="cts:query">
+    A cts:query item from any of the 
+    <code>cts:*-query</code> functions (<code>cts:word-query</code>, 
+    <code>cts:and-query</code>, and so on).  Thesaurus expansion only occurs
+    on an "unwildcarded" <code>cts:query</code>; it cannot expand "wildcarded" 
+    queries.
+    </apidoc:param>
+    <apidoc:param name="entries" type="element(thsr:entry)*">
+    A sequence of thesaurus entries.
+    </apidoc:param>
+    <apidoc:param name="new-weight" type="xs:double?">
+    A new weight for the relevance ranking. If $new-weight is the empty 
+    sequence, then the relevance ranking is inherited from the parent query.
+    </apidoc:param>
+    <apidoc:param name="min-weight" type="xs:double?">
+    A minimum weight for the relevance ranking. If $min-weight is not the 
+    empty sequence then only queries with weight less than or equal to 
+    $min-weight will be expanded.  Otherwise, all queiries are expanded.
+    </apidoc:param>
+    <apidoc:param name="filter" type="node()*">
+    A sequence of node restrictions. These restrictions must be nodes that 
+    can be found in a thesaurus entry (for example, 
+    <code>&lt;thsr:qualifier&gt;birds&lt;/thsr:qualifier&gt;</code>).
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>cts:query </apidoc:return>
+  <apidoc:usage>
+  </apidoc:usage>
+   <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+  import module namespace 
+	   thsr="http://marklogic.com/xdmp/thesaurus" 
+                           at "/MarkLogic/thesaurus.xqy";
+
+  cts:search(
+   doc("/Docs/hamlet.xml")//LINE,
+   thsr:expand(
+     cts:word-query("weary"), 
+     thsr:lookup("/myThsrDocs/thesaurus.xml", 
+     "weary"),
+     (), 
+     (), 
+     () )
+   )
+
+   (: This query returns all of the lines in Shakespeare's 
+      Hamlet that have the word "weary" or any of the 
+      synonyms of the word "weary"  :)
+
+  ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+</apidoc:module>

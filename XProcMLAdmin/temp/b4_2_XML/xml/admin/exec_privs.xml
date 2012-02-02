@@ -1,0 +1,5425 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="exec_privs.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1038359"></A>
+<A ID="84238"></A>
+Appendix B: Pre-defined Execute Privileges</Heading-1>
+<pagenum>
+<A ID="pgfId-1040297"></A>
+297</pagenum>
+<Body>
+<A ID="pgfId-1038360"></A>
+The pre-defined execute privileges listed below are included with every installation of MarkLogic Server. </Body>
+<TableAnchor>
+<A ID="pgfId-1039268"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1052963"></A>
+Name</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1052965"></A>
+Action URI</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1052967"></A>
+Description</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1052969"></A>
+Protects Function</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054340"></A>
+admin-module-read</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054342"></A>
+http://marklogic.com/xdmp/privileges/admin-module-read</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054344"></A>
+privilege to use the Admin API for reading configuration information</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054346"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054348"></A>
+admin-module-write</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054350"></A>
+http://marklogic.com/xdmp/privileges/admin-module-write</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054352"></A>
+privilege to use the Admin API for writing configuration information</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054354"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054356"></A>
+admin-ui</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054358"></A>
+http://marklogic.com/xdmp/privileges/admin-ui</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054360"></A>
+privilege to use the Admin Interface</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054362"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1052995"></A>
+amp-add-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1052997"></A>
+http://marklogic.com/xdmp/privileges/amp-add-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1052999"></A>
+privilege to assign additional roles to the amp</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053001"></A>
+sec:amp-add-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053003"></A>
+amp-get-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053005"></A>
+http://marklogic.com/xdmp/privileges/amp-get-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053007"></A>
+privilege to get the roles associated with the amp</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053009"></A>
+sec:amp-get-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053011"></A>
+amp-remove-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053013"></A>
+http://marklogic.com/xdmp/privileges/amp-remove-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053015"></A>
+privilege to remove roles assigned to the amp</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053017"></A>
+sec:amp-remove-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053019"></A>
+amp-set-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053021"></A>
+http://marklogic.com/xdmp/privileges/amp-set-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053023"></A>
+privilege to set the roles associated with the amp</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053025"></A>
+sec-amp-set-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053027"></A>
+any-collection</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053029"></A>
+http://marklogic.com/xdmp/privileges/any-collection</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053031"></A>
+privilege to add to or remove from any collection, regardless of whether it is protected</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053033"></A>
+xdmp:document-add-collections, xdmp:document-remove-collectionsxdmp:document-set-collections</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053035"></A>
+any-uri</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053037"></A>
+http://marklogic.com/xdmp/privileges/any-uri</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053039"></A>
+privilege to create a document with any uri, regardless of whether the uri is protected</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053041"></A>
+xdmp:document-insert,</Table-text>
+<Table-text>
+<A ID="pgfId-1053042"></A>
+xdmp:document-load, xdmp:load </Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055201"></A>
+app-builder</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055203"></A>
+http://marklogic.com/xdmp/privileges/app-builder</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055205"></A>
+privilege to use the Application Builder UI</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055207"></A>
+</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053044"></A>
+cancel-any-requests</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053046"></A>
+http://marklogic.com/xdmp/privileges/cancel-any-requests</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053048"></A>
+privilege to cancel requests issued by any user attempting to cancel a request</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053050"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053052"></A>
+cancel-my-requests</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053054"></A>
+http://marklogic.com/xdmp/privileges/cancel-my-requests</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053056"></A>
+privilege to cancel requests issued by the user attempting to cancel a request</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053058"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053060"></A>
+collection-add-permissions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053062"></A>
+http://marklogic.com/xdmp/privileges/collection-add-permissions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053064"></A>
+privilege to add permissions to a collection</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053066"></A>
+sec:get-collections,</Table-text>
+<Table-text>
+<A ID="pgfId-1053067"></A>
+sec:collection-add-permissions</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053069"></A>
+collection-get-permissions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053071"></A>
+http://marklogic.com/xdmp/privileges/collection-get-permissions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053073"></A>
+privilege to get permissions on a collection</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053075"></A>
+sec:collection-get-permissions</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053077"></A>
+collection-remove-permissions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053079"></A>
+http://marklogic.com/xdmp/privileges/collection-remove-permissions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053081"></A>
+privilege to remove permissions from a collection</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053083"></A>
+sec:get-collections,</Table-text>
+<Table-text>
+<A ID="pgfId-1053084"></A>
+sec:collection-remove-permissions</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053086"></A>
+collection-set-permissions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053088"></A>
+http://marklogic.com/xdmp/privileges/collection-set-permissions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053090"></A>
+privilege to set permissions on a collection</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053092"></A>
+sec:get-collections</Table-text>
+<Table-text>
+<A ID="pgfId-1053093"></A>
+sec:collection-set-permissions</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1061835"></A>
+compartment-get-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1061837"></A>
+http://marklogic.com/xdmp/privileges/compartment-get-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1061839"></A>
+privilege to get roles on a compartment</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1061841"></A>
+sec:compartment-get-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053095"></A>
+count-builtins</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053097"></A>
+http://marklogic.com/xdmp/privileges/counts</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053099"></A>
+privilege to run xdmp:forest-counts</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053101"></A>
+xdmp:forest-counts</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053103"></A>
+create-amp</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053105"></A>
+http://marklogic.com/xdmp/privileges/create-amp</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053107"></A>
+privilege to create an amp</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053109"></A>
+sec:create-amp</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053111"></A>
+create-domain</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053113"></A>
+http://marklogic.com/xdmp/privileges/create-domain</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053115"></A>
+privilege to create an domain</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053117"></A>
+dom:create</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053119"></A>
+create-pipeline</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053121"></A>
+http://marklogic.com/xdmp/privileges/create-pipeline</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053123"></A>
+privilege to create a pipeline</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053125"></A>
+p:insert, p:create</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053127"></A>
+create-privilege</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053129"></A>
+http://marklogic.com/xdmp/privileges/create-privilege</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053131"></A>
+privilege to create a privilege</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053133"></A>
+sec:create-role</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053135"></A>
+create-role</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053137"></A>
+http://marklogic.com/xdmp/privileges/create-role</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053139"></A>
+privilege to create a role</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053141"></A>
+sec:create-role</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053143"></A>
+create-trigger</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053145"></A>
+http://marklogic.com/xdmp/privileges/create-trigger</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053147"></A>
+privilege to create a trigger</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053149"></A>
+trgr:create-trigger</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053151"></A>
+create-user</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053153"></A>
+http://marklogic.com/xdmp/privileges/create-user</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053155"></A>
+privilege to create a user</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053157"></A>
+sec:create-user</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054440"></A>
+debug-any-requests</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054442"></A>
+http://marklogic.com/xdmp/privileges/debug-any-requests</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054444"></A>
+privilege to debug all requests from any user</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054446"></A>
+debug built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054432"></A>
+debug-my-requests</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054434"></A>
+http://marklogic.com/xdmp/privileges/debug-my-requests</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054436"></A>
+privilege to debug your own requests</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054438"></A>
+debug buit-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055245"></A>
+dls-admin</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055247"></A>
+http://marklogic.com/xdmp/privileges/dls-admin</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055249"></A>
+privilege to configure the Library Services</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055867"></A>
+dls:break-checkout</Table-text>
+<Table-text>
+<A ID="pgfId-1055764"></A>
+dls:retention-rule</Table-text>
+<Table-text>
+<A ID="pgfId-1055765"></A>
+dls:retention-rule-insert</Table-text>
+<Table-text>
+<A ID="pgfId-1055766"></A>
+dls:retention-rule-remove </Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055237"></A>
+dls-user</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055239"></A>
+http://marklogic.com/xdmp/privileges/dls-user</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055661"></A>
+privilege to use the Library Services</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055694"></A>
+dls:as-of-query </Table-text>
+<Table-text>
+<A ID="pgfId-1055695"></A>
+dls:author-query </Table-text>
+<Table-text>
+<A ID="pgfId-1055697"></A>
+dls:document-add-collections</Table-text>
+<Table-text>
+<A ID="pgfId-1055698"></A>
+dls:document-add-permissions</Table-text>
+<Table-text>
+<A ID="pgfId-1055699"></A>
+dls:document-add-properties</Table-text>
+<Table-text>
+<A ID="pgfId-1055700"></A>
+dls:document-checkin</Table-text>
+<Table-text>
+<A ID="pgfId-1055701"></A>
+dls:document-checkout</Table-text>
+<Table-text>
+<A ID="pgfId-1055702"></A>
+dls:document-checkout-status</Table-text>
+<Table-text>
+<A ID="pgfId-1055703"></A>
+dls:document-delete</Table-text>
+<Table-text>
+<A ID="pgfId-1055704"></A>
+dls:document-extract-part </Table-text>
+<Table-text>
+<A ID="pgfId-1055705"></A>
+dls:document-get-permissions</Table-text>
+<Table-text>
+<A ID="pgfId-1055706"></A>
+dls:document-history </Table-text>
+<Table-text>
+<A ID="pgfId-1055707"></A>
+dls:document-include-query </Table-text>
+<Table-text>
+<A ID="pgfId-1055708"></A>
+dls:document-insert-and-manage </Table-text>
+<Table-text>
+<A ID="pgfId-1055709"></A>
+dls:document-is-managed</Table-text>
+<Table-text>
+<A ID="pgfId-1055710"></A>
+dls:document-manage </Table-text>
+<Table-text>
+<A ID="pgfId-1055711"></A>
+dls:document-purge</Table-text>
+<Table-text>
+<A ID="pgfId-1055712"></A>
+dls:document-remove-collections</Table-text>
+<Table-text>
+<A ID="pgfId-1055713"></A>
+dls:document-remove-permissions</Table-text>
+<Table-text>
+<A ID="pgfId-1055714"></A>
+dls:document-remove-properties</Table-text>
+<Table-text>
+<A ID="pgfId-1055715"></A>
+dls:document-retention-rules</Table-text>
+<Table-text>
+<A ID="pgfId-1055716"></A>
+dls:document-set-collections</Table-text>
+<Table-text>
+<A ID="pgfId-1055717"></A>
+dls:document-set-permissions</Table-text>
+<Table-text>
+<A ID="pgfId-1055718"></A>
+dls:document-set-properties</Table-text>
+<Table-text>
+<A ID="pgfId-1055719"></A>
+dls:document-set-property </Table-text>
+<Table-text>
+<A ID="pgfId-1055720"></A>
+dls:document-set-quality </Table-text>
+<Table-text>
+<A ID="pgfId-1055721"></A>
+dls:document-unmanage</Table-text>
+<Table-text>
+<A ID="pgfId-1055722"></A>
+dls:document-update</Table-text>
+<Table-text>
+<A ID="pgfId-1055723"></A>
+dls:document-version </Table-text>
+<Table-text>
+<A ID="pgfId-1055724"></A>
+dls:document-version-as-of </Table-text>
+<Table-text>
+<A ID="pgfId-1055725"></A>
+dls:document-version-delete</Table-text>
+<Table-text>
+<A ID="pgfId-1055726"></A>
+dls:document-version-query </Table-text>
+<Table-text>
+<A ID="pgfId-1055727"></A>
+dls:document-version-uri </Table-text>
+<Table-text>
+<A ID="pgfId-1055728"></A>
+dls:document-versions-query </Table-text>
+<Table-text>
+<A ID="pgfId-1055729"></A>
+dls:documents-query</Table-text>
+<Table-text>
+<A ID="pgfId-1055730"></A>
+dls:link-expand</Table-text>
+<Table-text>
+<A ID="pgfId-1055731"></A>
+dls:link-references</Table-text>
+<Table-text>
+<A ID="pgfId-1055732"></A>
+dls:node-expand </Table-text>
+<Table-text>
+<A ID="pgfId-1055823"></A>
+dls:purge</Table-text>
+<Table-text>
+<A ID="pgfId-1055846"></A>
+dls:retention-rules </Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053159"></A>
+flexrep-admin</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053161"></A>
+http://marklogic.com/xdmp/privileges/flexrep-admin</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053163"></A>
+privilege to administer flexible replication</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053165"></A>
+flexible replication functions</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062121"></A>
+flexrep-internal</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062123"></A>
+http://marklogic.com/xdmp/privileges/flexrep-internal</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062125"></A>
+used for amping flexible replication functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062127"></A>
+flexible-internal</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062149"></A>
+flexrep-user</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062151"></A>
+http://marklogic.com/xdmp/privileges/flexrep-user</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062153"></A>
+privilege to use flexible replication</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062155"></A>
+flexible replication user functions</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062089"></A>
+get-amp</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062091"></A>
+http://marklogic.com/xdmp/privileges/get-amp</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062093"></A>
+privilege to get an amp</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062095"></A>
+sec:get-amp</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062070"></A>
+get-compartments</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062072"></A>
+http://marklogic.com/xdmp/privileges/get-compartments</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062074"></A>
+privilege to get a the compartments</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062076"></A>
+sec:get-compartments</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053167"></A>
+get-privilege</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053169"></A>
+http://marklogic.com/xdmp/privileges/get-privilege</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053171"></A>
+privilege to get a privilege from action uri and type</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053173"></A>
+sec:get-privilege</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053175"></A>
+get-role-ids</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053177"></A>
+http://marklogic.com/xdmp/privileges/get-role-ids</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053179"></A>
+privilege to get role ids</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053181"></A>
+internal functions</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053183"></A>
+get-role-names</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053185"></A>
+http://marklogic.com/xdmp/privileges/get-role-names</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053187"></A>
+privilege to get role names</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053189"></A>
+internal functions</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055301"></A>
+get-user-names</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055303"></A>
+http://marklogic.com/xdmp/privileges/get-user-names</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055889"></A>
+privilege to get user names</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055307"></A>
+ sec:get-user-names </Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053191"></A>
+grant-all-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053193"></A>
+http://marklogic.com/xdmp/privileges/grant-all-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053195"></A>
+privilege to grant a user all roles.  Either grant-all-roles or grant-my-roles would be needed by functions that assign roles.  </Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053197"></A>
+sec:create-user,</Table-text>
+<Table-text>
+<A ID="pgfId-1053198"></A>
+sec:user-set-roles,</Table-text>
+<Table-text>
+<A ID="pgfId-1053199"></A>
+sec:user-add-roles,</Table-text>
+<Table-text>
+<A ID="pgfId-1053200"></A>
+sec:user-remove-roles,</Table-text>
+<Table-text>
+<A ID="pgfId-1053201"></A>
+sec:create-role,</Table-text>
+<Table-text>
+<A ID="pgfId-1053202"></A>
+sec:role-set-roles,</Table-text>
+<Table-text>
+<A ID="pgfId-1053203"></A>
+sec:role-add-roles,</Table-text>
+<Table-text>
+<A ID="pgfId-1053204"></A>
+sec:role-remove-roles,</Table-text>
+<Table-text>
+<A ID="pgfId-1053205"></A>
+sec:remove-role-from-roles,</Table-text>
+<Table-text>
+<A ID="pgfId-1053206"></A>
+sec:remove-role-from-privileges,</Table-text>
+<Table-text>
+<A ID="pgfId-1053207"></A>
+sec:remove-role-from-amps,</Table-text>
+<Table-text>
+<A ID="pgfId-1053208"></A>
+sec:create-role,</Table-text>
+<Table-text>
+<A ID="pgfId-1053209"></A>
+sec:privilege-set-roles,</Table-text>
+<Table-text>
+<A ID="pgfId-1053210"></A>
+sec:privilege-add-roles,</Table-text>
+<Table-text>
+<A ID="pgfId-1053211"></A>
+sec:privilege-remove-roles,</Table-text>
+<Table-text>
+<A ID="pgfId-1053212"></A>
+sec:create-amp,</Table-text>
+<Table-text>
+<A ID="pgfId-1053213"></A>
+sec:amp-set-roles,</Table-text>
+<Table-text>
+<A ID="pgfId-1053214"></A>
+sec:amp-add-roles,</Table-text>
+<Table-text>
+<A ID="pgfId-1053215"></A>
+sec:amp-remove-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053217"></A>
+grant-my-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053219"></A>
+http://marklogic.com/xdmp/privileges/grant-my-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053221"></A>
+privilege to grant a user my roles.  Either grant-all-roles or grant-my-roles would be needed by functions that assign roles.  </Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053223"></A>
+sec:create-user,</Table-text>
+<Table-text>
+<A ID="pgfId-1053224"></A>
+sec:user-set-roles,</Table-text>
+<Table-text>
+<A ID="pgfId-1053225"></A>
+sec:user-add-roles,</Table-text>
+<Table-text>
+<A ID="pgfId-1053226"></A>
+sec:user-remove-roles,</Table-text>
+<Table-text>
+<A ID="pgfId-1053227"></A>
+sec:create-role,</Table-text>
+<Table-text>
+<A ID="pgfId-1053228"></A>
+sec:role-set-roles,</Table-text>
+<Table-text>
+<A ID="pgfId-1053229"></A>
+sec:role-add-roles,</Table-text>
+<Table-text>
+<A ID="pgfId-1053230"></A>
+sec:role-remove-roles,</Table-text>
+<Table-text>
+<A ID="pgfId-1053231"></A>
+sec:remove-role-from-roles,</Table-text>
+<Table-text>
+<A ID="pgfId-1053232"></A>
+sec:remove-role-from-privileges,</Table-text>
+<Table-text>
+<A ID="pgfId-1053233"></A>
+sec:remove-role-from-amps,</Table-text>
+<Table-text>
+<A ID="pgfId-1053234"></A>
+sec:create-role,</Table-text>
+<Table-text>
+<A ID="pgfId-1053235"></A>
+sec:privilege-set-roles,</Table-text>
+<Table-text>
+<A ID="pgfId-1053236"></A>
+sec:privilege-add-roles,</Table-text>
+<Table-text>
+<A ID="pgfId-1053237"></A>
+sec:privilege-remove-roles,</Table-text>
+<Table-text>
+<A ID="pgfId-1053238"></A>
+sec:create-amp,</Table-text>
+<Table-text>
+<A ID="pgfId-1053239"></A>
+sec:amp-set-roles,</Table-text>
+<Table-text>
+<A ID="pgfId-1053240"></A>
+sec:amp-add-roles,</Table-text>
+<Table-text>
+<A ID="pgfId-1053241"></A>
+sec:amp-remove-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062176"></A>
+infostudio</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062178"></A>
+http://marklogic.com/xdmp/privileges/infostudio</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062180"></A>
+privilege to use Information Studio</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062182"></A>
+Information Studio functions</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055341"></A>
+pki</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055343"></A>
+http://marklogic.com/xdmp/privileges/pki</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055345"></A>
+privilege to use the PKI functions.</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1056494"></A>
+pki:create-template</Table-text>
+<Table-text>
+<A ID="pgfId-1056495"></A>
+pki:delete-certificate</Table-text>
+<Table-text>
+<A ID="pgfId-1056496"></A>
+pki:delete-template </Table-text>
+<Table-text>
+<A ID="pgfId-1056497"></A>
+pki:generate-certificate-request</Table-text>
+<Table-text>
+<A ID="pgfId-1056498"></A>
+pki:generate-template-certificate-authority </Table-text>
+<Table-text>
+<A ID="pgfId-1056499"></A>
+pki:generate-temporary-certificate</Table-text>
+<Table-text>
+<A ID="pgfId-1056500"></A>
+pki:generate-temporary-certificate-if-necessary</Table-text>
+<Table-text>
+<A ID="pgfId-1056501"></A>
+pki:get-certificate</Table-text>
+<Table-text>
+<A ID="pgfId-1056502"></A>
+pki:get-certificate-pem</Table-text>
+<Table-text>
+<A ID="pgfId-1056503"></A>
+pki:get-certificate-xml </Table-text>
+<Table-text>
+<A ID="pgfId-1056504"></A>
+pki:get-certificates</Table-text>
+<Table-text>
+<A ID="pgfId-1056505"></A>
+pki:get-certificates-for-template </Table-text>
+<Table-text>
+<A ID="pgfId-1056506"></A>
+pki:get-certificates-for-template-xml</Table-text>
+<Table-text>
+<A ID="pgfId-1056507"></A>
+pki:get-pending-certificate-request</Table-text>
+<Table-text>
+<A ID="pgfId-1056508"></A>
+pki:get-pending-certificate-requests-pem </Table-text>
+<Table-text>
+<A ID="pgfId-1056509"></A>
+pki:get-pending-certificate-requests-xml</Table-text>
+<Table-text>
+<A ID="pgfId-1056510"></A>
+pki:get-template </Table-text>
+<Table-text>
+<A ID="pgfId-1056511"></A>
+pki:get-template-by-name</Table-text>
+<Table-text>
+<A ID="pgfId-1056512"></A>
+pki:get-template-certificate-authority </Table-text>
+<Table-text>
+<A ID="pgfId-1056513"></A>
+pki:get-template-ids</Table-text>
+<Table-text>
+<A ID="pgfId-1056514"></A>
+pki:get-trusted-certificate-ids </Table-text>
+<Table-text>
+<A ID="pgfId-1056515"></A>
+pki:insert-certificate-revocation-list</Table-text>
+<Table-text>
+<A ID="pgfId-1056516"></A>
+pki:insert-signed-certificates</Table-text>
+<Table-text>
+<A ID="pgfId-1056517"></A>
+pki:insert-template </Table-text>
+<Table-text>
+<A ID="pgfId-1056518"></A>
+pki:insert-trusted-certificates </Table-text>
+<Table-text>
+<A ID="pgfId-1056519"></A>
+pki:is-temporary</Table-text>
+<Table-text>
+<A ID="pgfId-1056520"></A>
+pki:need-certificate</Table-text>
+<Table-text>
+<A ID="pgfId-1056521"></A>
+pki:template-get-description </Table-text>
+<Table-text>
+<A ID="pgfId-1056522"></A>
+pki:template-get-id </Table-text>
+<Table-text>
+<A ID="pgfId-1056523"></A>
+pki:template-get-key-options</Table-text>
+<Table-text>
+<A ID="pgfId-1056524"></A>
+pki:template-get-key-type</Table-text>
+<Table-text>
+<A ID="pgfId-1056525"></A>
+pki:template-get-name</Table-text>
+<Table-text>
+<A ID="pgfId-1056526"></A>
+pki:template-get-request</Table-text>
+<Table-text>
+<A ID="pgfId-1056527"></A>
+pki:template-get-version </Table-text>
+<Table-text>
+<A ID="pgfId-1056528"></A>
+pki:template-in-use </Table-text>
+<Table-text>
+<A ID="pgfId-1056529"></A>
+pki:template-set-description</Table-text>
+<Table-text>
+<A ID="pgfId-1056530"></A>
+pki:template-set-key-options</Table-text>
+<Table-text>
+<A ID="pgfId-1056531"></A>
+pki:template-set-key-type</Table-text>
+<Table-text>
+<A ID="pgfId-1056532"></A>
+pki:template-set-name</Table-text>
+<Table-text>
+<A ID="pgfId-1055347"></A>
+pki:template-set-request </Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062197"></A>
+plugin-register</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062199"></A>
+http://marklogic.com/xdmp/privileges/plugin-register</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062201"></A>
+privilege to use the plugin API</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062203"></A>
+plugin:register</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062217"></A>
+plugin-server-fields</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062219"></A>
+http://marklogic.com/xdmp/privileges/plugin-server-fields</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062221"></A>
+privilege to use the plugin API</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062223"></A>
+Used by the plugin API</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053243"></A>
+privilege-add-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053245"></A>
+http://marklogic.com/xdmp/privileges/privilege-add-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053247"></A>
+privilege to assign the privilege to additional roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053249"></A>
+sec:privilege-add-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053251"></A>
+privilege-get-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053253"></A>
+http://marklogic.com/xdmp/privileges/privilege-get-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053255"></A>
+privilege to get all roles associated with a privilege</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053257"></A>
+sec:privilege-get-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053259"></A>
+privilege-remove-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053261"></A>
+http://marklogic.com/xdmp/privileges/privilege-remove-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053263"></A>
+privilege to remove privilege from roles to which it is assigned</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053265"></A>
+sec:privilege-remove-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053267"></A>
+privilege-set-name</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053269"></A>
+http://marklogic.com/xdmp/privileges/privilege-set-name</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053271"></A>
+privilege to set a privilege's name</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053273"></A>
+sec:privilege-set-name</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053275"></A>
+privilege-set-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053277"></A>
+http://marklogic.com/xdmp/privileges/privilege-set-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053279"></A>
+privilege to set roles associated with a privilege</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053281"></A>
+sec:privilege-set-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053283"></A>
+profile-any-requests</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053285"></A>
+http://marklogic.com/xdmp/privileges/profile-any-requests</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053287"></A>
+privilege to profile requests initiated by any user</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053289"></A>
+prof:enable and other profile APIs</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053291"></A>
+profile-my-requests</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053293"></A>
+http://marklogic.com/xdmp/privileges/profile-my-requests</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053295"></A>
+privilege to profile requests initiated by the user running the request from which profiling is called</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053297"></A>
+prof:enable and other profile APIs</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053299"></A>
+protect-collection</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053301"></A>
+http://marklogic.com/xdmp/privileges/protect-collection</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053303"></A>
+privilege to make a new or existing collection protected</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053305"></A>
+sec:protect-collection</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053307"></A>
+remove-amp</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053309"></A>
+http://marklogic.com/xdmp/privileges/remove-amp</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053311"></A>
+privilege to remove an amp from the security database</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053313"></A>
+sec:remove-amp</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053315"></A>
+remove-privilege</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053317"></A>
+http://marklogic.com/xdmp/privileges/remove-privilege</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053319"></A>
+privilege to remove a privilege from the security database</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053321"></A>
+sec:remove-privilege</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053323"></A>
+remove-role</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053325"></A>
+http://marklogic.com/xdmp/privileges/remove-role</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053327"></A>
+privilege to remove a role from the security database</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053329"></A>
+sec:remove-role</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053331"></A>
+remove-role-from-amps</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053333"></A>
+http://marklogic.com/xdmp/privileges/remove-role-from-amps</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053335"></A>
+privilege to remove a role from all amps in the security database</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053337"></A>
+sec:remove-role-from-amps</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053339"></A>
+remove-role-from-privileges</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053341"></A>
+http://marklogic.com/xdmp/privileges/remove-role-from-privileges</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053343"></A>
+privilege to remove a role from all privileges in the security database</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053345"></A>
+sec:remove-role-from-privileges</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053347"></A>
+remove-role-from-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053349"></A>
+http://marklogic.com/xdmp/privileges/remove-role-from-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053351"></A>
+privilege to remove a role from all roles in the security database</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053353"></A>
+sec:remove-role-from-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053355"></A>
+remove-role-from-users</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053357"></A>
+http://marklogic.com/xdmp/privileges/remove-role-from-users</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053359"></A>
+privilege to remove a role from all users in the security database</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053361"></A>
+sec:remove-role-from-users</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053363"></A>
+remove-user</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053365"></A>
+http://marklogic.com/xdmp/privileges/remove-user</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053367"></A>
+privilege to remove a user from the security database</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053369"></A>
+sec:remove-user</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053371"></A>
+role-add-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053373"></A>
+http://marklogic.com/xdmp/privileges/role-add-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053375"></A>
+privilege to add roles to the roles of  a specified role</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053377"></A>
+sec:role-add-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053379"></A>
+role-get-compartment</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053381"></A>
+http://marklogic.com/xdmp/privileges/role-get-compartment</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053383"></A>
+privilege to get a role's compartment</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053385"></A>
+sec:role-get-compartment</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062231"></A>
+role-get-default-collections</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062233"></A>
+http://marklogic.com/xdmp/privileges/role-get-default-collections</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062235"></A>
+privilege to get a role's default collections</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062237"></A>
+sec:role-get-default-collections</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053387"></A>
+role-get-default-permissions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053389"></A>
+http://marklogic.com/xdmp/privileges/role-get-default-permissions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053391"></A>
+privilege to get a role's default permissions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053393"></A>
+sec:role-get-default-permissions</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053395"></A>
+role-get-description</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053397"></A>
+http://marklogic.com/xdmp/privileges/role-get-description</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053399"></A>
+privilege to get a role's description</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053401"></A>
+sec:role-get-description</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053403"></A>
+role-get-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053405"></A>
+http://marklogic.com/xdmp/privileges/role-get-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053407"></A>
+privilege to get all the roles included in the specified role</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053409"></A>
+sec:role-get-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053411"></A>
+role-privileges</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053413"></A>
+http://marklogic.com/xdmp/privileges/role-privileges</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053415"></A>
+privilege to get all the privileges for a given role</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053417"></A>
+sec:role-privileges</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053419"></A>
+role-remove-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053421"></A>
+http://marklogic.com/xdmp/privileges/role-remove-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053423"></A>
+privilege to remove roles from the roles of a specified role</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053425"></A>
+sec:role-remove-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053427"></A>
+role-set-default-collections</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053429"></A>
+http://marklogic.com/xdmp/privileges/role-set-default-collections</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053431"></A>
+privilege to set a role's default collections</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053433"></A>
+sec:role-set-default-collections</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053435"></A>
+role-set-default-permissions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053437"></A>
+http://marklogic.com/xdmp/privileges/role-set-default-permissions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053439"></A>
+privilege to set a role's default permissions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053441"></A>
+sec:role-set-default-permissions</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053443"></A>
+role-set-description</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053445"></A>
+http://marklogic.com/xdmp/privileges/role-set-description</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053447"></A>
+privilege to set a role's name</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053449"></A>
+sec:role-set-description</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053451"></A>
+role-set-name</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053453"></A>
+http://marklogic.com/xdmp/privileges/role-set-name</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053455"></A>
+privilege to change a role's name</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053457"></A>
+sec:role-set-name</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053459"></A>
+role-set-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053461"></A>
+http://marklogic.com/xdmp/privileges/role-set-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053463"></A>
+privilege to change all the roles in the specified role</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053465"></A>
+sec:role-set-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055388"></A>
+set-any-time-limit</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055390"></A>
+http://marklogic.com/xdmp/privileges/xdmp-set-request-time-limit-any</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055392"></A>
+privilege to change the request time limit</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055394"></A>
+xdmp:set-request-time-limit</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055396"></A>
+set-my-time-limit</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055398"></A>
+http://marklogic.com/xdmp/privileges/xdmp-set-request-time-limit-my</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1056602"></A>
+privilege to change the request time limit</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1056576"></A>
+xdmp:set-request-time-limit</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053467"></A>
+status-builtins</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053469"></A>
+http://marklogic.com/xdmp/privileges/status-builtins</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053471"></A>
+privilege to access the status built-ins</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053473"></A>
+status built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053475"></A>
+unprotect-collection</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053477"></A>
+http://marklogic.com/xdmp/privileges/unprotect-collection</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053479"></A>
+privilege to change roles for a collection</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053481"></A>
+xdmp:document-add-collections, xdmp:document-remove-collections, xdmp:document-set-collections</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053483"></A>
+unprotected-collections</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053485"></A>
+http://marklogic.com/xdmp/privileges/unprotected-collections</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053487"></A>
+privilege to add to or remove from collections that are unprotected</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053489"></A>
+xdmp:document-add-collections, xdmp:document-remove-collections, xdmp:document-set-collections</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053491"></A>
+unprotected-uri</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053493"></A>
+http://marklogic.com/xdmp/privileges/unprotected-uri</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053495"></A>
+privilege to create document with uri's that are unprotected</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053497"></A>
+xdmp:document-insert, </Table-text>
+<Table-text>
+<A ID="pgfId-1053498"></A>
+xdmp:load</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053500"></A>
+user-add-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053502"></A>
+http://marklogic.com/xdmp/privileges/user-add-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053504"></A>
+privilege to add roles to a user</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053506"></A>
+sec:user-add-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053508"></A>
+user-get-default-collections</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053510"></A>
+http://marklogic.com/xdmp/privileges/user-gt-default-collections</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053512"></A>
+privilege to get a user's default collections</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053514"></A>
+sec:user-get-default-collections</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053516"></A>
+user-get-default-permissions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053518"></A>
+http://marklogic.com/xdmp/privileges/user-get-default-permissions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053520"></A>
+privilege to get user's default permissions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053522"></A>
+sec:user-get-default-permissions</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053524"></A>
+user-get-description</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053526"></A>
+http://marklogic.com/xdmp/privileges/user-get-description</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053528"></A>
+privilege to get user's description </Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053530"></A>
+sec:user-get-description (if not logged in as user)</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062251"></A>
+user-get-password-extra</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062253"></A>
+http://marklogic.com/xdmp/privileges/user-get-password-extra</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062255"></A>
+privilege to get the password-extra element from the user document</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062257"></A>
+sec:user-get-password-extra</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053532"></A>
+user-get-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053534"></A>
+http://marklogic.com/xdmp/privileges/user-get-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053536"></A>
+privilege to get user's roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053538"></A>
+sec:user-get-roles (if not logged in as user)</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053540"></A>
+user-privileges</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053542"></A>
+http://marklogic.com/xdmp/privileges/user-privileges</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053544"></A>
+privilege to get a user's complete privileges</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053546"></A>
+sec:user-privileges (if not logged in as user)</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053548"></A>
+user-remove-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053550"></A>
+http://marklogic.com/xdmp/privileges/user-remove-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053552"></A>
+privilege to remove roles from a user</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053554"></A>
+sec:user-remove-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053556"></A>
+user-set-default-collections</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053558"></A>
+http://marklogic.com/xdmp/privileges/user-set-default-collections</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053560"></A>
+privilege to set a user's default collections</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053562"></A>
+sec:user-set-default-collections</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053564"></A>
+user-set-default-permissions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053566"></A>
+http://marklogic.com/xdmp/privileges/user-set-default-permissions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053568"></A>
+privilege to set a user's default permissions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053570"></A>
+sec:user-set-default-permissions</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053572"></A>
+user-set-description</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053574"></A>
+http://marklogic.com/xdmp/privileges/user-set-description</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053576"></A>
+privilege to set a user's description</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053578"></A>
+sec:user-set-description (if not logged in as user)</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053580"></A>
+user-set-name</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053582"></A>
+http://marklogic.com/xdmp/privileges/user-set-name</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053584"></A>
+privilege to set a user's name</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053586"></A>
+sec:user-set-name (if not logged in as user)</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053588"></A>
+user-set-password</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053590"></A>
+http://marklogic.com/xdmp/privileges/user-set-password</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053592"></A>
+privilege to set user's password </Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053594"></A>
+sec:user-set-password (if not logged in as user)</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062277"></A>
+user-set-password-extra</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062279"></A>
+http://marklogic.com/xdmp/privileges/user-set-password-extra</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062281"></A>
+privilege to set the password-extra element in the user document</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062283"></A>
+sec:user-set-password-extra</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053596"></A>
+user-set-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053598"></A>
+http://marklogic.com/xdmp/privileges/user-set-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053600"></A>
+privilege to set a user's role</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053602"></A>
+sec:user-set-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054472"></A>
+xdbc:eval</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054474"></A>
+http://marklogic.com/xdmp/privileges/xdbc-eval</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054476"></A>
+privilege to execute eval statements from xcc or xdbc</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054478"></A>
+xdmp:eval</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055499"></A>
+xdbc:eval-in</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055501"></A>
+http://marklogic.com/xdmp/privileges/xdbc-eval-in</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055503"></A>
+privilege to execute eval-in statements from xcc or xdbc</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055505"></A>
+xdmp:eval-in</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054480"></A>
+xdbc:eval-modules-change</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054482"></A>
+http://marklogic.com/xdmp/privileges/xdbc-eval-modules-change</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054484"></A>
+privilege to execute eval statements that change a modules database from xcc or xdbc</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054486"></A>
+xdmp:eval</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062513"></A>
+xdbc:eval-modules-change-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054490"></A>
+http://marklogic.com/xdmp/privileges/xdbc-eval-modules-change-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054492"></A>
+privilege to execute eval statements that change a filesystem root from xcc or xdbc</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054494"></A>
+xdmp:eval</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053620"></A>
+xdbc:insert</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053622"></A>
+http://marklogic.com/xdmp/privileges/xdbc-insert-in</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053624"></A>
+privilege to execute insert statements from xcc or xdbc</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053626"></A>
+xcc or xdbc inserts</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053628"></A>
+xdbc:insert-in</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053630"></A>
+http://marklogic.com/xdmp/privileges/xdbc-insert-in</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053632"></A>
+privilege to execute insert statements from xcc or xdbc</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053634"></A>
+xdbc or xcc inserts into another database</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053636"></A>
+xdbc:invoke</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053638"></A>
+http://marklogic.com/xdmp/privileges/xdbc-invoke</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053640"></A>
+privilege to execute invoke statements from xcc or xdbc</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053642"></A>
+xdbc or xcc invokes</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053644"></A>
+xdbc:invoke-in</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053646"></A>
+http://marklogic.com/xdmp/privileges/xdbc-invoke-in</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053648"></A>
+privilege to execute invoke statements from xcc or xdbc</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053650"></A>
+xdbc or xcc invokes into another database</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054506"></A>
+xdbc:invoke-modules-change</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054508"></A>
+http://marklogic.com/xdmp/privileges/xdbc-invoke-modules-change</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054510"></A>
+privilege to execute invoke statements that change a modules database from xcc or xdbc</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054512"></A>
+xdbc or xcc invokes that change the modules database</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054498"></A>
+xdbc:invoke-modules-change-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054500"></A>
+http://marklogic.com/xdmp/privileges/xdbc-invoke-modules-change-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054502"></A>
+privilege to execute invoke statements that change a filesystem root from xcc or xdbc</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054504"></A>
+xdbc or xcc invokes that change the filesystem root</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053652"></A>
+xdbc:spawn</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053654"></A>
+http://marklogic.com/xdmp/privileges/xdbc-spawn</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053656"></A>
+privilege to execute spawn statements from xcc or xdbc</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053658"></A>
+xdbc or xcc spawns</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053660"></A>
+xdbc:spawn-in</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053662"></A>
+http://marklogic.com/xdmp/privileges/xdbc-spawn-in</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053664"></A>
+privilege to execute spawn statements from xcc or xdbc</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053666"></A>
+xdbc or xcc spawns into another database</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054556"></A>
+xdbc:spawn-modules-change</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054558"></A>
+http://marklogic.com/xdmp/privileges/xdbc-spawn-modules-change</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054560"></A>
+privilege to execute spawn statements that change a modules database from xcc or xdbc</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054562"></A>
+xdbc or xcc spawn that change the modules database</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054548"></A>
+xdbc:spawn-modules-change-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054550"></A>
+http://marklogic.com/xdmp/privileges/xdbc-spawn-modules-change-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054552"></A>
+privilege to execute spawn statements that change a filesystem root from xcc or xdbc</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054554"></A>
+xdbc or xcc spawn that change the filesystem root</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053668"></A>
+xdmp:add-response-header</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053670"></A>
+http://marklogic.com/xdmp/privileges/xdmp-add-response-header</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053672"></A>
+privilege to use the function that adds a response header to a request functions.</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053674"></A>
+admin built-ins, alert-user</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054584"></A>
+xdmp:address-bindable</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054586"></A>
+http://marklogic.com/xdmp/privileges/xdmp-address-bindable</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054588"></A>
+privilege to perform admin functions.</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054590"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054602"></A>
+xdmp:alert-admin</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054604"></A>
+http://marklogic.com/xdmp/privileges/xdmp-alert-admin</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054606"></A>
+privilege to perform alerting admin functions.</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054608"></A>
+alert-admin</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054632"></A>
+xdmp:alert-internal</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054634"></A>
+http://marklogic.com/xdmp/privileges/xdmp-alert-internal</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054636"></A>
+privilege used by the Alerting API functions.</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054638"></A>
+alert-internal</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054620"></A>
+xdmp:alert-user</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054622"></A>
+http://marklogic.com/xdmp/privileges/xdmp-alert-user</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054624"></A>
+privilege to perform user-level Alerting functions.</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054626"></A>
+alert-user, alert-admin</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053676"></A>
+xdmp:amp-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053678"></A>
+http://marklogic.com/xdmp/privileges/xdmp-amp-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053680"></A>
+privilege to get an amp's roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053682"></A>
+xdmp:amp-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053700"></A>
+xdmp:compressed-tree-cache-partitions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053702"></A>
+http://marklogic.com/xdmp/privileges/xdmp-compressed-tree-cache-partitions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053704"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053706"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054656"></A>
+xdmp:compressed-tree-cache-size</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054658"></A>
+http://marklogic.com/xdmp/privileges/xdmp-compressed-tree-cache-size</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054660"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054662"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053708"></A>
+xdmp:data-directory</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053710"></A>
+http://marklogic.com/xdmp/privileges/xdmp-data-directory</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053712"></A>
+privilege to access the data directory</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053714"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053716"></A>
+xdmp:database-backup</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053718"></A>
+http://marklogic.com/xdmp/privileges/xdmp-database-backup</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053720"></A>
+privilege to perform a database backup</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053722"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053724"></A>
+xdmp:database-backup-cancel</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053726"></A>
+http://marklogic.com/xdmp/privileges/xdmp-database-backup-cancel</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053728"></A>
+privilege to cancel a database backup</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053730"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054668"></A>
+xdmp:database-backup-purge</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054670"></A>
+http://marklogic.com/xdmp/privileges/xdmp-database-backup-purge</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054672"></A>
+privilege to get purge a database backup</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054674"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053732"></A>
+xdmp:database-backup-status</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053734"></A>
+http://marklogic.com/xdmp/privileges/xdmp-database-backup-status</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053736"></A>
+privilege to get status for a database backup</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053738"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053740"></A>
+xdmp:database-backup-validate</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053742"></A>
+http://marklogic.com/xdmp/privileges/xdmp-database-backup-validate</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053744"></A>
+privilege to validate a database backup</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053746"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053748"></A>
+xdmp:database-restore</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053750"></A>
+http://marklogic.com/xdmp/privileges/xdmp-database-restore</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053752"></A>
+privilege to perform a database restore</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053754"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053756"></A>
+xdmp:database-restore-cancel</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053758"></A>
+http://marklogic.com/xdmp/privileges/xdmp-database-backup</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053760"></A>
+privilege to cancel a database restore</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053762"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053764"></A>
+xdmp:database-restore-status</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053766"></A>
+http://marklogic.com/xdmp/privileges/xdmp-database-restore-status</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053768"></A>
+privilege to get status for a database restore</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053770"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053772"></A>
+xdmp:database-restore-validate</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053774"></A>
+http://marklogic.com/xdmp/privileges/xdmp-database-restore-validate</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053776"></A>
+privilege to validate a database restore</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053778"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053780"></A>
+xdmp:default-in-memory-limit</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053782"></A>
+http://marklogic.com/xdmp/privileges/xdmp-default-in-memory-limit</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053784"></A>
+privilege to perform admin functions.</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053786"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053788"></A>
+xdmp:default-in-memory-list-size</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053790"></A>
+http://marklogic.com/xdmp/privileges/xdmp-default-in-memory-list-size</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053792"></A>
+privilege to perform admin functions.</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053794"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053796"></A>
+xdmp:default-in-memory-range-
+index-size</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053798"></A>
+http://marklogic.com/xdmp/privileges/xdmp-default-in-memory-range-index-size</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053800"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053802"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055507"></A>
+xdmp:default-in-memory-reverse-
+index-size</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055509"></A>
+http://marklogic.com/xdmp/privileges/xdmp-default-in-memory-reverse-index-size</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1056628"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055513"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053804"></A>
+xdmp:default-in-memory-tree-size</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053806"></A>
+http://marklogic.com/xdmp/privileges/xdmp-default-in-memory-tree-size</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053808"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053810"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053812"></A>
+xdmp:default-journal-count</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053814"></A>
+http://marklogic.com/xdmp/privileges/xdmp-default-journal-count</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053816"></A>
+privilege to perform admin functions.</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053818"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053820"></A>
+xdmp:default-journal-size</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053822"></A>
+http://marklogic.com/xdmp/privileges/xdmp-default-journal-size</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053824"></A>
+privilege to perform admin functions.</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053826"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053828"></A>
+xdmp:default-preallocate-journals</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053830"></A>
+http://marklogic.com/xdmp/privileges/xdmp-default-preallocate-journals</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053832"></A>
+privilege to perform admin functions.</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053834"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053836"></A>
+xdmp:delete-cluster-config-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053838"></A>
+http://marklogic.com/xdmp/privileges/xdmp-delete-cluster-config-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053840"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053842"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053844"></A>
+xdmp:delete-host-config-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053846"></A>
+http://marklogic.com/xdmp/privileges/xdmp-delete-host-config-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053848"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053850"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053852"></A>
+xdmp:disable-event</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053854"></A>
+http://marklogic.com/xdmp/privileges/xdmp-disable-event</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053856"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053858"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053860"></A>
+xdmp:document-get</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053862"></A>
+http://marklogic.com/xdmp/privileges/xdmp-document-get</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053864"></A>
+privilege to execute function</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053866"></A>
+xdmp:document-get</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053868"></A>
+xdmp:document-load</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053870"></A>
+http://marklogic.com/xdmp/privileges/xdmp-document-load</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053872"></A>
+privilege to execute function</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053874"></A>
+xdmp:document-load</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053876"></A>
+xdmp:email</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053878"></A>
+http://marklogic.com/xdmp/privileges/xdmp-email</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053880"></A>
+privilege to email</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053882"></A>
+xdmp:email</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053884"></A>
+xdmp:email-address</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053886"></A>
+http://marklogic.com/xdmp/privileges/xdmp-email-address</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053888"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053890"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053892"></A>
+xdmp:enable-event</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053894"></A>
+http://marklogic.com/xdmp/privileges/xdmp-enable-event</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053896"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053898"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053900"></A>
+xdmp:eval</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053902"></A>
+http://marklogic.com/xdmp/privileges/xdmp-eval</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053904"></A>
+privilege to perform eval functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053906"></A>
+xdmp:eval</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053908"></A>
+xdmp:eval-in</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053910"></A>
+http://marklogic.com/xdmp/privileges/xdmp-eval-in</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053912"></A>
+privilege to perform eval-in functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053914"></A>
+xdmp:eval-in</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054694"></A>
+xdmp:eval-modules-change</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054696"></A>
+http://marklogic.com/xdmp/privileges/xdmp-eval-modules-change</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054698"></A>
+privilege to execute eval statements that change a modules database</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054700"></A>
+xdmp:eval statements that change the modules database</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054686"></A>
+xdmp:eval-modules-change-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054688"></A>
+http://marklogic.com/xdmp/privileges/xdmp-eval-modules-change-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054690"></A>
+privilege to execute eval statements that change a filesystem root</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054692"></A>
+xdmp:eval statements that change the filesystem root</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053924"></A>
+xdmp:expanded-tree-cache-partitions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053926"></A>
+http://marklogic.com/xdmp/privileges/xdmp-expanded-tree-cache-partitions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053928"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053930"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054734"></A>
+xdmp:expanded-tree-cache-size</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054736"></A>
+http://marklogic.com/xdmp/privileges/xdmp-expanded-tree-cache-size</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054738"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054740"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053932"></A>
+xdmp:filesystem-directory</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053934"></A>
+http://marklogic.com/xdmp/privileges/xdmp-filesystem-directory</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053936"></A>
+not supported</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053938"></A>
+xdmp:filesystem-directory</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055539"></A>
+xdmp:filesystem-directory-create</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055541"></A>
+http://marklogic.com/xdmp/privileges/xdmp-filesystem-directory-create</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055543"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055545"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055547"></A>
+xdmp:filesystem-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055549"></A>
+http://marklogic.com/xdmp/privileges/xdmp-filesystem-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055551"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055553"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053940"></A>
+xdmp:forest-backup</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053942"></A>
+http://marklogic.com/xdmp/privileges/xdmp-forest-backup</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053944"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053946"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053948"></A>
+xdmp:forest-clear</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053950"></A>
+http://marklogic.com/xdmp/privileges/xdmp-forest-clear</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053952"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053954"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053956"></A>
+xdmp:forest-delete</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053958"></A>
+http://marklogic.com/xdmp/privileges/xdmp-forest-delete</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053960"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053962"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062287"></A>
+xdmp:forest-rollback</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062289"></A>
+http://marklogic.com/xdmp/privileges/xdmp-forest-rollback</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062291"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062293"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053964"></A>
+xdmp:forest-restart</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053966"></A>
+http://marklogic.com/xdmp/privileges/xdmp-forest-restart</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053968"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053970"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054746"></A>
+xdmp:forest-restore</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054748"></A>
+http://marklogic.com/xdmp/privileges/xdmp-forest-restore</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054750"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054752"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053972"></A>
+xdmp:forest-status</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053974"></A>
+http://marklogic.com/xdmp/privileges/xdmp-forest-status</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053976"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053978"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053980"></A>
+xdmp:get</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053982"></A>
+http://marklogic.com/xdmp/privileges/xdmp-get</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053984"></A>
+privilege to get a document into memory</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053986"></A>
+xdmp:get</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053988"></A>
+xdmp:get-forest-keys</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053990"></A>
+http://marklogic.com/xdmp/privileges/xdmp-get-forest-keys</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053992"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053994"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053996"></A>
+xdmp:get-hot-updates</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1053998"></A>
+http://marklogic.com/xdmp/privileges/xdmp-get-hot-updates</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054000"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054002"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062303"></A>
+xdmp:get-server-field</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062305"></A>
+http://marklogic.com/xdmp/privileges/xdmp-get-server-field</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062307"></A>
+privilege to get server fields</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062309"></A>
+xdmp:get-server-field</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062323"></A>
+xdmp:get-server-field-names</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062325"></A>
+http://marklogic.com/xdmp/privileges/xdmp-get-server-field-names</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062327"></A>
+privilege to get server fields names</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062329"></A>
+xdmp:get-server-field-names</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054758"></A>
+xdmp:get-session-field</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054760"></A>
+http://marklogic.com/xdmp/privileges/xdmp-get-session-field</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054762"></A>
+privilege to get session fields</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054764"></A>
+xdmp:get-session-field</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054778"></A>
+xdmp:get-session-field-name</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054780"></A>
+http://marklogic.com/xdmp/privileges/xdmp-get-session-field-name</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054782"></A>
+privilege to get session field names</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054784"></A>
+xdmp:get-session-field-names</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054004"></A>
+xdmp:host-cores</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054006"></A>
+http://marklogic.com/xdmp/privileges/xdmp-host-cores</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054008"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054010"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054790"></A>
+xdmp:host-cpus</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054792"></A>
+http://marklogic.com/xdmp/privileges/xdmp-host-cpus</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054794"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054796"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054012"></A>
+xdmp:host-size</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054014"></A>
+http://marklogic.com/xdmp/privileges/xdmp-host-size</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054016"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054018"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054020"></A>
+xdmp:host-name</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054022"></A>
+http://marklogic.com/xdmp/privileges/xdmp-hostname</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054024"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054026"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054028"></A>
+xdmp:install-directory</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054030"></A>
+http://marklogic.com/xdmp/privileges/xdmp-install-directory</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054032"></A>
+privilege to access the installation directory</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054034"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054036"></A>
+xdmp:invoke</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054038"></A>
+http://marklogic.com/xdmp/privileges/xdmp-invoke</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054040"></A>
+privilege to perform invoke functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054042"></A>
+xdmp:invoke</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054044"></A>
+xdmp:invoke-in</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054046"></A>
+http://marklogic.com/xdmp/privileges/xdmp-invoke-in</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054048"></A>
+privilege to perform invoke-in functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054050"></A>
+xdmp:invoke-in</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054814"></A>
+xdmp:invoke-modules-change</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054816"></A>
+http://marklogic.com/xdmp/privileges/xdmp-invoke-modules-change</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054818"></A>
+privilege to execute invoke statements that change a modules database</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054820"></A>
+xdmp:invoke statements that change the modules database</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054806"></A>
+xdmp:invoke-modules-change-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054808"></A>
+http://marklogic.com/xdmp/privileges/xdmp-invoke-modules-change-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054810"></A>
+privilege to execute invoke statements that change a filesystem root</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054812"></A>
+xdmp:invoke statements that change the filesystem root</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054052"></A>
+xdmp:license-accepted</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054054"></A>
+http://marklogic.com/xdmp/privileges/xdmp-license-accepted</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054056"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054058"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054060"></A>
+xdmp:license-fee</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054062"></A>
+http://marklogic.com/xdmp/privileges/xdmp-license-fee</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054064"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054066"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054068"></A>
+xdmp:license-key</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054070"></A>
+http://marklogic.com/xdmp/privileges/xdmp-license-key</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054072"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054074"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054076"></A>
+xdmp:license-key-agreement</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054078"></A>
+http://marklogic.com/xdmp/privileges/xdmp-license-key-agreement</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054080"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054082"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054084"></A>
+xdmp:license-key-cores</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054086"></A>
+http://marklogic.com/xdmp/privileges/xdmp-license-key-cores</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054088"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054090"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054838"></A>
+xdmp:license-key-cpus</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054840"></A>
+http://marklogic.com/xdmp/privileges/xdmp-license-key-cpus</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054842"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054844"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054092"></A>
+xdmp:license-key-decode</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054094"></A>
+http://marklogic.com/xdmp/privileges/xdmp-license-key-decode</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054096"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054098"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054100"></A>
+xdmp:license-key-encode</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054102"></A>
+http://marklogic.com/xdmp/privileges/xdmp-license-key-encode</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054104"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054106"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054108"></A>
+xdmp:license-key-expires</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054110"></A>
+http://marklogic.com/xdmp/privileges/xdmp-key-expires</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054112"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054114"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054116"></A>
+xdmp:license-key-options</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054118"></A>
+http://marklogic.com/xdmp/privileges/xdmp-license-key-options</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054120"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054122"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054124"></A>
+xdmp:license-key-size</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054126"></A>
+http://marklogic.com/xdmp/privileges/xdmp-license-key-size</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054128"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054130"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054132"></A>
+xdmp:license-key-valid</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054134"></A>
+http://marklogic.com/xdmp/privileges/xdmp-license-key-valid</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054136"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054138"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054140"></A>
+xdmp:licensee</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054142"></A>
+http://marklogic.com/xdmp/privileges/xdmp-licensee</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054144"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054146"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054156"></A>
+xdmp:list-cache-partitions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054158"></A>
+http://marklogic.com/xdmp/privileges/xdmp-list-cache-partitons</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054160"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054162"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054854"></A>
+xdmp:list-cache-size</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054856"></A>
+http://marklogic.com/xdmp/privileges/xdmp-list-cache-size</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054858"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054860"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054164"></A>
+xdmp:load</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054166"></A>
+http://marklogic.com/xdmp/privileges/xdmp-load</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054168"></A>
+privilege needed to load a document from the file system</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054170"></A>
+xdmp:load</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054172"></A>
+xdmp:login</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054174"></A>
+http://marklogic.com/xdmp/privileges/xdmp-login</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054176"></A>
+privilege to log in a user without the corresponding password</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054178"></A>
+xdmp-login</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054180"></A>
+xdmp:merge</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054182"></A>
+http://marklogic.com/xdmp/privileges/xdmp-merge</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054184"></A>
+privilege to start merging the forests</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054186"></A>
+xdmp-merge</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054188"></A>
+xdmp:merging</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054190"></A>
+http://marklogic.com/xdmp/privileges/xdmp-merging</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054192"></A>
+privilege to get forest ids of forests currently merging</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054194"></A>
+xdmp:merging</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054866"></A>
+xdmp:missing-directories</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054868"></A>
+http://marklogic.com/xdmp/privileges/xdmp-missing-directories</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054870"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054872"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054196"></A>
+xdmp:pre-release-expires</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054198"></A>
+http://marklogic.com/xdmp/privileges/xdmp-pre-release-expires</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054200"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054202"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054204"></A>
+xdmp:privilege-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054206"></A>
+http://marklogic.com/xdmp/privileges/xdmp-privilege-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054208"></A>
+privilege needed to get a role's privileges</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054210"></A>
+xdmp:privilege-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054212"></A>
+xdmp:read-cluster-config-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054214"></A>
+http://marklogic.com/xdmp/privileges/xdmp-read-cluster-config-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054216"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054218"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054220"></A>
+xdmp:read-host-config-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054222"></A>
+http://marklogic.com/xdmp/privileges/xdmp-read-host-config-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054224"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054226"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054228"></A>
+xdmp:restart</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054230"></A>
+http://marklogic.com/xdmp/privileges/xdmp-restart</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054232"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054234"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054236"></A>
+xdmp:role-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054238"></A>
+http://marklogic.com/xdmp/privileges/xdmp-role-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054240"></A>
+privilege to get a role's roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054242"></A>
+xdmp:role-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054244"></A>
+xdmp:save</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054246"></A>
+http://marklogic.com/xdmp/privileges/xdmp-save</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054248"></A>
+privilege needed to save a document to the file system</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054250"></A>
+xdmp:save</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054252"></A>
+xdmp:server-backup</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054254"></A>
+http://marklogic.com/xdmp/privileges/xdmp-server-backup</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054256"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054258"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054260"></A>
+xdmp:server-import-qualities</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054262"></A>
+http://marklogic.com/xdmp/privileges/xdmp-server-import-qualities</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054264"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054266"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054268"></A>
+xdmp:server-restore</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054270"></A>
+http://marklogic.com/xdmp/privileges/xdmp-server-restore</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054272"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054274"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054276"></A>
+xdmp:set-hot-updates</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054278"></A>
+http://marklogic.com/xdmp/privileges/xdmp-set-hot-updates</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054280"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054282"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062362"></A>
+xdmp:set-request-time-limit</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062364"></A>
+http://marklogic.com/xdmp/privileges/xdmp-set-request-time-limit</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062366"></A>
+privilege to set time limits for a request</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062368"></A>
+xdmp:set-request-time-limit</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054882"></A>
+xdmp:set-server-field</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054884"></A>
+http://marklogic.com/xdmp/privileges/xdmp-set-server-field</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054886"></A>
+privilege to set a server fields</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054888"></A>
+xdmp:set-server-field</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062335"></A>
+xdmp:get-session-field</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062337"></A>
+http://marklogic.com/xdmp/privileges/xdmp-get-session-field</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062339"></A>
+privilege to get session fields</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062341"></A>
+xdmp:get-session-field</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054284"></A>
+xdmp:shutdown</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054286"></A>
+http://marklogic.com/xdmp/privileges/xdmp-shutdown</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054288"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054290"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054894"></A>
+xdmp:sleep</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054896"></A>
+http://marklogic.com/xdmp/privileges/xdmp-sleep</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054898"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054900"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054292"></A>
+xdmp:smtp-relay</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054294"></A>
+http://marklogic.com/xdmp/privileges/xdmp-smtp-relay</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054296"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054298"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054934"></A>
+xdmp:spawn</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054936"></A>
+http://marklogic.com/xdmp/privileges/xdmp-spawn</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054938"></A>
+privilege to perform spawn functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054940"></A>
+xdmp:spawn</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054926"></A>
+xdmp:spawn-in</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054928"></A>
+http://marklogic.com/xdmp/privileges/xdmp-spawn-in</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054930"></A>
+privilege to perform spawn-in functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054932"></A>
+xdmp:spawn-in</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054918"></A>
+xdmp:spawn-modules-change</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054920"></A>
+http://marklogic.com/xdmp/privileges/xdmp-spawn-modules-change</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054922"></A>
+privilege to execute spawn statements that change a modules database</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054924"></A>
+xdmp:spawn statements that change the modules database</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054910"></A>
+xdmp:spawn-modules-change-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054912"></A>
+http://marklogic.com/xdmp/privileges/xdmp-spawn-modules-change-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054914"></A>
+privilege to execute spawn statements that change a filesystem root</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054916"></A>
+xdmp:spawn statements that change the filesystem root</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054300"></A>
+xdmp:timestamp</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054302"></A>
+http://marklogic.com/xdmp/privileges/xdmp-timestamp</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054304"></A>
+privilege to perform point-in-time queries</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054306"></A>
+xdmp:eval, xdmp:invoke (timestamp option)</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054308"></A>
+xdmp:user-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054310"></A>
+http://marklogic.com/xdmp/privileges/xdmp-user-roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054312"></A>
+privilege to get a user's roles</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054314"></A>
+xdmp:user-roles</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054316"></A>
+xdmp:username</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054318"></A>
+http://marklogic.com/xdmp/privileges/xdmp-username</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054320"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054322"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054978"></A>
+xdmp:value</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054980"></A>
+http://marklogic.com/xdmp/privileges/xdmp-value</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054982"></A>
+privilege to use the 'evaluate an expression' function</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054984"></A>
+xdmp:value</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054998"></A>
+xdmp:with-namespace</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055000"></A>
+http://marklogic.com/xdmp/privileges/xdmp-with-namespace</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055002"></A>
+privilege to use the 'evaluate an expression preserving the namespace' function</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1055004"></A>
+xdmp:with-namespace</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054324"></A>
+xdmp:write-cluster-config-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054326"></A>
+http://marklogic.com/xdmp/privileges/xdmp-write-cluster-config-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054328"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054330"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054332"></A>
+xdmp:write-host-config-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054334"></A>
+http://marklogic.com/xdmp/privileges/xdmp-write-host-config-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054336"></A>
+privilege to perform admin functions</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1054338"></A>
+admin built-ins</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062409"></A>
+xdmp:xslt-eval</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062411"></A>
+http://marklogic.com/xdmp/privileges/xdmp-xslt-eval</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062413"></A>
+privilege to use xdmp:xslt-eval</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062415"></A>
+xdmp:xslt-eval</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062425"></A>
+xdmp:xslt-eval-in</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062427"></A>
+http://marklogic.com/xdmp/privileges/xdmp-xslt-eval-in</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062429"></A>
+privilege to use xdmp:xslt-eval-in</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062431"></A>
+xdmp:xslt-eval-in</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062441"></A>
+xdmp:xslt-invoke</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062443"></A>
+http://marklogic.com/xdmp/privileges/xdmp-xslt-invoke</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062445"></A>
+privilege to use xdmp:xslt-invoke</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062447"></A>
+xdmp:xslt-invoke</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062433"></A>
+xdmp:xslt-invoke-in</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062435"></A>
+http://marklogic.com/xdmp/privileges/xdmp-xslt-invoke-in</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062437"></A>
+privilege to use xdmp:xslt-invoke-in</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062439"></A>
+xdmp:xslt-invoke-in</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062482"></A>
+xdmp:xslt-invoke-modules-change</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062484"></A>
+http://marklogic.com/xdmp/privileges/xdmp-xslt-invoke-modules-change</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062486"></A>
+privilege to use xdmp:xslt-invoke and change the modules database</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062488"></A>
+xdmp:xslt-invoke</Table-text>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062494"></A>
+xdmp:xslt-invoke-modules-change-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062496"></A>
+http://marklogic.com/xdmp/privileges/xdmp-xslt-invoke-modules-change-file</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062498"></A>
+privilege to use xdmp:xslt-invoke and change the App Server root</Table-text>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Table-text>
+<A ID="pgfId-1062500"></A>
+xdmp:xslt-invoke</Table-text>
+</CELL>
+</ROW>
+</TABLE>
+</XML>

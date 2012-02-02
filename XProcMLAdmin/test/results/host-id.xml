@@ -1,0 +1,10 @@
+
+			<ml:connection xmlns:mla="http://www.marklogic.com/admin" xmlns:ml="http://www.marklogic.com"
+               user="admin"
+               password="admin"
+               host="localhost"
+               port="8003"
+               debug="false">
+   <c:result xmlns:c="http://www.w3.org/ns/xproc-step">14393237172264333542</c:result>
+</ml:connection>
+		

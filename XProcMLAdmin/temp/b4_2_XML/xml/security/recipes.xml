@@ -1,0 +1,656 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="recipes.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1043743"></A>
+Sample Scenarios For Defining Security Policies</Heading-1>
+<pagenum>
+<A ID="pgfId-1044656"></A>
+47</pagenum>
+<Body>
+<A ID="pgfId-1043434"></A>
+This chapter describes some common scenarios for defining security policies in your applications. The scenarios shown here are by no means exhaustive; there are many possibilities for how to set up security in your applications. The following sections are included:</Body>
+<Body-bullet>
+<A ID="pgfId-1044678"></A>
+<A href="recipes.xml#id(61902)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+General Steps for Creating and Implementing Security Policies</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044686"></A>
+<A href="recipes.xml#id(90314)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Restricting Document Access to a Particular Program</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044691"></A>
+<A href="recipes.xml#id(18430)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Choosing the Access Control Option for an Application</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1044659"></A>
+<A ID="61902"></A>
+General Steps for Creating and Implementing Security Policies</Heading-2>
+<Body>
+<A ID="pgfId-1044143"></A>
+This section defines the general steps needed when using security in an application. Because of the flexibility of the MarkLogic Server security model, there are many different ways to implement similar security policies. These steps are simple guidelines; the actual steps you take will depend on the security policies you need to implement. </Body>
+<Number1>
+<A ID="pgfId-1044148"></A>
+Determine your security policies. Try to have answers for the following types of questions:</Number1>
+<Body-bullet>
+<A ID="pgfId-1045117"></A>
+What documents do you want to protect?</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1045121"></A>
+What code do you want to control the execution of?</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1045122"></A>
+Are there any natural categories you can define based on business function (for example, marketing, sales, engineering)?</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1045156"></A>
+What is the level of risk posed by your users? Will the applications be used only by trusted, internal people or will they be open to a wider audience?</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1045157"></A>
+How sensitive is the data you are protecting?</Body-bullet>
+<NumberList>
+<Number>
+<A ID="pgfId-1045113"></A>
+Based on your security policies, plan out roles and privileges.</Number>
+</NumberList>
+<NumberA1>
+<A ID="pgfId-1044155"></A>
+Determine the level of granularity with which you need to protect objects in the database.</NumberA1>
+<NumberAList>
+<NumberA>
+<A ID="pgfId-1045160"></A>
+Determine how you want to group privileges together in roles.</NumberA>
+<Number>
+<A ID="pgfId-1044152"></A>
+Create needed URI and execute privileges.</Number>
+<Number>
+<A ID="pgfId-1045135"></A>
+Create roles.</Number>
+<Number>
+<A ID="pgfId-1044153"></A>
+Create users.</Number>
+<Number>
+<A ID="pgfId-1045131"></A>
+Assign users to roles.</Number>
+<Number>
+<A ID="pgfId-1045128"></A>
+Set default permissions for users, either indirectly through roles or directly through the users.</Number>
+<Number>
+<A ID="pgfId-1044154"></A>
+Protect code with <code>
+xdmp:security-assert</code>
+ functions, where needed.</Number>
+<Number>
+<A ID="pgfId-1045139"></A>
+Load data with the appropriate permissions. If needed, change the permissions of existing data using the <code>
+xdmp:document-add-permissions</code>
+, <code>
+xdmp:document-set-permissions</code>
+, and <code>
+xdmp:document-remove-permissions</code>
+ functions.</Number>
+<Number>
+<A ID="pgfId-1045450"></A>
+Assign access privileges to HTTP, WebDAV, and XDBC servers as needed.</Number>
+</NumberAList>
+<Heading-2>
+<A ID="pgfId-1044142"></A>
+<A ID="90314"></A>
+Restricting Document Access to a Particular Program</Heading-2>
+<Body>
+<A ID="pgfId-1044117"></A>
+If you load XQuery code into a modules database, you can use <code>
+execute</code>
+ permissions to control who can run a particular XQuery module document. Then, a user must possess <code>
+execute</code>
+ permissions to run the module. To set up a module to do this, perform the following steps:</Body>
+<Number1>
+<A ID="pgfId-1045187"></A>
+Specify a modules database in the configuration for the application server (HTTP or WebDAV) in which you want to control the execution of an XQuery module.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1045224"></A>
+Load the XQuery module into the modules database, using a URI with a <code>
+.xqy</code>
+ extension.</Number>
+<Number>
+<A ID="pgfId-1045230"></A>
+Set execute permissions on the <code>
+.xqy</code>
+ document for a given role. For example, if you want users with the <Emphasis>
+run_application</Emphasis>
+ role to be able to execute an XQuery module with a URI <code>
+http://modules/my_module.xqy</code>
+, run a query similar to the following:</Number>
+</NumberList>
+<Code>
+<A ID="pgfId-1045242"></A>
+xdmp:document-set-permissions(&quot;http://modules/my_module.xqy&quot;,
+&#160;&#160;&#160;&#160;&#160;&#160;xdmp:permission(&quot;run_application&quot;, &quot;execute&quot;) )</Code>
+<Body>
+<A ID="pgfId-1045243"></A>
+Now only users with the <Emphasis>
+run_application</Emphasis>
+ role can execute this document, effectively disallowing everyone who is not part of the role from running the application.</Body>
+<Note>
+<A ID="pgfId-1045255"></A>
+Because the application code might also contain amped functions, this technique can help restrict access to applications that use amps to run functions at higher levels of authority than those possessed by the user who runs them.</Note>
+<Heading-2>
+<A ID="pgfId-1044133"></A>
+<A ID="18430"></A>
+Choosing the Access Control Option for an Application</Heading-2>
+<Body>
+<A ID="pgfId-1044163"></A>
+The role-based security model in MarkLogic Server combined with the supported authentication schemes give developers numerous application access control options. This section describes the following common application access control alternatives:</Body>
+<Body-bullet>
+<A ID="pgfId-1044167"></A>
+<A href="recipes.xml#id(59593)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+No Access Restriction</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044171"></A>
+<A href="recipes.xml#id(88632)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Uniform Access for All Users in the Security Database</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044175"></A>
+<A href="recipes.xml#id(86816)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Limiting Application Access to a Subset of Users</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044179"></A>
+<A href="recipes.xml#id(22120)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Custom Login Pages</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044183"></A>
+<A href="recipes.xml#id(83586)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Access Control Based on Client IP Address</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1044367"></A>
+For details on the different authentication schemes, see <A href="authentication.xml#id(56266)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Types of Authentication' on page&#160;30</A>.</Body>
+<Heading-3>
+<A ID="pgfId-1044185"></A>
+<A ID="59593"></A>
+No Access Restriction</Heading-3>
+<Body>
+<A ID="pgfId-1044186"></A>
+This approach is appropriate if security is not a concern for your MarkLogic Server implementation or if you are just getting started and want to explore the capabilities of MarkLogic Server before contemplating your security architecture. </Body>
+<Body>
+<A ID="pgfId-1044187"></A>
+You can turn off access control for each HTTP or WebDAV server individually by following these steps using the Admin interface:</Body>
+<Number1>
+<A ID="pgfId-1044188"></A>
+Go to the Configure tab for the HTTP server for which you want to turn off access control.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1044189"></A>
+Scroll down to the authentication field and choose application-level for the authentication scheme.</Number>
+<Number>
+<A ID="pgfId-1044190"></A>
+Choose a user with the <code>
+admin</code>
+ role for the default user. For example, you may choose the admin user you created when installing the software.</Number>
+</NumberList>
+<Note>
+<A ID="pgfId-1044191"></A>
+To assist with identifying users with the <code>
+admin</code>
+ role, the default user selection field places (<code>
+admin</code>
+) next to admin users.</Note>
+<Body>
+<A ID="pgfId-1044192"></A>
+In this scenario, all users accessing the application server are automatically logged in with a user that has the <code>
+admin</code>
+ role. By default, the <code>
+admin</code>
+ role has the privileges and permissions to perform any action and access any document in the server. Therefore, security is essentially turned off for the application. All users have full access to the application and database associated with the application server.</Body>
+<Heading-3>
+<A ID="pgfId-1044194"></A>
+<A ID="88632"></A>
+Uniform Access for All Users in the Security Database</Heading-3>
+<Body>
+<A ID="pgfId-1044195"></A>
+This approach allows you to restrict application access to users in your security database, and gives those users full access to all application servers defined in MarkLogic Server. There are multiple ways to achieve the same objective but this is the simplest way. Using the Admin interface:</Body>
+<Number1>
+<A ID="pgfId-1044196"></A>
+Go to the Users tab under security.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1044197"></A>
+Give all users in security database the <code>
+admin</code>
+ role.</Number>
+<Number>
+<A ID="pgfId-1044198"></A>
+Go to the Configuration tabs for all HTTP and WebDAV servers in the system.</Number>
+<Number>
+<A ID="pgfId-1044199"></A>
+Go to the authentication field and choose digest, basic or digest-basic authentication.</Number>
+<Number>
+<A ID="pgfId-1044200"></A>
+Leave the privilege field blank since it will have no effect in this scenario. This field specifies the privilege that is needed to log into application server. However, the users are assigned the <code>
+admin</code>
+ role and are treated as having all privileges. </Number>
+</NumberList>
+<Body>
+<A ID="pgfId-1044744"></A>
+In this scenario, all users must authenticate with a username and password. Once they are authenticated, however, they have full access to all functions and data in the server.</Body>
+<Heading-3>
+<A ID="pgfId-1044202"></A>
+<A ID="86816"></A>
+Limiting Application Access to a Subset of Users</Heading-3>
+<Body>
+<A ID="pgfId-1044203"></A>
+This application access control method can be modified or extended to meet the requirements in many application scenarios. At the same time, it uses more of the available security features and therefore requires a better understanding of the security model. </Body>
+<Body>
+<A ID="pgfId-1044204"></A>
+To limit application access to a subset of the users in the security database, perform the following steps using the Admin interface:</Body>
+<Number1>
+<A ID="pgfId-1044205"></A>
+Create an execute privilege to represent the privilege to access the application server. We will refer to this execute privilege as exe-priv-app1.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1044206"></A>
+Create a role named role-app1 that has exe-priv-app1 execute privilege.</Number>
+<Number>
+<A ID="pgfId-1044207"></A>
+Add role-app1 to the roles of all users in the security database who should have access to the application server.</Number>
+<Number>
+<A ID="pgfId-1044208"></A>
+In the Configuration page for the application server, scroll down to the authentication field and select digest, basic or digest-basic. If you want to use application-level authentication to achieve the same objective, a custom login page is required. See the next section for details.</Number>
+<Number>
+<A ID="pgfId-1044209"></A>
+Select exe-priv-app1 for the privilege field. Once this is done, only the users who have the exe-priv-app1 by virtue of their role(s) will be able to access this application server.</Number>
+</NumberList>
+<Note>
+<A ID="pgfId-1044210"></A>
+If you want any user in the security database to be able to access the application, leave the privilege field blank.</Note>
+<Body>
+<A ID="pgfId-1056935"></A>
+At this point, the application access control is configured. However, this method of authentication needs to be accompanied by the appropriate security configuration. For example, <code>
+xdmp:document-insert()</code>
+ and <code>
+xdmp:document-load() </code>
+will throw exceptions unless the user possesses the appropriate privileges. Also, users must have the appropriate default permissions (or specify the appropriate permissions with the API) when creating new documents in a database; for any document created by a user who does not have the <code>
+admin</code>
+ role, the document must be created with at least one update permission or else the transaction will throw an <code>
+XDMP-MUSTHAVEUPDATE</code>
+ exception. The update permission is required because otherwise the documents would be created but no user (except users with the <code>
+admin</code>
+ role) would be able to access them, including the user who created them.</Body>
+<Heading-3>
+<A ID="pgfId-1044217"></A>
+<A ID="22120"></A>
+Custom Login Pages</Heading-3>
+<Body>
+<A ID="pgfId-1044218"></A>
+Digest and basic authentication use the browser's username and password prompt to obtain user credentials. The server then authenticates the credentials against the security database. There is no good way to create a custom login page using digest and basic authentication. To create custom login pages, you need to use application-level authentication.</Body>
+<Body>
+<A ID="pgfId-1044219"></A>
+To configure MarkLogic Server to use a custom login page for an application server, perform the following steps:</Body>
+<Number1>
+<A ID="pgfId-1044220"></A>
+Go to the Configuration tab for the HTTP or XDBC server for which you want to create a custom login page.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1044221"></A>
+Scroll down to the authentication field and select application-level.</Number>
+<Number>
+<A ID="pgfId-1044222"></A>
+Choose nobody as the default user. The nobody user is automatically created when MarkLogic Server is installed. It does not have an associated role and therefore has no privileges. Nobody can only access pages and perform functions for which no privileges are required.</Number>
+<Number>
+<A ID="pgfId-1044223"></A>
+Create a custom login page that meets your needs. We will refer to this page as <code>
+login.xqy</code>
+. </Number>
+<Number>
+<A ID="pgfId-1045370"></A>
+Make <code>
+login.xqy</code>
+ the default page displayed by the application server. Do not require any privilege to access <code>
+login.xqy</code>
+ (that is, do not place <code>
+xdmp:security-assert()</code>
+ in the beginning of the code for <code>
+login.xqy</code>
+. This makes <code>
+login.xqy</code>
+ accessible by nobody, the default user specified above, until the actual user logs in with his credentials.</Number>
+</NumberList>
+<Indented>
+<A ID="pgfId-1044225"></A>
+The <code>
+login.xqy</code>
+ page will likely contain a snippet of the code as shown below:</Indented>
+<TableAnchor>
+<A ID="pgfId-1044229"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Code>
+<A ID="pgfId-1044228"></A>
+...return
+if xdmp:login($username, $password) then
+  ... protected page goes here...
+else
+  ... redirect to login page or display error page...</Code>
+</CELL>
+</ROW>
+</TABLE>
+<Indented>
+<A ID="pgfId-1044230"></A>
+The rest of this example assumes that all valid users can access all the pages and functions within the application. </Indented>
+<NumberList>
+<Number>
+<A ID="pgfId-1044231"></A>
+Create a role called application-user-role.</Number>
+<Number>
+<A ID="pgfId-1044232"></A>
+Create an execute privilege called application-privilege. Add this privilege to the application-user-role.</Number>
+<Number>
+<A ID="pgfId-1044233"></A>
+Add the application-user-role to all users who are allowed to access the application.</Number>
+<Number>
+<A ID="pgfId-1044234"></A>
+Add this snippet of code before the code that displays each of the pages in the application, except for <code>
+login.xqy</code>
+:</Number>
+</NumberList>
+<TableAnchor>
+<A ID="pgfId-1044238"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Code>
+<A ID="pgfId-1044237"></A>
+try 
+{
+  xdmp:security-assert(&quot;application-privilege&quot;,&quot;execute&quot;)
+}
+catch($e)
+{
+  xdmp:redirect-response(&quot;login.xqy&quot;)
+}</Code>
+</CELL>
+</ROW>
+</TABLE>
+<Body>
+<A ID="pgfId-1044239"></A>
+or</Body>
+<TableAnchor>
+<A ID="pgfId-1044243"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Code>
+<A ID="pgfId-1044242"></A>
+if(not(xdmp:has-privilege(&quot;application-privilege&quot;,&quot;execute&quot;)))
+then
+(
+  xdmp:redirect-response(&quot;login.xqy&quot;)
+)
+else ()</Code>
+</CELL>
+</ROW>
+</TABLE>
+<Body>
+<A ID="pgfId-1044244"></A>
+This ensures that only a user who has the application-privilege by virtue of his role can access these protected pages.</Body>
+<Body>
+<A ID="pgfId-1044245"></A>
+Similar to the previous approach, this method of authentication requires the appropriate security configuration. See <A href="intro.xml#id(99212)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Introduction to Security' on page&#160;6</A> for background on the security model.</Body>
+<Heading-3>
+<A ID="pgfId-1044250"></A>
+<A ID="83586"></A>
+Access Control Based on Client IP Address</Heading-3>
+<Body>
+<A ID="pgfId-1044251"></A>
+MarkLogic Server supports deployments in which a user is automatically given access to the application based on the client IP address. </Body>
+<Body>
+<A ID="pgfId-1044252"></A>
+Consider a scenario in which a user is automatically logged in if he is accessing the application locally (as local-user) or from an approved subnet (as site-user). Otherwise, the user is asked to login explicitly. The steps below describe how to configure MarkLogic Server to achieve the desired access control.</Body>
+<Number1>
+<A ID="pgfId-1044253"></A>
+The first step is to configure the application server to use a custom login page:</Number1>
+<NumberA1>
+<A ID="pgfId-1044254"></A>
+Go to the Configuration tab for the HTTP or WebDAV server for which you want to create a custom login page.</NumberA1>
+<NumberAList>
+<NumberA>
+<A ID="pgfId-1044255"></A>
+Scroll down to the authentication field and select application-level.</NumberA>
+<NumberA>
+<A ID="pgfId-1044256"></A>
+For this example, choose nobody as the default user. The user nobody is automatically created when MarkLogic Server is installed. It does not have an associated role and hence has no privileges. Nobody can only access pages and perform functions for which no privileges are required.</NumberA>
+<NumberA>
+<A ID="pgfId-1044257"></A>
+Add the following code snippet to the beginning of the default page displayed by the application, e.g. default.xqy.</NumberA>
+</NumberAList>
+<TableAnchor>
+<A ID="pgfId-1044262"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Code>
+<A ID="pgfId-1044260"></A>
+xquery version &quot;0.9-ml&quot;
+
+declare namespace widget =&quot;http://widget.com&quot;
+import module &quot;http://widget.com&quot; at &quot;/login-routine.xqy&quot;</Code>
+<Code>
+<A ID="pgfId-1044261"></A>
+let $login := widget:try-ip-login()
+return
+if($login) then
+  &lt;html&gt;
+    &lt;body&gt;
+      The protected page goes here.  
+      You are {xdmp:get-current-user()}
+    &lt;/body&gt;
+  &lt;/html&gt;
+else
+  xdmp:redirect-response(&quot;login.xqy&quot;)</Code>
+</CELL>
+</ROW>
+</TABLE>
+<Body>
+<A ID="pgfId-1044263"></A>
+The <code>
+try-ip-login()</code>
+ function is defined in <Emphasis>
+login-routine.xqy</Emphasis>
+. It is used to determine if the user can be automatically logged in based on the client IP address. If the user cannot be logged in automatically, he will be redirected to a login page called <code>
+login.xqy</code>
+ where he has to log in explicitly. See <A href="recipes.xml#id(22120)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Custom Login Pages' on page&#160;42</A> for example code for <code>
+login.xqy</code>
+.</Body>
+<NumberList>
+<Number>
+<A ID="pgfId-1044264"></A>
+Next, we will define <code>
+try-ip-login()</code>
+:</Number>
+</NumberList>
+<NumberA1>
+<A ID="pgfId-1044265"></A>
+Create a file named login-routine.xqy and place the file in the Modules directory within the MarkLogic Server program directory. You will create an amp for <code>
+try-ip-login()</code>
+ in login-routine.xqy in the next code sample. For security reasons, all 'amped' functions must be located in the specified Modules directory or in the Modules database for the server.</NumberA1>
+<NumberAList>
+<NumberA>
+<A ID="pgfId-1044266"></A>
+Add the following code to login-routine.xqy:</NumberA>
+</NumberAList>
+<TableAnchor>
+<A ID="pgfId-1044271"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Code>
+<A ID="pgfId-1044269"></A>
+xquery version &quot;0.9-ml&quot;
+
+module &quot;http://widget.com&quot;
+declare namespace widget =&quot;http://widget.com&quot;</Code>
+<Code>
+<A ID="pgfId-1044270"></A>
+define function try-ip-login()as xs:boolean
+{
+  let $ip := xdmp:get-request-client-address()
+  return 
+  if(compare($ip,&quot;127.0.0.1&quot;) eq 0) then (:local host:)
+    xdmp:login(&quot;localuser&quot;,())
+  else if(starts-with($ip,&lt;approved-subnet&gt;)) then
+    xdmp:login(&quot;site-user&quot;,())
+  else
+    false()
+}</Code>
+</CELL>
+</ROW>
+</TABLE>
+<Body>
+<A ID="pgfId-1044272"></A>
+If the user is accessing the application from an approved IP address, <code>
+try-ip-login()</code>
+ logs in the user with username <Emphasis>
+local-user</Emphasis>
+ or <Emphasis>
+site-user</Emphasis>
+ as appropriate and returns <code>
+true()</code>
+. Otherwise, <code>
+try-ip-login()</code>
+ returns <code>
+false()</code>
+.</Body>
+<Note>
+<A ID="pgfId-1044273"></A>
+In the code snippet above, the empty sequence () is supplied in place of the actual passwords for local-user and site-user. The <code>
+xdmp-login</code>
+ pre-defined execute privilege grants the right to call <code>
+xdmp:login()</code>
+ without the actual password. This makes it possible to create deployments in which users can be automatically logged in without storing user passwords outside the system.</Note>
+<NumberList>
+<Number>
+<A ID="pgfId-1044274"></A>
+Finally, to ensure that the code snippet above is called with the requisite xdmp-login privilege, we will configure an amp for <code>
+try-ip-login()</code>
+:</Number>
+</NumberList>
+<NumberA1>
+<A ID="pgfId-1044275"></A>
+Create a role in the Admin interface called login-role. </NumberA1>
+<NumberAList>
+<NumberA>
+<A ID="pgfId-1044276"></A>
+Assign the <code>
+xdmp-login</code>
+ pre-defined execute privilege to login-role. The <code>
+xdmp-login</code>
+ privilege gives a user of the <code>
+login-role</code>
+ the right to call <code>
+xdmp:login()</code>
+ for any user without supplying the password. </NumberA>
+<NumberA>
+<A ID="pgfId-1044277"></A>
+Create an amp for try-ip-login() as shown below: </NumberA>
+</NumberAList>
+<Body>
+<A ID="pgfId-1044281"></A>
+<IMAGE xml:link="simple" href="images/amp.gif" show="embed" actuate="auto"/>
+</Body>
+<Body>
+<A ID="pgfId-1044282"></A>
+An amp temporarily assigns additional role(s) to a user only for the execution of the specified function. The amp above gives any user who is executing try-ip-login() the login-role temporarily for the execution of the function.</Body>
+<Body>
+<A ID="pgfId-1044590"></A>
+In this example, default.xqy is executed as nobody, the default user for the application. When <code>
+try-ip-login()</code>
+ is called, nobody is temporarily amped to the login-role. Nobody is temporarily assigned the <code>
+xdmp:login</code>
+ execute privilege by virtue of the <code>
+login-role</code>
+. This enables nobody to call <code>
+xdmp:login()</code>
+ in <code>
+try-ip-login()</code>
+ for any user without the corresponding password. Once the login process is completed, the user will access the application with the permissions and privileges of local-user or site-user as appropriate. </Body>
+<NumberList>
+<Number>
+<A ID="pgfId-1044284"></A>
+The remainder of the example assumes that local-user and site-user can access all the pages and functions within the application. </Number>
+</NumberList>
+<NumberA1>
+<A ID="pgfId-1044285"></A>
+Create a role called application-user-role.</NumberA1>
+<NumberAList>
+<NumberA>
+<A ID="pgfId-1044286"></A>
+Create an execute privilege called application-privilege. Add this privilege to the application-user-role.</NumberA>
+<NumberA>
+<A ID="pgfId-1044287"></A>
+Add the application-user-role to local-user and site-user.</NumberA>
+<NumberA>
+<A ID="pgfId-1044288"></A>
+Add this snippet of code before the code that displays each of the subsequent pages in the application: </NumberA>
+</NumberAList>
+<TableAnchor>
+<A ID="pgfId-1044292"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Code>
+<A ID="pgfId-1044291"></A>
+try 
+{
+  xdmp:security-assert(&quot;application-privilege&quot;,&quot;execute&quot;)
+  ...
+}
+catch($e)
+{
+  xdmp:redirect-response(&quot;login.xqy&quot;)
+}</Code>
+</CELL>
+</ROW>
+</TABLE>
+<Body>
+<A ID="pgfId-1044293"></A>
+or</Body>
+<TableAnchor>
+<A ID="pgfId-1044297"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<Code>
+<A ID="pgfId-1044296"></A>
+if(not(xdmp:has-privilege(&quot;application-privilege&quot;,&quot;execute&quot;)))
+then
+(
+  xdmp:redirect-response(&quot;login.xqy&quot;)
+)
+else ()</Code>
+</CELL>
+</ROW>
+</TABLE>
+<Body>
+<A ID="pgfId-1044298"></A>
+This ensures that only the user who has the <Emphasis>
+application-privilege</Emphasis>
+ by virtue of his role can access these protected pages.</Body>
+<Body>
+<A ID="pgfId-1035177"></A>
+</Body>
+</XML>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ml:job-bag xmlns:ml="http://xmlcalabash.com/ns/extensions/marklogic">
+   <config xmlns="http://xmlcalabash.com/ns/extensions/marklogic">
+	     <connection-string>xcc://pfennell:admin@127.0.0.1:8023</connection-string>
+	     <document-format>xml</document-format>
+	     <id-name>#FILENAME</id-name>
+	     <input-encoding>UTF-8</input-encoding>
+	     <input-path>content</input-path>
+	     <input-strip-prefix/>
+	     <output-collections/>
+	     <threads>1</threads>
+	     <use-filename-collection>false</use-filename-collection>
+   </config>
+   <c:file xmlns:c="http://www.w3.org/ns/xproc-step" name="21978174.xml" path="content/"
+           type="xml"/>
+   <c:file xmlns:c="http://www.w3.org/ns/xproc-step" name="21978175.xml" path="content/"
+           type="xml"/>
+   <c:file xmlns:c="http://www.w3.org/ns/xproc-step" name="21978176.xml" path="content/"
+           type="xml"/>
+   <c:file xmlns:c="http://www.w3.org/ns/xproc-step" name="21978177.xml"
+           path="content/level2/"
+           type="xml"/>
+   <c:file xmlns:c="http://www.w3.org/ns/xproc-step" name="21978178.xml"
+           path="content/level2/"
+           type="xml"/>
+   <c:file xmlns:c="http://www.w3.org/ns/xproc-step" name="21978183.xml"
+           path="content/level2/"
+           type="xml"/>
+   <c:file xmlns:c="http://www.w3.org/ns/xproc-step" name="21978179.xml"
+           path="content/level2/level3/"
+           type="xml"/>
+   <c:file xmlns:c="http://www.w3.org/ns/xproc-step" name="21978180.xml"
+           path="content/level2/level3/"
+           type="xml"/>
+   <c:file xmlns:c="http://www.w3.org/ns/xproc-step" name="21978181.xml"
+           path="content/level2/level3/"
+           type="xml"/>
+   <c:file xmlns:c="http://www.w3.org/ns/xproc-step" name="21978182.xml"
+           path="content/level2/level3/"
+           type="xml"/>
+</ml:job-bag>

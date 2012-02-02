@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="whatis.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1053666"></A>
+<A ID="_Toc61258620"></A>
+About This XQuery and XSLT Guide</Heading-1>
+<pagenum>
+<A ID="pgfId-1056349"></A>
+6</pagenum>
+<Body>
+<A ID="pgfId-1053667"></A>
+This <Emphasis>
+XQuery and XSLT Reference Guide</Emphasis>
+ briefly describes some of the basics of the XQuery language, but describes more thoroughly the MarkLogic Server implementation of XQuery, including many of the important extensions to the language implemented in MarkLogic Server. Additionally, it describes how to invoke XSLT stylesheets and briefly describes the MarkLogic Server XSLT 2.0 implementation.</Body>
+<Body>
+<A ID="pgfId-1063918"></A>
+The next two chapters (<A href="dialects.xml#id(_Toc61258621)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'XQuery Dialects in MarkLogic Server' on page&#160;7</A> and <A href="enhanced.xml#id(_Toc61258626)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'MarkLogic Server Enhanced XQuery Language' on page&#160;14</A>) focus on the MarkLogic Server-specific aspects of the XQuery language. If you prefer to start with the more generic aspects of the XQuery language before moving to the MarkLogic Server-specific parts, start with <A href="langoverview.xml#id(16356)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'XQuery Language' on page&#160;22</A>.</Body>
+<Body>
+<A ID="pgfId-1001781"></A>
+Specifically, this guide covers:</Body>
+<Body-bullet>
+<A ID="pgfId-1060617"></A>
+The different dialects of XQuery supported in MarkLogic Server (see <A href="dialects.xml#id(_Toc61258621)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'XQuery Dialects in MarkLogic Server' on page&#160;7</A>).</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1060621"></A>
+MarkLogic extensions to the XQuery language (see <A href="enhanced.xml#id(_Toc61258626)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'MarkLogic Server Enhanced XQuery Language' on page&#160;14</A>).</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1060622"></A>
+An overview of the basic syntax of the XQuery language (see <A href="langoverview.xml#id(16356)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'XQuery Language' on page&#160;22</A>).</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1060623"></A>
+A brief description of XPath syntax (see <A href="xpath.xml#id(_Toc61258626)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'XPath Quick Reference' on page&#160;43</A>).</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1060641"></A>
+An introduction to how namespaces work in XML and XQuery (see <A href="namespaces.xml#id(82094)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Understanding XML Namespaces in XQuery' on page&#160;46</A>).</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1060645"></A>
+Using XSLT in MarkLogic Server (see <A href="xslt.xml#id(74932)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'XSLT in MarkLogic Server' on page&#160;57</A>).</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1064195"></A>
+Some information on how XQuery and XSLT are used as application development programming languages in MarkLogic Server (see <A href="programming.xml#id(60234)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Application Programming in XQuery and XSLT' on page&#160;64</A>).</Body-bullet>
+</XML>

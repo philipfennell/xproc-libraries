@@ -1,0 +1,28 @@
+* table
+	tr
+		td
+			* table
+				tr
+					td
+						font
+							b
+								text {'Function Detail'}
+				tr
+					td
+>						table
+							tr
+								td
+									img
+							tr
+								td
+*									a/@id
+									b
+										font
+											text {$functionName}
+							tr
+								td
+								td
+									text {$parameterName}
+							tr
+								td
+									text {$returnType}

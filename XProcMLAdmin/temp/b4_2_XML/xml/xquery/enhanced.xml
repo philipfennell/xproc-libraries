@@ -1,0 +1,605 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="enhanced.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1043259"></A>
+<A ID="_Toc61258626"></A>
+MarkLogic Server Enhanced XQuery Language</Heading-1>
+<pagenum>
+<A ID="pgfId-1054143"></A>
+<A ID="_Exploring_the_Use"></A>
+21</pagenum>
+<Body>
+<A ID="pgfId-1043261"></A>
+The default XQuery dialect in MarkLogic Server is <Emphasis>
+enhanced</Emphasis>
+. (<code>
+1.0-ml</code>
+) The enhanced dialect includes all of the features in the strict XQuery 1.0 dialect, and adds several other features to make it easier to use XQuery as a programming language with which to create applications. This chapter describes the features of the enhanced dialect and includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1058371"></A>
+<A href="enhanced.xml#id(34280)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+try/catch Expression</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1058379"></A>
+<A href="enhanced.xml#id(55459)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Function Mapping</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1058394"></A>
+<A href="enhanced.xml#id(41212)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Semi-Colon as Transaction Separator</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1058399"></A>
+<A href="enhanced.xml#id(76225)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Private Function and Variable Definitions</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1062195"></A>
+<A href="enhanced.xml#id(70280)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Functions With Side Effects</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1058443"></A>
+<A href="enhanced.xml#id(92538)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Shorthand Positional Predicate Syntax</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1062223"></A>
+<A href="enhanced.xml#id(17425)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Binary Node Constructor and Node Test</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1062921"></A>
+<A href="enhanced.xml#id(90242)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+validate as Expression</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1063307"></A>
+<A href="enhanced.xml#id(35341)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Serialization Options</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1063438"></A>
+<A href="enhanced.xml#id(56907)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Importing a Stylesheet Into an XQuery Module</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1058595"></A>
+<A href="enhanced.xml#id(39632)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Implementation-Defined Semantics</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1061943"></A>
+For details on the XQuery language, see <A href="langoverview.xml#id(16356)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'XQuery Language' on page&#160;22</A> and the W3C XQuery specification (<Hyperlink>
+<A href="http://www.w3.org/TR/xquery/" xml:link="simple" show="replace" actuate="user" CLASS="URL">http://www.w3.org/TR/xquery/</A></Hyperlink>
+).</Body>
+<Heading-2>
+<A ID="pgfId-1043266"></A>
+<A ID="34280"></A>
+try/catch Expression</Heading-2>
+<Body>
+<A ID="pgfId-1058467"></A>
+The try/catch extension allows you to catch and handle exceptions. MarkLogic Server exceptions are thrown in XML format, and you can apply an XPath statement to the exception if there is a particular part you want to extract. The exception is bound to the variable in the <code>
+catch</code>
+ clause.</Body>
+<Body>
+<A ID="pgfId-1058487"></A>
+<IMAGE xml:link="simple" href="enhanced-1.gif" show="embed" actuate="auto"/>
+</Body>
+<Body>
+<A ID="pgfId-1058488"></A>
+The following code sample uses a try/catch block to catch exceptions upon loading a document, and prints out the filename if an exception occurs.</Body>
+<Code>
+<A ID="pgfId-1058489"></A>
+try {
+&#160;&#160;&#160;&#160;&#160;let $filename := &quot;/space/myfile.xml&quot;
+&#160;&#160;&#160;&#160;&#160;let $options := &lt;options xmlns=&quot;xdmp:document-load&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;uri&gt;/myfile.xml&lt;/uri&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;repair&gt;none&lt;/repair&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/options&gt;
+&#160;&#160;&#160;&#160;&#160;return xdmp:document-load($filename, $options)
+&#160;&#160;&#160;&#160;&#160;}
+catch ($exception) {
+&quot;Problem loading file, received the following exception: &quot;,
+$exception }</Code>
+<Body>
+<A ID="pgfId-1063191"></A>
+Most exceptions can be caught with a try/catch block, but the <code>
+XDMP-CANCELED</code>
+, <code>
+SVC-CANCELED</code>
+, and <code>
+XDMP-DISABLED</code>
+ exceptions cannot be caught in a try/catch block.</Body>
+<Heading-2>
+<A ID="pgfId-1043275"></A>
+<A ID="55459"></A>
+Function Mapping</Heading-2>
+<Body>
+<A ID="pgfId-1043276"></A>
+<Emphasis>
+Function mapping</Emphasis>
+ is an extension to XQuery that allows you to pass a sequence to a function parameter that is typed to take a singleton item, and it will invoke that function once for each item in the sequence. This section describes function mapping and includes the following parts:</Body>
+<Body-bullet>
+<A ID="pgfId-1062760"></A>
+<A href="enhanced.xml#id(66409)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Understanding Function Mapping</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1062764"></A>
+<A href="enhanced.xml#id(54391)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Enabling or Disabling Function Mapping</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1062765"></A>
+<A ID="66409"></A>
+Understanding Function Mapping</Heading-3>
+<Body>
+<A ID="pgfId-1062759"></A>
+Function mapping is equivalent to iterating over the sequence like it was in a <code>
+for</code>
+ clause of a FLWOR expression. The following is an example of function mapping:</Body>
+<Code>
+<A ID="pgfId-1061915"></A>
+xquery version &quot;1.0-ml&quot;;
+
+declare function local:print-word ($word as xs:string) { $word };
+
+local:print-word( (&quot;hello&quot;, &quot;world&quot;) )
+(: 
+&#160;&#160;&#160;evaluates the print-word function twice, once for &quot;hello&quot; 
+&#160;&#160;&#160;and once for &quot;world&quot;, returning hello world 
+:)</Code>
+<Body>
+<A ID="pgfId-1062581"></A>
+Function mapping also works on multiple singleton parameters, resulting in the cross product of all the values (equivalent to nested <code>
+for</code>
+ clauses). In the case of multiple mappings, they occur left to right. For example, the following is evaluated like a nested <code>
+for</code>
+ loop:</Body>
+<Code>
+<A ID="pgfId-1062594"></A>
+xquery version &quot;1.0-ml&quot;;
+(1 to 2) * (3 to 4)
+(: returns the sequence (3, 4, 6, 8) :) </Code>
+<Body>
+<A ID="pgfId-1062427"></A>
+One consequence of function mapping, which can be surprising the first time you see it, is that if the value passed for a parameter is the empty sequence, it could result in the function being called 0 times (that is, in the function never runs and results in the empty sequence. For example, if you entered the empty sequence as the parameter to the above function call, it returns empty, as follows:</Body>
+<Code>
+<A ID="pgfId-1062431"></A>
+xquery version &quot;1.0-ml&quot;;
+
+declare function local:print-word ($word as xs:string) { $word };
+
+local:print-word( () )
+(: 
+&#160;&#160;&#160;evaluates the print-word function zero times, resulting 
+&#160;&#160;&#160;in the empty sequence
+:)</Code>
+<Body>
+<A ID="pgfId-1062444"></A>
+The <code>
+local:print-word</code>
+ function is never called in this case, because it is iterating over the empty sequence, which causes zero invocations of the function. If your function calls are fed by code that can return the empty sequence (an XPath expression, for example), then you might see this behavior.</Body>
+<Heading-3>
+<A ID="pgfId-1062755"></A>
+<A ID="54391"></A>
+Enabling or Disabling Function Mapping</Heading-3>
+<Body>
+<A ID="pgfId-1062748"></A>
+In <code>
+1.0-ml</code>
+, function mapping is enabled by default. In 1.0, it is disabled by default. You can enable it in <code>
+1.0</code>
+ by adding the following to the XQuery prolog:</Body>
+<Code>
+<A ID="pgfId-1062749"></A>
+declare namespace xdmp=&quot;http://marklogic.com/xdmp&quot;;
+declare option xdmp:mapping &quot;true&quot;;</Code>
+<Body>
+<A ID="pgfId-1062750"></A>
+Similarly, you can explicitly disable function mapping in <code>
+1.0-ml</code>
+ by adding the following to the prolog:</Body>
+<Code>
+<A ID="pgfId-1062751"></A>
+declare option xdmp:mapping &quot;false&quot;;</Code>
+<Body>
+<A ID="pgfId-1063226"></A>
+You cannot use function mapping in the <code>
+0.9-ml</code>
+ dialect; if you run code expecting it to map singletons to a sequence in <code>
+0.9-ml</code>
+ (or in <code>
+1.0</code>
+ or <code>
+1.0-ml</code>
+ if function mapping is diabled), it will throw an exception because the sequence cannot be cast to a single string. </Body>
+<Heading-2>
+<A ID="pgfId-1063228"></A>
+<A ID="41212"></A>
+Semi-Colon as Transaction Separator</Heading-2>
+<Body>
+<A ID="pgfId-1058393"></A>
+In the enhanced dialect, you can add a semi-colon after one or more XQuery statements in the body of a main module and then add another one or more XQuery statement. The two sets of statements are then evaluated as two separate transactions. Each set of statements must be a main module; that is, they must all have their own prolog elements. All of the statements in the program must use the same XQuery dialect. For example, the following creates a document and then returns the contents of the document:</Body>
+<Code>
+<A ID="pgfId-1061980"></A>
+xquery version &quot;1.0-ml&quot;;
+xdmp:document-insert(&quot;/mydocs/sample.xml&quot;, 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;some-element&gt;content&lt;/some-element&gt;) ;</Code>
+<Code>
+<A ID="pgfId-1061991"></A>
+xquery version &quot;1.0-ml&quot;;
+(: Note that the XQuery version must be the same for all 
+&#160;&#160;&#160;statements in the module :)
+fn:doc(&quot;/mydocs/sample.xml&quot;)
+(: returns the document created in the previous statement :)</Code>
+<Body>
+<A ID="pgfId-1061971"></A>
+Note that you cannot use the semi-colon as a transaction separator in the strict XQuery dialect (<code>
+1.0</code>
+). For more details on transactions, see <A href="../dev_guide/transactions.xml#id(44680)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Understanding Transactions in MarkLogic Server</Hyperlink>
+</A> chapter in the <Emphasis>
+Application Developer's Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1058400"></A>
+<A ID="76225"></A>
+Private Function and Variable Definitions</Heading-2>
+<Body>
+<A ID="pgfId-1062480"></A>
+In the <code>
+1.0-ml</code>
+ enhanced dialect, you can create library modules with functions and variables that are private to the library module. Private functions and variables are useful when you have certain code you do not want to expose to users of the library, but might be useful for functions for the library to use. To make functions and variables private, add <code>
+private</code>
+ to the function or variable declaration syntax as follows:</Body>
+<Code>
+<A ID="pgfId-1062481"></A>
+declare private function ....</Code>
+<Code>
+<A ID="pgfId-1062482"></A>
+declare private variable ....</Code>
+<Body>
+<A ID="pgfId-1062620"></A>
+Note that functions and variables in a main module are private by definition, so declaring them private only makes sense for library modules.</Body>
+<Heading-2>
+<A ID="pgfId-1062196"></A>
+<A ID="70280"></A>
+Functions With Side Effects</Heading-2>
+<Body>
+<A ID="pgfId-1058404"></A>
+The XQuery specification defines that XQuery programs produce only their return values, without producing any side effects; that is, without causing any changes to the run-time environment as a result of running the program (with the exception of <code>
+fn:trace</code>
+). MarkLogic Server has many enhancements that cause side effects. For example, there are functions that insert or update documents in a database. Since functions like the ones that update documents do more than functions that simply return values, they are extensions to the XQuery specification.</Body>
+<Body>
+<A ID="pgfId-1058425"></A>
+Side effects are extremely useful when building applications. Therefore, MarkLogic Server includes many functions that have side effects. The following are some examples of functions with side effects:</Body>
+<Body-bullet>
+<A ID="pgfId-1058405"></A>
+<code>
+xdmp:set</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1058409"></A>
+Update Built-ins (<code>
+xdmp:document-load</code>
+, <code>
+xdmp:node-insert</code>
+, and so on)</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1058410"></A>
+Administrative functions (<code>
+xdmp:merge</code>
+, Admin library, <code>
+xdmp:shutdown</code>
+, and so on)</Body-bullet>
+<Heading-2>
+<A ID="pgfId-1058451"></A>
+<A ID="92538"></A>
+Shorthand Positional Predicate Syntax</Heading-2>
+<Body>
+<A ID="pgfId-1058455"></A>
+MarkLogic Server enhanced mode supports the shorthand version of the positional predicate syntax, where you can specify the position numbers to include. For example, the following specifies the first three items in the sequence:</Body>
+<Code>
+<A ID="pgfId-1062652"></A>
+xquery version &quot;1.0-ml&quot;;
+(1, 2, 3, 4, 5, 5)[1 to 3]</Code>
+<Body>
+<A ID="pgfId-1062653"></A>
+In XQuery 1.0 strict mode (<code>
+1.0</code>
+), you must use the <code>
+fn:position()</code>
+ function as in the following example:</Body>
+<Code>
+<A ID="pgfId-1062666"></A>
+xquery version &quot;1.0&quot;;
+(1, 2, 3, 4, 5, 5)[fn:position() = (1 to 3)]</Code>
+<Heading-2>
+<A ID="pgfId-1058506"></A>
+<A ID="17425"></A>
+Binary Node Constructor and Node Test</Heading-2>
+<Body>
+<A ID="pgfId-1062225"></A>
+MarkLogic Server enhanced mode extends the XQuery types to include a binary node type. Binary nodes are used to store binary documents. To support this type, the MarkLogic Server enhanced XQuery dialect includes a node constructor (<code>
+binary</code>
+) to construct a binary node and a node test (<code>
+binary()</code>
+) to test whether a node is a binary node (for example, in a <code>
+typeswitch</code>
+ expression). These extensions are not available in the <code>
+1.0</code>
+ dialect.</Body>
+<Heading-2>
+<A ID="pgfId-1062224"></A>
+<A ID="90242"></A>
+validate as Expression</Heading-2>
+<Body>
+<A ID="pgfId-1063259"></A>
+In the <code>
+1.0-ml</code>
+ dialect, you can use the <code>
+validate as</code>
+ syntax to specify the type for a <code>
+validate</code>
+ expression. The <code>
+validate as</code>
+ expression is an extension to the XQuery 1.0 <code>
+validate</code>
+ expression, and it is only available in <code>
+1.0-ml</code>
+; it is not available in the <code>
+1.0</code>
+ dialect. For details on the <code>
+validate</code>
+ expression, see <A href="langoverview.xml#id(55039)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Validate Expression' on page&#160;39</A>. </Body>
+<Heading-2>
+<A ID="pgfId-1063263"></A>
+<A ID="35341"></A>
+Serialization Options</Heading-2>
+<Body>
+<A ID="pgfId-1063243"></A>
+You can set the serialization options in XQuery with the <code>
+declare option</code>
+ XQuery prolog. In XSLT, you can set the serialization options using the <code>
+&lt;xsl:output&gt;</code>
+ instruction. For details on setting the serialization options in XQuery, see <A href="langoverview.xml#id(47415)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Declaring Options' on page&#160;28</A>. For XSLT output details, see the XSLT specification (<Hyperlink>
+<A href="http://www.w3.org/TR/xslt#output" xml:link="simple" show="replace" actuate="user" CLASS="URL">http://www.w3.org/TR/xslt#output</A></Hyperlink>
+).</Body>
+<Heading-2>
+<A ID="pgfId-1062874"></A>
+<A ID="56907"></A>
+Importing a Stylesheet Into an XQuery Module</Heading-2>
+<Body>
+<A ID="pgfId-1063456"></A>
+Using the <code>
+1.0-ml</code>
+ dialect, you can import a XSLT stylesheet into an XQuery module, allowing you access to the functions and variables defined defined by that stylesheet. To import a stylesheet in XQuery, use a prolog expression of the following form:</Body>
+<Code>
+<A ID="pgfId-1063483"></A>
+import stylesheet at &quot;/path-to-stylesheet.xsl&quot;;</Code>
+<Body>
+<A ID="pgfId-1063494"></A>
+The following example shows an XQuery module that imports a stylesheet and runs a function in the stylesheet:</Body>
+<Code>
+<A ID="pgfId-1063517"></A>
+xquery version &quot;1.0-ml&quot;;
+
+(: assumes a stylesheet at /f.xsl with the following contents:
+&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot;
+&#160;&#160;&#160;version=&quot;2.0&quot; 	xmlns:foo=&quot;foo&quot;&gt;
+	&lt;xsl:function name=&quot;foo:foo&quot;&gt;foo&lt;/xsl:function&gt;
+&lt;/xsl:stylesheet&gt;
+:)
+
+import stylesheet at &quot;/f.xsl&quot;;
+declare namespace foo=&quot;foo&quot;;
+
+foo:foo()
+
+(: Returns the string:
+foo 
+which is the output of the 
+stylesheet function. :)</Code>
+<Body>
+<A ID="pgfId-1063463"></A>
+Similarly, you can import an XQuery module into an XSLT stylesheet, as described in <A href="xslt.xml#id(60484)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Importing XQuery Function Libraries to a Stylesheet' on page&#160;58</A>.</Body>
+<Note>
+<A ID="pgfId-1063694"></A>
+To use functions and variables from a stylesheet in XQuery, they should be defined in a namespace in the stylesheet. In XQuery, it is difficult to call functions and variables in no namespace. Therefore, the best practice is, for functions and variables in a stylesheet that you plan to import into an XQuery module, define them in a namespace. Note that in an XQuery library module, all function and variable declarations must be in a namespace.</Note>
+<Heading-2>
+<A ID="pgfId-1063449"></A>
+<A ID="39632"></A>
+Implementation-Defined Semantics</Heading-2>
+<Body>
+<A ID="pgfId-1058510"></A>
+The XQuery specification lists a number of items that are allowed to be defined by each implementation of XQuery:</Body>
+<Body>
+<A ID="pgfId-1058511"></A>
+<Hyperlink>
+<A href="http://www.w3.org/TR/xquery/#id-impl-defined-items" xml:link="simple" show="replace" actuate="user" CLASS="URL">http://www.w3.org/TR/xquery/#id-impl-defined-items</A></Hyperlink>
+</Body>
+<Body>
+<A ID="pgfId-1058512"></A>
+This section describes the following implementation-defined items as they are implemented in MarkLogic Server:</Body>
+<Body-bullet>
+<A ID="pgfId-1058567"></A>
+<A href="enhanced.xml#id(43418)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Automatic Namespace Imports for Predefined Namespaces</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1058574"></A>
+<A href="enhanced.xml#id(13660)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+External Variables</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1058614"></A>
+<A href="enhanced.xml#id(70304)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Collations</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1058619"></A>
+<A href="enhanced.xml#id(57670)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Implementation-Defined Primitive XQuery Types</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1062527"></A>
+<A href="enhanced.xml#id(83797)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Decimal Precision at Least 18 Digits, and is Not Configurable</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1062804"></A>
+<A href="enhanced.xml#id(20838)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Library Modules Default Function Namespace Defaults to Library Namespace</Hyperlink>
+</A></Body-bullet>
+<Note>
+<A ID="pgfId-1058531"></A>
+Except where noted, the items in this section apply all of the XQuery dialects supported in MarkLogic Server.</Note>
+<Heading-3>
+<A ID="pgfId-1058552"></A>
+<A ID="43418"></A>
+Automatic Namespace Imports for Predefined Namespaces</Heading-3>
+<Body>
+<A ID="pgfId-1058553"></A>
+Each dialect has a set of namespace prefixes that are predefined. For those predefined namespaces, it is not necessary to declare the prefix. For example, the <code>
+fn</code>
+ prefix is predefined in all of the dialects. For a list of predefined namespaces for each dialect, see <A href="namespaces.xml#id(21104)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Predefined Namespace Prefixes for Each Dialect' on page&#160;52</A>.</Body>
+<Note>
+<A ID="pgfId-1062683"></A>
+The <code>
+fn:</code>
+ prefix is bound to a different namespace in <code>
+1.0</code>
+ and <code>
+1.0-ml</code>
+ than in <code>
+0.9-ml</code>
+.</Note>
+<Heading-3>
+<A ID="pgfId-1058575"></A>
+<A ID="13660"></A>
+External Variables</Heading-3>
+<Body>
+<A ID="pgfId-1058586"></A>
+External variables are one of the things that the XQuery standard refers to as implementation-defined. In MarkLogic Server, external variables are implemented such that you can pass nodes and values into an XQuery program. To use external variables, you pass in external variables to the XQuery program (via <code>
+xdmp:invoke</code>
+, <code>
+xdmp:eval</code>
+, <code>
+xdmp:spawn</code>
+, or via XCC). The variables are passed in as pairs of QNames and values.</Body>
+<Body>
+<A ID="pgfId-1062061"></A>
+An XQuery program that accepts external variables must declare the external variables in its prolog, as in the following code snippet:</Body>
+<Code>
+<A ID="pgfId-1062062"></A>
+declare variable $my:variable as xs:string* external;</Code>
+<Body>
+<A ID="pgfId-1062063"></A>
+An XQuery program with this variable declaration would be able to use the string values passed into it via an external variable with the QName <code>
+my:variable</code>
+ (where the namespace prefix <code>
+my</code>
+ was declared somewhere in both the calling and called environments). You could then reference this variable in the XQuery program as in the following example:</Body>
+<Code>
+<A ID="pgfId-1062079"></A>
+xquery version &quot;1.0-ml&quot;;
+declare namespace my=&quot;myNamespace&quot;;
+declare variable $my:variable as xs:string* external;
+
+fn:concat(&quot;The value of $my:variable is: &quot;, $my:variable)</Code>
+<Body>
+<A ID="pgfId-1062086"></A>
+If you then call this module as follows (assuming the module can be resolved from the path <code>
+/extvar.xqy</code>
+.</Body>
+<Code>
+<A ID="pgfId-1062100"></A>
+xquery version &quot;1.0-ml&quot;;
+declare namespace my=&quot;myNamespace&quot;;
+
+xdmp:invoke(&quot;/extvar.xqy&quot;, (xs:QName(&quot;my:variable&quot;), &quot;my value&quot;))</Code>
+<Body>
+<A ID="pgfId-1062109"></A>
+This example returns the following string:</Body>
+<Code>
+<A ID="pgfId-1062114"></A>
+The value of $my:variable is: my value</Code>
+<Heading-3>
+<A ID="pgfId-1058587"></A>
+<A ID="70304"></A>
+Collations</Heading-3>
+<Body>
+<A ID="pgfId-1062843"></A>
+The XQuery specification allows collation names and default collation values to be determined by the implementation. MarkLogic Server uses collations to specify the sort order of strings, and it defines the URIs for the collations. Each query runs with a default collation, and that collation can come from the environment (each App Server has a default collation setting) or it can be specified in the XQuery program. Also, you can specify collations for string range indexes and for word lexicons to specify their sort order. For details about collations in MarkLogic Server, including the valid URIs for collations, see <A href="../search-dev-guide/encodings_collations.xml#id(40505)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Encodings and Collations</Hyperlink>
+</A> in the <Emphasis>
+Search Developer's Guide</Emphasis>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1062857"></A>
+<A ID="57670"></A>
+Implementation-Defined Primitive XQuery Types</Heading-3>
+<Body>
+<A ID="pgfId-1058603"></A>
+MarkLogic Server has extended the XQuery type system and added some primitive types. These types allow functions to operate on them and are very useful for programming. These types are not required by the XQuery specification, but neither are they in conflict with it because the specification allows implementation-specific primitive types. Therefore, these types are available in all of the XQuery dialects in MarkLogic Server (although in <code>
+1.0</code>
+, you need to import the namespace prefixes). The following are some of the built-in types in MarkLogic Server:</Body>
+<Body-bullet>
+<A ID="pgfId-1058604"></A>
+<code>
+cts:query</code>
+ (with many subtypes such as <code>
+cts:word-query</code>
+, <code>
+cts:element-query</code>
+, and so on)</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1058608"></A>
+<code>
+map:map</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1062009"></A>
+<code>
+cts:region</code>
+ (with subtypes <code>
+cts:box</code>
+, <code>
+cts:circle</code>
+, <code>
+cts:polygon</code>
+, and <code>
+cts:point</code>
+)</Body-bullet>
+<Heading-3>
+<A ID="pgfId-1062528"></A>
+<A ID="83797"></A>
+Decimal Precision at Least 18 Digits, and is Not Configurable</Heading-3>
+<Body>
+<A ID="pgfId-1062535"></A>
+MarkLogic Server does not include a facility to limit the maximum precision of a decimal. A decimal has a precision of at least 18 decimal digits (64-bits unsigned). For details, see the XML Schema specification (<Hyperlink>
+<A href="http://www.w3.org/TR/xmlschema-2/#decimal" xml:link="simple" show="replace" actuate="user" CLASS="URL">http://www.w3.org/TR/xmlschema-2/#decimal</A></Hyperlink>
+).</Body>
+<Heading-3>
+<A ID="pgfId-1062824"></A>
+<A ID="20838"></A>
+Library Modules Default Function Namespace Defaults to Library Namespace</Heading-3>
+<Body>
+<A ID="pgfId-1062825"></A>
+The default function namespace of an XQuery library module is the namespace of the library module. This allows you to declare functions in the library namespace without prefixing the functions. You can override the default function namespace with a <code>
+declare default function namespace</code>
+ declaration in the prolog of the library module. For library modules where you do not override the default function namespace (and as a general best-practice), you should prefix the XQuery-standard functions (functions with the <code>
+fn:</code>
+ prefix, which is bound to the <code>
+http://www.w3.org/2005/xpath-functions</code>
+ namespace) with the <code>
+fn:</code>
+ prefix. Note that main modules default function namespace defaults to the <code>
+fn:</code>
+ namespace, which is different from library modules. </Body>
+</XML>

@@ -1,0 +1,880 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="filters.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1065677"></A>
+Filtering Replicated Documents</Heading-1>
+<pagenum>
+<A ID="pgfId-1066185"></A>
+54</pagenum>
+<Body>
+<A ID="pgfId-1066092"></A>
+Documents may be optionally filtered as part of the replication process by configuring a filter module for the target in the master's configuration. You can create a filter module, place it in the modules database for the replicated domain, and specify it at the bottom of the Database Replication Target page.</Body>
+<Body>
+<A ID="pgfId-1067369"></A>
+When a document is replicated, the document node, along with either an update or delete node, are sent by the Master to the Replicas. You can create filters to modify the contents of the document, update or delete node before it is sent to the Replicas.</Body>
+<Body>
+<A ID="pgfId-1072658"></A>
+This chapter includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1072669"></A>
+<A href="filters.xml#id(64435)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Configuring MarkLogic Server to use a Replication Filter Module</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1072683"></A>
+<A href="filters.xml#id(84338)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating a Filter Module</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1072705"></A>
+<A href="filters.xml#id(72621)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Example Filters</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1072727"></A>
+<A href="filters.xml#id(26143)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Setting Filter Options</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1066902"></A>
+<A ID="64435"></A>
+Configuring MarkLogic Server to use a Replication Filter Module</Heading-2>
+<Body>
+<A ID="pgfId-1066912"></A>
+To configure MarkLogic Server to use a replication filter module, do the following:</Body>
+<Number1>
+<A ID="pgfId-1066829"></A>
+Navigate to the Domain Definition page for the replicated domain, as described in <A href="configuring.xml#id(44393)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Defining Replicated Domains' on page&#160;23</A>. At the bottom of the page, specify the location of your replication filters. The default location for filters is the root directory in the modules database for the replicated domain:</Number1>
+<Body-indent>
+<A ID="pgfId-1066836"></A>
+<IMAGE xml:link="simple" href="images/filter-context.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1066843"></A>
+Navigate to the Replication Target page, as described in <A href="configuring.xml#id(23790)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Configuring Push Replication' on page&#160;27</A>. At the bottom of the page, specify the name of the replication filter module to be used:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1071212"></A>
+<IMAGE xml:link="simple" href="images/filter-module.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<Heading-2>
+<A ID="pgfId-1071861"></A>
+<A ID="84338"></A>
+Creating a Filter Module</Heading-2>
+<Body>
+<A ID="pgfId-1071862"></A>
+You can create replication filters to modify the document node, update node, or delete node before it is replicated to the target. If no document node follows the update node in the sequence, the document's root node will be removed on the Replica. If the filter returns an empty sequence, the framework will not replicate the document to the target. </Body>
+<Body>
+<A ID="pgfId-1071257"></A>
+If the filter returns multiple update nodes, they will all be applied to the target. This could be used to break a replicated document apart into multiple documents on the target.</Body>
+<Body>
+<A ID="pgfId-1066098"></A>
+A replication filter receives the following external variables as parameters:</Body>
+<Code>
+<A ID="pgfId-1066808"></A>
+declare variable $flexrep:uri as xs:string external;
+declare variable $flexrep:target as element(flexrep:target) external;
+declare variable $flexrep:update as element() external;
+declare variable $flexrep:doc as document-node()? external;</Code>
+<Body>
+<A ID="pgfId-1073852"></A>
+The <code>
+$flexrep:target</code>
+ variable contains the replication target configuration and the <code>
+$flexrep:doc</code>
+ variable identifies the replicated document node. The <code>
+$flexrep:update</code>
+ variable will be either a <code>
+flexrep:update</code>
+ or a <code>
+flexrep:delete</code>
+ node. Following is an example of each to illustrate the contained information (in the flexrep namespace). </Body>
+<Body>
+<A ID="pgfId-1074143"></A>
+A <code>
+flexrep:update</code>
+ node looks like:</Body>
+<Code>
+<A ID="pgfId-1075127"></A>
+&lt;flexrep:update
+&#160;&#160;xmlns:flexrep=&quot;http://marklogic.com/xdmp/flexible-replication&quot;&gt;
+&#160;&#160;&#160;&#160;&lt;doc:uri xmlns:doc=&quot;xdmp:document-load&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;/content/myDoc.xml
+&#160;&#160;&#160;&#160;&lt;/doc:uri&gt;
+&#160;&#160;&#160;&#160;&lt;flexrep:last-updated&gt;
+2010-09-29T14:08:28.391-07:00
+&#160;&#160;&#160;&#160;&lt;/flexrep:last-updated&gt;
+&#160;&#160;&#160;&#160;&lt;doc:format xmlns:doc=&quot;xdmp:document-load&quot;&gt;xml&lt;/doc:format&gt;
+&#160;&#160;&#160;&#160;&lt;flexrep:permissions&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;flexrep:permission&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sec:role-name xmlns:sec=&quot;http://marklogic.com/xdmp/security&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;admin
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/sec:role-name&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sec:capability
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;xmlns:sec=&quot;http://marklogic.com/xdmp/security&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;read
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/sec:capability&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;/flexrep:permission&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;flexrep:permission&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sec:role-name xmlns:sec=&quot;http://marklogic.com/xdmp/security&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;admin
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/sec:role-name&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sec:capability
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;xmlns:sec=&quot;http://marklogic.com/xdmp/security&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;update
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/sec:capability&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;/flexrep:permission&gt;
+&#160;&#160;&#160;&#160;&lt;/flexrep:permissions&gt;
+&#160;&#160;&#160;&#160;&lt;doc:collections xmlns:doc=&quot;xdmp:document-load&quot;/&gt;
+&#160;&#160;&#160;&#160;&lt;doc:quality xmlns:doc=&quot;xdmp:document-load&quot;&gt;0&lt;/doc:quality&gt;
+&#160;&#160;&#160;&#160;&lt;flexrep:forests/&gt;
+&#160;&#160;&#160;&#160;&lt;prop:properties xmlns:prop=&quot;http://marklogic.com/xdmp/property&quot;/&gt;
+&lt;/flexrep:update&gt;</Code>
+<Body>
+<A ID="pgfId-1070133"></A>
+A <code>
+flexrep:delete</code>
+ node looks like:</Body>
+<Code>
+<A ID="pgfId-1067120"></A>
+&lt;flexrep:delete xmlns:flexrep=
+&#160;&#160;&quot;http://marklogic.com/xdmp/flexible-replication&quot;&gt;
+&#160;&#160;&#160;&#160;&lt;doc:uri xmlns:doc=&quot;xdmp:document-load&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;/content/myDoc.xml
+&#160;&#160;&#160;&#160;&lt;/doc:uri&gt;
+&#160;&#160;&#160;&#160;&lt;flexrep:last-updated&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;2010-03-04T14:35:12.714-08:00
+&#160;&#160;&#160;&#160;&lt;/flexrep:last-updated&gt;
+&lt;/flexrep:delete&gt;</Code>
+<Heading-2>
+<A ID="pgfId-1066531"></A>
+<A ID="72621"></A>
+Example Filters</Heading-2>
+<Body>
+<A ID="pgfId-1069727"></A>
+This section shows a number of filter examples. All of the filters return both an update and a document node in the case of a document update, or an update node only, in the case of a document delete. The examples in this section are:</Body>
+<Body-bullet>
+<A ID="pgfId-1069745"></A>
+<A href="filters.xml#id(28518)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Adding a Collection</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1069772"></A>
+<A href="filters.xml#id(64306)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Changing the Document Quality</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1069794"></A>
+<A href="filters.xml#id(23029)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Adding Document Permissions</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1076704"></A>
+<A href="filters.xml#id(89749)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Adding a Forest Name</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1071034"></A>
+<A href="filters.xml#id(19819)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Changing the Document URI</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1071799"></A>
+<A href="filters.xml#id(73387)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Changing a Document Element</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1072380"></A>
+<A href="filters.xml#id(16520)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Prohibiting Replication on Select Documents</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1074871"></A>
+The first example, <A href="filters.xml#id(28518)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Adding a Collection</Hyperlink>
+</A>, demonstrates how to use either an XQuery function or an XSL stylesheet to produce the same results. The remaining examples make use of XQuery functions, only.</Body>
+<Note>
+<A ID="pgfId-1069847"></A>
+Filter modules must be in the modules database for the replicated domain. You can either use <code>
+xdmp:document-insert</code>
+ to insert the module into the modules database or specify ‘(file system)' for the modules database and place the module in the <code>
+/MarkLogic/Modules</code>
+ directory.</Note>
+<Heading-3>
+<A ID="pgfId-1069728"></A>
+<A ID="28518"></A>
+Adding a Collection</Heading-3>
+<Body>
+<A ID="pgfId-1074752"></A>
+This section shows two filters that add a collection to replicated documents. The first example is a filter that makes use of an XQuery function. The second is a filter that makes use of an XSL stylesheet. Both filters produce the same results.</Body>
+<Body>
+<A ID="pgfId-1069834"></A>
+The following filter defines an XQuery function that iterates through the elements of the update node, locates the <code>
+doc:collections</code>
+ element, and inserts a <code>
+sec:uri </code>
+element with the value of <code>
+http://marklogic.com/flexrep/collection-two</code>
+:</Body>
+<Code>
+<A ID="pgfId-1066255"></A>
+xquery version &quot;1.0-ml&quot;;</Code>
+<Code>
+<A ID="pgfId-1066556"></A>
+declare namespace flexrep =
+&#160;&#160;&quot;http://marklogic.com/xdmp/flexible-replication&quot;;</Code>
+<Code>
+<A ID="pgfId-1066565"></A>
+declare namespace doc = &quot;xdmp:document-load&quot;;</Code>
+<Code>
+<A ID="pgfId-1066572"></A>
+declare variable $flexrep:uri as xs:string external;
+declare variable $flexrep:target as element(flexrep:target) external;
+declare variable $flexrep:update as element() external;
+declare variable $flexrep:doc as document-node()? external;</Code>
+<Code>
+<A ID="pgfId-1066586"></A>
+declare function local:add-my-collection(
+&#160;&#160;$update as element(flexrep:update))
+&#160;&#160;{
+&#160;&#160;&#160;&#160;element flexrep:update {
+&#160;&#160;&#160;&#160;&#160;&#160;$update/@*,
+&#160;&#160;&#160;&#160;&#160;&#160;for $n in $update/node()
+&#160;&#160;&#160;&#160;&#160;&#160;return
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;typeswitch($n)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;case element(doc:collections)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;return element doc:collections {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;element sec:uri
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{ &quot;http://marklogic.com/flexrep/collection-two&quot; }
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;default return $n
+&#160;&#160;&#160;&#160;}
+&#160;&#160;};</Code>
+<Code>
+<A ID="pgfId-1070702"></A>
+(
+&#160;&#160;xdmp:log(fn:concat(&quot;Filtering &quot;, $flexrep:uri)),
+&#160;&#160;typeswitch($flexrep:update)
+&#160;&#160;case element(flexrep:update)
+&#160;&#160;&#160;&#160;return (local:add-my-collection($flexrep:update), $flexrep:doc) 
+&#160;&#160;case element(flexrep:delete)
+&#160;&#160;&#160;&#160;return $flexrep:update
+&#160;&#160;default
+&#160;&#160;&#160;&#160;return fn:error((), &quot;FILTER-UNEXPECTED&quot;, ())
+)</Code>
+<Code>
+<A ID="pgfId-1073895"></A>
+</Code>
+<Body>
+<A ID="pgfId-1074799"></A>
+The following filter defines an XSLT stylesheet that creates a copy of the update node, locates the <code>
+doc:collections</code>
+ element, and inserts a <code>
+sec:uri </code>
+element with the value of <code>
+http://marklogic.com/flexrep/collection-two</code>
+:</Body>
+<Code>
+<A ID="pgfId-1074185"></A>
+xquery version &quot;1.0-ml&quot;;</Code>
+<Code>
+<A ID="pgfId-1074499"></A>
+declare namespace flexrep = &quot;http://marklogic.com/xdmp/flexible-replication&quot;;
+declare namespace doc = &quot;xdmp:document-load&quot;;
+declare variable $flexrep:uri as xs:string external;
+declare variable $flexrep:target as element(flexrep:target) external;
+declare variable $flexrep:update as element() external;
+declare variable $flexrep:doc as document-node()? external;</Code>
+<Code>
+<A ID="pgfId-1074506"></A>
+let $stylesheet :=
+&#160;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;xmlns:doc = &quot;xdmp:document-load&quot;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;xmlns:sec=&quot;http://marklogic.com/xdmp/security&quot;  
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;version=&quot;2.0&quot;&gt;     
+&#160;&#160;&#160;&lt;!-- Default recursive copy transform --&gt;
+&#160;&#160;&#160;&lt;xsl:template match=&quot;@*|node()&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&lt;xsl:copy&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:apply-templates select=&quot;@*|node()&quot;/&gt;
+&#160;&#160;&#160;&#160;&#160;&lt;/xsl:copy&gt;
+&#160;&#160;&#160;&lt;/xsl:template&gt;</Code>
+<Code>
+<A ID="pgfId-1074609"></A>
+&#160;&#160;&#160;&lt;!-- Add my collection to the existing collections  --&gt;
+&#160;&#160;&#160;&lt;xsl:template match=&quot;doc:collections&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&lt;xsl:copy&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:apply-templates select=&quot;node()&quot;/&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sec:uri&gt;http://marklogic.com/flexrep/collection-two&lt;/sec:uri&gt;
+&#160;&#160;&#160;&#160;&#160;&lt;/xsl:copy&gt;
+&#160;&#160;&#160;&lt;/xsl:template&gt;
+&#160;&lt;/xsl:stylesheet&gt;</Code>
+<Code>
+<A ID="pgfId-1074619"></A>
+return (
+&#160;&#160;xdmp:log(fn:concat(&quot;Filtering &quot;, $flexrep:uri)),
+&#160;&#160;typeswitch($flexrep:update)
+&#160;&#160;case element(flexrep:update)
+&#160;&#160;&#160;&#160;return (
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;xdmp:xslt-eval($stylesheet, $flexrep:update)/flexrep:update,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;$flexrep:doc) 
+&#160;&#160;case element(flexrep:delete)
+&#160;&#160;&#160;&#160;return $flexrep:update
+&#160;&#160;default
+&#160;&#160;&#160;&#160;return fn:error((), &quot;FILTER-UNEXPECTED&quot;, ())
+)</Code>
+<Body>
+<A ID="pgfId-1070703"></A>
+Either of the above filters will convert the update node to:</Body>
+<Code>
+<A ID="pgfId-1075776"></A>
+&lt;flexrep:update xmlns:flexrep=
+&#160;&#160;&quot;http://marklogic.com/xdmp/flexible-replication&quot;&gt;
+&#160;&#160;&#160;&#160;........
+&#160;&#160;&#160;&#160;&lt;doc:collections xmlns:doc=&quot;xdmp:document-load&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sec:uri xmlns:sec=&quot;http://marklogic.com/xdmp/security&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;http://marklogic.com/flexrep/collection-two
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/sec:uri&gt;
+&#160;&#160;&#160;&#160;&lt;/doc:collections&gt;
+&#160;&#160;&#160;&#160;........
+&#160;&#160;&#160;&#160;&lt;prop:properties xmlns:prop=&quot;http://marklogic.com/xdmp/property&quot;/&gt;
+&lt;/flexrep:update&gt;</Code>
+<Heading-3>
+<A ID="pgfId-1070706"></A>
+<A ID="64306"></A>
+Changing the Document Quality</Heading-3>
+<Body>
+<A ID="pgfId-1071903"></A>
+The following filter changes the quality of documents to 3. This is done by iterating through the elements of the update node, locating the <code>
+doc:document-quality</code>
+ element, and resetting its value to 3.</Body>
+<Code>
+<A ID="pgfId-1067960"></A>
+xquery version &quot;1.0-ml&quot;;</Code>
+<Code>
+<A ID="pgfId-1068525"></A>
+declare namespace flexrep =
+&#160;&#160;&quot;http://marklogic.com/xdmp/flexible-replication&quot;;</Code>
+<Code>
+<A ID="pgfId-1068543"></A>
+declare namespace doc = &quot;xdmp:document-load&quot;;</Code>
+<Code>
+<A ID="pgfId-1068550"></A>
+declare variable $flexrep:uri as xs:string external;
+declare variable $flexrep:target as element(flexrep:target) external;
+declare variable $flexrep:update as element() external;
+declare variable $flexrep:doc as document-node()? external;</Code>
+<Code>
+<A ID="pgfId-1068557"></A>
+declare function local:change-quality($update as element(flexrep:update))
+{
+&#160;&#160;element flexrep:update {
+&#160;&#160;&#160;&#160;$update/@*,
+&#160;&#160;&#160;&#160;for $n in $update/node()
+&#160;&#160;&#160;&#160;return
+&#160;&#160;&#160;&#160;&#160;&#160;typeswitch($n)
+&#160;&#160;&#160;&#160;&#160;&#160;case element(doc:quality)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;return element doc:quality   { 3 }
+&#160;&#160;&#160;&#160;&#160;&#160;default return $n
+&#160;&#160;}
+};</Code>
+<Code>
+<A ID="pgfId-1070695"></A>
+(
+  xdmp:log(fn:concat(&quot;Filtering &quot;, $flexrep:uri)),
+  typeswitch($flexrep:update)
+  case element(flexrep:update)
+    return (local:change-quality($flexrep:update), $flexrep:doc) 
+  case element(flexrep:delete)
+    return $flexrep:update
+  default
+    return fn:error((), &quot;FILTER-UNEXPECTED&quot;, ())
+)</Code>
+<Body>
+<A ID="pgfId-1070696"></A>
+This will convert the update node to:</Body>
+<Code>
+<A ID="pgfId-1073942"></A>
+&lt;flexrep:update xmlns:flexrep=
+&#160;&#160;&quot;http://marklogic.com/xdmp/flexible-replication&quot;&gt;
+&#160;&#160;&#160;&#160;........
+&#160;&#160;&#160;&#160;&lt;doc:quality xmlns:doc=&quot;xdmp:document-load&quot;&gt;3&lt;/doc:quality&gt;
+&#160;&#160;&#160;&#160;........
+&lt;/flexrep:update&gt;</Code>
+<Heading-3>
+<A ID="pgfId-1070699"></A>
+<A ID="23029"></A>
+Adding Document Permissions</Heading-3>
+<Body>
+<A ID="pgfId-1071165"></A>
+The following filter adds read and update permission for users with the 'developer' role to documents. This is done by iterating through the elements of the update node, locating the <code>
+doc:permissions</code>
+ element, and inserting <code>
+sec:permission</code>
+ elements containing <code>
+sec:capability</code>
+ and <code>
+sec:role-id</code>
+ elements that establish read and update permissions for 'developer' users.</Body>
+<Code>
+<A ID="pgfId-1069258"></A>
+xquery version &quot;1.0-ml&quot;;</Code>
+<Code>
+<A ID="pgfId-1069259"></A>
+declare namespace flexrep =
+&#160;&#160;&quot;http://marklogic.com/xdmp/flexible-replication&quot;;</Code>
+<Code>
+<A ID="pgfId-1069260"></A>
+declare namespace doc = &quot;xdmp:document-load&quot;;</Code>
+<Code>
+<A ID="pgfId-1069250"></A>
+declare variable $flexrep:uri as xs:string external;
+declare variable $flexrep:target as element(flexrep:target) external;
+declare variable $flexrep:update as element() external;
+declare variable $flexrep:doc as document-node()? external;</Code>
+<Code>
+<A ID="pgfId-1071200"></A>
+declare function local:change-permission(
+&#160;&#160;$update as element(flexrep:update))
+{
+&#160;&#160;element flexrep:update {
+&#160;&#160;&#160;&#160;$update/@*,
+&#160;&#160;&#160;&#160;for $n in $update/node()
+&#160;&#160;&#160;&#160;return
+&#160;&#160;&#160;&#160;&#160;&#160;typeswitch($n)
+&#160;&#160;&#160;&#160;&#160;&#160;case element(flexrep:permissions)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;return element flexrep:permissions {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$n/flexrep:permission ,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;element flexrep:permission  { 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;element sec:role-name { &quot;developer&quot; },
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;element sec:capability  { &quot;read&quot; }
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;},
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;element flexrep:permission  { 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;element sec:role-name { &quot;developer&quot; },
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;element sec:capability  { &quot;update&quot; }
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}
+&#160;&#160;&#160;&#160;&#160;&#160;default return $n
+&#160;&#160;}
+};</Code>
+<Code>
+<A ID="pgfId-1069598"></A>
+(
+&#160;&#160;xdmp:log(fn:concat(&quot;Filtering &quot;, $flexrep:uri)),
+&#160;&#160;typeswitch($flexrep:update)
+&#160;&#160;case element(flexrep:update)
+&#160;&#160;&#160;&#160;return (local:change-permission($flexrep:update), $flexrep:doc) 
+&#160;&#160;case element(flexrep:delete)
+&#160;&#160;&#160;&#160;return $flexrep:update
+&#160;&#160;default
+&#160;&#160;&#160;&#160;return fn:error((), &quot;FILTER-UNEXPECTED&quot;, ())
+)</Code>
+<Body>
+<A ID="pgfId-1069235"></A>
+This will convert the update node to:</Body>
+<Code>
+<A ID="pgfId-1076688"></A>
+&lt;flexrep:update xmlns:flexrep=
+&#160;&#160;&quot;http://marklogic.com/xdmp/flexible-replication&quot;&gt;
+&#160;&#160;&#160;&#160;........
+&#160;&#160;&#160;&#160;&lt;flexrep:permissions&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;flexrep:permission&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sec:role-name xmlns:sec=&quot;http://marklogic.com/xdmp/security&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;admin
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/sec:role-name&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sec:capability
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;xmlns:sec=&quot;http://marklogic.com/xdmp/security&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;read
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/sec:capability&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;/flexrep:permission&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;flexrep:permission&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sec:role-name xmlns:sec=&quot;http://marklogic.com/xdmp/security&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;admin
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/sec:role-name&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sec:capability
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;xmlns:sec=&quot;http://marklogic.com/xdmp/security&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;update
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/sec:capability&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;/flexrep:permission&gt;
+&#160;&#160;&#160;&#160;&lt;/flexrep:permissions&gt;
+&#160;&#160;&#160;&#160;&lt;flexrep:permissions&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;flexrep:permission&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sec:role-name xmlns:sec=&quot;http://marklogic.com/xdmp/security&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;developer
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/sec:role-name&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sec:capability
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;xmlns:sec=&quot;http://marklogic.com/xdmp/security&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;read
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/sec:capability&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;/flexrep:permission&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;flexrep:permission&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sec:role-name xmlns:sec=&quot;http://marklogic.com/xdmp/security&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;developer
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/sec:role-name&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sec:capability
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;xmlns:sec=&quot;http://marklogic.com/xdmp/security&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;update
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/sec:capability&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;/flexrep:permission&gt;
+&#160;&#160;&#160;&#160;&lt;/flexrep:permissions&gt;
+&#160;&#160;&#160;&#160;........
+&lt;/flexrep:update&gt;</Code>
+<Heading-3>
+<A ID="pgfId-1076689"></A>
+<A ID="89749"></A>
+Adding a Forest Name</Heading-3>
+<Body>
+<A ID="pgfId-1076690"></A>
+The following filter adds the forest name, <code>
+myFavoriteForest</code>
+, to the update node. MarkLogic Server maps the forest name to its ID and passes it to the <code>
+xdmp:document-insert</code>
+ function to insert the document into the named forest. If you specify multiple forests, MarkLogic Server will insert the document into one of them. See the documentation for the <code>
+xdmp:document-insert</code>
+ function for more information.</Body>
+<Code>
+<A ID="pgfId-1076539"></A>
+xquery version &quot;1.0-ml&quot;;</Code>
+<Code>
+<A ID="pgfId-1076777"></A>
+declare namespace flexrep =
+&#160;&#160;&quot;http://marklogic.com/xdmp/flexible-replication&quot;;</Code>
+<Code>
+<A ID="pgfId-1076541"></A>
+declare namespace doc = &quot;xdmp:document-load&quot;;</Code>
+<Code>
+<A ID="pgfId-1076784"></A>
+declare variable $flexrep:uri as xs:string external;
+declare variable $flexrep:target as element(flexrep:target) external;
+declare variable $flexrep:update as element() external;
+declare variable $flexrep:doc as document-node()? external;</Code>
+<Code>
+<A ID="pgfId-1076543"></A>
+declare function local:add-forest(
+&#160;&#160;$update as element(flexrep:update))
+&#160;&#160;{
+&#160;&#160;&#160;&#160;element flexrep:update {
+&#160;&#160;&#160;&#160;&#160;&#160;$update/@*,
+&#160;&#160;&#160;&#160;&#160;&#160;for $n in $update/node()
+&#160;&#160;&#160;&#160;&#160;&#160;return
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;typeswitch($n)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;case element(flexrep:forests)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;return element flexrep:forests {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;element flexrep:forest { &quot;myFavoriteForest&quot; }
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;default return $n
+&#160;&#160;&#160;&#160;}
+&#160;&#160;};</Code>
+<Code>
+<A ID="pgfId-1076791"></A>
+(
+&#160;&#160;xdmp:log(fn:concat(&quot;Filtering &quot;, $flexrep:uri)),
+&#160;&#160;typeswitch($flexrep:update)
+&#160;&#160;case element(flexrep:update)
+&#160;&#160;&#160;&#160;return (local:add-forest($flexrep:update), $flexrep:doc) 
+&#160;&#160;case element(flexrep:delete)
+&#160;&#160;&#160;&#160;return $flexrep:update
+&#160;&#160;default
+&#160;&#160;&#160;&#160;return fn:error((), &quot;FILTER-UNEXPECTED&quot;, ())
+)</Code>
+<Body>
+<A ID="pgfId-1076600"></A>
+This will convert the update node to:</Body>
+<Code>
+<A ID="pgfId-1076620"></A>
+&lt;flexrep:update xmlns:flexrep=
+&#160;&#160;&quot;http://marklogic.com/xdmp/flexible-replication&quot;&gt;
+&#160;&#160;&#160;&#160;........
+&#160;&#160;&#160;&#160;&lt;flexrep:forests&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;flexrep:forest&gt;myFavoriteForest&lt;/flexrep:forest&gt;
+&#160;&#160;&#160;&#160;&lt;/flexrep:forests&gt;
+&#160;&#160;&#160;&#160;........
+&lt;/flexrep:update&gt;</Code>
+<Heading-3>
+<A ID="pgfId-1070147"></A>
+<A ID="19819"></A>
+Changing the Document URI</Heading-3>
+<Body>
+<A ID="pgfId-1070154"></A>
+The following filter adds <code>
+/replicated/</code>
+ to the front of each document URI. This is done by iterating through the elements of the update node, locating the <code>
+doc:uri</code>
+ element and adding <code>
+/replicated/</code>
+ to its value.</Body>
+<Code>
+<A ID="pgfId-1070448"></A>
+xquery version &quot;1.0-ml&quot;;</Code>
+<Code>
+<A ID="pgfId-1070449"></A>
+declare namespace flexrep =
+&#160;&#160;&quot;http://marklogic.com/xdmp/flexible-replication&quot;;</Code>
+<Code>
+<A ID="pgfId-1070450"></A>
+declare namespace doc = &quot;xdmp:document-load&quot;;</Code>
+<Code>
+<A ID="pgfId-1070451"></A>
+declare variable $flexrep:uri as xs:string external;
+declare variable $flexrep:target as element(flexrep:target) external;
+declare variable $flexrep:update as element() external;
+declare variable $flexrep:doc as document-node()? external;</Code>
+<Code>
+<A ID="pgfId-1070169"></A>
+declare function local:change-permission($update as element(flexrep:update))
+{
+&#160;&#160;element flexrep:update {
+&#160;&#160;&#160;&#160;$update/@*,
+&#160;&#160;&#160;&#160;for $n in $update/node()
+&#160;&#160;&#160;&#160;return
+&#160;&#160;&#160;&#160;&#160;&#160;typeswitch($n)
+&#160;&#160;&#160;&#160;&#160;&#160;case element(doc:uri)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;return element doc:uri {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$n/doc:uri,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;element doc:uri { fn:concat(&quot;/replicated/&quot;, $n) }
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}
+&#160;&#160;&#160;&#160;&#160;&#160;default return $n
+&#160;&#160;}
+};</Code>
+<Code>
+<A ID="pgfId-1070591"></A>
+(
+&#160;&#160;xdmp:log(fn:concat(&quot;Filtering &quot;, $flexrep:uri)),
+&#160;&#160;typeswitch($flexrep:update)
+&#160;&#160;case element(flexrep:update)
+&#160;&#160;&#160;&#160;&#160;return (local:change-uri($flexrep:update), $flexrep:doc) 
+&#160;&#160;case element(flexrep:delete)
+&#160;&#160;&#160;&#160;return $flexrep:update
+&#160;&#160;default
+&#160;&#160;&#160;&#160;return fn:error((), &quot;FILTER-UNEXPECTED&quot;, ())
+)</Code>
+<Body>
+<A ID="pgfId-1070712"></A>
+This will convert the update node to:</Body>
+<Code>
+<A ID="pgfId-1070933"></A>
+&lt;flexrep:update xmlns:flexrep=
+&#160;&#160;&quot;http://marklogic.com/xdmp/flexible-replication&quot;&gt;
+&#160;&#160;&#160;&#160;&lt;doc:uri xmlns:doc=&quot;xdmp:document-load&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;doc:uri&gt;/replicated//content/foo.xml&lt;/doc:uri&gt;
+&#160;&#160;&#160;&#160;&lt;/doc:uri&gt;
+&#160;&#160;&#160;&#160;........
+&lt;/flexrep:update&gt;</Code>
+<Heading-3>
+<A ID="pgfId-1071323"></A>
+<A ID="73387"></A>
+Changing a Document Element</Heading-3>
+<Body>
+<A ID="pgfId-1072078"></A>
+The following filter changes all <code>
+&lt;PARA&gt;</code>
+ elements in replicated documents to <code>
+&lt;PARAGRAPH&gt;</code>
+ and leaves all of the other elements in the documents unchanged. This is done by iterating through the elements of the document node, locating each <code>
+PARA</code>
+ element and converting its value to <code>
+PARAGRAPH</code>
+.</Body>
+<Code>
+<A ID="pgfId-1071356"></A>
+xquery version &quot;1.0-ml&quot;;</Code>
+<Code>
+<A ID="pgfId-1071627"></A>
+declare namespace flexrep = &quot;http://marklogic.com/xdmp/flexible-replication&quot;;
+declare namespace doc = &quot;xdmp:document-load&quot;;</Code>
+<Code>
+<A ID="pgfId-1071634"></A>
+declare variable $flexrep:uri as xs:string external;
+declare variable $flexrep:target as element(flexrep:target) external;
+declare variable $flexrep:update as element() external;
+declare variable $flexrep:doc as document-node()* external;</Code>
+<Code>
+<A ID="pgfId-1071641"></A>
+declare function local:passthru($x as node()) as node()*
+{
+&#160;&#160;for $z in $x/node() return local:change-element($z)
+};</Code>
+<Code>
+<A ID="pgfId-1071648"></A>
+declare function local:change-element($x as node()) as node()*
+{
+&#160;&#160;typeswitch ($x)
+&#160;&#160;&#160;&#160;case document-node() return document {local:passthru($x)}
+&#160;&#160;&#160;&#160;case text() return $x
+&#160;&#160;&#160;&#160;case element (PARA) 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;return &lt;PARAGRAPH&gt;{local:passthru($x)}&lt;/PARAGRAPH&gt;
+&#160;&#160;&#160;&#160;default return element {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;fn:node-name($x)} {$x/@*, local:passthru($x)}
+};</Code>
+<Code>
+<A ID="pgfId-1071702"></A>
+(
+&#160;&#160;xdmp:log(fn:concat(&quot;Filtering &quot;, $flexrep:uri)),
+&#160;&#160;typeswitch($flexrep:update)
+&#160;&#160;case element(flexrep:update)
+&#160;&#160;&#160;&#160;return ($flexrep:update, local:change-element($flexrep:doc) ) 
+&#160;&#160;case element(flexrep:delete)
+&#160;&#160;&#160;&#160;return $flexrep:update
+&#160;&#160;default
+&#160;&#160;&#160;&#160;return fn:error((), &quot;FILTER-UNEXPECTED&quot;, ())
+)</Code>
+<Heading-3>
+<A ID="pgfId-1072154"></A>
+<A ID="16520"></A>
+Prohibiting Replication on Select Documents</Heading-3>
+<Body>
+<A ID="pgfId-1072155"></A>
+Should you want to prohibit replication on certain documents in a replicated domain, you can add a property to the document that flags it as a no-replicate document. You can then write a filter that checks for the property and determines whether or not to replicate the document, depending on the presence or value of the property.</Body>
+<Body>
+<A ID="pgfId-1072280"></A>
+For example, if the <code>
+/content</code>
+ directory is in a replicated domain, but you don't want to replicate the document, <code>
+/content/foo.xml</code>
+, you can assign the document a <code>
+replicate</code>
+ property with a value of <code>
+no</code>
+.</Body>
+<Code>
+<A ID="pgfId-1072346"></A>
+xquery version &quot;1.0-ml&quot;;</Code>
+<Code>
+<A ID="pgfId-1072323"></A>
+declare namespace prop = &quot;http://marklogic.com/xdmp/property&quot;;</Code>
+<Code>
+<A ID="pgfId-1072325"></A>
+xdmp:document-add-properties(
+&#160;&#160;&#160;&#160;&quot;/content/foo.xml&quot;,
+&#160;&#160;&#160;&#160;(&lt;prop:replicate&gt;no&lt;/prop:replicate&gt;) )</Code>
+<Body>
+<A ID="pgfId-1072294"></A>
+You can write a filter that looks for the <code>
+replicate</code>
+ property on each document. If the property is missing or it is some value other than <code>
+no</code>
+, then the document is replicated. If the property is set on the document and its value is <code>
+no</code>
+, then the document will not be replicated.</Body>
+<Code>
+<A ID="pgfId-1072315"></A>
+xquery version &quot;1.0-ml&quot;;</Code>
+<Code>
+<A ID="pgfId-1072157"></A>
+declare namespace flexrep =
+&#160;&#160;&quot;http://marklogic.com/xdmp/flexible-replication&quot;;</Code>
+<Code>
+<A ID="pgfId-1072158"></A>
+declare namespace doc = &quot;xdmp:document-load&quot;;</Code>
+<Code>
+<A ID="pgfId-1072159"></A>
+declare variable $flexrep:uri as xs:string external;
+declare variable $flexrep:target as element(flexrep:target) external;
+declare variable $flexrep:update as element() external;
+declare variable $flexrep:doc as document-node()? external;</Code>
+<Code>
+<A ID="pgfId-1072161"></A>
+(
+&#160;&#160;xdmp:log(fn:concat(&quot;Filtering &quot;, $flexrep:uri)),
+&#160;&#160;typeswitch($flexrep:update)
+&#160;&#160;case element(flexrep:update)
+&#160;&#160;&#160;&#160;return
+&#160;&#160;&#160;&#160;if (xdmp:document-properties($flexrep:uri)//prop:replicate = &quot;no&quot;)
+&#160;&#160;&#160;&#160;then ()
+&#160;&#160;&#160;&#160;else ($flexrep:update, $flexrep:doc) 
+&#160;&#160;case element(flexrep:delete)
+&#160;&#160;&#160;&#160;return $flexrep:update
+&#160;&#160;default
+&#160;&#160;&#160;&#160;return fn:error((), &quot;FILTER-UNEXPECTED&quot;, ())
+)</Code>
+<Heading-2>
+<A ID="pgfId-1071756"></A>
+<A ID="26143"></A>
+Setting Filter Options</Heading-2>
+<Body>
+<A ID="pgfId-1072560"></A>
+You can use the <code>
+flexrep:configuration-target-set-filter-options</code>
+ function to change the evaluation parameters used to invoke your replication filter. For example, you can specify filter options that determine which user can invoke the filter or on what database the filter is to be invoked. The options specified by the <code>
+flexrep:configuration-target-set-filter-options</code>
+ function are passed to the <code>
+xdmp:invoke</code>
+ function of the filter module, so any of the options you would specify in the <code>
+xdmp:eval</code>
+ function are recognized.</Body>
+<Body>
+<A ID="pgfId-1071348"></A>
+Filter options cannot be set in by the Admin Interface. You must set filter options programmatically using the flexrep API. The flexrep API is described in the <A href="../AdminAPI/flexrep.xml#id(87628)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Scripting Flexible Replication Configuration</Hyperlink>
+</A> chapter in the <Emphasis>
+Scripting Administrative Tasks Guide</Emphasis>
+ and the reference documentation for each function is in the <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+.</Body>
+<Body>
+<A ID="pgfId-1073344"></A>
+For example, you can write a module that specifies that the filter can only be invoked by the user John:</Body>
+<Code>
+<A ID="pgfId-1072774"></A>
+xquery version &quot;1.0-ml&quot;; </Code>
+<Code>
+<A ID="pgfId-1073099"></A>
+import module namespace flexrep = &#160;&#160;&#160;&quot;http://marklogic.com/xdmp/flexible-replication&quot; 
+&#160;&#160;&#160;&#160;&#160;&#160;at &quot;/MarkLogic/flexrep.xqy&quot;;</Code>
+<Code>
+<A ID="pgfId-1073108"></A>
+import module namespace trgr=&quot;http://marklogic.com/xdmp/triggers&quot; 
+&#160;&#160;&#160;at &quot;/MarkLogic/triggers.xqy&quot;;</Code>
+<Code>
+<A ID="pgfId-1073115"></A>
+let $trigger := trgr:get-trigger(&quot;cpf:update Replicated Content&quot;)</Code>
+<Code>
+<A ID="pgfId-1073360"></A>
+(: Obtain the id of the replicated CPF domain from the 
+&#160;&#160;&#160;Triggers database. :)</Code>
+<Code>
+<A ID="pgfId-1073124"></A>
+let $domain := xdmp:eval(
+&#160;&#160;&#160;&#160;'xquery version &quot;1.0-ml&quot;;
+&#160;&#160;&#160;&#160;import module namespace dom = &quot;http://marklogic.com/cpf/domains&quot; 
+&#160;&#160;&#160;&#160;&#160;&#160;at &quot;/MarkLogic/cpf/domains.xqy&quot;;
+&#160;&#160;&#160;&#160;fn:data(dom:get( &quot;Replicated Content&quot; )//dom:domain-id)',
+&#160;&#160;&#160;&#160;(),
+&#160;&#160;&#160;&#160;&lt;options xmlns=&quot;xdmp:eval&quot;&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;database&gt;{xdmp:database(&quot;MyTriggers&quot;)}&lt;/database&gt;
+&#160;&#160;&#160;&#160;&lt;/options&gt;)</Code>
+<Code>
+<A ID="pgfId-1073376"></A>
+(: Obtain the replication configuration. :)
+let $cfg := flexrep:configuration-get($domain, fn:true())</Code>
+<Code>
+<A ID="pgfId-1073388"></A>
+(: Obtain the ID of the replication target. :)
+let $target-id := flexrep:configuration-target-get-id($cfg, &quot;Replica&quot;)</Code>
+<Code>
+<A ID="pgfId-1073402"></A>
+(: Define a flexrep:filter-options element. :)
+let $filter-opts := 
+&#160;&#160;&lt;flexrep:filter-options&gt;
+&#160;&#160;&#160;&#160;&lt;user-id xmlns=&quot;xdmp:eval&quot;&gt;{xdmp:user(&quot;John&quot;)}&lt;/user-id&gt;
+&#160;&#160;&lt;/flexrep:filter-options&gt;</Code>
+<Code>
+<A ID="pgfId-1073473"></A>
+(: Set the flexrep:filter-options element. :)
+let $cfg := 
+&#160;&#160;flexrep:configuration-target-set-filter-options( 
+&#160;&#160;&#160;&#160;$cfg, 
+&#160;&#160;&#160;&#160;$target-id, 
+&#160;&#160;&#160;&#160;$filter-opts)</Code>
+<Code>
+<A ID="pgfId-1073499"></A>
+(: Save the new replication configuration. :)
+return flexrep:configuration-insert($cfg) </Code>
+<Code>
+<A ID="pgfId-1073299"></A>
+</Code>
+<Code>
+<A ID="pgfId-1073306"></A>
+</Code>
+</XML>

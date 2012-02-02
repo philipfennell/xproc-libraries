@@ -1,0 +1,713 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="relevance.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1053802"></A>
+<A ID="86523"></A>
+ Relevance Scores: Understanding and Customizing</Heading-1>
+<pagenum>
+<A ID="pgfId-1053806"></A>
+79</pagenum>
+<Body>
+<A ID="pgfId-1049471"></A>
+Search results in MarkLogic Server return in <Emphasis>
+relevance</Emphasis>
+ order; that is, the result that is most relevant to the <code>
+cts:query</code>
+ expression in the search is the first item in the search return sequence, and the least relevant is the last. There are several tools available to control the relevance score associated with a search result item. This chapter describes the different methods available to calculate relevance, and includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1053734"></A>
+<A href="relevance.xml#id(91509)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Understanding How Scores and Relevance are Calculated</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054928"></A>
+<A href="relevance.xml#id(48592)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+How Fragmentation and Index Options Influence Scores</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053738"></A>
+<A href="relevance.xml#id(22791)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Adding Weights to cts:query Expressions</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1058980"></A>
+<A href="relevance.xml#id(34743)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Proximity Boosting With the distance-weight Option</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054047"></A>
+<A href="relevance.xml#id(68032)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Interaction of Score and Quality</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054474"></A>
+<A href="relevance.xml#id(72512)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Using cts:score, cts:confidence, and cts:fitness</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054479"></A>
+<A href="relevance.xml#id(23654)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Relevance Order in cts:search Versus Document Order in XPath</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055005"></A>
+<A href="relevance.xml#id(32008)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Sample cts:search Expressions</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1054048"></A>
+<A ID="91509"></A>
+Understanding How Scores and Relevance are Calculated</Heading-2>
+<Body>
+<A ID="pgfId-1054049"></A>
+When you perform a <code>
+cts:search</code>
+ operation, MarkLogic Server produces a result set that includes items matching the <code>
+cts:query</code>
+ expression and, for each matching item, a <Emphasis>
+score</Emphasis>
+. The score is a number that is calculated based on statistical information, including the number of documents in a database, the frequency in which the search terms appear in the database, and the frequency in which the search term appears in the document. The relevance of a returned search item is determined based on its score compared with other scores in the result set, where items with higher scores are deemed to be more relevant to the search. By default, search results are returned in relevance order, so changing the scores can change the order in which search results are returned.</Body>
+<Body>
+<A ID="pgfId-1054543"></A>
+As part of a <code>
+cts:search</code>
+ expression, you can specify the following different methods for calculating the score, each of which uses a different formula in its score calculation: </Body>
+<Body-bullet>
+<A ID="pgfId-1054547"></A>
+<A href="relevance.xml#id(74166)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+log(tf)*idf Calculation</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054067"></A>
+<A href="relevance.xml#id(66768)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+log(tf) Calculation</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054072"></A>
+<A href="relevance.xml#id(37592)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Simple Term Match Calculation</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1058892"></A>
+<A href="relevance.xml#id(49589)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Random Score Calculation</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059880"></A>
+<A href="relevance.xml#id(40969)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Term Frequency Normalization</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1053901"></A>
+<A ID="74166"></A>
+log(tf)*idf Calculation</Heading-3>
+<Body>
+<A ID="pgfId-1054077"></A>
+The <code>
+logtfidf</code>
+ method of relevance calculation is the default relevance calculation, and it is the option <code>
+score-logtfidf</code>
+ of <code>
+cts:search</code>
+. The <code>
+logtfidf</code>
+ method takes into account term frequency (how often a term occurs in a single fragment) and document frequency (in how many documents does the term occur) when calculating the score. Most search engines use a relevance formula that is derived by some computation that takes into account term frequency and document frequency. </Body>
+<Body>
+<A ID="pgfId-1054424"></A>
+The <code>
+logtfidf</code>
+ method (the default scoring method) uses the following formula to calculate relevance:</Body>
+<Code>
+<A ID="pgfId-1054422"></A>
+log(term frequency) * (inverse document frequency)</Code>
+<Body>
+<A ID="pgfId-1054606"></A>
+The <code>
+term frequency</code>
+ is a normalized number representing how many terms are in a document. The term frequency is normalized to take into account the size of the document, so that a word that occurs 10 times in a 100 word document will get a higher score than a word that occurs 100 times in a 1,000 word document.</Body>
+<Body>
+<A ID="pgfId-1054597"></A>
+The <code>
+inverse document frequency</code>
+ is defined as:</Body>
+<Code>
+<A ID="pgfId-1054598"></A>
+log(1/df)</Code>
+<Body>
+<A ID="pgfId-1054628"></A>
+where <code>
+df</code>
+ (document frequency) is the number of documents in which the term occurs.</Body>
+<Body>
+<A ID="pgfId-1054635"></A>
+For most search-engine style relevance calculations, the <code>
+score-logtfidf</code>
+ method provides the most meaningful relevance scores. Inverse document frequency (IDF) provides a measurement of how 'information rich' a document is. For example, a search for 'the' or 'dog' would probably put more emphasis on the occurences of the term 'dog' than of the term 'the'.</Body>
+<Heading-3>
+<A ID="pgfId-1053905"></A>
+<A ID="66768"></A>
+log(tf) Calculation</Heading-3>
+<Body>
+<A ID="pgfId-1054085"></A>
+The option <code>
+score-logtf</code>
+ for <code>
+cts:search</code>
+ computes scores using the <code>
+logtf</code>
+ method, which does not take into account how many documents have the term. The <code>
+logtf</code>
+ method uses the following formula to calculate scores:</Body>
+<Code>
+<A ID="pgfId-1054440"></A>
+log(term frequency)</Code>
+<Body>
+<A ID="pgfId-1054651"></A>
+where the <code>
+term frequency</code>
+ is a normalized number representing how many terms are in a document. The term frequency is normalized to take into account the size of the document, so that a word that occurs 10 times in a 100 word document will get a higher score than a word that occurs 100 times in a 1,000 word document. </Body>
+<Body>
+<A ID="pgfId-1054663"></A>
+When you use the <code>
+logtf</code>
+ method, scores are based entirely on how many times a document matches the search term, and does not take into account the 'information richness' of the search terms.</Body>
+<Heading-3>
+<A ID="pgfId-1053928"></A>
+<A ID="37592"></A>
+Simple Term Match Calculation</Heading-3>
+<Body>
+<A ID="pgfId-1054093"></A>
+The option <code>
+score-simple</code>
+ on <code>
+cts:search</code>
+ performs a simple term-match calcuation to compute the scores. The <code>
+score-simple</code>
+ method gives a score of 8 for each matching term in the <code>
+cts:query</code>
+ expression. It does not matter how many times a given term matches (that is, the term frequency does not matter); each match contributes 8 to the score. For example, the following query (assume the default weight of 1) would give a score of 8 for any fragment with one or more matches for 'hello', a score of 16 for any fragment that also has one or more matches for 'goodbye', or a score of zero for fragments that have no matches for either term:</Body>
+<Code>
+<A ID="pgfId-1054575"></A>
+cts:or-query((&quot;hello&quot;, &quot;goodbye&quot;))</Code>
+<Body>
+<A ID="pgfId-1054667"></A>
+Use this option if you want the scores to only reflect whether a document matches terms in the query, and you do not want the score to be relative to frequency or 'information-richness' of the term.</Body>
+<Heading-3>
+<A ID="pgfId-1058903"></A>
+<A ID="49589"></A>
+Random Score Calculation</Heading-3>
+<Body>
+<A ID="pgfId-1058913"></A>
+The option <code>
+score-random</code>
+ on <code>
+cts:search</code>
+ computes a randomly-generated score for each search match. You can use this to randomly choose fragments matching a query. If you perform the same search multiple times using the <code>
+score-random</code>
+ option, you will get different ordering each time (because the scores are randomly generated at runtime for each search).</Body>
+<Heading-3>
+<A ID="pgfId-1059891"></A>
+<A ID="40969"></A>
+Term Frequency Normalization</Heading-3>
+<Body>
+<A ID="pgfId-1059901"></A>
+The scoring methods that take into account term frequency (<code>
+score-logtf</code>
+ and <code>
+score-tf</code>
+) will, by default, normalize the term frequency (how many search term matches there are for a document) based on the size of the document. The idea of this normalization is to take into account how frequent a term occurs in the document, relative to the other documents in the database. You can think of this is the density of terms in a document, as opposed to simply the frequency of the terms. Thr term frequency normalization makes a document that has, for example, 10 occurrences of the word <code>
+&quot;dog&quot;</code>
+ in a 10,000,000 word document have a lower relevance than a document that has 10 occurrences of the word <code>
+&quot;dog&quot;</code>
+ in a 100 words document. With the default term frequency normalization of <code>
+scaled-log</code>
+, the smaller document would have a higher score (and therefore be more relevant to the search), because it has a greater 'term density' of the word <code>
+&quot;dog&quot;</code>
+. For most search applications, this behavior is desirable.</Body>
+<Body>
+<A ID="pgfId-1059949"></A>
+If you would like to change that behavior, you can set the <code>
+tf normalization</code>
+ option on the database configuration to lessen or eliminate the effects of the size of the matching document in the score calculation, which in term would strengthen the effect of its term frequency (the number of matches in that document). The <code>
+unscaled-log</code>
+ option does no scaling based on document size, and the <code>
+scaled-log</code>
+ option (the default) does the maximum scaling of the document based on document size. Additionally, there are four intermediate settings, <code>
+weakest-scaled-log</code>
+, <code>
+weakly-scaled-log</code>
+, <code>
+moderately-scaled-log</code>
+, and <code>
+strongly-scaled-log</code>
+, which have increasing degrees of scaling in between none and the most scaling. If you change this setting in the database and <code>
+reindexer enable</code>
+ is set to <code>
+true</code>
+, then the database will begin reindexing. </Body>
+<Heading-2>
+<A ID="pgfId-1053745"></A>
+<A ID="48592"></A>
+How Fragmentation and Index Options Influence Scores</Heading-2>
+<Body>
+<A ID="pgfId-1054927"></A>
+Scores are calculated based on index data, and therefore based on unfiltered searches. That has several implications to scores:</Body>
+<Body-bullet>
+<A ID="pgfId-1054947"></A>
+Scores are fragment-based, so term frequency and document frequency are calculated based on term frequency per fragment and fragment frequency respectively.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054954"></A>
+Scores are based on unfiltered searches, so they include false-positive results. </Body-bullet>
+<Body>
+<A ID="pgfId-1054935"></A>
+Because scores are based on fragments and unfiltered searches, index options will affect scores, and in some case will make the scores more 'accurate'; that is, base the scores on searches that return fewer false-positive results. For example, if you have <code>
+word positions</code>
+ enabled in the database configuration, searches for three or more term phrases will have fewer false-positive matches, thereby improving the accuracy of the scores.</Body>
+<Body>
+<A ID="pgfId-1054974"></A>
+For details on unfiltered searches and how you can tell if there are false-positive matches, see 'Using Unfiltered Searches for Fast Pagination' in the <Emphasis>
+Query Performance and Tuning Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1054926"></A>
+<A ID="22791"></A>
+Adding Weights to cts:query Expressions</Heading-2>
+<Body>
+<A ID="pgfId-1054371"></A>
+You can add weights to the leaf-level <code>
+cts:query</code>
+ constructors to either boost or lower the constructor's contribution to the scores. The default weight of <code>
+cts:query</code>
+ constructors is 1.0. If you want to boost the contribution to the score from a particular <code>
+cts:query</code>
+ constructor, set the weight higher than 1.0. </Body>
+<Body>
+<A ID="pgfId-1054679"></A>
+If you want to lower the contribution to the score, set the weight between 0 and 1.0. If you want the contribution to the score to be 0, set the weight to 0. If you want the contribution to the score to be negative, set the weight to a negative number.</Body>
+<Body>
+<A ID="pgfId-1054836"></A>
+The scores are normalized, so the weights are not an absolute multiplier on the score. Instead, they indicate how much terms from that <code>
+cts:query</code>
+ constructor are weighted in comparison to other <code>
+cts:query</code>
+ constructors in the same expression. A weight of 2.0 will double the contribution to the score for terms that match that query. Similarly, a weight of 0.5 will half the contribution to the score for terms that match that query. In some cases, the score will reach a maximum, and a weight of 2.0 and a weight of 20,000 might end up yielding the same contribution to the score.</Body>
+<Body>
+<A ID="pgfId-1054991"></A>
+Adding weights is particularly useful if you have several components of your <code>
+cts:query</code>
+ expressions, and you want matches for some parts of the expression to be weighted more heavily than other parts. For an example of this, see <A href="relevance.xml#id(55913)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Increase the Score for some Terms, Decrease for Others' on page&#160;79</A>.</Body>
+<Heading-2>
+<A ID="pgfId-1054372"></A>
+<A ID="34743"></A>
+Proximity Boosting With the distance-weight Option</Heading-2>
+<Body>
+<A ID="pgfId-1058998"></A>
+If you have the <code>
+word positions</code>
+ indexing option enabled in your database, you can use the <code>
+distance-weight</code>
+ option to the leaf-level <code>
+cts:query</code>
+ constructors, and then all of the terms passed into that <code>
+cts:query</code>
+ constructors will consider the proximity of the terms to each other for the purposes of scoring. This proximity boosting will make documents with matches close together have higher scores. Because search results are sorted by score, it will have the effect of making documents having the search terms close together have higher relevance ranking. This section provides some examples that use the <code>
+distance-weight</code>
+ option along with explanations of the examples, and includes the following parts:</Body>
+<Body-bullet>
+<A ID="pgfId-1059595"></A>
+<A href="relevance.xml#id(44400)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Example of Simple Proximity Boosting</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059609"></A>
+<A href="relevance.xml#id(21623)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Using Proximity Boosting With cts:and-query Semantics</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1060089"></A>
+<A href="relevance.xml#id(85289)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Using cts:near-query to Achieve Proximity Boosting</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1059584"></A>
+<A ID="44400"></A>
+Example of Simple Proximity Boosting</Heading-3>
+<Body>
+<A ID="pgfId-1059035"></A>
+The distance weight is only applied to the matches for <code>
+cts:query</code>
+ constructors in which the <code>
+distance-weight</code>
+ occurs. For example, consider the following <code>
+cts:query</code>
+ constructor:</Body>
+<Code>
+<A ID="pgfId-1059068"></A>
+cts:word-query((&quot;cat&quot;, &quot;dog&quot;)), &quot;distance-weight=3&quot;)</Code>
+<Body>
+<A ID="pgfId-1059075"></A>
+If one document has an instance of <code>
+&quot;cat&quot;</code>
+ very near <code>
+&quot;dog&quot;</code>
+, and another document has the same number of <code>
+&quot;cat&quot;</code>
+ and <code>
+&quot;dog&quot;</code>
+ terms, but they are not very near, then the one with the <code>
+&quot;cat&quot;</code>
+ near <code>
+&quot;dog&quot;</code>
+ will have a higher score. </Body>
+<Body>
+<A ID="pgfId-1059127"></A>
+For example, consider the following:</Body>
+<Code>
+<A ID="pgfId-1060124"></A>
+xquery version &quot;1.0-ml&quot;;
+(: make sure word positions are enabled in the database :)
+(: 
+&#160;&#160;&#160;create 3 documents, then run two searches, one with
+&#160;&#160;&#160;distance-weight and one without, printing out the scores
+:)
+xdmp:document-insert(&quot;/2.xml&quot;, 
+  &lt;p&gt;The cat is pretty near a dog.&lt;/p&gt;) ;
+
+xdmp:document-insert(&quot;/1.xml&quot;, 
+  &lt;p&gt;The cat dog is very near.&lt;/p&gt;) ;
+
+xdmp:document-insert(&quot;/3.xml&quot;, 
+  &lt;p&gt;The cat is not very near the very large dog.&lt;/p&gt;) ;
+
+for $x in (cts:search(fn:doc(), cts:word-query((&quot;cat&quot;, &quot;dog&quot;) , 
+                               &quot;distance-weight=3&quot; ) ),
+           cts:search(fn:doc(), cts:word-query((&quot;cat&quot;, &quot;dog&quot;) ) ) )
+return
+element hit{attribute uri {xdmp:node-uri($x)}, 
+            attribute score {cts:score($x)},
+            attribute text{fn:string($x/p)}}</Code>
+<Body>
+<A ID="pgfId-1060125"></A>
+This returns the following results:</Body>
+<Code>
+<A ID="pgfId-1060126"></A>
+&lt;hit uri=&quot;/1.xml&quot; score=&quot;146&quot; text=&quot;The cat dog is very near.&quot;/&gt;
+&lt;hit uri=&quot;/2.xml&quot; score=&quot;140&quot; text=&quot;The cat is pretty near a dog.&quot;/&gt;
+&lt;hit uri=&quot;/3.xml&quot; score=&quot;135&quot; 
+&#160;&#160;&#160;&#160;&#160;text=&quot;The cat is not very near the very large dog.&quot;/&gt;
+&lt;hit uri=&quot;/3.xml&quot; score=&quot;72&quot; 
+&#160;&#160;&#160;&#160;&#160;text=&quot;The cat is not very near the very large dog.&quot;/&gt;
+&lt;hit uri=&quot;/2.xml&quot; score=&quot;72&quot; text=&quot;The cat is pretty near a dog.&quot;/&gt;
+&lt;hit uri=&quot;/1.xml&quot; score=&quot;72&quot; text=&quot;The cat dog is very near.&quot;/&gt;</Code>
+<Body>
+<A ID="pgfId-1059353"></A>
+Notice that the first three hits use the <code>
+distance-weight</code>
+, and the ones with the terms closer together have higher scores, and thus rank higher in the search. The last three hits have the same score because they all have the same number of each term in the <code>
+cts:query</code>
+ and there is no proximity taken into account in the scores. </Body>
+<Heading-3>
+<A ID="pgfId-1059569"></A>
+<A ID="21623"></A>
+Using Proximity Boosting With cts:and-query Semantics</Heading-3>
+<Body>
+<A ID="pgfId-1059617"></A>
+Because the <code>
+distance-weight</code>
+ option applies to the terms in individual <code>
+cts:query</code>
+ constructors, the terms are combined as an or-query (that is, any term match is a match for the query). Therefore, the example above would also return results for documents that contain <code>
+&quot;cat&quot;</code>
+ and not <code>
+&quot;dog&quot;</code>
+ and vice versa. If you want to have and-query semantics (that is, all terms must match for the query to match) and also have proximity boosting, you will have to construct a <code>
+cts:query</code>
+ that does an and of all of the terms in addition to the <code>
+cts:query</code>
+ with the <code>
+distance-weight</code>
+ option. </Body>
+<Body>
+<A ID="pgfId-1059685"></A>
+For example:</Body>
+<Code>
+<A ID="pgfId-1059719"></A>
+xquery version &quot;1.0-ml&quot;;
+cts:search(fn:doc(), cts:and-query((
+                       cts:word-query(&quot;cat&quot;),
+                       cts:word-query(&quot;dog&quot;),
+                       cts:word-query((&quot;cat&quot;, &quot;dog&quot;) , 
+                               &quot;distance-weight=3&quot; ) )) )</Code>
+<Body>
+<A ID="pgfId-1059708"></A>
+The difference between this query and the previous one is that the previous one would return a document that contained <code>
+&quot;cat&quot;</code>
+ but not <code>
+&quot;dog&quot;</code>
+ (or vice versa), and this one will only return documents containing both <code>
+&quot;cat&quot;</code>
+ and <code>
+&quot;dog&quot;</code>
+. </Body>
+<Body>
+<A ID="pgfId-1059796"></A>
+If you have a large corpus of documents and you expect to have many matches for your searches, then you might find you do not need to use the <code>
+cts:and-query</code>
+ approach. The reason a large corpus has an effect is because document frequency is taken into account in the relevance calculation, as described in <A href="relevance.xml#id(91509)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Understanding How Scores and Relevance are Calculated' on page&#160;70</A>. You might find that the most relevant documents still float to the top of your search even without the <code>
+cts:and-query</code>
+. What you do will depend on your application requirements, your preferences, and your data. </Body>
+<Heading-3>
+<A ID="pgfId-1060146"></A>
+<A ID="85289"></A>
+Using cts:near-query to Achieve Proximity Boosting</Heading-3>
+<Body>
+<A ID="pgfId-1060156"></A>
+Another technique that makes results with closer proximity have higher scores is to use <code>
+cts:near-query</code>
+. Searches that use the <code>
+cts:near-query</code>
+ constructor will take proximity into account when calculating scores, as long as the <code>
+word positions</code>
+ index option is enabled in the database. Additionally, you can use the <code>
+distance-weight</code>
+ parameter to further boost the effect of proximity on scoring. </Body>
+<Body>
+<A ID="pgfId-1060401"></A>
+Because <code>
+cts:near-query</code>
+ takes a <code>
+distance</code>
+ argument, you have to think about how near you want results to be in order for them to match. With the <code>
+distance</code>
+ parameter to <code>
+cts:near-query</code>
+, there is a tradeoff between the size of the <code>
+distance</code>
+ and performance. The higher the number for the <code>
+distance</code>
+, the more work MarkLogic Server does to resolve the query. For many queries, this amount of work might be very small, but for some complex queries it can be noticeable.</Body>
+<Body>
+<A ID="pgfId-1060203"></A>
+To construct a query that uses <code>
+cts:near-query</code>
+ for proximity boosting, pass the <code>
+cts:query</code>
+ for your search as the first parameter to a <code>
+cts:near-query</code>
+, and optionally add a <code>
+distance-weight</code>
+ parameter to further boost the proximity. The <code>
+cts:near-query</code>
+ matches will always take distance into account, but setting a <code>
+distance-weight</code>
+ will further boost the proximity weight. For example, consider how the following query, which uses the same data as the above examples, produces similar results:</Body>
+<Code>
+<A ID="pgfId-1060204"></A>
+xquery version &quot;1.0-ml&quot;;
+cts:search(fn:doc(), 
+&#160;&#160;&#160;cts:near-query(
+&#160;&#160;&#160;&#160;&#160;cts:and-query((
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;cts:word-query(&quot;cat&quot;),
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;cts:word-query(&quot;dog&quot;) )), 
+&#160;&#160;&#160;&#160;&#160;1000, (), 3) )</Code>
+<Body>
+<A ID="pgfId-1060195"></A>
+This query uses a <code>
+distance</code>
+ of 1,000, therefore documents that have <code>
+&quot;cat&quot;</code>
+ and <code>
+&quot;dog&quot;</code>
+ that are more than 1,000 words apart are not included in its result. The size you use is dependent on your data and the performance characteristics of your searches. If you were more concerned about missing document where the matches are more than 1,000 words away, then you should raise that number; if you are seeing performance issues and want faster performance, and you are OK with missing results that are above the distance threshold (which are probably not relevant anyway), then you should make the number smaller. For databases with a large amount of documents, keep in mind that not returning the documents with words that are far apart from each other will probably result in very similar search results, especially for the most relevant hits (because the results with the matches far apart have low relevance scores compared to the ones that have matches close together). </Body>
+<Heading-2>
+<A ID="pgfId-1058991"></A>
+<A ID="68032"></A>
+Interaction of Score and Quality</Heading-2>
+<Body>
+<A ID="pgfId-1054376"></A>
+Each document contains a quality value, and is set either at load time or with <code>
+xdmp:document-set-quality</code>
+. You can use the optional <code>
+$QualityWeight</code>
+ parameter to <code>
+cts:search</code>
+ to force document quality to have an impact on scores. The scores are then determined by the following formula:</Body>
+<Code>
+<A ID="pgfId-1054707"></A>
+Score = Score + (QualityWeight * Quality)</Code>
+<Body>
+<A ID="pgfId-1054756"></A>
+The default of <code>
+QualityWeight</code>
+ is 1.0 and the default quality on a document is 0, so by default, documents without any quality set have no quality impact on score. Documents that do have quality set, however, will have impact on the scores by default (because the default <code>
+QualityWeight</code>
+ is 1, effectively boosting the score by the document quality). </Body>
+<Body>
+<A ID="pgfId-1054772"></A>
+If you want quality to have a smaller impact on the score, set the <code>
+QualityWeight</code>
+ between 0 and 1.0. If you want the quality to have no impact on the score, set the <code>
+QualityWeight</code>
+ to 0. If you want the quality to have a larger impact on raising the score, set the <code>
+QualityWeight</code>
+ to a number greater than 1.0. If you want the quality to have a negative effect on scores, set the <code>
+QualityWeight</code>
+ to a negative number or set document quality to a negative number.</Body>
+<Note>
+<A ID="pgfId-1054791"></A>
+If you set document quality to a negative number and if you set <code>
+QualityWeight</code>
+ to a negative number, it will boost the score with a positive number.</Note>
+<Heading-2>
+<A ID="pgfId-1054375"></A>
+<A ID="72512"></A>
+Using cts:score, cts:confidence, and cts:fitness</Heading-2>
+<Body>
+<A ID="pgfId-1054378"></A>
+You can get the score for a result node by calling <code>
+cts:score</code>
+ on that node. The score is a number, where higher numbers indicate higher relevance for that particular result set. </Body>
+<Body>
+<A ID="pgfId-1055366"></A>
+Similarly, you can get the confidence by calling <code>
+cts:confidence</code>
+ on a result node. The confidence is a number (of type <code>
+xs:float</code>
+) between 0.0 and 1.0. The confidence number does not include any quality settings that might be on the document. Confidence scores are calculated by first bounding the scores between 0 and 1.0, and then taking the square root of the bounded number. </Body>
+<Body>
+<A ID="pgfId-1055370"></A>
+As an alternate to <code>
+cts:confidence</code>
+, you can get the fitness by calling <code>
+cts:fitness</code>
+ on a result node. The fitness is a number (of type <code>
+xs:float</code>
+) between 0.0 and 1.0. The fitness number does not include any quality settings that might be on the document, and it does not use document frequency in the calculation. Therefore, <code>
+cts:fitness</code>
+ returns a number indicating how well the returned node satisfies the query issued, which is subtly different from relevance, because it does not take into account other documents in the database. </Body>
+<Heading-2>
+<A ID="pgfId-1054377"></A>
+<A ID="23654"></A>
+Relevance Order in cts:search Versus Document Order in XPath</Heading-2>
+<Body>
+<A ID="pgfId-1055007"></A>
+When understanding the order an expression returns in, there are two main rules to consider:</Body>
+<Body-bullet>
+<A ID="pgfId-1055018"></A>
+<code>
+cts:search</code>
+ expressions always return in relevance order (the most relevant to the least relevant). </Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055022"></A>
+XPath expressions always return in document order.</Body-bullet>
+<Body>
+<A ID="pgfId-1055023"></A>
+A subtlety to note about these rules is that if a <code>
+cts:search</code>
+ expression is followed by some XPath steps, it turns the expression into an XPath expression and the results are therefore returned in document order. For example, consider the following query:</Body>
+<Code>
+<A ID="pgfId-1055038"></A>
+cts:search(fn:doc(), &quot;my search phrase&quot;)</Code>
+<Body>
+<A ID="pgfId-1055039"></A>
+This returns a relevance-ordered sequence of document nodes that contain the specified phrase. You can get the scores of each node by using <code>
+cts:score</code>
+. Things will change if you then add an XPath step to the expression as follows:</Body>
+<Code>
+<A ID="pgfId-1055043"></A>
+cts:search(fn:doc(), &quot;my search phrase&quot;)//TITLE</Code>
+<Body>
+<A ID="pgfId-1055044"></A>
+This will now return a <Emphasis>
+document-ordered</Emphasis>
+ sequence of <code>
+TITLE</code>
+ elements. Also, in order to compute the answer to this query, MarkLogic Server must first perform the search, and then reorder the search in document order to resolve the XPath expression. If you need to perform this type of query, it is usually more efficient (and often <Emphasis>
+much</Emphasis>
+ more efficient) to use <code>
+cts:contains</code>
+ in an XPath predicate as follows:</Body>
+<Code>
+<A ID="pgfId-1055078"></A>
+fn:doc()[cts:contains(., &quot;my search phrase&quot;)]//TITLE</Code>
+<Note>
+<A ID="pgfId-1055086"></A>
+In most cases, this form of the query (all XPath expression) will be much more efficient than the previous form (with the XPath step after the <code>
+cts:search</code>
+ expression). There might be some cases, however, where it might be less efficient, especially if the query is highly selective (does not match many fragments).</Note>
+<Body>
+<A ID="pgfId-1055142"></A>
+When you write queries as XPath expressions, MarkLogic Server does not compute scores, so if you need scores, you will need to use a <code>
+cts:search</code>
+ expression. Also, if you need a query like the above examples but need the results in relevance order, then you can put the search in a <code>
+FLWOR</code>
+ expression as follows:</Body>
+<Code>
+<A ID="pgfId-1055122"></A>
+for $x in cts:search(fn:doc(), &quot;my search phrase&quot;)
+return
+$x//TITLE</Code>
+<Body>
+<A ID="pgfId-1055126"></A>
+This is more efficient than the <code>
+cts:search</code>
+ with an XPath step following it, and returns relevance-ranked and scored results.</Body>
+<Heading-2>
+<A ID="pgfId-1055006"></A>
+<A ID="32008"></A>
+Sample cts:search Expressions</Heading-2>
+<Body>
+<A ID="pgfId-1053923"></A>
+This section lists several <code>
+cts:search</code>
+ expressions that include weight and/or quality parameters. It includes the following examples:</Body>
+<Body-bullet>
+<A ID="pgfId-1054810"></A>
+<A href="relevance.xml#id(40990)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Magnify the Score Boost for Documents With Quality</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054815"></A>
+<A href="relevance.xml#id(55913)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Increase the Score for some Terms, Decrease for Others</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1054811"></A>
+<A ID="40990"></A>
+Magnify the Score Boost for Documents With Quality</Heading-3>
+<Body>
+<A ID="pgfId-1054819"></A>
+The following search will make any documents that have a quality set (set either at load time or with <code>
+xdmp:document-set-quality</code>
+) give much higher scores than documents with no quality set.</Body>
+<Code>
+<A ID="pgfId-1054823"></A>
+cts:search(fn:doc(), cts:word-query(&quot;my phrase&quot;), (), 3.0)</Code>
+<Note>
+<A ID="pgfId-1054824"></A>
+For any documents that have a quality set to a negative number less than -1.0, this search will have the effect of lowering the score drastically for matches on those documents.</Note>
+<Heading-3>
+<A ID="pgfId-1054838"></A>
+<A ID="55913"></A>
+Increase the Score for some Terms, Decrease for Others</Heading-3>
+<Body>
+<A ID="pgfId-1054843"></A>
+The following search will boost the scores for documents that satisfy one query while decreasing the scores for documents that satisfy another query.</Body>
+<Code>
+<A ID="pgfId-1054859"></A>
+cts:search(fn:doc(), cts:and-query((
+&#160;&#160;cts:word-query(&quot;alfa&quot;, (), 2.0), cts:word-query(&quot;lada&quot;, (), 0.5)
+&#160;&#160;)) )</Code>
+<Body>
+<A ID="pgfId-1054842"></A>
+This search will boost the scores for documents that contain the word <code>
+alfa</code>
+ while lowering the scores for document that contain the word <code>
+lada</code>
+. For documents that contain both terms, the component of the score from the word <code>
+alfa</code>
+ is boosted while the component of the score from the word <code>
+lada</code>
+ is lowered.</Body>
+</XML>

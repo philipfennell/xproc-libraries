@@ -1,0 +1,11 @@
+
+			<ml:connection xmlns:admin="http://marklogic.com/xdmp/admin" xmlns:ml="http://www.marklogic.com"
+               xmlns:mla="http://www.marklogic.com/admin"
+               user="admin"
+               password="admin"
+               host="localhost"
+               port="8003"
+               debug="yes"
+               dry-run="no"
+               database-id="8801095745942019614"/>
+		

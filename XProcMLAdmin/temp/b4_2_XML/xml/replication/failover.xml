@@ -1,0 +1,593 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="failover.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1065677"></A>
+Checking Replication Status</Heading-1>
+<pagenum>
+<A ID="pgfId-1066185"></A>
+60</pagenum>
+<Body>
+<A ID="pgfId-1066456"></A>
+This chapter describes how to check replication status for a Master database, a domain, and a target. This chapter includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1066436"></A>
+<A href="failover.xml#id(73594)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Special Circumstances that Impact Replication</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1068634"></A>
+<A href="failover.xml#id(59686)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Checking the Replication Status of a Master Database</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1067615"></A>
+<A href="failover.xml#id(15980)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Checking the Replication Status of a Domain</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1067637"></A>
+<A href="failover.xml#id(48912)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Checking the Replication Status of a Target</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1068582"></A>
+<A ID="73594"></A>
+Special Circumstances that Impact Replication</Heading-2>
+<Body>
+<A ID="pgfId-1068592"></A>
+If the task server queue is more than half full, the Master Server will not push documents to the Replica and will instead leave it for the scheduled push task. This is to help avoid overflowing the task queue when ingesting at a high rate.</Body>
+<Body>
+<A ID="pgfId-1068611"></A>
+See <A href="../cpf/error.xml#id(76653)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Examining the Host and Task Server Status Pages For Tasks in the Queue</Hyperlink>
+</A> in the <Emphasis>
+Content Processing Framework Guide</Emphasis>
+ for information on checking the status of the task server.</Body>
+<Heading-2>
+<A ID="pgfId-1066302"></A>
+<A ID="59686"></A>
+<A ID="77852"></A>
+Checking the Replication Status of a Master Database</Heading-2>
+<Body>
+<A ID="pgfId-1066303"></A>
+You can check the replication status of a Master database by selecting the Flexible Replication icon under the Master database in the left tree menu and clicking on the Status tab on the Database Replication Administration page.</Body>
+<Body-indent>
+<A ID="pgfId-1066307"></A>
+<IMAGE xml:link="simple" href="images/rep-status-tab.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<Body>
+<A ID="pgfId-1066308"></A>
+The Outgoing Replication Status indicates the replication status for each replicated domain from the perspective of the Master database.</Body>
+<Body-indent>
+<A ID="pgfId-1066361"></A>
+<IMAGE xml:link="simple" href="images/rep_status_outgoing.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<TableAnchor>
+<A ID="pgfId-1067752"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1067705"></A>
+Field</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1067707"></A>
+Description</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067709"></A>
+Domain</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067711"></A>
+The name of the replicated domain.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067713"></A>
+Documents</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067715"></A>
+The number of documents in the domain on the Master.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067717"></A>
+Unpropertied </CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067719"></A>
+The number of documents in the replicated domain without a replication status. This generally means that these documents existed before the replication domain was configured and have not yet been replicated.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067721"></A>
+Deleted </CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067723"></A>
+The number of replicated documents that were deleted, but the delete has not yet been replicated.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067725"></A>
+Error</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067727"></A>
+The number of replication errors.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068311"></A>
+Pending</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068313"></A>
+The number of documents in the replicated domain that have not yet been replicated to the Replicas.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068315"></A>
+Partial</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068317"></A>
+The number of documents in the replicated domain that have been sent to one or more Replicas, but are pending or have errors for at least one Replica.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068319"></A>
+Deleted Targets</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068321"></A>
+The number of targets that were deleted from the replication configuration for this domain.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067729"></A>
+CPF Active</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067731"></A>
+The number of documents that are currently in the CPF pipeline.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067733"></A>
+CPF Error</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067735"></A>
+The number of documents that encountered an error while in the CPF pipeline.</CellBody>
+</CELL>
+</ROW>
+</TABLE>
+<Body>
+<A ID="pgfId-1067754"></A>
+The Incoming Replication Status indicates the replication status for each replicated domain from the perspective of the Replica database.</Body>
+<Body-indent>
+<A ID="pgfId-1066362"></A>
+<IMAGE xml:link="simple" href="images/rep_status_incoming.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<TableAnchor>
+<A ID="pgfId-1066974"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1066927"></A>
+Field</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1066929"></A>
+Description</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1066931"></A>
+Domain</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1066933"></A>
+The name of the replicated domain.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1066935"></A>
+Target</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1066937"></A>
+The name and id of the replication target.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1066939"></A>
+Source </CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1066941"></A>
+The IP address of the Master host server.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1066943"></A>
+Last Update</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1066945"></A>
+The date and time of the last replicated update.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1066947"></A>
+Status</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1066949"></A>
+The status of the last replicated update</CellBody>
+</CELL>
+</ROW>
+</TABLE>
+<Heading-2>
+<A ID="pgfId-1066363"></A>
+<A ID="15980"></A>
+Checking the Replication Status of a Domain</Heading-2>
+<Body>
+<A ID="pgfId-1067787"></A>
+You can check the replication status of a replicated domain by the following procedure:</Body>
+<Number1>
+<A ID="pgfId-1067970"></A>
+Select the domain icon under Flexible Replication in the left tree menu and click on the Status tab on the Database Replication Domain Administration page:</Number1>
+<Body-indent>
+<A ID="pgfId-1067942"></A>
+<IMAGE xml:link="simple" href="images/domain_rep_status0.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1067983"></A>
+The page containing the replication status of the domain appears:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1066367"></A>
+<IMAGE xml:link="simple" href="images/domain_rep_status.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<TableAnchor>
+<A ID="pgfId-1067097"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1067050"></A>
+Field</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1067052"></A>
+Description</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067118"></A>
+Target</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067120"></A>
+The name of the replication target.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067062"></A>
+Last Success</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067064"></A>
+The date and time of the last successful update to the target.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067086"></A>
+Pending</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067088"></A>
+The number of documents in the replicated domain that have not yet been replicated to the target.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067090"></A>
+Missing</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067092"></A>
+The number of documents missing replication properties. For example, documents that were already in the replicated domain before replication was configured.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067146"></A>
+Error</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067148"></A>
+The number of replication errors.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067094"></A>
+Last Error</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1067096"></A>
+The last replication error.</CellBody>
+</CELL>
+</ROW>
+</TABLE>
+<Heading-2>
+<A ID="pgfId-1066368"></A>
+<A ID="48912"></A>
+Checking the Replication Status of a Target</Heading-2>
+<Body>
+<A ID="pgfId-1067805"></A>
+You can check the replication status of a replication target by the following procedure:</Body>
+<Number1>
+<A ID="pgfId-1067912"></A>
+Select the domain icon under Flexible Replication in the left tree menu, selecting the target from the and clicking on the Status tab on the Database Replication Target Administration page.</Number1>
+<Body-indent>
+<A ID="pgfId-1067797"></A>
+<IMAGE xml:link="simple" href="images/flex-rep1.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1067886"></A>
+Click the Status tab on the Database Replication Target Administration page:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1067854"></A>
+<IMAGE xml:link="simple" href="images/target_rep_status0.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1068046"></A>
+The page containing the replication status of the target appears. The overall status of replicated documents to the target appears in the top field. The documents that failed to replicate are listed in the second field, along with last and next replication retry times. You can click Retry to retry replication on selected documents or Retry All Documents to retry replication on all of the documents in the list.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1068210"></A>
+<IMAGE xml:link="simple" href="images/target_rep_status.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<TableAnchor>
+<A ID="pgfId-1068263"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1068213"></A>
+Field</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1068215"></A>
+Description</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068217"></A>
+Target</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068219"></A>
+The name of the replication target.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068221"></A>
+Last Success</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068223"></A>
+The date and time of the last successful update to the target.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068225"></A>
+Pending</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068227"></A>
+The number of documents in the replicated domain that have not yet been replicated to the target.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068229"></A>
+Missing</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068298"></A>
+The number of documents missing replication properties. For example, documents that were already in the replicated domain before replication was configured.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068233"></A>
+Error</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068235"></A>
+The number of replication errors.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068237"></A>
+Document</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068239"></A>
+The document that failed to replicate to the Replica.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068241"></A>
+Last Try</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068243"></A>
+The last attempt to replicate the failed document.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068245"></A>
+Next Try</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068247"></A>
+The next attempt to replicate the failed document.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068249"></A>
+Tries</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068254"></A>
+The number of times MarkLogic Server attempted to replicate the failed document.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068256"></A>
+Last Error</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068258"></A>
+The error generated on the last attempt to replicate the failed document.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068260"></A>
+ Retry</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068262"></A>
+Check box to retry replicating the failed document.</CellBody>
+</CELL>
+</ROW>
+</TABLE>
+<Body-indent>
+<A ID="pgfId-1068264"></A>
+You can query the status of a specific document by entering its URI in the Check URI field and clicking Query. The status of the document, whether it replicated successfully or returned an error is displayed and highlighted in the above field.</Body-indent>
+<Body-indent>
+<A ID="pgfId-1068177"></A>
+<IMAGE xml:link="simple" href="images/checkURI.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<Body>
+<A ID="pgfId-1068148"></A>
+</Body>
+<Body>
+<A ID="pgfId-1068132"></A>
+</Body>
+</XML>

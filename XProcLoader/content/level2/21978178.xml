@@ -1,0 +1,90 @@
+<MedlineCitation Owner="HSR" Status="Completed">
+		<MedlineID>21978178</MedlineID>
+		<PMID>11982031</PMID>
+		<DateCreated>
+			   <Year>2002</Year>
+			   <Month>04</Month>
+			   <Day>30</Day>
+		</DateCreated>
+		<DateCompleted>
+			   <Year>2002</Year>
+			   <Month>05</Month>
+			   <Day>09</Day>
+		</DateCompleted>
+		<Article>
+			   <Journal>
+				     <ISSN>0097-6326</ISSN>
+				     <JournalIssue>
+					       <Volume>67</Volume>
+					       <Issue>83</Issue>
+					       <PubDate>
+						         <Year>2002</Year>
+						         <Month>Apr</Month>
+						         <Day>30</Day>
+					       </PubDate>
+				     </JournalIssue>
+			   </Journal>
+			   <ArticleTitle>Orthopedic devices: reclassification of the hip joint metal/polymer
+				constrained cemented or uncemented prosthesis. Final Rule.</ArticleTitle>
+			   <Pagination>
+				     <MedlinePgn>21171-3</MedlinePgn>
+			   </Pagination>
+			   <Abstract>
+				     <AbstractText>The Food and Drug Administration (FDA) is reclassifying the hip joint
+					metal/polymer constrained cemented or uncemented prosthesis intended to replace
+					a hip joint from class III (premarket approval) to class II (special controls).
+					FDA is also [[Page 21172]] identifying the guidance document entitled "Class II
+					Special Controls Guidance Document: Hip Joint Metal/Polymer Constrained Cemented
+					or Uncemented Prosthesis" as the special control that the agency believes will
+					reasonably ensure the safety and effectiveness of the device. This
+					reclassification is being undertaken based on new information regarding the
+					device contained in a reclassification petition submitted by the Orthopedic
+					Surgical Manufacturers Association (OSMA), under the Federal Food, Drug, and
+					Cosmetic Act (the act), as amended by the Medical Device Amendments of 1976 (the
+					1976 Amendments), the Safe Medical Devices Act of 1990 (SMDA), and the Food and
+					Drug Administration Moderization Act of 1997 (FDAMA). FDA is also revising the
+					device identification to accurately describe the device.</AbstractText>
+			   </Abstract>
+			   <AuthorList CompleteYN="Y">
+				     <Author>
+					       <CollectiveName>Food and Drug Administration, HHS</CollectiveName>
+				     </Author>
+			   </AuthorList>
+			   <Language>eng</Language>
+			   <PublicationTypeList>
+				     <PublicationType>Journal Article</PublicationType>
+			   </PublicationTypeList>
+		</Article>
+		<MedlineJournalInfo>
+			   <Country>United States</Country>
+			   <MedlineTA>Fed Regist</MedlineTA>
+			   <NlmUniqueID>7808722</NlmUniqueID>
+		</MedlineJournalInfo>
+		<CitationSubset>T</CitationSubset>
+		<MeshHeadingList>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="Y">Device Approval</DescriptorName>
+				     <QualifierName MajorTopicYN="N">legislation &amp; jurisprudence</QualifierName>
+			   </MeshHeading>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="N">Equipment Design</DescriptorName>
+			   </MeshHeading>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="N">Equipment Safety</DescriptorName>
+			   </MeshHeading>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="N">Hip Prosthesis</DescriptorName>
+				     <QualifierName MajorTopicYN="Y">classification</QualifierName>
+			   </MeshHeading>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="N">Human</DescriptorName>
+			   </MeshHeading>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="N">United States</DescriptorName>
+			   </MeshHeading>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="N">United States Food and Drug
+					Administration</DescriptorName>
+			   </MeshHeading>
+		</MeshHeadingList>
+	</MedlineCitation>

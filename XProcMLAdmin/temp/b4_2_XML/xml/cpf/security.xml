@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="security.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1044208"></A>
+Security Considerations With Content Processing</Heading-1>
+<pagenum>
+<A ID="pgfId-1045136"></A>
+40</pagenum>
+<Body>
+<A ID="pgfId-1044209"></A>
+This chapter describes security considerations to be aware of when using the MarkLogic Server Content Processing Framework, and includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1045252"></A>
+<A href="security.xml#id(57071)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Security Requirements for Users Who Create or Modify Documents</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1045256"></A>
+<A href="security.xml#id(38317)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Security Requirements When Modules Perform Privileged Operations</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049589"></A>
+<A href="security.xml#id(49165)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Security Roles for Managing Content Processing</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1049238"></A>
+<A ID="57071"></A>
+Security Requirements for Users Who Create or Modify Documents</Heading-2>
+<Body>
+<A ID="pgfId-1049066"></A>
+When a document is loaded into a database, the user who loads the document must possess the appropriate privileges to create and/or modify the document. This is true in any application, including a content processing application. </Body>
+<Body>
+<A ID="pgfId-1049548"></A>
+For example, if a content processing application has users who add documents to a database via a WebDAV client, then the user who accesses the WebDAV client must be granted a role with the necessary permissions and privileges to create documents in the context defined by the WebDAV configuration. For details on roles, permissions, and privileges, see <Emphasis>
+Understanding and Using Security Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1049227"></A>
+<A ID="38317"></A>
+Security Requirements When Modules Perform Privileged Operations</Heading-2>
+<Body>
+<A ID="pgfId-1049535"></A>
+Any modules that are invoked by content processing applications will evaluate as the user who made the change to the document. If that user does not have the privilege to perform the operations in the invoked XQuery module, the module transaction will fail.</Body>
+<Body>
+<A ID="pgfId-1049588"></A>
+Certain MarkLogic Server operations require privileges to execute. For example, <code>
+xdmp:email</code>
+, <code>
+xdmp:eval</code>
+, <code>
+xdmp:eval-in</code>
+, <code>
+xdmp:invoke</code>
+, and <code>
+xdmp:invoke-in</code>
+ all require that users possess their corresponding execute privileges. Therefore, if your modules perform any privileged operations, you either need to deal with the privileges in the XQuery code (with an amp, for example), grant your users a role with the required privileges, or handle the exceptions for unprivileged users in your XQuery code. The pipeline-execution role, predefined in the server, is used (with an amp) to allow users to run the <code>
+xdmp:eval</code>
+ and <code>
+xdmp:invoke</code>
+ functions in certain contexts in the content processing code.</Body>
+<Heading-2>
+<A ID="pgfId-1049590"></A>
+<A ID="49165"></A>
+Security Roles for Managing Content Processing</Heading-2>
+<Body>
+<A ID="pgfId-1049594"></A>
+MarkLogic Server includes the following pre-defined roles for managing content processing applications:</Body>
+<Body-bullet>
+<A ID="pgfId-1049602"></A>
+pipeline-execution</Body-bullet>
+<Body-indent>
+<A ID="pgfId-1049621"></A>
+Used in the XQuery code to allow any user (who can write a document to the domain) to execute code in the pipeline. </Body-indent>
+<Body-bullet>
+<A ID="pgfId-1049606"></A>
+pipeline-management</Body-bullet>
+<Body-indent>
+<A ID="pgfId-1049627"></A>
+Required to create, modify, or delete pipelines.</Body-indent>
+<Body-bullet>
+<A ID="pgfId-1049607"></A>
+domain-management</Body-bullet>
+<Body-indent>
+<A ID="pgfId-1049638"></A>
+Required to create, modify, or delete domains.</Body-indent>
+</XML>

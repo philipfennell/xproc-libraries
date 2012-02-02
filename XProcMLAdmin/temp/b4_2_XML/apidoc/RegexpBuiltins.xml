@@ -1,0 +1,122 @@
+<apidoc:module name="StringBuiltins" category="StringBuiltins" lib="fn" xmlns:apidoc="http://marklogic.com/xdmp/apidoc"><apidoc:function name="matches" type="builtin" lib="fn" category="StringBuiltins" bucket="W3C-Standard Functions" hidden="false">
+    <apidoc:summary>
+Returns <code xmlns="http://www.w3.org/1999/xhtml">true</code> if the specified $input matches the specified
+$pattern, otherwise returns <code xmlns="http://www.w3.org/1999/xhtml">false</code>.
+</apidoc:summary>
+    <apidoc:params>
+      <apidoc:param name="input" type="xs:string?" optional="false">
+  The input from which to match.
+  </apidoc:param>
+      <apidoc:param name="pattern" type="xs:string" optional="false">
+  The regular expression to match.
+  </apidoc:param>
+      <apidoc:param name="flags" type="xs:string" optional="true">
+  The flag representing how to interpret the regular expression. One of
+  "s", "m", "i", or "x", as defined in 
+  <a href="http://www.w3.org/TR/xpath-functions/#flags" xmlns="http://www.w3.org/1999/xhtml">http://www.w3.org/TR/xpath-functions/#flags</a>.
+  </apidoc:param>
+    </apidoc:params>
+    <apidoc:return>xs:boolean?</apidoc:return>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+fn:matches("this is a string", "is")
+
+=&gt; true
+
+fn:matches("this is a string", "zoo")
+
+=&gt; false
+</pre>
+</apidoc:example>
+  </apidoc:function><apidoc:function name="replace" type="builtin" lib="fn" category="StringBuiltins" bucket="W3C-Standard Functions" hidden="false">
+    <apidoc:summary>
+Returns a string constructed by replacing the specified $pattern
+on the $input string with the specified $replacement string.
+</apidoc:summary>
+    <apidoc:params>
+      <apidoc:param name="input" type="xs:string?" optional="false">
+  The string to start with.
+  </apidoc:param>
+      <apidoc:param name="pattern" type="xs:string" optional="false">
+  The regular expression pattern to match.
+  </apidoc:param>
+      <apidoc:param name="replacement" type="xs:string" optional="false">
+  The regular expression pattern to replace the $pattern with.  It can also
+  be a capture expression (for more details, see 
+  <a href="http://www.w3.org/TR/xpath-functions/#func-replace" target="_blank" xmlns="http://www.w3.org/1999/xhtml">http://www.w3.org/TR/xpath-functions/#func-replace</a>).
+  </apidoc:param>
+      <apidoc:param name="flags" type="xs:string" optional="true">
+  The flag representing how to interpret the regular expression. One of
+  "s", "m", "i", or "x", as defined in 
+  <a href="http://www.w3.org/TR/xpath-functions/#flags" xmlns="http://www.w3.org/1999/xhtml">http://www.w3.org/TR/xpath-functions/#flags</a>.
+  </apidoc:param>
+    </apidoc:params>
+    <apidoc:return>xs:string?</apidoc:return>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+fn:replace("this is a string", "this", "that")
+
+-&gt; that is a string</pre>
+</apidoc:example>
+  </apidoc:function><apidoc:function name="analyze-string" type="builtin" lib="fn" category="StringBuiltins" bucket="W3C-Standard Functions" hidden="false">
+    <apidoc:summary>
+The result of the function is a new element node whose string value is the
+original string, but which contains markup to show which parts of the
+input match the regular expression.
+</apidoc:summary>
+    <apidoc:params>
+      <apidoc:param name="in" type="xs:string?" optional="false">
+  The string to start with.
+  </apidoc:param>
+      <apidoc:param name="regex" type="xs:string" optional="false">
+  The regular expression pattern to match.
+  </apidoc:param>
+      <apidoc:param name="flags" type="xs:string" optional="true">
+  The flag representing how to interpret the regular expression. One of
+  "s", "m", "i", or "x", as defined in 
+  <a href="http://www.w3.org/TR/xpath-functions/#flags" xmlns="http://www.w3.org/1999/xhtml">http://www.w3.org/TR/xpath-functions/#flags</a>.
+  </apidoc:param>
+    </apidoc:params>
+    <apidoc:return>element(s:results)</apidoc:return>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+fn:analyze-string("http://example.com/", "\w+")
+
+=&gt; 
+&lt;result xmlns="http://www.w3.org/2009/xpath-functions/analyze-string"&gt;
+  &lt;match&gt;http&lt;/match&gt;
+  &lt;non-match&gt;://&lt;/non-match&gt;
+  &lt;match&gt;example&lt;/match&gt;
+  &lt;non-match&gt;.&lt;/non-match&gt;
+  &lt;match&gt;com&lt;/match&gt;
+  &lt;non-match&gt;/&lt;/non-match&gt;
+&lt;/result&gt;
+</pre>
+</apidoc:example>
+  </apidoc:function><apidoc:function name="tokenize" type="builtin" lib="fn" category="StringBuiltins" bucket="W3C-Standard Functions" hidden="false">
+    <apidoc:summary>
+  Returns a sequence of strings contructed by breaking the specified 
+  input into substrings separated by the specified $pattern.  The 
+  specified $pattern is not returned as part of the returned items. 
+</apidoc:summary>
+    <apidoc:params>
+      <apidoc:param name="input" type="xs:string?" optional="false">
+  The string to tokenize.
+  </apidoc:param>
+      <apidoc:param name="pattern" type="xs:string" optional="false">
+  The regular expression pattern from which to separate the tokens.
+  </apidoc:param>
+      <apidoc:param name="flags" type="xs:string" optional="true">
+  The flag representing how to interpret the regular expression. One of
+  "s", "m", "i", or "x", as defined in 
+  <a href="http://www.w3.org/TR/xpath-functions/#flags" xmlns="http://www.w3.org/1999/xhtml">http://www.w3.org/TR/xpath-functions/#flags</a>.
+  </apidoc:param>
+    </apidoc:params>
+    <apidoc:return>xs:string*</apidoc:return>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+fn:tokenize("this is a string", " ")
+
+=&gt; returns the sequence ("this", "is", "a", "string")
+
+fn:tokenize("this is a string", " ")[last()]
+
+=&gt; string</pre>
+</apidoc:example>
+  </apidoc:function></apidoc:module>

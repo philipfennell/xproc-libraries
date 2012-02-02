@@ -1,0 +1,498 @@
+<apidoc:module name="StatusBuiltins" category="Server Monitoring" lib="xdmp" xmlns:apidoc="http://marklogic.com/xdmp/apidoc"><apidoc:summary access="public">
+  The Server Monitoring built-in functions include functions that provide
+  monitoring information about internal conditions of MarkLogic Server and
+  includes the <code xmlns="http://www.w3.org/1999/xhtml">xdmp:request-cancel</code> function which is used to
+  cancel a running request.
+</apidoc:summary><apidoc:function name="host-status" type="builtin" lib="xdmp" category="Server Monitoring" hidden="false" bucket="MarkLogic Built-In Functions">
+    <apidoc:summary>
+  Returns the status of a host.
+</apidoc:summary>
+    <apidoc:params>
+      <apidoc:param name="host-id" type="xs:unsignedLong" optional="false">
+    A host id.
+  </apidoc:param>
+    </apidoc:params>
+    <apidoc:return>element(host-status)</apidoc:return>
+    <apidoc:usage schema="host-status.xsd">
+   <p xmlns="http://www.w3.org/1999/xhtml">The information returned from <code>xdmp:host-status</code> is always
+   computed on the host specified in the <code>$host-id</code> parameter,
+   even if the call is evaluated on an App Server running on a different host.
+   That is, when the API call is issued, MarkLogic Server communicates with
+   the specified host for the its status and returns the staus from the
+   perspective of the specified host (not from the perspective of the host
+   in which the XQuery API is evaluated).  </p>
+</apidoc:usage>
+    <apidoc:privilege>
+   <code xmlns="http://www.w3.org/1999/xhtml">http://marklogic.com/xdmp/privileges/status</code>
+</apidoc:privilege>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+xdmp:host-status(xdmp:host("raymond.marklogic.com"))
+=&gt;
+&lt;host-status xmlns="http://marklogic.com/xdmp/status/host"&gt;
+  &lt;host-id&gt;13264574555735898770&lt;/host-id&gt;
+  &lt;host-name&gt;raymond.marklogic.com&lt;/host-name&gt;
+  &lt;group-id&gt;18323836549784872587&lt;/group-id&gt;
+  &lt;current-time&gt;2007-02-16T18:50:43.422-08:00&lt;/current-time&gt;
+  &lt;bind-port&gt;7999&lt;/bind-port&gt;
+  &lt;connect-port&gt;7999&lt;/connect-port&gt;
+  &lt;last-startup&gt;2007-02-16T18:39:00.642-08:00&lt;/last-startup&gt;
+  &lt;version&gt;3.2-20070214&lt;/version&gt;
+  &lt;architecture&gt;i686&lt;/architecture&gt;
+  &lt;license-key&gt;ABC-123-XYZ&lt;/license-key&gt;
+  &lt;licensee&gt;Raymond - MarkLogic&lt;/licensee&gt;
+  &lt;license-key-expires&gt;2007-04-14T00:00:00-08:00&lt;/license-key-expires&gt;
+  &lt;license-key-cpus&gt;2&lt;/license-key-cpus&gt;
+  &lt;license-key-cores&gt;4&lt;/license-key-cores&gt;
+  &lt;license-key-size&gt;0&lt;/license-key-size&gt;
+  &lt;license-key-options&gt;
+    &lt;license-key-option&gt;conversion&lt;/license-key-option&gt;
+    &lt;license-key-option&gt;failover&lt;/license-key-option&gt;
+    &lt;license-key-option&gt;French&lt;/license-key-option&gt;
+    &lt;license-key-option&gt;German&lt;/license-key-option&gt;
+    &lt;license-key-option&gt;Italian&lt;/license-key-option&gt;
+    &lt;license-key-option&gt;Spanish&lt;/license-key-option&gt;
+    &lt;license-key-option&gt;Russian&lt;/license-key-option&gt;
+    &lt;license-key-option&gt;Arabic&lt;/license-key-option&gt;
+    &lt;license-key-option&gt;Simplified Chinese&lt;/license-key-option&gt;
+    &lt;license-key-option&gt;English&lt;/license-key-option&gt;
+  &lt;/license-key-options&gt;
+  &lt;pre-release-expires&gt;2007-05-15T05:08:59-08:00&lt;/pre-release-expires&gt;
+  &lt;accepted-version&gt;3.2-20070214&lt;/accepted-version&gt;
+  &lt;accepted-agreement&gt;development&lt;/accepted-agreement&gt;
+  &lt;accepted-licensee&gt;Raymond - MarkLogic&lt;/accepted-licensee&gt;
+  &lt;edition&gt;Enterprise&lt;/edition&gt;
+  &lt;cpus&gt;1&lt;/cpus&gt;
+  &lt;cores&gt;1&lt;/cores&gt;
+  &lt;host-size&gt;197&lt;/host-size&gt;
+  &lt;log-device-space&gt;3592&lt;/log-device-space&gt;
+  &lt;data-dir-space&gt;3592&lt;/data-dir-space&gt;
+  &lt;config-file-timestamps&gt;
+    &lt;groups-timestamp&gt;1978290846354&lt;/groups-timestamp&gt;
+    &lt;hosts-timestamp&gt;354793208466&lt;/hosts-timestamp&gt;
+    &lt;databases-timestamp&gt;1995470715538&lt;/databases-timestamp&gt;
+    &lt;assignments-timestamp&gt;1832261958290&lt;/assignments-timestamp&gt;
+    &lt;tokenizer-timestamp&gt;0&lt;/tokenizer-timestamp&gt;
+    &lt;mimetypes-timestamp&gt;0&lt;/mimetypes-timestamp&gt;
+  &lt;/config-file-timestamps&gt;
+  &lt;http-servers&gt;
+    &lt;http-server&gt;
+      &lt;http-server-id&gt;15847393982828089978&lt;/http-server-id&gt;
+      &lt;port&gt;9032&lt;/port&gt;
+      &lt;webDAV&gt;true&lt;/webDAV&gt;
+    &lt;/http-server&gt;
+    &lt;http-server&gt;
+      &lt;http-server-id&gt;17360064376275143119&lt;/http-server-id&gt;
+      &lt;port&gt;8000&lt;/port&gt;
+      &lt;webDAV&gt;false&lt;/webDAV&gt;
+    &lt;/http-server&gt;
+    &lt;http-server&gt;
+      &lt;http-server-id&gt;4492507232107144149&lt;/http-server-id&gt;
+      &lt;port&gt;8001&lt;/port&gt;
+      &lt;webDAV&gt;false&lt;/webDAV&gt;
+    &lt;/http-server&gt;
+  &lt;/http-servers&gt;
+  &lt;xdbc-servers&gt;
+    &lt;xdbc-server&gt;
+      &lt;xdbc-server-id&gt;4057681084273905496&lt;/xdbc-server-id&gt;
+      &lt;port&gt;8021&lt;/port&gt;
+    &lt;/xdbc-server&gt;
+    &lt;xdbc-server&gt;
+      &lt;xdbc-server-id&gt;6086706739056900422&lt;/xdbc-server-id&gt;
+      &lt;port&gt;8050&lt;/port&gt;
+    &lt;/xdbc-server&gt;
+  &lt;/xdbc-servers&gt;
+  &lt;task-server&gt;
+    &lt;task-server-id&gt;10441203546898933382&lt;/task-server-id&gt;
+  &lt;/task-server&gt;
+  &lt;assignments&gt;
+    &lt;assignment&gt;
+      &lt;forest-name&gt;bill&lt;/forest-name&gt;
+      &lt;forest-id&gt;11413686728343849399&lt;/forest-id&gt;
+      &lt;host-id&gt;13264574555735898770&lt;/host-id&gt;
+    &lt;/assignment&gt;
+    &lt;assignment&gt;
+      &lt;forest-name&gt;Security&lt;/forest-name&gt;
+      &lt;forest-id&gt;11436840116662532973&lt;/forest-id&gt;
+      &lt;host-id&gt;13264574555735898770&lt;/host-id&gt;
+    &lt;/assignment&gt;
+    &lt;assignment&gt;
+      &lt;forest-name&gt;Triggers&lt;/forest-name&gt;
+      &lt;forest-id&gt;6800799099781840925&lt;/forest-id&gt;
+      &lt;host-id&gt;13264574555735898770&lt;/host-id&gt;
+    &lt;/assignment&gt;
+    &lt;assignment&gt;
+      &lt;forest-name&gt;Documents&lt;/forest-name&gt;
+      &lt;forest-id&gt;12434840716430044697&lt;/forest-id&gt;
+      &lt;host-id&gt;13264574555735898770&lt;/host-id&gt;
+    &lt;/assignment&gt;
+    &lt;assignment&gt;
+      &lt;forest-name&gt;test&lt;/forest-name&gt;
+      &lt;forest-id&gt;8050247748004050993&lt;/forest-id&gt;
+      &lt;host-id&gt;13264574555735898770&lt;/host-id&gt;
+    &lt;/assignment&gt;
+    &lt;assignment&gt;
+      &lt;forest-name&gt;Modules&lt;/forest-name&gt;
+      &lt;forest-id&gt;2413699485643173169&lt;/forest-id&gt;
+      &lt;host-id&gt;13264574555735898770&lt;/host-id&gt;
+    &lt;/assignment&gt;
+    &lt;assignment&gt;
+      &lt;forest-name&gt;Schemas&lt;/forest-name&gt;
+      &lt;forest-id&gt;6668879474270284963&lt;/forest-id&gt;
+      &lt;host-id&gt;13264574555735898770&lt;/host-id&gt;
+    &lt;/assignment&gt;
+  &lt;/assignments&gt;
+  &lt;hosts&gt;
+    &lt;host&gt;
+      &lt;host-id&gt;13264574555735898770&lt;/host-id&gt;
+      &lt;host-name&gt;raymond.marklogic.com&lt;/host-name&gt;
+      &lt;connect-port&gt;7999&lt;/connect-port&gt;
+      &lt;online&gt;true&lt;/online&gt;
+      &lt;secure&gt;true&lt;/online&gt;
+    &lt;/host&gt;
+  &lt;/hosts&gt;
+  &lt;backup-jobs/&gt;
+  &lt;restore-jobs/&gt;
+  &lt;compressed-tree-cache-partitions&gt;
+    &lt;compressed-tree-cache-partition&gt;
+      &lt;partition-size&gt;32&lt;/partition-size&gt;
+      &lt;partition-table&gt;53.9&lt;/partition-table&gt;
+      &lt;partition-used&gt;46.2&lt;/partition-used&gt;
+      &lt;partition-free&gt;53&lt;/partition-free&gt;
+      &lt;partition-overhead&gt;0.8&lt;/partition-overhead&gt;
+    &lt;/compressed-tree-cache-partition&gt;
+  &lt;/compressed-tree-cache-partitions&gt;
+  &lt;expanded-tree-cache-partitions&gt;
+    &lt;expanded-tree-cache-partition&gt;
+      &lt;partition-size&gt;32&lt;/partition-size&gt;
+      &lt;partition-table&gt;81.2&lt;/partition-table&gt;
+      &lt;partition-busy&gt;0&lt;/partition-busy&gt;
+      &lt;partition-used&gt;89.7&lt;/partition-used&gt;
+      &lt;partition-free&gt;6.2&lt;/partition-free&gt;
+      &lt;partition-overhead&gt;4.1&lt;/partition-overhead&gt;
+    &lt;/expanded-tree-cache-partition&gt;
+  &lt;/expanded-tree-cache-partitions&gt;
+  &lt;list-cache-partitions&gt;
+    &lt;list-cache-partition&gt;
+      &lt;partition-size&gt;32&lt;/partition-size&gt;
+      &lt;partition-table&gt;0.1&lt;/partition-table&gt;
+      &lt;partition-busy&gt;0&lt;/partition-busy&gt;
+      &lt;partition-used&gt;0.1&lt;/partition-used&gt;
+      &lt;partition-free&gt;99.9&lt;/partition-free&gt;
+      &lt;partition-overhead&gt;0&lt;/partition-overhead&gt;
+    &lt;/list-cache-partition&gt;
+  &lt;/list-cache-partitions&gt;
+&lt;/host-status&gt;
+</pre>
+</apidoc:example>
+    <algorithm xmlns="http://www.w3.org/1999/xhtml"></algorithm>
+  </apidoc:function><apidoc:function name="forest-status" type="builtin" lib="xdmp" category="Server Monitoring" hidden="false" bucket="MarkLogic Built-In Functions">
+    <apidoc:summary>
+  Returns the status of a forest.
+</apidoc:summary>
+    <apidoc:params>
+      <apidoc:param name="forest-id" type="xs:unsignedLong" optional="false">
+    A forest id.
+  </apidoc:param>
+    </apidoc:params>
+    <apidoc:return>element(forest-status)</apidoc:return>
+    <apidoc:usage schema="forest-status.xsd">
+</apidoc:usage>
+    <apidoc:privilege>
+   <code xmlns="http://www.w3.org/1999/xhtml">http://marklogic.com/xdmp/privileges/status</code>
+</apidoc:privilege>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+xdmp:forest-status(xdmp:forest("Documents"))
+=&gt;
+&lt;forest-status xmlns="http://marklogic.com/xdmp/status/forest"&gt;
+  &lt;forest-id&gt;12434840716430044697&lt;/forest-id&gt;
+  &lt;forest-name&gt;Documents&lt;/forest-name&gt;
+  &lt;state&gt;open&lt;/state&gt;
+  &lt;host-id&gt;13264574555735898770&lt;/host-id&gt;
+  &lt;database-id&gt;2634450243966805432&lt;/database-id&gt;
+  &lt;last-state-change&gt;2007-02-16T18:39:31.267-08:00&lt;/last-state-change&gt;
+  &lt;journals-size&gt;57&lt;/journals-size&gt;
+  &lt;stands&gt;
+    &lt;stand&gt;
+      &lt;stand-id&gt;15174447282968484759&lt;/stand-id&gt;
+      &lt;path&gt;c:\Program Files\MarkLogic\Data\Forests\Documents\00000016&lt;/path&gt;
+      &lt;stand-kind&gt;Active&lt;/stand-kind&gt;
+      &lt;label-version&gt;50397184&lt;/label-version&gt;
+      &lt;disk-size&gt;11&lt;/disk-size&gt;
+      &lt;memory-size&gt;1&lt;/memory-size&gt;
+      &lt;list-cache-hits&gt;158&lt;/list-cache-hits&gt;
+      &lt;list-cache-misses&gt;105&lt;/list-cache-misses&gt;
+      &lt;list-cache-hit-rate&gt;0&lt;/list-cache-hit-rate&gt;
+      &lt;list-cache-miss-rate&gt;0&lt;/list-cache-miss-rate&gt;
+      &lt;compressed-tree-cache-hits&gt;0&lt;/compressed-tree-cache-hits&gt;
+      &lt;compressed-tree-cache-misses&gt;0&lt;/compressed-tree-cache-misses&gt;
+      &lt;compressed-tree-cache-hit-rate&gt;0&lt;/compressed-tree-cache-hit-rate&gt;
+      &lt;compressed-tree-cache-miss-rate&gt;0&lt;/compressed-tree-cache-miss-rate&gt;
+    &lt;/stand&gt;
+  &lt;/stands&gt;
+  &lt;current-time&gt;2007-02-16T18:44:06.154-08:00&lt;/current-time&gt;
+  &lt;merges/&gt;
+  &lt;reindexing&gt;false&lt;/reindexing&gt;
+  &lt;device-space&gt;3592&lt;/device-space&gt;
+  &lt;backups/&gt;
+  &lt;transaction-coordinators/&gt;
+  &lt;transaction-participants/&gt;
+&lt;/forest-status&gt;
+</pre>
+</apidoc:example>
+    <algorithm xmlns="http://www.w3.org/1999/xhtml"></algorithm>
+  </apidoc:function><apidoc:function name="server-status" type="builtin" lib="xdmp" category="Server Monitoring" hidden="false" bucket="MarkLogic Built-In Functions">
+    <apidoc:summary>
+  Returns the status of an app-server on a host.
+</apidoc:summary>
+    <apidoc:params>
+      <apidoc:param name="host-id" type="xs:unsignedLong" optional="false">
+    A host id.
+  </apidoc:param>
+      <apidoc:param name="server-id" type="xs:unsignedLong" optional="false">
+    A server id (HTTP, XDBC, webDAV, or Task).
+  </apidoc:param>
+    </apidoc:params>
+    <apidoc:return>element(server-status)</apidoc:return>
+    <apidoc:usage schema="server-status.xsd">
+</apidoc:usage>
+    <apidoc:privilege>
+   <code xmlns="http://www.w3.org/1999/xhtml">http://marklogic.com/xdmp/privileges/status</code>
+</apidoc:privilege>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+xdmp:server-status(xdmp:host(),xdmp:server("Admin"))
+=&gt;
+
+&lt;server-status xmlns="http://marklogic.com/xdmp/status/server"&gt;
+  &lt;server-id&gt;4492507232107144149&lt;/server-id&gt;
+  &lt;server-name&gt;Admin&lt;/server-name&gt;
+  &lt;host-id&gt;13264574555735898770&lt;/host-id&gt;
+  &lt;server-kind&gt;http-server&lt;/server-kind&gt;
+  &lt;port&gt;8009&lt;/port&gt;
+  &lt;root&gt;Admin\&lt;/root&gt;
+  &lt;modules&gt;0&lt;/modules&gt;
+  &lt;database&gt;5496769417926491762&lt;/database&gt;
+  &lt;last-login&gt;9823948029384029384&lt;/last-login&gt;
+  &lt;display-last-login&gt;true&lt;/display-last-login&gt;
+  &lt;backlog&gt;256&lt;/backlog&gt;
+  &lt;threads&gt;2&lt;/threads&gt;
+  &lt;max-threads&gt;32&lt;/max-threads&gt;
+  &lt;request-timeout&gt;30&lt;/request-timeout&gt;
+  &lt;keep-alive-timeout&gt;5&lt;/keep-alive-timeout&gt;
+  &lt;session-timeout&gt;3600&lt;/session-timeout&gt;
+  &lt;max-time-limit&gt;3600&lt;/max-time-limit&gt;
+  &lt;default-time-limit&gt;600&lt;/default-time-limit&gt;
+  &lt;authentication&gt;basic&lt;/authentication&gt;
+  &lt;default-user&gt;8216129598321388485&lt;/default-user&gt;
+  &lt;privilege&gt;0&lt;/privilege&gt;
+  &lt;default-xquery-version&gt;1.0-ml&lt;/default-xquery-version&gt;
+  &lt;current-time&gt;2007-03-29T14:43:00.819-07:00&lt;/current-time&gt;
+  &lt;request-statuses&gt;
+    &lt;request-status&gt;
+      &lt;request-id&gt;15629296310429871822&lt;/request-id&gt;
+      &lt;server-id&gt;4492507232107144149&lt;/server-id&gt;
+      &lt;host-id&gt;13264574555735898770&lt;/host-id&gt;
+      &lt;canceled&gt;false&lt;/canceled&gt;
+      &lt;modules&gt;0&lt;/modules&gt;
+      &lt;database&gt;5496769417926491762&lt;/database&gt;
+      &lt;root&gt;Admin\&lt;/root&gt;
+      &lt;request-kind&gt;invoke&lt;/request-kind&gt;
+      &lt;request-text&gt;/cluster-status.xqy&lt;/request-text&gt;
+      &lt;update&gt;false&lt;/update&gt;
+      &lt;start-time&gt;2007-03-29T14:42:52.905-07:00&lt;/start-time&gt;
+      &lt;user&gt;8216129598321388485&lt;/user&gt;
+      &lt;client-address&gt;127.0.0.1&lt;/client-address&gt;
+      &lt;trigger-depth&gt;0&lt;/trigger-depth&gt;
+      &lt;expanded-tree-cache-hits&gt;0&lt;/expanded-tree-cache-hits&gt;
+      &lt;expanded-tree-cache-misses&gt;0&lt;/expanded-tree-cache-misses&gt;
+      &lt;request-state&gt;running&lt;/request-state&gt;
+      &lt;profiling-allowed&gt;false&lt;/profiling-allowed&gt;
+      &lt;profiling-enabled&gt;false&lt;/profiling-enabled&gt;
+      &lt;debugging-allowed&gt;false&lt;/debugging-allowed&gt;
+      &lt;debugging-status&gt;detached&lt;/debugging-status&gt;
+    &lt;/request-status&gt;
+  &lt;/request-statuses&gt;
+  &lt;request-rate&gt;0.0639857&lt;/request-rate&gt;
+  &lt;expanded-tree-cache-hits&gt;759&lt;/expanded-tree-cache-hits&gt;
+  &lt;expanded-tree-cache-misses&gt;185&lt;/expanded-tree-cache-misses&gt;
+  &lt;expanded-tree-cache-hit-rate&gt;0.272918&lt;/expanded-tree-cache-hit-rate&gt;
+  &lt;expanded-tree-cache-miss-rate&gt;0&lt;/expanded-tree-cache-miss-rate&gt;
+  &lt;fs-program-cache-hits&gt;9&lt;/fs-program-cache-hits&gt;
+  &lt;fs-program-cache-misses&gt;40&lt;/fs-program-cache-misses&gt;
+  &lt;db-program-cache-hits&gt;0&lt;/db-program-cache-hits&gt;
+  &lt;db-program-cache-misses&gt;0&lt;/db-program-cache-misses&gt;
+  &lt;env-program-cache-hits&gt;0&lt;/env-program-cache-hits&gt;
+  &lt;env-program-cache-misses&gt;0&lt;/env-program-cache-misses&gt;
+  &lt;fs-main-module-seq-cache-hits&gt;0&lt;/fs-main-module-seq-cache-hits&gt;
+  &lt;fs-main-module-seq-cache-misses&gt;19&lt;/fs-main-module-seq-cache-misses&gt;
+  &lt;db-main-module-seq-cache-hits&gt;0&lt;/db-main-module-seq-cache-hits&gt;
+  &lt;db-main-module-seq-cache-misses&gt;0&lt;/db-main-module-seq-cache-misses&gt;
+  &lt;fs-lib-module-cache-hits&gt;412&lt;/fs-lib-module-cache-hits&gt;
+  &lt;fs-lib-module-cache-misses&gt;23&lt;/fs-lib-module-cache-misses&gt;
+  &lt;db-lib-module-cache-hits&gt;0&lt;/db-lib-module-cache-hits&gt;
+  &lt;db-lib-module-cache-misses&gt;0&lt;/db-lib-module-cache-misses&gt;
+&lt;/server-status&gt; 
+</pre></apidoc:example>
+    <algorithm xmlns="http://www.w3.org/1999/xhtml"></algorithm>
+  </apidoc:function><apidoc:function name="forest-counts" type="builtin" lib="xdmp" category="Server Monitoring" hidden="false" bucket="MarkLogic Built-In Functions">
+    <apidoc:summary>
+  Returns detailed forest statistics for a given forest.
+  This built-in may require significantly more processing
+  time than <code xmlns="http://www.w3.org/1999/xhtml">xdmp:forest-status</code>.
+</apidoc:summary>
+    <apidoc:params>
+      <apidoc:param name="forest-id" type="xs:unsignedLong" optional="false">
+     A forest id.
+  </apidoc:param>
+      <apidoc:param name="show-elements" type="xs:string*" optional="true">
+     The names of a elements to be returned (the element names are listed 
+     in the Usage Notes below). Only the top-level elements that show
+     counts are allowed (for example, <code xmlns="http://www.w3.org/1999/xhtml">stands-counts</code> or 
+     <code xmlns="http://www.w3.org/1999/xhtml">document-count</code>).
+     The function will only perform the computations necessary to return the 
+     nodes specified.  If this parameter is not specified, then all 
+     statistics are calculated and returned for the forest.  For each 
+     element name, you can specify a trailing * for wildcard matching. 
+     Specifying a * with no other text forces all calculations and 
+     returns all of the nodes. 
+  </apidoc:param>
+    </apidoc:params>
+    <apidoc:return>element(forest-counts)</apidoc:return>
+    <apidoc:usage schema="forest-status.xsd">
+</apidoc:usage>
+    <apidoc:privilege>
+   <p xmlns="http://www.w3.org/1999/xhtml"><code>http://marklogic.com/xdmp/privileges/counts</code></p>
+</apidoc:privilege>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+xdmp:forest-counts(xdmp:forest("Documents"))
+=&gt;
+&lt;forest-counts xmlns="http://marklogic.com/xdmp/status/forest"&gt;
+  &lt;forest-id&gt;12434840716430044697&lt;/forest-id&gt;
+  &lt;current-time&gt;2007-02-16T19:00:00.708-08:00&lt;/current-time&gt;
+  &lt;stands-counts&gt;
+    &lt;stand-counts&gt;
+      &lt;stand-id&gt;15174447282968484759&lt;/stand-id&gt;
+      &lt;path&gt;c:\Program Files\MarkLogic\Data\Forests\Documents\00000016&lt;/path&gt;
+      &lt;active-fragment-count&gt;146&lt;/active-fragment-count&gt;
+      &lt;nascent-fragment-count&gt;0&lt;/nascent-fragment-count&gt;
+      &lt;deleted-fragment-count&gt;0&lt;/deleted-fragment-count&gt;
+    &lt;/stand-counts&gt;
+  &lt;/stands-counts&gt;
+  &lt;document-count&gt;67&lt;/document-count&gt;
+  &lt;directory-count&gt;3&lt;/directory-count&gt;
+&lt;/forest-counts&gt;
+ </pre>
+</apidoc:example>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+(: only calculate the document count :)
+xdmp:forest-counts(xdmp:forest("Documents"), ("document-count"))
+=&gt;
+&lt;forest-counts xmlns="http://marklogic.com/xdmp/status/forest"&gt;
+  &lt;forest-id&gt;11656884323633926637&lt;/forest-id&gt;
+  &lt;forest-name&gt;Documents&lt;/forest-name&gt;
+  &lt;current-time&gt;2008-03-18T16:22:34.082-07:00&lt;/current-time&gt;
+  &lt;document-count&gt;1070&lt;/document-count&gt;
+&lt;/forest-counts&gt;
+
+ </pre>
+</apidoc:example>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+(: force everything to be calculated :)
+xdmp:forest-counts(xdmp:forest("Documents"), "*")
+=&gt;
+ the full output of xdmp:forest-counts
+
+ </pre>
+</apidoc:example>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+(: show the counts of everything that needs to be reindexed  :)
+xdmp:forest-counts(xdmp:forest("Documents"), "reindex*")
+=&gt;
+&lt;forest-counts xmlns="http://marklogic.com/xdmp/status/forest"&gt;
+  &lt;forest-id&gt;11656884323633926637&lt;/forest-id&gt;
+  &lt;forest-name&gt;Documents&lt;/forest-name&gt;
+  &lt;current-time&gt;2008-03-18T18:07:47.57-07:00&lt;/current-time&gt;
+  &lt;reindex-refragment-fragment-count&gt;0&lt;/reindex-refragment-fragment-count&gt;
+  &lt;reindex-refragment-rate&gt;0&lt;/reindex-refragment-rate&gt;
+  &lt;reindex-fragment-count&gt;0&lt;/reindex-fragment-count&gt;
+  ......
+  ..... all of the other reindex* elements
+  ......
+&lt;/forest-counts&gt;
+
+ </pre>
+</apidoc:example>
+    <algorithm xmlns="http://www.w3.org/1999/xhtml"></algorithm>
+  </apidoc:function><apidoc:function name="request-status" type="builtin" lib="xdmp" category="Server Monitoring" hidden="false" bucket="MarkLogic Built-In Functions">
+    <apidoc:summary>
+  <p xmlns="http://www.w3.org/1999/xhtml">
+  Returns the status of a running request.  If the request ID
+  is that of the calling request, then no special permission is
+  required.  If the ID is for another request, then the calling
+  request needs <code>http://marklogic.com/xdmp/privileges/status</code>
+  permission.
+  </p>
+  <p xmlns="http://www.w3.org/1999/xhtml">
+  The result of this builtin is exactly equivalent to
+  <code>xdmp:server-status(xdmp:host(), xdmp:server())//*:request-status[*:request-id = $req]</code>,
+  where <code>$req</code> is the ID of the request
+  you are interested in.
+  </p>
+  <p xmlns="http://www.w3.org/1999/xhtml">
+  In the 3.2 release this builtin is not cluster-aware, the
+  first argument (host id) must be the same as the value returned
+  by <code>xdmp:host()</code>.  If you wish to obtain the status of a request
+  running on a remote host, use the code snippet above to obtain
+  the request status using <code>xdmp:server-status()</code>.
+  </p>
+</apidoc:summary>
+    <apidoc:params>
+      <apidoc:param name="host-id" type="xs:unsignedLong" optional="false">
+    A host id.  Must be the ID of the local host.
+  </apidoc:param>
+      <apidoc:param name="server-id" type="xs:unsignedLong" optional="false">
+    A server id (HTTP, XDBC, webDAV, or Task).
+  </apidoc:param>
+      <apidoc:param name="request-id" type="xs:unsignedLong" optional="false">
+    A request ID.
+  </apidoc:param>
+    </apidoc:params>
+    <apidoc:privilege>
+  http://marklogic.com/xdmp/privileges/status
+</apidoc:privilege>
+    <apidoc:return>element(request-status)</apidoc:return>
+    <apidoc:usage schema="server-status.xsd">
+</apidoc:usage>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+
+xdmp:request-status(xdmp:host(), xdmp:server(), xdmp:request())
+=&gt;
+&lt;request-status xmlns="http://marklogic.com/xdmp/status/server"&gt;
+  &lt;request-id&gt;6421977735636900809&lt;/request-id&gt;
+  &lt;server-id&gt;6693979901326946703&lt;/server-id&gt;
+  &lt;host-id&gt;2612493919508853477&lt;/host-id&gt;
+  &lt;canceled&gt;false&lt;/canceled&gt;
+  &lt;modules&gt;0&lt;/modules&gt;
+  &lt;database&gt;5184170867299910410&lt;/database&gt;
+  &lt;root&gt;c:/ml-danny\&lt;/root&gt;
+  &lt;request-kind&gt;invoke&lt;/request-kind&gt;
+  &lt;request-text&gt;/cq/eval.xqy?iefix.txt&lt;/request-text&gt;
+  &lt;update&gt;false&lt;/update&gt;
+  &lt;start-time&gt;2008-06-09T16:08:43.681-07:00&lt;/start-time&gt;
+  &lt;time-limit&gt;600&lt;/time-limit&gt;
+  &lt;max-time-limit&gt;1440&lt;/max-time-limit&gt;
+  &lt;user&gt;893641342095093063&lt;/user&gt;
+  &lt;client-address&gt;127.0.0.1&lt;/client-address&gt;
+  &lt;trigger-depth&gt;0&lt;/trigger-depth&gt;
+  &lt;expanded-tree-cache-hits&gt;0&lt;/expanded-tree-cache-hits&gt;
+  &lt;expanded-tree-cache-misses&gt;0&lt;/expanded-tree-cache-misses&gt;
+  &lt;request-state&gt;running&lt;/request-state&gt;
+  &lt;profiling-allowed&gt;true&lt;/profiling-allowed&gt;
+  &lt;profiling-enabled&gt;false&lt;/profiling-enabled&gt;
+  &lt;debugging-allowed&gt;true&lt;/debugging-allowed&gt;
+  &lt;debugging-status&gt;detached&lt;/debugging-status&gt;
+&lt;/request-status&gt;
+
+</pre>
+</apidoc:example>
+    <algorithm xmlns="http://www.w3.org/1999/xhtml"></algorithm>
+  </apidoc:function></apidoc:module>

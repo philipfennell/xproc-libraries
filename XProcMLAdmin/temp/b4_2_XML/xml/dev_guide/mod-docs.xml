@@ -1,0 +1,661 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="mod-docs.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1053802"></A>
+<A ID="86523"></A>
+ Reusing Content With Modular Document Applications</Heading-1>
+<pagenum>
+<A ID="pgfId-1053806"></A>
+146</pagenum>
+<Body>
+<A ID="pgfId-1049471"></A>
+This chapter describes how to create applications that reuse content by using XML that includes other content. It contains the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1053734"></A>
+<A href="mod-docs.xml#id(49067)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Modular Documents</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054928"></A>
+<A href="mod-docs.xml#id(38479)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+XInclude and XPointer</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053738"></A>
+<A href="mod-docs.xml#id(82876)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+CPF XInclude Application and API</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059420"></A>
+<A href="mod-docs.xml#id(96512)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating XML for Use in a Modular Document Application</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054047"></A>
+<A href="mod-docs.xml#id(92341)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Setting Up a Modular Document Application</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1054048"></A>
+<A ID="49067"></A>
+Modular Documents</Heading-2>
+<Body>
+<A ID="pgfId-1055449"></A>
+A <Emphasis>
+modular document </Emphasis>
+is an XML document that references other documents or parts of other documents for some or all of its content. If you fetch the referenced document parts and place their contents as child elements of the elements in which they are referenced, then that is called <Emphasis>
+expanding</Emphasis>
+ the document. If you expand all references, including any references in expanded documents (recursively, until there is nothing left to expand), then the resulting document is called the <Emphasis>
+expanded document</Emphasis>
+. The expanded document can then be used for searching, allowing you to get relevance-ranked results where the relevance is based on the entire content in a single document. Modular documents use the XInclude W3C recommendation as a way to specify the referenced documents and document parts.</Body>
+<Body>
+<A ID="pgfId-1059445"></A>
+Modular documents allow you to manage and reuse content. MarkLogic Server includes a Content Processing Framework (CPF) application that expands the documents based on all of the XInclude references. The CPF application creates a new document for the expanded document, leaving the original documents untouched. If any of the parts are updated, the expanded document is recreated, automatically keeping the expanded document up to date.</Body>
+<Body>
+<A ID="pgfId-1059463"></A>
+The CPF application for modular documents takes care of all of the work involved in expanding the documents. All you need to do is add or update documents in the database that have XInclude references, and then anything under a CPF domain is automatically expanded. For details on CPF, see the <Emphasis>
+Content Processing Framework Guide</Emphasis>
+ guide.</Body>
+<Body>
+<A ID="pgfId-1059479"></A>
+Content can be reused by referencing it in multiple documents. For example, imagine you are a book publisher and you have boilerplate passages such as legal disclaimers, company information, and so on, that you include in many different titles. Each book can then reference the boilerplate documents. If you are using the CPF application, then if the boilerplate is updated, all of the documents are automatically updated. If you are not using the CPF application, you can still update the documents with a simple API call.</Body>
+<Heading-2>
+<A ID="pgfId-1059009"></A>
+<A ID="38479"></A>
+XInclude and XPointer</Heading-2>
+<Body>
+<A ID="pgfId-1059421"></A>
+Modular documents use XInclude and XPointer technologies:</Body>
+<Body-bullet>
+<A ID="pgfId-1059058"></A>
+XInclude: <Hyperlink>
+<A href="http://www.w3.org/TR/xinclude/" xml:link="simple" show="replace" actuate="user" CLASS="URL">http://www.w3.org/TR/xinclude/</A></Hyperlink>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059330"></A>
+XPointer: <Hyperlink>
+<A href="http://www.w3.org/TR/WD-xptr" xml:link="simple" show="replace" actuate="user" CLASS="URL">http://www.w3.org/TR/WD-xptr</A></Hyperlink>
+</Body-bullet>
+<Body>
+<A ID="pgfId-1055693"></A>
+XInclude provides a syntax for including XML documents within other XML documents. It allows you to specify a relative or absolute URI for the document to include. XPointer provides a syntax for specifying parts of an XML document. It allows you to specify a node in the document using a syntax based on (but not quite the same as) XPath. MarkLogic Server supports the XPointer framework, and the <code>
+element()</code>
+ and <code>
+xmlns()</code>
+ schemes of XPointer, as well as the <code>
+xpath()</code>
+ scheme:</Body>
+<Body-bullet>
+<A ID="pgfId-1060104"></A>
+<code>
+element()</code>
+ Scheme: <Hyperlink>
+<A href="http://www.w3.org/TR/2002/PR-xptr-element-20021113/" xml:link="simple" show="replace" actuate="user" CLASS="URL">http://www.w3.org/TR/2002/PR-xptr-element-20021113/</A></Hyperlink>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1060121"></A>
+<code>
+xmlns()</code>
+ Scheme: <Hyperlink>
+<A href="http://www.w3.org/TR/2002/PR-xptr-xmlns-20021113/" xml:link="simple" show="replace" actuate="user" CLASS="URL">http://www.w3.org/TR/2002/PR-xptr-xmlns-20021113/</A></Hyperlink>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1060124"></A>
+<code>
+xpath()</code>
+ Scheme, which is not a W3C recommendation, but allows you to use simple XPath to specify parts of a document.</Body-bullet>
+<Body>
+<A ID="pgfId-1060105"></A>
+The <code>
+xmlns()</code>
+ scheme is used for namespace prefix bindings in the XPointer framework, the <code>
+element()</code>
+ scheme is one syntax used to specify which elements to select out of the document in the XInclude <code>
+href</code>
+ attribute, and the <code>
+xpath()</code>
+ scheme is an alternate syntax (which looks much more like XPath than the <code>
+element()</code>
+ scheme) to select elements from a document.</Body>
+<Body>
+<A ID="pgfId-1060293"></A>
+Each of these schemes is used within an attribute named <code>
+xpointer</code>
+. The <code>
+xpointer</code>
+ attribute is an attribute of the <code>
+&lt;xi:include&gt;</code>
+ element. If you specify a string corresponding to an <code>
+idref</code>
+, then it selects the element with that id attribute, as shown in <A href="mod-docs.xml#id(67350)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Example: Simple id' on page&#160;140</A>.</Body>
+<Body>
+<A ID="pgfId-1060189"></A>
+The examples that follow show XIncludes that use XPointer to select parts of documents:</Body>
+<Body-bullet>
+<A ID="pgfId-1060256"></A>
+<A href="mod-docs.xml#id(67350)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Example: Simple id</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1060260"></A>
+<A href="mod-docs.xml#id(29569)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Example: xpath() Scheme</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1060427"></A>
+<A href="mod-docs.xml#id(89597)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Example: element() Scheme</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1060432"></A>
+<A href="mod-docs.xml#id(98114)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Example: xmlns() and xpath() Scheme</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1060208"></A>
+<A ID="67350"></A>
+Example: Simple id</Heading-3>
+<Body>
+<A ID="pgfId-1060198"></A>
+Given a document <code>
+/test2.xml</code>
+ with the following content:</Body>
+<Code>
+<A ID="pgfId-1060218"></A>
+&lt;el-name&gt;
+&#160;&#160;&lt;p id=&quot;myID&quot;&gt;This is the first para.&lt;/p&gt;
+&#160;&#160;&lt;p&gt;This is the second para.&lt;/p&gt;
+&lt;/el-name&gt;</Code>
+<Body>
+<A ID="pgfId-1060213"></A>
+The following selects the element with an <code>
+id</code>
+ attribute with a value of <code>
+myID</code>
+ from the <code>
+/test2.xml</code>
+ document:</Body>
+<Code>
+<A ID="pgfId-1060190"></A>
+&lt;xi:include href=&quot;/test2.xml&quot; xpointer=&quot;myID&quot; /&gt;</Code>
+<Body>
+<A ID="pgfId-1060191"></A>
+The expansion of this <code>
+&lt;xi:include&gt;</code>
+ element is as follows:</Body>
+<Code>
+<A ID="pgfId-1060248"></A>
+&lt;p id=&quot;myID&quot; xml:base=&quot;/test2.xml&quot;&gt;This is the first para.&lt;/p&gt;</Code>
+<Heading-3>
+<A ID="pgfId-1060262"></A>
+<A ID="29569"></A>
+Example: xpath() Scheme</Heading-3>
+<Body>
+<A ID="pgfId-1060263"></A>
+Given a document <code>
+/test2.xml</code>
+ with the following content:</Body>
+<Code>
+<A ID="pgfId-1060264"></A>
+&lt;el-name&gt;
+&#160;&#160;&lt;p id=&quot;myID&quot;&gt;This is the first para.&lt;/p&gt;
+&#160;&#160;&lt;p&gt;This is the second para.&lt;/p&gt;
+&lt;/el-name&gt;</Code>
+<Body>
+<A ID="pgfId-1060265"></A>
+The following selects the second <code>
+p</code>
+ element that is a child of the root element <code>
+el-name</code>
+ from the <code>
+/test2.xml</code>
+ document:</Body>
+<Code>
+<A ID="pgfId-1060266"></A>
+&lt;xi:include href=&quot;/test2.xml&quot; xpointer=&quot;xpath(/el-name/p[2])&quot; /&gt;</Code>
+<Body>
+<A ID="pgfId-1060267"></A>
+The expansion of this <code>
+&lt;xi:include&gt;</code>
+ element is as follows:</Body>
+<Code>
+<A ID="pgfId-1060268"></A>
+&lt;p xml:base=&quot;/test2.xml&quot;&gt;This is the second para.&lt;/p&gt;</Code>
+<Heading-3>
+<A ID="pgfId-1060340"></A>
+<A ID="89597"></A>
+Example: element() Scheme</Heading-3>
+<Body>
+<A ID="pgfId-1060341"></A>
+Given a document <code>
+/test2.xml</code>
+ with the following content:</Body>
+<Code>
+<A ID="pgfId-1060342"></A>
+&lt;el-name&gt;
+&#160;&#160;&lt;p id=&quot;myID&quot;&gt;This is the first para.&lt;/p&gt;
+&#160;&#160;&lt;p&gt;This is the second para.&lt;/p&gt;
+&lt;/el-name&gt;</Code>
+<Body>
+<A ID="pgfId-1060343"></A>
+The following selects the second <code>
+p</code>
+ element that is a child of the root element <code>
+el-name</code>
+ from the <code>
+/test2.xml</code>
+ document:</Body>
+<Code>
+<A ID="pgfId-1060344"></A>
+&lt;xi:include href=&quot;/test2.xml&quot; xpointer=&quot;element(/1/2)&quot; /&gt;</Code>
+<Body>
+<A ID="pgfId-1060345"></A>
+The expansion of this <code>
+&lt;xi:include&gt;</code>
+ element is as follows:</Body>
+<Code>
+<A ID="pgfId-1060346"></A>
+&lt;p xml:base=&quot;/test2.xml&quot;&gt;This is the second para.&lt;/p&gt;</Code>
+<Heading-3>
+<A ID="pgfId-1060362"></A>
+<A ID="98114"></A>
+Example: xmlns() and xpath() Scheme</Heading-3>
+<Body>
+<A ID="pgfId-1060363"></A>
+Given a document <code>
+/test2.xml</code>
+ with the following content:</Body>
+<Code>
+<A ID="pgfId-1060397"></A>
+&lt;pref:el-name xmlns:pref=&quot;pref-namespace&quot;&gt;
+&#160;&#160;&lt;pref:p id=&quot;myID&quot;&gt;This is the first para.&lt;/pref:p&gt;
+&#160;&#160;&lt;pref:p&gt;This is the second para.&lt;/pref:p&gt;
+&lt;/pref:el-name&gt;</Code>
+<Body>
+<A ID="pgfId-1060365"></A>
+The following selects the first <code>
+pref:p</code>
+ element that is a child of the root element <code>
+pref:el-name</code>
+ from the <code>
+/test2.xml</code>
+ document:</Body>
+<Code>
+<A ID="pgfId-1060366"></A>
+&lt;xi:include href=&quot;/test2.xml&quot; 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;xpointer=&quot;xmlns(pref=pref-namespace)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;xpath(/pref:el-name/pref:p[1])&quot; /&gt;</Code>
+<Body>
+<A ID="pgfId-1060367"></A>
+The expansion of this <code>
+&lt;xi:include&gt;</code>
+ element is as follows:</Body>
+<Code>
+<A ID="pgfId-1060368"></A>
+&lt;pref:p id=&quot;myID&quot; xml:base=&quot;/test2.xml&quot;
+&#160;&#160;&#160;xmlns:pref=&quot;pref-namespace&quot;&gt;This is the first para.&lt;/pref:p&gt;</Code>
+<Body>
+<A ID="pgfId-1060416"></A>
+Note that the namespace prefixes for the XPointer must be entered in an xmlns() scheme; it does not inherit the prefixes from the query context.</Body>
+<Heading-2>
+<A ID="pgfId-1055692"></A>
+<A ID="82876"></A>
+CPF XInclude Application and API</Heading-2>
+<Body>
+<A ID="pgfId-1060559"></A>
+This section describes the XInclude CPF application code and includes the following parts:</Body>
+<Body-bullet>
+<A ID="pgfId-1060560"></A>
+<A href="mod-docs.xml#id(22329)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+XInclude Code and CPF Pipeline</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1060568"></A>
+<A href="mod-docs.xml#id(23893)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Required Security Privileges--xinclude Role</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1060555"></A>
+<A ID="22329"></A>
+XInclude Code and CPF Pipeline</Heading-3>
+<Body>
+<A ID="pgfId-1059490"></A>
+You can either create your own modular documents application or use the XInclude pipeline in a CPF application. For details on CPF, see the <Emphasis>
+Content Processing Framework Guide</Emphasis>
+ guide. The following are the XQuery libraries and CPF components used to create modular document applications:</Body>
+<Body-bullet>
+<A ID="pgfId-1054927"></A>
+The XQuery module library <code>
+xinclude.xqy</code>
+. The key function in this library is the <code>
+xinc:node-expand</code>
+ function, which takes a node and recursively expands any XInclude references, returning the fully expanded node.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059063"></A>
+The XQuery module library <code>
+xpointer.xqy</code>
+.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059070"></A>
+The XInclude pipeline and its associated actions.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059082"></A>
+You can create custom pipelines based on the XInclude pipeline that use the following <code>
+&lt;options&gt;</code>
+ to the XInclude pipeline. These options control the expansion of XInclude references for documents under the domain to which the pipeline is attached:</Body-bullet>
+<Body-bullet-2>
+<A ID="pgfId-1059089"></A>
+<code>
+&lt;destination-root&gt;</code>
+ specifies the directory in which the expanded version of documents are saved. This should be a directory path in the database, and the expanded document will be saved to the URI that is the concatenation of this root and the base name of the unexpanded document. For example, if the URI of the unexpanded document is <code>
+/mydocs/unexpanded/doc.xml</code>
+, and the destination-root is set to <code>
+/expanded-docs/</code>
+, then this document is expanded into a document with the URI <code>
+/expanded-docs/doc.xml</code>
+.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1059090"></A>
+<code>
+&lt;destination-collection&gt;</code>
+ specifies the collection in which to put the expanded version. You can specify multiple collections by specifying multiple <code>
+&lt;destination-collection&gt;</code>
+ elements in the pipeline.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1059092"></A>
+<code>
+&lt;destination-quality&gt;</code>
+ specifies the document quality for the expanded version. This should be an integer value, and higher positive numbers increase the relevance scores for matches against the document, while lower negative numbers decrease the relevance scores. The default quality on a document is 0, which does not change the relevance score.</Body-bullet-2>
+<Body-bullet-2>
+<A ID="pgfId-1059083"></A>
+The default is to use the same values as the unexpanded source.</Body-bullet-2>
+<Heading-3>
+<A ID="pgfId-1060532"></A>
+<A ID="23893"></A>
+Required Security Privileges--xinclude Role</Heading-3>
+<Body>
+<A ID="pgfId-1060539"></A>
+The XInclude code requires the following privileges:</Body>
+<Body-bullet>
+<A ID="pgfId-1060540"></A>
+<code>
+xdmp:with-namespaces</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1060545"></A>
+<code>
+xdmp:value</code>
+</Body-bullet>
+<Body>
+<A ID="pgfId-1060541"></A>
+Therefore, any users who will be expanding documents require these privileges. There us a predefined role called <code>
+xinclude</code>
+ that has the needed privileges to execute this code. You must either assign the xinclude role to your users or they must have the above execute privileges in order to run the XInclude code used in the XInclude CPF application.</Body>
+<Heading-2>
+<A ID="pgfId-1055455"></A>
+<A ID="96512"></A>
+Creating XML for Use in a Modular Document Application</Heading-2>
+<Body>
+<A ID="pgfId-1059158"></A>
+The basic syntax for using XInclude is relatively simple. For each referenced document, you include an <code>
+&lt;xi:include&gt;</code>
+ element with an <code>
+href</code>
+ attribute that has a value of the referenced document URI, either relative to the document with the <code>
+&lt;xi:include&gt;</code>
+ element or an absolute URI of a document in the database. When the document is expanded, the document referenced replaces the <code>
+&lt;xi:include&gt;</code>
+ element. This section includes the following parts:</Body>
+<Body-bullet>
+<A ID="pgfId-1059640"></A>
+<A href="mod-docs.xml#id(39929)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+&lt;xi:include&gt; Elements</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059645"></A>
+<A href="mod-docs.xml#id(64925)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+&lt;xi:fallback&gt; Elements</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059776"></A>
+<A href="mod-docs.xml#id(24921)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Simple Examples</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1059305"></A>
+<A ID="39929"></A>
+&lt;xi:include&gt; Elements</Heading-3>
+<Body>
+<A ID="pgfId-1059309"></A>
+Element that have references to content in other documents are <code>
+&lt;xi:include&gt;</code>
+ elements, where <code>
+xi</code>
+ is bound to the <code>
+http://www.w3.org/2001/XInclude</code>
+ namespace. Each <code>
+xi:include</code>
+ element has an <code>
+href</code>
+ attribute, which has the URI of the included document. The URI can be relative to the document containing the <code>
+&lt;xi:include&gt;</code>
+ element or an absolute URI of a document in the database.</Body>
+<Heading-3>
+<A ID="pgfId-1059321"></A>
+<A ID="64925"></A>
+&lt;xi:fallback&gt; Elements</Heading-3>
+<Body>
+<A ID="pgfId-1059313"></A>
+The XInclude specification has a mechanism to specify <Emphasis>
+fallback</Emphasis>
+ content, which is content to use when expanding the document when the XInclude reference is not found. To specify fallback content, you add an <code>
+&lt;xi:fallback&gt;</code>
+ element as a child of the <code>
+&lt;xi:include&gt;</code>
+ element. Fallback content is optional, but it is good practice to specify it. As long as the <code>
+xi:include</code>
+ <code>
+href</code>
+ attributes resolve correctly, documents without <code>
+&lt;xi:fallback&gt;</code>
+ elements will expand correctly. If an <code>
+xi:include</code>
+ <code>
+href</code>
+ attribute does not resolve correctly, however, and if there are no <code>
+&lt;xi:fallback&gt;</code>
+ elements for the unresolved references, then the expansion will fail with an <code>
+XI-BADFALLBACK</code>
+ exception.</Body>
+<Body>
+<A ID="pgfId-1059705"></A>
+The following is an example of an <code>
+&lt;xi:include&gt;</code>
+ element with an <code>
+&lt;xi:fallback&gt;</code>
+ element specified:</Body>
+<Code>
+<A ID="pgfId-1059737"></A>
+&lt;xi:include href=&quot;/blahblah.xml&quot;&gt;
+&#160;&#160;&lt;xi:fallback&gt;&lt;p&gt;NOT FOUND&lt;/p&gt;&lt;/xi:fallback&gt; 
+&lt;/xi:include&gt;</Code>
+<Body>
+<A ID="pgfId-1060460"></A>
+The <code>
+&lt;p&gt;NOT FOUND&lt;/p&gt;</code>
+ will be substituted when expanding the document with this <code>
+&lt;xi:include&gt;</code>
+ element if the document with the URI <code>
+/blahblah.xml</code>
+ is not found.</Body>
+<Body>
+<A ID="pgfId-1060461"></A>
+You can also put an <code>
+&lt;xi:include&gt;</code>
+ element within the <code>
+&lt;xi:fallback&gt;</code>
+ element to fallback to some content that is in the database, as follows:</Body>
+<Code>
+<A ID="pgfId-1059718"></A>
+&lt;xi:include href=&quot;/blahblah.xml&quot;&gt;
+&#160;&#160;&lt;xi:fallback&gt;&lt;xi:include href=&quot;/fallback.xml&quot; /&gt;&lt;/xi:fallback&gt; 
+&lt;/xi:include&gt;</Code>
+<Body>
+<A ID="pgfId-1059707"></A>
+The previous element says to include the document with the URI <code>
+/blahblah.xml</code>
+ when expanding the document, and if that is not found, to use the content in <code>
+/fallback.xml</code>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1059787"></A>
+<A ID="24921"></A>
+Simple Examples</Heading-3>
+<Body>
+<A ID="pgfId-1059788"></A>
+The following is a simple example which creates two documents, then expands the one with the XInclude reference:</Body>
+<Code>
+<A ID="pgfId-1059789"></A>
+xquery version &quot;1.0-ml&quot;;
+declare namespace xi=&quot;http://www.w3.org/2001/XInclude&quot;;
+
+xdmp:document-insert(&quot;/test1.xml&quot;, &lt;document&gt;
+  &lt;p&gt;This is a sample document.&lt;/p&gt;
+  &lt;xi:include href=&quot;test2.xml&quot;/&gt; 
+&lt;/document&gt;);
+
+xquery version &quot;1.0-ml&quot;;
+
+xdmp:document-insert(&quot;/test2.xml&quot;, 
+  &lt;p&gt;This document will get inserted where 
+&#160;&#160;&#160;&#160;&#160;the XInclude references it.&lt;/p&gt;);
+
+xquery version &quot;1.0-ml&quot;;
+import module namespace xinc=&quot;http://marklogic.com/xinclude&quot; 
+     at &quot;/MarkLogic/xinclude/xinclude.xqy&quot;; 
+
+xinc:node-expand(fn:doc(&quot;/test1.xml&quot;))</Code>
+<Body>
+<A ID="pgfId-1059790"></A>
+The following is the expanded document returned from the <code>
+xinc:node-expand</code>
+ call:</Body>
+<Code>
+<A ID="pgfId-1059791"></A>
+&lt;document&gt;
+&#160;&#160;&lt;p&gt;This is a sample document.&lt;/p&gt;
+&#160;&#160;&lt;p xml:base=&quot;/test2.xml&quot;&gt;This document will get inserted where 
+&#160;&#160;&#160;&#160;&#160;the XInclude references it.&lt;/p&gt;
+&lt;/document&gt;</Code>
+<Body>
+<A ID="pgfId-1059792"></A>
+The base URI from the URI of the included content is added to the expanded node as an <code>
+xml:base</code>
+ attribute.</Body>
+<Body>
+<A ID="pgfId-1059795"></A>
+You can include fallback content as shown in the following example:</Body>
+<Code>
+<A ID="pgfId-1059801"></A>
+xquery version &quot;1.0-ml&quot;;
+declare namespace xi=&quot;http://www.w3.org/2001/XInclude&quot;;
+
+xdmp:document-insert(&quot;/test1.xml&quot;, &lt;document&gt;
+  &lt;p&gt;This is a sample document.&lt;/p&gt;
+  &lt;xi:include href=&quot;/blahblah.xml&quot;&gt;
+    &lt;xi:fallback&gt;&lt;p&gt;NOT FOUND&lt;/p&gt;&lt;/xi:fallback&gt;
+  &lt;/xi:include&gt;
+&lt;/document&gt;);
+
+xquery version &quot;1.0-ml&quot;;
+
+xdmp:document-insert(&quot;/test2.xml&quot;, 
+  &lt;p&gt;This document will get inserted where the XInclude references it.&lt;/p&gt;);
+
+xquery version &quot;1.0-ml&quot;;
+
+xdmp:document-insert(&quot;/fallback.xml&quot;, 
+  &lt;p&gt;Sorry, no content found.&lt;/p&gt;);
+
+xquery version &quot;1.0-ml&quot;;
+import module namespace xinc=&quot;http://marklogic.com/xinclude&quot; 
+     at &quot;/MarkLogic/xinclude/xinclude.xqy&quot;; 
+
+xinc:node-expand(fn:doc(&quot;/test1.xml&quot;))</Code>
+<Body>
+<A ID="pgfId-1059860"></A>
+The following is the expanded document returned from the <code>
+xinc:node-expand</code>
+ call:</Body>
+<Code>
+<A ID="pgfId-1059849"></A>
+&lt;document&gt;
+&#160;&#160;&lt;p&gt;This is a sample document.&lt;/p&gt;
+&#160;&#160;&lt;p xml:base=&quot;/test1.xml&quot;&gt;NOT FOUND&lt;/p&gt;
+&lt;/document&gt;</Code>
+<Heading-2>
+<A ID="pgfId-1059160"></A>
+<A ID="92341"></A>
+Setting Up a Modular Document Application</Heading-2>
+<Body>
+<A ID="pgfId-1058962"></A>
+To set up a modular documents CPF application, you need to install CPF and create a domain under which documents with XInclude links will be expanded. For detailed information about the Content Processing Framework, including procedures for how to set it up and information about how it works, see the <Emphasis>
+Content Processing Framework Guide</Emphasis>
+ guide. </Body>
+<Body>
+<A ID="pgfId-1059360"></A>
+To set up an XInclude modular document application, perform the following steps:</Body>
+<Number1>
+<A ID="pgfId-1059345"></A>
+Install Content Processing in your database, if it is not already installed. For example, if your database is named <code>
+modular</code>
+, In the Admin Interface click the Databases &gt; modular &gt; Content Processing link. If it is not already installed, the Content Processing Summary page will indicate that it is not installed. If it is not installed, click the Install tab and click install (you can install it with or without enabling conversion).</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1059356"></A>
+Click the domains link from the left tree menu. Either create a new domain or modify an existing domain to encompass the scope of the documents you want processed with the XInclude processing. For details on domains, see the <Emphasis>
+Content Processing Framework Guide</Emphasis>
+ guide.</Number>
+<Number>
+<A ID="pgfId-1059364"></A>
+Under the domain you have chosen, click the Pipelines link from the left tree menu. </Number>
+<Number>
+<A ID="pgfId-1059372"></A>
+Check the <code>
+Status Change Handling</code>
+ and <code>
+XInclude Processing</code>
+ pipelines. You can also attach other pipelines or detach other pipelines, depending if they are needed for your application. </Number>
+</NumberList>
+<Note>
+<A ID="pgfId-1059966"></A>
+If you want to change any of the <code>
+&lt;options&gt;</code>
+ settings on the <code>
+XInclude Processing</code>
+ pipeline, copy that pipeline to another file, make the changes (make sure to change the value of the <code>
+&lt;pipeline-name&gt;</code>
+ element as well), and load the pipeline XML file. It will then be available to attach to a domain. For details on the options for the XInclude pipeline, see <A href="mod-docs.xml#id(82876)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'CPF XInclude Application and API' on page&#160;141</A>.</Note>
+<NumberList>
+<Number>
+<A ID="pgfId-1059379"></A>
+Click OK. The Domain Pipeline Configuration screen shows the attached pipelines.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1059341"></A>
+<IMAGE xml:link="simple" href="images/xinclude-pipelines.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<EndList-root>
+<A ID="pgfId-1059393"></A>
+Any documents with XIncludes that are inserted or updated under your domain will now be expanded. The expanded document will have a URI ending in <code>
+_expanded.xml</code>
+. For example, if you insert a document with the URI <code>
+/test.xml</code>
+, the expanded document will be created with a URI of <code>
+/test_xml_expanded.xml</code>
+ (assuming you did not modify the XInclude pipeline options).</EndList-root>
+<Note>
+<A ID="pgfId-1059400"></A>
+If there are existing XInclude documents in the scope of the domain, they will not be expanded until they are updated.</Note>
+</XML>

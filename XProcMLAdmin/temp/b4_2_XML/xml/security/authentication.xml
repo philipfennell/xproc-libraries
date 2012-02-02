@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="authentication.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1043743"></A>
+<A ID="63031"></A>
+Users and Authentication</Heading-1>
+<pagenum>
+<A ID="pgfId-1044245"></A>
+31</pagenum>
+<Body>
+<A ID="pgfId-1043432"></A>
+MarkLogic Server authenticates users when they access an application. This chapter describes users and the available authentication schemes, and includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1044212"></A>
+<A href="authentication.xml#id(95214)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Users</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044220"></A>
+<A href="authentication.xml#id(56266)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Types of Authentication</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1043434"></A>
+<A ID="95214"></A>
+Users</Heading-2>
+<Body>
+<A ID="pgfId-1044226"></A>
+A user in MarkLogic Server is used to authenticate requests to a server. Users are assigned to roles, which associate them with security attributes (privileges, permissions, and default permissions).</Body>
+<Body>
+<A ID="pgfId-1044230"></A>
+You configure users in the Admin interface, where you assign a user a name, a password, a set of roles, and a set of default permissions. To see a report of all of the security attributes associated with a given user, click on the <code>
+User:</code>
+<Emphasis>
+username</Emphasis>
+ link in the Admin interface screen for the given user. For details on configuring users in the Admin interface, see the 'Security Administration' chapter in the <Emphasis>
+Administrator's Guide</Emphasis>
+.</Body>
+<Body>
+<A ID="pgfId-1051724"></A>
+During the initial installation of MarkLogic Server, two users are created. One of the users is an authorized administrator who has the <code>
+admin</code>
+ role (the installation prompts for the username and password for this user). The other user is a user named <code>
+nobody</code>
+, which is created with no roles assigned and is given a password which is randomly generated. For details about installing MarkLogic Server, see the <Emphasis>
+Installation Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1044043"></A>
+<A ID="56266"></A>
+Types of Authentication</Heading-2>
+<Body>
+<A ID="pgfId-1044120"></A>
+For HTTP and WebDAV servers, you can control the type of authentication. XDBC servers always authenticate using digest-basic authentication. This section describes the following authentication schemes:</Body>
+<Body-bullet>
+<A ID="pgfId-1044123"></A>
+<A href="authentication.xml#id(35973)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Basic</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044131"></A>
+<A href="authentication.xml#id(74705)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Digest</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044136"></A>
+<A href="authentication.xml#id(14250)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Digest-Basic</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044141"></A>
+<A href="authentication.xml#id(60432)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Application Level</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1044066"></A>
+<A ID="35973"></A>
+Basic</Heading-3>
+<Body>
+<A ID="pgfId-1044162"></A>
+Basic authentication is the typical authentication scheme for web applications. When a user accesses an application page, she is prompted for a username and password. In basic mode, the password is obfuscated but not encrypted.</Body>
+<Heading-3>
+<A ID="pgfId-1044048"></A>
+<A ID="74705"></A>
+Digest</Heading-3>
+<Body>
+<A ID="pgfId-1044163"></A>
+Digest authentication works the same way as basic, but offers encryption of passwords sent over the network. When a user accesses an application page, she is prompted for a username and password. </Body>
+<Note>
+<A ID="pgfId-1044172"></A>
+If you change an HTTP or WebDAV server from basic to digest authentication, it will invalidate all passwords in the security database. You must then reenter the passwords in the Admin interface. Alternatively, you can migrate to digest-basic mode initially, then switch to digest-only mode once all users have accessed the server at least once. The first time the user accesses the server after changing from basic to digest-basic scheme, the server will compute the digest password by extracting the relevant information from the credentials supplied in basic mode. </Note>
+<Heading-3>
+<A ID="pgfId-1044056"></A>
+<A ID="14250"></A>
+Digest-Basic</Heading-3>
+<Body>
+<A ID="pgfId-1044204"></A>
+The digest-basic authentication scheme uses the more secure digest whenever possible, but reverts to basic authentication when needed. Some older browsers, for example, do not support digest authentication. Digest-basic scheme is also useful if you had previously used basic authentication, but want to migrate to using digest. The first time the user accesses the server after changing from basic to digest-basic authentication scheme, the server will compute the digest password by extracting the relevant information from the credentials supplied in basic mode. </Body>
+<Heading-3>
+<A ID="pgfId-1044194"></A>
+Limitations of Digest and Basic Authentication</Heading-3>
+<Body>
+<A ID="pgfId-1044195"></A>
+Since the browser does not provide a way to clear a user's authentication information in basic or digest mode, the user remains logged in until the browser is shut down. In addition, there is no way to create a custom login page using these schemes. For certain deployments, application-level authentication may be more appropriate.</Body>
+<Heading-3>
+<A ID="pgfId-1044082"></A>
+<A ID="60432"></A>
+Application Level</Heading-3>
+<Body>
+<A ID="pgfId-1035177"></A>
+Application-level authentication bypasses all authentication and automatically logs all users in as a specified <Emphasis>
+default user</Emphasis>
+. You specify the default user in the Admin interface, and any users accessing the server automatically inherit the security attributes (roles, privileges, default permissions) of the default user. Application-level authentication is available on HTTP and WebDAV servers. </Body>
+<Body>
+<A ID="pgfId-1044150"></A>
+The default user should have required privileges to at least read the initial page of the application. In many application scenarios, the user is then given the opportunity to explicitly log in to the rest of the application from that page. How much of the application and what data a user can access before explicitly logging in depends on the application and the roles that the default user is part of. For an example of this type of configuration, see <A href="recipes.xml#id(22120)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Custom Login Pages' on page&#160;42</A>.</Body>
+</XML>

@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="typeswitch.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1053802"></A>
+<A ID="37159"></A>
+ Transforming XML Structures With a Recursive typeswitch Expression</Heading-1>
+<pagenum>
+<A ID="pgfId-1053806"></A>
+92</pagenum>
+<Body>
+<A ID="pgfId-1049471"></A>
+A common task required with XML is to transform one structure to another structure. This chapter describes a design pattern using the XQuery <code>
+typeswitch</code>
+ expression which makes it easy to perform complex XML transformations with good performance, and includes some samples illustrating this design pattern. It includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1053734"></A>
+<A href="typeswitch.xml#id(21566)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+XML Transformations</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054662"></A>
+<A href="typeswitch.xml#id(65827)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Sample XQuery Transformation Code</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1054048"></A>
+<A ID="21566"></A>
+XML Transformations</Heading-2>
+<Body>
+<A ID="pgfId-1055504"></A>
+Programmers are often faced with the task of converting one XML structure to another. These transformations can range from very simple element name change transformations to extremely complex transformations that reshape the XML structure and/or combine it with content from other documents or sources. This section describes some aspects of XML transformations and includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1055835"></A>
+<A href="typeswitch.xml#id(36178)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+XQuery vs. XSLT</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055843"></A>
+<A href="typeswitch.xml#id(69407)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Transforming to XHTML or XSL-FO</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055848"></A>
+<A href="typeswitch.xml#id(77995)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+The typeswitch Expression</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1055509"></A>
+<A ID="36178"></A>
+XQuery vs. XSLT</Heading-3>
+<Body>
+<A ID="pgfId-1055106"></A>
+XSLT is commonly used in transformations, and it works well for many transformations. It does have some drawbacks for certain types of transformations, however, especially if the transformations are part of a larger XQuery application. </Body>
+<Body>
+<A ID="pgfId-1055529"></A>
+XQuery is a powerful programming language, and MarkLogic Server provides very fast access to content, so together they work extremely well for transformations. MarkLogic Server is particularly well suited to transformations that require searches to get the content which needs transforming. For example, you might have a transformation that uses a lexicon lookup to get a value with which to replace the original XML value. Another transformation might need to count the number of authors in a particular collection. </Body>
+<Heading-3>
+<A ID="pgfId-1055513"></A>
+<A ID="69407"></A>
+Transforming to XHTML or XSL-FO</Heading-3>
+<Body>
+<A ID="pgfId-1055516"></A>
+A common XML transformation is converting documents from some proprietary XML structure to HTML. Since XQuery produces XML, it is fairly easy to write an XQuery program that returns XHTML, which is the XML version of HTML. XHTML is, for the most part, just well-formed HTML with lowercase tag and attribute names. So it is common to write XQuery programs that return XHTML. </Body>
+<Body>
+<A ID="pgfId-1056085"></A>
+Similarly, you can write an XQuery program that returns XSL-FO, which is a common path to build PDF output. Again, XSL-FO is just an XML structure, so it is easy to write XQuery that returns XML in that structure.</Body>
+<Heading-3>
+<A ID="pgfId-1055517"></A>
+<A ID="77995"></A>
+The typeswitch Expression</Heading-3>
+<Body>
+<A ID="pgfId-1055521"></A>
+There are other ways to perform transformations in XQuery, but the <code>
+typeswitch</code>
+ expression used in a recursive function is a design pattern that is convenient, performs well, and makes it very easy to change and maintain the transformation code. </Body>
+<Body>
+<A ID="pgfId-1055593"></A>
+For the syntax of the <code>
+typeswitch</code>
+ expression, see <A href="../xquery/langoverview.xml#id(75915)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+The typeswitch Expression</Hyperlink>
+</A> in <Emphasis>
+XQuery and XSLT Reference Guide</Emphasis>
+. The <code>
+case</code>
+ clause allows you to perform a test on the input to the <code>
+typeswitch</code>
+ and then return something. For transformations, the tests are often what are called <Emphasis>
+kind tests</Emphasis>
+. A kind test tests to see what kind of node something is (for example, an element node with a given QName). If that test returns true, then the code in the <code>
+return</code>
+ clause is executed. The <code>
+return</code>
+ clause can be arbitrary XQuery, and can therefore call a function. </Body>
+<Body>
+<A ID="pgfId-1055863"></A>
+Because XML is an ordered tree structure, you can create a function that recursively walks through an XML node, each time doing some transformation on the node and sending its child nodes back into the function. The result is a convenient mechanism to transform the structure and/or content of an XML node.</Body>
+<Heading-2>
+<A ID="pgfId-1055105"></A>
+<A ID="65827"></A>
+Sample XQuery Transformation Code</Heading-2>
+<Body>
+<A ID="pgfId-1055649"></A>
+This section provides some code examples that use the <code>
+typeswitch</code>
+ expression. For each of these samples, you can cut and paste the code to execute against an App Server. For a more complicated example of this technique, see the Shakespeare Demo Application on <Hyperlink>
+<A href="http://developer.marklogic.com/code" xml:link="simple" show="replace" actuate="user" CLASS="URL">developer.marklogic.com/code</A></Hyperlink>
+. </Body>
+<Body>
+<A ID="pgfId-1055898"></A>
+The following samples are included:</Body>
+<Body-bullet>
+<A ID="pgfId-1055656"></A>
+<A href="typeswitch.xml#id(28577)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Simple Example</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055664"></A>
+<A href="typeswitch.xml#id(28248)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Simple Example With cts:highlight</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055669"></A>
+<A href="typeswitch.xml#id(12787)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Sample Transformation to XHTML</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1056146"></A>
+<A href="typeswitch.xml#id(38508)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Extending the typeswitch Design Pattern</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1055413"></A>
+<A ID="28577"></A>
+Simple Example</Heading-3>
+<Body>
+<A ID="pgfId-1055677"></A>
+The following sample code does a trivial transformation of the input node, but it shows the basic design pattern where the <code>
+default</code>
+ clause of the <code>
+typeswitch</code>
+ expression calls a simple function which sends the child node back into the original function.</Body>
+<Code>
+<A ID="pgfId-1059549"></A>
+xquery version &quot;1.0-ml&quot;;
+(: This function takes the children of the node and passes them
+   back into the typeswitch function.  :)
+declare function local:passthru($x as node()) as node()*
+{
+for $z in $x/node() return local:dispatch($z)
+};
+
+(: This is the recursive typeswitch function :)
+declare function local:dispatch($x as node()) as node()*
+{
+typeswitch ($x)
+  case text() return $x
+  case element (bar) return &lt;barr&gt;{local:passthru($x)}&lt;/barr&gt;
+  case element (baz) return &lt;bazz&gt;{local:passthru($x)}&lt;/bazz&gt;
+  case element (buzz) return &lt;buzzz&gt;{local:passthru($x)}&lt;/buzzz&gt;
+  case element (foo) return &lt;fooo&gt;{local:passthru($x)}&lt;/fooo&gt;
+  default return &lt;temp&gt;{local:passthru($x)}&lt;/temp&gt;
+};
+
+let $x := 
+&lt;foo&gt;foo
+  &lt;bar&gt;bar&lt;/bar&gt;
+  &lt;baz&gt;baz
+    &lt;buzz&gt;buzz&lt;/buzz&gt;
+  &lt;/baz&gt;
+  foo
+&lt;/foo&gt;
+return
+local:dispatch($x)</Code>
+<Body>
+<A ID="pgfId-1055482"></A>
+This XQuery program returns the following:</Body>
+<Code>
+<A ID="pgfId-1055493"></A>
+&lt;fooo&gt;
+&#160;&#160;foo
+&#160;&#160;&lt;barr&gt;bar&lt;/barr&gt;
+	&#160;&#160;&lt;bazz&gt;baz
+&#160;&#160;&#160;&#160;&lt;buzzz&gt;buzz&lt;/buzzz&gt;
+&#160;&#160;&lt;/bazz&gt;
+&#160;&#160;foo
+&lt;/fooo&gt;</Code>
+<Heading-3>
+<A ID="pgfId-1055481"></A>
+<A ID="28248"></A>
+Simple Example With cts:highlight</Heading-3>
+<Body>
+<A ID="pgfId-1055709"></A>
+The following sample code is the same as the previous example, except it also runs <code>
+cts:highlight</code>
+ on the result of the transformation. Using <code>
+cts:highlight</code>
+ in this way is sometimes useful when displaying the results from a search and then highlighting the terms that match the <code>
+cts:query</code>
+ expression. For details on <code>
+cts:highlight</code>
+, see <A href="../search-dev-guide/highlight.xml#id(12896)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Highlighting Search Term Matches</Hyperlink>
+</A> in the <Emphasis>
+Search Developer's Guide</Emphasis>
+.</Body>
+<Code>
+<A ID="pgfId-1059598"></A>
+xquery version &quot;1.0-ml&quot;;
+(: This function takes the children of the node and passes them
+   back into the typeswitch function.  :)
+declare function local:passthru($x as node()) as node()*
+{
+for $z in $x/node() return local:dispatch($z)
+};
+
+(: This is the recursive typeswitch function :)
+declare function local:dispatch($x as node()) as node()*
+{
+typeswitch ($x)
+  case text() return $x
+  case element (bar) return &lt;barr&gt;{local:passthru($x)}&lt;/barr&gt;
+  case element (baz) return &lt;bazz&gt;{local:passthru($x)}&lt;/bazz&gt;
+  case element (buzz) return &lt;buzzz&gt;{local:passthru($x)}&lt;/buzzz&gt;
+  case element (foo) return &lt;fooo&gt;{local:passthru($x)}&lt;/fooo&gt;
+  default return &lt;booo&gt;{local:passthru($x)}&lt;/booo&gt;
+};
+
+let $x := 
+&lt;foo&gt;foo
+  &lt;bar&gt;bar&lt;/bar&gt;
+  &lt;baz&gt;baz
+    &lt;buzz&gt;buzz&lt;/buzz&gt;
+  &lt;/baz&gt;
+  foo
+&lt;/foo&gt;
+return
+cts:highlight(local:dispatch($x), cts:word-query(&quot;foo&quot;), 
+   &lt;b&gt;{$cts:text}&lt;/b&gt;)</Code>
+<Body>
+<A ID="pgfId-1055726"></A>
+This XQuery program returns the following:</Body>
+<Code>
+<A ID="pgfId-1055982"></A>
+&lt;fooo&gt;&lt;b&gt;foo&lt;/b&gt;
+&#160;&#160;&lt;barr&gt;bar&lt;/barr&gt;
+&#160;&#160;&lt;bazz&gt;baz
+&#160;&#160;&#160;&#160;&lt;buzzz&gt;buzz&lt;/buzzz&gt;
+&#160;&#160;&lt;/bazz&gt;
+&#160;&#160;&lt;b&gt;foo&lt;/b&gt;
+&lt;/fooo&gt;</Code>
+<Heading-3>
+<A ID="pgfId-1055583"></A>
+<A ID="12787"></A>
+Sample Transformation to XHTML</Heading-3>
+<Body>
+<A ID="pgfId-1055587"></A>
+The following sample code performs a very simple transformation of an XML structure to XHTML. It uses the same design pattern as the previous example, but this time the XQuery code includes HTML markup.</Body>
+<Code>
+<A ID="pgfId-1059645"></A>
+xquery version &quot;1.0-ml&quot;;
+declare default element namespace &quot;http://www.w3.org/1999/xhtml&quot;;
+
+(: This function takes the children of the node and passes them
+   back into the typeswitch function.  :)
+declare function local:passthru($x as node()) as node()*
+{
+for $z in $x/node() return local:dispatch($z)
+};
+
+(: This is the recursive typeswitch function :)
+declare function local:dispatch($x as node()) as node()*
+{
+typeswitch ($x)
+  case text() return $x
+  case element (a) return local:passthru($x)
+  case element (title) return &lt;h1&gt;{local:passthru($x)}&lt;/h1&gt;
+  case element (para) return &lt;p&gt;{local:passthru($x)}&lt;/p&gt;
+  case element (sectionTitle) return &lt;h2&gt;{local:passthru($x)}&lt;/h2&gt;
+  case element (numbered) return &lt;ol&gt;{local:passthru($x)}&lt;/ol&gt;
+  case element (number) return &lt;li&gt;{local:passthru($x)}&lt;/li&gt;
+  default return &lt;tempnode&gt;{local:passthru($x)}&lt;/tempnode&gt;
+};
+
+let $x :=
+&lt;a&gt;
+ &lt;title&gt;This is a Title&lt;/title&gt;
+ &lt;para&gt;Some words are here.&lt;/para&gt;
+ &lt;sectionTitle&gt;A Section&lt;/sectionTitle&gt;
+ &lt;para&gt;This is a numbered list.&lt;/para&gt;
+ &lt;numbered&gt;
+   &lt;number&gt;Install MarkLogic Server.&lt;/number&gt;
+   &lt;number&gt;Load content.&lt;/number&gt;
+   &lt;number&gt;Run very big and fast XQuery.&lt;/number&gt;
+ &lt;/numbered&gt;
+&lt;/a&gt;
+return
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+&lt;head&gt;&lt;title&gt;MarkLogic Sample Code&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;{local:dispatch($x)}&lt;/body&gt;
+&lt;/html&gt;</Code>
+<Body>
+<A ID="pgfId-1055824"></A>
+This returns the following XHTML code:</Body>
+<Code>
+<A ID="pgfId-1056031"></A>
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+  &lt;head&gt;
+    &lt;title&gt;MarkLogic Sample Code&lt;/title&gt;
+  &lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;This is a Title&lt;/h1&gt;
+&lt;p&gt;Some words are here.&lt;/p&gt;
+&lt;h2&gt;A Section&lt;/h2&gt;
+&lt;p&gt;This is a numbered list.&lt;/p&gt;
+&#160;&#160;&lt;ol&gt;
+      &lt;li&gt;Install MarkLogic Server.&lt;/li&gt;
+      &lt;li&gt;Load content.&lt;/li&gt;
+      &lt;li&gt;Run very big and fast XQuery.&lt;/li&gt;
+&#160;&#160;&lt;/ol&gt;
+&lt;/body&gt;
+&lt;/html&gt;</Code>
+<Body>
+<A ID="pgfId-1056001"></A>
+If you run this code against an HTTP App Server (for example, copy the code to a file in the App Server root and access the page from a browser), you will see results similar to the following:</Body>
+<Body>
+<A ID="pgfId-1055802"></A>
+<IMAGE xml:link="simple" href="images/html.gif" show="embed" actuate="auto"/>
+</Body>
+<Body>
+<A ID="pgfId-1056094"></A>
+Note that the <code>
+return</code>
+ clauses of the <code>
+typeswitch</code>
+ <code>
+case</code>
+ statements in this example are simplified, and look like the following:</Body>
+<Code>
+<A ID="pgfId-1056104"></A>
+case element (sectionTitle) return &lt;h2&gt;{local:passthru($x)}&lt;/h2&gt;</Code>
+<Body>
+<A ID="pgfId-1056105"></A>
+In a more typical example, the <code>
+return</code>
+ clause would call a function:</Body>
+<Code>
+<A ID="pgfId-1056117"></A>
+case element (sectionTitle) return local:myFunction($x)</Code>
+<Body>
+<A ID="pgfId-1056118"></A>
+The function can then perform arbitrarily complex logic. Typically, each case statement calls a function with code appropriate to how that element needs to be transformed.</Body>
+<Heading-3>
+<A ID="pgfId-1056147"></A>
+<A ID="38508"></A>
+Extending the typeswitch Design Pattern</Heading-3>
+<Body>
+<A ID="pgfId-1056158"></A>
+There are many ways you can extend this design pattern beyond the simple examples above. For example, you can add a second parameter to the simple <code>
+dispatch</code>
+ functions shown in the previous examples. The second parameter passes some other information about the node you are transforming. </Body>
+<Body>
+<A ID="pgfId-1056190"></A>
+Suppose you want your transformation to exclude certain elements based on the place in the XML hierarchy in which the elements appear. You can then add logic to the function to exclude the passed in elements, as shown in the following code snippet:</Body>
+<Code>
+<A ID="pgfId-1056167"></A>
+declare function dispatch($x as node(), $excluded as element()*) 
+&#160;&#160;as node()*
+{
+(: Test whether $x is an excluded element, if so return empty,
+&#160;&#160;&#160;otherwise run the typeswitch expression. 
+:)
+if ( some $node in $excluded satisfies $x )
+then ( )
+else ( typeswitch ($x) ..... )
+};</Code>
+<Body>
+<A ID="pgfId-1056168"></A>
+There are plenty of other extensions to this design pattern you can use. What you do depends on your application requirements. XQuery is a powerful programming language, and therefore these types of design patterns are very extensible to new requirements.</Body>
+</XML>

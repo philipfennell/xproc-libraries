@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="compartment.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1043743"></A>
+<A ID="17367"></A>
+Compartment Security</Heading-1>
+<pagenum>
+<A ID="pgfId-1045245"></A>
+19</pagenum>
+<Body>
+<A ID="pgfId-1043432"></A>
+The MarkLogic Server security model includes the concept of compartment security, which allows you to specify more complex security rules on documents. This chapter describes compartment security and includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1044144"></A>
+<A href="compartment.xml#id(39108)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Understanding Compartment Security</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044333"></A>
+<A href="compartment.xml#id(71105)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Configuring Compartment Security</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044152"></A>
+<A href="compartment.xml#id(32271)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Sample Scenario for Compartment Security</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1053607"></A>
+To enable compartment security, a license key that includes compartment security is required. For details on purchasing a compartment security license, contact your MarkLogic sales representative.</Body>
+<Heading-2>
+<A ID="pgfId-1044202"></A>
+<A ID="39108"></A>
+Understanding Compartment Security</Heading-2>
+<Body>
+<A ID="pgfId-1044207"></A>
+A compartment is a name associated with a role, and that name is used as an additional check when accessing documents in a database or when using URI privileges; compartments have no effect on execute privileges. Without compartment security, permissions are checked using OR semantics. For example, if there is a <code>
+read</code>
+ permission on a document with the role <code>
+role1</code>
+, and another read permission on that document with the role <code>
+role2</code>
+, then a user can read that document as long as she possesses <Emphasis>
+either</Emphasis>
+ <code>
+role1</code>
+ or <code>
+role2</code>
+. If those roles have different compartments associated with them (for example, <code>
+compartment1</code>
+ and <code>
+compartment2</code>
+, respectively), then the permissions are checked using AND semantics for each compartment, as well as an OR semantics for each role without a compartment, and the user must possess both <code>
+role1</code>
+ and <code>
+role2</code>
+ to access the document, as well as some other non-compartmented role that hads a corresponding permission on the document. </Body>
+<Body>
+<A ID="pgfId-1053318"></A>
+If any permission on a document has a compartment, then the user must have that compartment in order to access any of the capabilities, even if the capibility is not the one with the compartment.</Body>
+<Body>
+<A ID="pgfId-1053337"></A>
+There must also be <code>
+update</code>
+ permissions for some role corresponding to each compartment that is represented in any other permissions (<code>
+read</code>
+, <code>
+insert</code>
+, <code>
+execute</code>
+) on the document. If you try to add any <code>
+read</code>
+, <code>
+insert</code>
+, or <code>
+execute</code>
+ permissions that reference a role with a compartment to a document for which there is no <code>
+update</code>
+ permission with the corresponding compartment, then an exception is thrown.</Body>
+<Heading-2>
+<A ID="pgfId-1035177"></A>
+<A ID="71105"></A>
+Configuring Compartment Security</Heading-2>
+<Body>
+<A ID="pgfId-1053215"></A>
+You can only add a compartment for a new role. To add a compartment, enter a name for the compartment in the compartment field. </Body>
+<Body>
+<A ID="pgfId-1053279"></A>
+You cannot modify an existing role to use a compartment; if you want to add a compartment to a role, you must delete the role and re-create it with a compartment. If you do re-create a role, note that any permissions you have on documents reference the old role (because they use the role ID, not the role name), so if you want those document permissions to use the new role, you will need to update those documents with new permissions that reference the new role. </Body>
+<Heading-2>
+<A ID="pgfId-1053226"></A>
+<A ID="32271"></A>
+Sample Scenario for Compartment Security</Heading-2>
+<Body>
+<A ID="pgfId-1053236"></A>
+This section describes a scenario that uses compartment security to help understand how it works. The scenario is not meant to demonstrate the correct way to set up compartment security, as your situation is likely to be unique. but it should demonstrate how the system works and give you ideas for how to implement your own security model.</Body>
+<Body>
+<A ID="pgfId-1053477"></A>
+Consider the following scenario:</Body>
+<Body-bullet>
+<A ID="pgfId-1053348"></A>
+compartment: <code>
+country</code>
+ with roles <code>
+US</code>
+, <code>
+Canada</code>
+, and <code>
+Mexico</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053358"></A>
+compartment: <code>
+job-function</code>
+ with roles <code>
+Executive</code>
+, <code>
+Manager</code>
+, <code>
+Employee</code>
+, and <code>
+Administrator</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053384"></A>
+compartment: classification with roles <code>
+top-secret</code>
+, <code>
+secret</code>
+, <code>
+classified</code>
+, and <code>
+unclassified</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053463"></A>
+a role named <code>
+can-read</code>
+ with no compartment</Body-bullet>
+<Body>
+<A ID="pgfId-1053418"></A>
+</Body>
+</XML>

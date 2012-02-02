@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="similar.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1053802"></A>
+<A ID="91115"></A>
+Distinctive Terms and cts:similar-query</Heading-1>
+<pagenum>
+<A ID="pgfId-1053806"></A>
+174</pagenum>
+<Body>
+<A ID="pgfId-1049471"></A>
+MarkLogic Server includes <code>
+cts:similar-query</code>
+ and <code>
+cts:distinctive-terms</code>
+. With these search APIs, you can find what is distinctive about nodes, typically from search results, from a search perspective. This chapter describes <code>
+cts:similar-query</code>
+ and <code>
+cts:distinctive-terms</code>
+, and includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1053734"></A>
+<A href="similar.xml#id(45394)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Understanding cts:similar-query</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054824"></A>
+<A href="similar.xml#id(52656)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Finding the Distinctive Terms of a Set of Nodes</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1061151"></A>
+<A href="similar.xml#id(34575)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Understanding the cts:distinctive-terms Output</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054825"></A>
+<A href="similar.xml#id(92330)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Example Design Pattern: Making a Tag Cloud</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1053740"></A>
+<A ID="45394"></A>
+Understanding cts:similar-query</Heading-2>
+<Body>
+<A ID="pgfId-1054464"></A>
+You can use <code>
+cts:similar-query</code>
+ to find nodes that are similar, from a search perspecitve, to the model nodes that you pass into the first parameter. The <code>
+cts:similar-query</code>
+ constructor is a <code>
+cts:query</code>
+ constructor, and you can combine it with other <code>
+cts:query</code>
+ constructors as described in <A href="cts_query.xml#id(51991)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Composing cts:query Expressions' on page&#160;56</A>. </Body>
+<Body>
+<A ID="pgfId-1059800"></A>
+Instead of looking in the indexes to find the terms that match the query, like other <code>
+cts:query</code>
+ constructors, <code>
+cts:similar-query</code>
+ takes the nodes passed in, runs them through an indexing process, and returns a <code>
+cts:query</code>
+ that would match the model nodes with a high degree of relevance. You can pass various index and score options into <code>
+cts:similar-query</code>
+ to influence the <code>
+cts:query</code>
+ that it produces. </Body>
+<Body>
+<A ID="pgfId-1059835"></A>
+The query that it generates finds distinctive terms of the model nodes <Emphasis>
+based on the other documents in the database</Emphasis>
+. </Body>
+<Heading-2>
+<A ID="pgfId-1054459"></A>
+<A ID="52656"></A>
+Finding the Distinctive Terms of a Set of Nodes</Heading-2>
+<Body>
+<A ID="pgfId-1054823"></A>
+If you want to find the terms that <code>
+cts:similar-query</code>
+ uses to generate its <code>
+cts:query</code>
+, you can use <code>
+cts:distinctive-terms</code>
+. The output of <code>
+cts:distinctive-terms</code>
+ is a <code>
+cts:class</code>
+ element with several <code>
+cts:term</code>
+ children. Each <code>
+cts:term</code>
+ element contains a cts:query constructor, representing a term. Each <code>
+cts:term</code>
+ element also contains scores and confidence for that term. MarkLogic Server uses these scores in calculating relevance. </Body>
+<Body>
+<A ID="pgfId-1059910"></A>
+You can pass many different options into <code>
+cts:distinctive-terms</code>
+ to control which terms it generates. The database options control which terms will be most 'relevant' to the model nodes, and therefore affect the <code>
+cts:distinctive-terms </code>
+output. If you take an iterative approach, you can try different indexing options to see which ones give the best results for your model nodes. </Body>
+<Body>
+<A ID="pgfId-1059939"></A>
+The distinctive terms generated or distinctive based on the other documents in the database, therfore, you will get much better results running this against a sizable database.</Body>
+<Heading-2>
+<A ID="pgfId-1061062"></A>
+<A ID="34575"></A>
+Understanding the cts:distinctive-terms Output</Heading-2>
+<Body>
+<A ID="pgfId-1061063"></A>
+The following shows a simple <code>
+cts:distinctive-terms</code>
+ query with its output:</Body>
+<Code>
+<A ID="pgfId-1061064"></A>
+let $node := doc(&quot;/shakespeare/plays/hamlet.xml&quot;) 
+return cts:distinctive-terms($node, 
+   &lt;options xmlns=&quot;cts:distinctive-terms&quot;
+         xmlns:db=&quot;http://marklogic.com/xdmp/database&quot;&gt;
+    &lt;use-db-config&gt;false&lt;/use-db-config&gt;
+    &lt;max-terms&gt;3&lt;/max-terms&gt;  
+    &lt;db:word-searches&gt;false&lt;/db:word-searches&gt;
+    &lt;db:stemmed-searches&gt;basic&lt;/db:stemmed-searches&gt;
+    &lt;db:fast-phrase-searches&gt;false&lt;/db:fast-phrase-searches&gt;
+    &lt;db:fast-element-word-searches&gt;false&lt;/db:fast-element-word-searches&gt;
+    &lt;db:fast-element-phrase-searches&gt;false&lt;/db:fast-element-phrase-searches&gt;
+   &lt;/options&gt;)
+=&gt;
+&lt;cts:class name=&quot;dterms /shakespeare/plays/hamlet.xml&quot; offset=&quot;0&quot; xmlns:cts=&quot;http://marklogic.com/cts&quot;&gt;
+  &lt;cts:term id=&quot;7783238741996929314&quot; val=&quot;981&quot; score=&quot;981&quot; confidence=&quot;0.811494&quot; fitness=&quot;1&quot;&gt;
+    &lt;cts:word-query&gt;
+      &lt;cts:text xml:lang=&quot;en&quot;&gt;guildenstern&lt;/cts:text&gt;
+      &lt;cts:option&gt;case-insensitive&lt;/cts:option&gt;
+      &lt;cts:option&gt;diacritic-insensitive&lt;/cts:option&gt;
+      &lt;cts:option&gt;stemmed&lt;/cts:option&gt;
+      &lt;cts:option&gt;unwildcarded&lt;/cts:option&gt;
+    &lt;/cts:word-query&gt;
+  &lt;/cts:term&gt;
+  &lt;cts:term id=&quot;4731147985682913359&quot; val=&quot;956&quot; score=&quot;956&quot; confidence=&quot;0.801087&quot; fitness=&quot;1&quot;&gt;
+    &lt;cts:word-query&gt;
+      &lt;cts:text xml:lang=&quot;en&quot;&gt;polonius&lt;/cts:text&gt;
+      &lt;cts:option&gt;case-insensitive&lt;/cts:option&gt;
+      &lt;cts:option&gt;diacritic-insensitive&lt;/cts:option&gt;
+      &lt;cts:option&gt;stemmed&lt;/cts:option&gt;
+      &lt;cts:option&gt;unwildcarded&lt;/cts:option&gt;
+    &lt;/cts:word-query&gt;
+  &lt;/cts:term&gt;
+  &lt;cts:term id=&quot;1100490632300558572&quot; val=&quot;949&quot; score=&quot;949&quot; confidence=&quot;0.798149&quot; fitness=&quot;1&quot;&gt;
+    &lt;cts:word-query&gt;
+      &lt;cts:text xml:lang=&quot;en&quot;&gt;horatio&lt;/cts:text&gt;
+      &lt;cts:option&gt;case-insensitive&lt;/cts:option&gt;
+      &lt;cts:option&gt;diacritic-insensitive&lt;/cts:option&gt;
+      &lt;cts:option&gt;stemmed&lt;/cts:option&gt;
+      &lt;cts:option&gt;unwildcarded&lt;/cts:option&gt;
+    &lt;/cts:word-query&gt;
+  &lt;/cts:term&gt;
+&lt;/cts:class&gt;</Code>
+<Body>
+<A ID="pgfId-1061069"></A>
+The output is a <code>
+cts:class</code>
+ element, and each child is a <code>
+cts:term</code>
+ element. The <code>
+cts:term</code>
+ elements represent terms in a database, identified by a <code>
+cts:query</code>
+. Each term has numbers for <code>
+val</code>
+, <code>
+score</code>
+, <code>
+confidence</code>
+, and <code>
+fitness</code>
+. </Body>
+<Body>
+<A ID="pgfId-1061105"></A>
+The <code>
+val</code>
+ and <code>
+score</code>
+ attributes are values that approximate the score contribution of that term. The <code>
+confidence</code>
+ attribute represents the <code>
+cts:confidence</code>
+ value for the term. The <code>
+fitness</code>
+ attribute represents the <code>
+cts:fitness</code>
+ value for the term. For details on score, fitness, and confidence, see <A href="relevance.xml#id(86523)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Relevance Scores: Understanding and Customizing' on page&#160;70</A>.</Body>
+<Body>
+<A ID="pgfId-1061166"></A>
+The previous query only consider word-query terms. You canalso have <code>
+cts:element-word-query</code>
+ terms and <code>
+cts:near-query</code>
+ terms for terms that are within an element or that are a word pair (a <code>
+cts:near-query</code>
+ with a <code>
+distance</code>
+ of 1). To see some of these kind of terms, try running a query like the following:</Body>
+<Code>
+<A ID="pgfId-1061202"></A>
+let $node := doc(&quot;/shakespeare/plays/hamlet.xml&quot;) 
+return cts:distinctive-terms($node, 
+   &lt;options xmlns=&quot;cts:distinctive-terms&quot;
+         xmlns:db=&quot;http://marklogic.com/xdmp/database&quot;&gt;
+    &lt;use-db-config&gt;false&lt;/use-db-config&gt;
+    &lt;max-terms&gt;100&lt;/max-terms&gt;  
+    &lt;db:word-searches&gt;false&lt;/db:word-searches&gt;
+    &lt;db:stemmed-searches&gt;basic&lt;/db:stemmed-searches&gt;
+    &lt;db:fast-phrase-searches&gt;true&lt;/db:fast-phrase-searches&gt;
+    &lt;db:fast-element-word-searches&gt;true&lt;/db:fast-element-word-searches&gt;
+    &lt;db:fast-element-phrase-searches&gt;true&lt;/db:fast-element-phrase-searches&gt;
+   &lt;/options&gt;)</Code>
+<Body>
+<A ID="pgfId-1061295"></A>
+This query enables the <code>
+db:fast-element-word-searches</code>
+ and <code>
+db:fast-element-phrase-searches</code>
+ options, which will causeterms to appear in the output that are constrained to a particular element. Changing the database options to <code>
+cts:distictive-terms</code>
+ and looking at the differences in the output will help you to understand both how the index options affect which terms are distinctive and, since <code>
+cts:similar-query</code>
+ can use these same settings, how <code>
+cts:similar-query</code>
+ decides if a document is 'similar' to the model nodes.</Body>
+<Heading-2>
+<A ID="pgfId-1055130"></A>
+<A ID="92330"></A>
+Example Design Pattern: Making a Tag Cloud</Heading-2>
+<Body>
+<A ID="pgfId-1059632"></A>
+Tag clouds are a popular visualization that show various terms, usually relevant to a search, and show the more relevant ones in a larger and/or more colorful font. You can use <code>
+cts:distinctive-terms</code>
+ feed the data used to make a tag cloud. The basic design pattern is as follows:</Body>
+<Body-bullet>
+<A ID="pgfId-1059894"></A>
+Experiment with options to create a <code>
+cts:distinctive-terms</code>
+ query that produces results you are happy with.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059949"></A>
+Set a <code>
+max-terms</code>
+ size that is equal to the number of terms you want in your tag cloud.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059960"></A>
+Come up with some algorithm to convert score (or fitness) into font size. For example, you might want to take the fitness and multiply it by 20 to get a font size.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059972"></A>
+Use the above algorithm to iterate through your results and generate some html that creates a tag cloud.</Body-bullet>
+<Body>
+<A ID="pgfId-1059979"></A>
+The following sample code is a simplied example of this design pattern:</Body>
+<Code>
+<A ID="pgfId-1060483"></A>
+let $hits := 
+  let $terms :=
+   let $node := doc(&quot;/shakespeare/plays/hamlet.xml&quot;)//LINE
+   return cts:distinctive-terms($node, 
+   &lt;options xmlns=&quot;cts:distinctive-terms&quot;
+         xmlns:db=&quot;http://marklogic.com/xdmp/database&quot;&gt;
+    &lt;use-db-config&gt;false&lt;/use-db-config&gt;
+    &lt;max-terms&gt;100&lt;/max-terms&gt;  
+    &lt;db:word-searches&gt;false&lt;/db:word-searches&gt;
+    &lt;db:stemmed-searches&gt;basic&lt;/db:stemmed-searches&gt;
+    &lt;db:fast-phrase-searches&gt;false&lt;/db:fast-phrase-searches&gt;
+    &lt;db:fast-element-word-searches&gt;false&lt;/db:fast-element-word-searches&gt;
+    &lt;db:fast-element-phrase-searches&gt;false&lt;/db:fast-element-phrase-searches&gt;
+   &lt;/options&gt;)//cts:term
+  for $wq in $terms
+  where $wq/cts:word-query
+  return element word {
+           attribute score {
+             fn:round(($wq/@val div 20))},
+           $wq/cts:word-query/cts:text/string() }
+return &lt;p&gt;{
+for $hit in $hits
+order by $hit/string()
+return (
+&lt;span style={fn:concat(&quot;font-size: &quot;, 
+          $hit/@score)}&gt;{$hit/string()}
+&lt;/span&gt;, &quot; &quot; ) }&lt;/p&gt; </Code>
+<Body>
+<A ID="pgfId-1060205"></A>
+The above query returns html which, when displayed in a browser, shows the 100 most distinctive with the most 'relevant' terms in a larger font.</Body>
+</XML>

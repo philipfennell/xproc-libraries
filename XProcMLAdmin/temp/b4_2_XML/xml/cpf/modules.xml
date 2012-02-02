@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="modules.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1044208"></A>
+<A ID="43994"></A>
+Developing Modules to Process Content</Heading-1>
+<pagenum>
+<A ID="pgfId-1045136"></A>
+35</pagenum>
+<Body>
+<A ID="pgfId-1044209"></A>
+This chapter describes modules in the MarkLogic Server Content Processing Framework, and includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1045252"></A>
+<A href="modules.xml#id(97739)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Overview of Modules</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049742"></A>
+<A href="modules.xml#id(16682)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Loading Modules Into the Database</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054220"></A>
+<A href="modules.xml#id(19865)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+External Variables Available to Modules</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1045256"></A>
+<A href="modules.xml#id(66365)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Design Patterns and Rules</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1045274"></A>
+<A ID="97739"></A>
+Overview of Modules</Heading-2>
+<Body>
+<A ID="pgfId-1049066"></A>
+While domains and pipelines provide a framework to build content processing applications, the actual work of transforming or enhancing content is done through XQuery modules. An XQuery module can do an arbitrary amount of work; it can be very simple, very complex, or somewhere in between. </Body>
+<Body>
+<A ID="pgfId-1049721"></A>
+There are two types of XQuery modules used in content processing applications:</Body>
+<Body-bullet>
+<A ID="pgfId-1049722"></A>
+Condition modules</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049723"></A>
+Action modules</Body-bullet>
+<Body>
+<A ID="pgfId-1049420"></A>
+Condition modules test for a condition and return a boolean value (<code>
+true</code>
+ or <code>
+false</code>
+). Action modules typically perform some processing on the document and then call <code>
+cpf:success</code>
+ or <code>
+cpf:failure</code>
+ to advance the state, according to the definitions in the current pipeline.</Body>
+<Body>
+<A ID="pgfId-1049449"></A>
+Action modules can call out to web services inside or outside of MarkLogic Server, they can perform transformations on the document within MarkLogic Server, or they can perform any work needed in the current phase of the pipeline.</Body>
+<Note>
+<A ID="pgfId-1054447"></A>
+Instead of using XQuery modules for conditions and actions, you can also use XSLT modules. If you have a path to an XSLT stylesheet in a pipeline, the action or condition is run with the specified XSLT code. For details about using XSLT stylesheets in CPF actions, see <A href="modules.xml#id(40389)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Using XSLT Stylesheets Instead of an Action Modules' on page&#160;35</A>.</Note>
+<Heading-2>
+<A ID="pgfId-1048941"></A>
+<A ID="16682"></A>
+Loading Modules Into the Database</Heading-2>
+<Body>
+<A ID="pgfId-1049744"></A>
+XQuery modules used as action and condition modules should be stored in the database. Load the XQuery modules into the database and root specified in the evaluation context for the domain configuration. For details about where to load the XQuery modules, see <A href="domains.xml#id(17245)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Domain Scope and Code Evaluation Context' on page&#160;14</A>.</Body>
+<Heading-2>
+<A ID="pgfId-1049743"></A>
+<A ID="19865"></A>
+External Variables Available to Modules</Heading-2>
+<Body>
+<A ID="pgfId-1054123"></A>
+Each CPF action condition and action module has the following external variables available:</Body>
+<Body-bullet>
+<A ID="pgfId-1054133"></A>
+<code>
+$cpf:document-uri</code>
+: The URI of the document being processed.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054150"></A>
+<code>
+$cpf:transition</code>
+: The name of the transition being executed. Every action should use this external variable so it can pass the value into <code>
+cpf:success</code>
+ and <code>
+cpf:failure</code>
+ to advance the state of the document.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054264"></A>
+<code>
+$cpf:options</code>
+: The options node from the pipeline action. You can use this to pass in options that the module uses, so you can use the same module with different pipelines and get different behavior.</Body-bullet>
+<Body>
+<A ID="pgfId-1054246"></A>
+You use these external variables to get the URI of the document being processed, the name of the transition being executed, and any options that the pipeline passes through to the module. To use these external variables in your modules, import them as external variables to your modules, as in the following code snippet from an XQuery <code>
+1.0-ml</code>
+ prolog:</Body>
+<Code>
+<A ID="pgfId-1054247"></A>
+declare variable $cpf:document-uri as xs:string external;
+declare variable $cpf:transition as element() external;
+declare variable $cpf:options as element() external;</Code>
+<Heading-2>
+<A ID="pgfId-1054112"></A>
+<A ID="66365"></A>
+Design Patterns and Rules</Heading-2>
+<Body>
+<A ID="pgfId-1049180"></A>
+The Content Processing Framework is designed with certain assumptions about what the modules called in a pipeline will do. This section describes these rules and provides XQuery design patterns to help you follow the rules in your XQuery code. It is important to follow these rules in your XQuery modules; not following these rules can lead to unexpected results. The following topics are included:</Body>
+<Body-bullet>
+<A ID="pgfId-1049472"></A>
+<A href="modules.xml#id(72550)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Condition Modules Must Return a Boolean</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049534"></A>
+<A href="modules.xml#id(44847)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Condition Modules Should Not Update Documents</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049521"></A>
+<A href="modules.xml#id(91800)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Action Modules Use try/catch With cpf:success and cpf:failure</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049477"></A>
+<A href="modules.xml#id(64004)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Action Modules Operate On a Single Document</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049482"></A>
+<A href="modules.xml#id(89535)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Action Modules Must Be a Single Transaction</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054462"></A>
+<A href="modules.xml#id(40389)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Using XSLT Stylesheets Instead of an Action Modules</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1049176"></A>
+<A ID="72550"></A>
+Condition Modules Must Return a Boolean</Heading-3>
+<Body>
+<A ID="pgfId-1049189"></A>
+Condition modules must return a boolean value (<code>
+true</code>
+ or <code>
+false</code>
+). </Body>
+<Body>
+<A ID="pgfId-1049992"></A>
+In one common scenario, a condition module checks either the existence or the value of an element in the document or in its properties document. If it exists, then the module returns <code>
+true</code>
+ and the document needs processing for the current phase of the pipeline. Another scenario is that the condition performs some specialized logic based on some part of the document contents. The logic does not even need to pertain to the document, as long as the module returns <code>
+true</code>
+ or <code>
+false</code>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1049541"></A>
+<A ID="44847"></A>
+Condition Modules Should Not Update Documents</Heading-3>
+<Body>
+<A ID="pgfId-1049542"></A>
+A condition module should only return a boolean value--it should not perform any other work. This is an assumption of the pipeline design. If you do perform updates in conditions, it will change the document from the state it was in when the event occurred (potentially causing an additional trigger to fire). Do not perform any document updates in a condition module; doing updates in conditions can cause non-deterministic behavior. </Body>
+<Heading-3>
+<A ID="pgfId-1049511"></A>
+<A ID="91800"></A>
+Action Modules Use try/catch With cpf:success and cpf:failure</Heading-3>
+<Body>
+<A ID="pgfId-1049512"></A>
+The mechanism for transitioning a document from one state to the next is carried out by two functions in the <code>
+cpf.xqy</code>
+ XQuery module: <code>
+cpf:success</code>
+ and <code>
+cpf:failure</code>
+. These functions handle the logic to advance a document either to the on-success or to the on-failure state specified in the pipeline.</Body>
+<Body>
+<A ID="pgfId-1049832"></A>
+Action modules must call either <code>
+cpf:success</code>
+ or <code>
+cpf:failure</code>
+ exactly once. By using these functions in a <code>
+try</code>
+/<code>
+catch</code>
+ expression in your XQuery code, it is easy to either advance the document to the success state when the code runs without exceptions, or to catch any exceptions in the XQuery code and then put the document in a failure state. This ensures that exactly one of these functions is called. In the XQuery code, you concatenate the <code>
+cpf:success</code>
+ call following your action code, and return <code>
+cpf:failure</code>
+ in the <code>
+catch</code>
+ clause (which is run only if the <code>
+try</code>
+ clause throws an exception).</Body>
+<Body>
+<A ID="pgfId-1050017"></A>
+The <code>
+try</code>
+/<code>
+catch</code>
+ expression ensures that the state is advanced in the same transaction that performs the document processing. This way, if processing is interrupted, the state of the document always matches the actual state of the content processing.</Body>
+<Body>
+<A ID="pgfId-1049683"></A>
+The following sample code (from the <code>
+link-rename-action.xqy</code>
+ module) shows how to use <code>
+cpf:success</code>
+ and <code>
+cpf:failure</code>
+ in a try/catch expression.</Body>
+<Code>
+<A ID="pgfId-1054442"></A>
+xquery version &quot;1.0-ml&quot;;
+import module namespace cpf = &quot;http://marklogic.com/cpf&quot;
+   at &quot;/MarkLogic/cpf/cpf.xqy&quot;;
+import module namespace lnk = &quot;http://marklogic.com/cpf/links&quot;
+   at &quot;/MarkLogic/cpf/links.xqy&quot;;
+
+declare variable $cpf:document-uri as xs:string external;
+declare variable $cpf:transition as node() external;
+
+try {
+   lnk:propagate-rename( $cpf:document-uri )
+   ,
+   cpf:success( $cpf:document-uri, $cpf:transition, () )
+}
+catch ($e) {
+   cpf:failure( $cpf:document-uri, $cpf:transition, $e, () )
+}</Code>
+<Heading-3>
+<A ID="pgfId-1049288"></A>
+<A ID="64004"></A>
+Action Modules Operate On a Single Document</Heading-3>
+<Body>
+<A ID="pgfId-1049188"></A>
+Use care if your action modules modify multiple documents. As a general rule, action modules should only modify the document being processed; they should not modify any other documents without fully understanding the implications. Creating side effects by modifying other documents within a single transaction can cause triggers to fire on updates, which can (potentially) cause multiple updates to the same document to be queued in the task server. Therefore, you should only modify other documents if you fully understand the consequences (or if you are sure there are no triggers on the other updates).</Body>
+<Body>
+<A ID="pgfId-1049843"></A>
+If your action modules modify multiple documents, you must design your application to handle the side effects. Each time a document that is in the scope of a domain is updated, a trigger fires, which can initiate a new set of processing. If your application must do this, make sure you carefully think through the side effects that will occur.</Body>
+<Heading-3>
+<A ID="pgfId-1049292"></A>
+<A ID="89535"></A>
+Action Modules Must Be a Single Transaction</Heading-3>
+<Body>
+<A ID="pgfId-1049299"></A>
+An action module must execute as a single transaction; it should not update the document more than once. Avoid using <code>
+xdmp:eval</code>
+ or <code>
+xdmp:invoke</code>
+ to run other transactions from within an action module. The Content Processing Framework assumes that action modules will perform a single transaction.</Body>
+<Body>
+<A ID="pgfId-1050042"></A>
+If you do perform multiple update transactions in an action module, you should understand the implications. Transitions are initiated as transactions complete. Having multiple transactions complete in a single action module can lead to multiple transitions being initiated in parallel, leading to unpredictable results. While it is possible to do this, your application design must take this into account. For more details, see <A href="custom.xml#id(76922)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Design Patterns For Content Applications' on page&#160;37</A>.</Body>
+<Heading-3>
+<A ID="pgfId-1054473"></A>
+<A ID="40389"></A>
+Using XSLT Stylesheets Instead of an Action Modules</Heading-3>
+<Body>
+<A ID="pgfId-1054483"></A>
+If you specify a path to an XSLT stylesheet instead of a path to an XQuery module in a pipeline, then the framework will invoke the stylesheet with the appropriate variables. For an action module, the stylesheet must return the new contents of the document. The framework takes care of invoking the stylesheet for you, and it takes care of the other mechanics (the <code>
+try/catch</code>
+ and calling <code>
+cpf:success</code>
+ or <code>
+cpf:failure</code>
+); your stylesheet should not directly perform any updates, as the framework will take care of that for you. Note that this is different from XQuery actions, which actually perform the update. If your stylesheet produces multiple result documents in an action module, the first result document is the content that updates the document under CPF control. Any subsequent result documents in the stylesheet output are saved to the database at the URIs specified in the stylesheet.</Body>
+</XML>

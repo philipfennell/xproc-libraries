@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="function-values.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1061718"></A>
+<A ID="86523"></A>
+ Function Values</Heading-1>
+<pagenum>
+<A ID="pgfId-1061722"></A>
+137</pagenum>
+<Body>
+<A ID="pgfId-1061723"></A>
+This chapter describes how to use function values, which allow you to pass function values as parameters to XQuery functions. It includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1061702"></A>
+<A href="function-values.xml#id(48582)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Overview of Function Values</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1061706"></A>
+<A href="function-values.xml#id(45630)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+xdmp:function XQuery Primitive Type</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1061691"></A>
+<A href="function-values.xml#id(11348)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+XQuery APIs for Function Values</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1062231"></A>
+<A href="function-values.xml#id(44865)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+When the Applied Function is an Update from a Query Statement</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1061673"></A>
+<A href="function-values.xml#id(86318)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Example of Using Function Values</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1061652"></A>
+<A ID="48582"></A>
+Overview of Function Values</Heading-2>
+<Body>
+<A ID="pgfId-1061627"></A>
+XQuery functions take parameters, and those parameters can be any XQuery type. Typically, parameters are strings, dates, numbers, and so on, and XQuery has many types to provide robust typing support. Sometimes, however, it is convenient to pass a pointer to a named function as a parameter to another function. These function pointers are known as <Emphasis>
+function values</Emphasis>
+, and they allow you to write code that can be more robust ad more easily maintainable. Programming languages that support passing functions as parameters sometimes call those higher order functions. MarkLogic Server function values do most things that higher order functions in other languages do, except you cannot output a function and you cannot create anonymous functions; instead, you can output or input a function value, which is implemented as an XQuery primitive type.</Body>
+<Body>
+<A ID="pgfId-1061581"></A>
+You pass a function value to another function by telling it the name of the function you want to pass. The actual value returned by the function is evaluated dynamically during query runtime. Passing these function values allows you to define an interface to a function and have a default implementation of it, while allowing callers of that function to implement their own version of the function and specify it instead of the default version.</Body>
+<Heading-2>
+<A ID="pgfId-1061553"></A>
+<A ID="45630"></A>
+xdmp:function XQuery Primitive Type</Heading-2>
+<Body>
+<A ID="pgfId-1062173"></A>
+Function values are defined as an <code>
+xdmp:function</code>
+ XQuery primitive type. You can use this type in function or variable definitions, or in the same way as you use other primitive types in XQuery. Unlike some of the other MarkLogic Server XQuery primitive types (<code>
+cts:query</code>
+ and <code>
+map:map</code>
+, for example), there is no XML serialization for the <code>
+xdmp:function</code>
+ XQuery primitive type.</Body>
+<Heading-2>
+<A ID="pgfId-1062184"></A>
+<A ID="11348"></A>
+XQuery APIs for Function Values</Heading-2>
+<Body>
+<A ID="pgfId-1062179"></A>
+The following XQuery built-in functions are used to pass function values:</Body>
+<Body-bullet>
+<A ID="pgfId-1061470"></A>
+<code>
+xdmp:function</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1061440"></A>
+<code>
+xdmp:apply</code>
+</Body-bullet>
+<Body>
+<A ID="pgfId-1061409"></A>
+You use <code>
+xdmp:function</code>
+ to specify the function to pass in, and <code>
+xdmp:apply</code>
+ to run the function that is passed in. For details and the signature of these APIs, see the <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1062213"></A>
+<A ID="44865"></A>
+When the Applied Function is an Update from a Query Statement</Heading-2>
+<Body>
+<A ID="pgfId-1062214"></A>
+When you apply a function using <code>
+xdmp:function</code>
+, MarkLogic Server does not know the contents of the applied function at query compilation time. Therefore, if the statement calling <code>
+xdmp:apply</code>
+ is a query statement (that is, it contains no update expressions and therefore runs at a timestamp), and the function being applied is performing an update, then it will throw an <code>
+XDMP-UDATEFUNCTIONFROMQUERY</code>
+ exception.</Body>
+<Body>
+<A ID="pgfId-1062381"></A>
+If you have code that you will apply that performs an update, and if the calling query does not have any update statements, then you must make the calling query an update statement. To change a query statement to be an update statement, either use the <code>
+xdmp:update</code>
+ prolog option or put an update call somewhere in the statement. For example, to force a query to run as an update statement, you can add the following to your XQuery prolog:</Body>
+<Code>
+<A ID="pgfId-1062382"></A>
+declare option xdmp:update &quot;true&quot;;</Code>
+<Body>
+<A ID="pgfId-1062383"></A>
+Without the prolog option, any update expression in the query will force it to run as an update statement. For example, the following expression will force the query to run as an update statement and not change anything else about the query:</Body>
+<Code>
+<A ID="pgfId-1062283"></A>
+if ( fn:true() )
+then ()
+else xdmp:document-insert(&quot;fake.xml&quot;, &lt;fake/&gt;)</Code>
+<Body>
+<A ID="pgfId-1062319"></A>
+For details on the difference between update statements and query statements, see <A href="transactions.xml#id(44680)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Understanding Transactions in MarkLogic Server' on page&#160;12</A>.</Body>
+<Heading-2>
+<A ID="pgfId-1061344"></A>
+<A ID="86318"></A>
+Example of Using Function Values</Heading-2>
+<Body>
+<A ID="pgfId-1061345"></A>
+The following example shows a recursive function, <code>
+my:sum:sequences</code>
+, that takes an <code>
+xdmp:function</code>
+ type, then applies that function call recursively until it reaches the end of the sequence. It shows how the caller can supply her own implementation of the <code>
+my:add</code>
+ function to change the behavior of the <code>
+my:sum-sequences</code>
+ function. Consider the following library module named <code>
+/sum.xqy</code>
+:</Body>
+<Code>
+<A ID="pgfId-1061277"></A>
+xquery version &quot;1.0-ml&quot;;
+module namespace my=&quot;my-namespace&quot;;
+
+(: Sum a sequence of numbers, starting with the 
+   starting-number (3rd parameter) and at the 
+   start-position (4th parameter). :)
+declare function my:sum-sequence(
+  $fun as xdmp:function,
+  $items as item()*,
+  $starting-number as item(),
+  $start-position as xs:unsignedInt)
+as item()
+{
+  if ($start-position gt fn:count($items)) then $starting-number
+  else 
+    let $new-value := xdmp:apply($fun,$starting-number,
+                        $items[$start-position])
+    return
+      my:sum-sequence($fun,$items,$new-value,$start-position+1)
+};
+
+declare function my:add($x,$y) {$x+ $y};
+(: /sum.xqy :)</Code>
+<Body>
+<A ID="pgfId-1061872"></A>
+Now call this function with the following main module:</Body>
+<Code>
+<A ID="pgfId-1061894"></A>
+xquery version &quot;1.0-ml&quot;;
+import module namespace my=&quot;my-namespace&quot; at &quot;/sum.xqy&quot;;
+
+let $fn := xdmp:function(xs:QName(&quot;my:add&quot;))
+return my:sum-sequence($fn,(1 to 100), 2, 1)</Code>
+<Body>
+<A ID="pgfId-1060530"></A>
+This returns 5052, which is the sum of all of the numbers between 2 and 100. </Body>
+<Body>
+<A ID="pgfId-1062138"></A>
+If you want to use a different formula for adding up the numbers, you can create an XQuery library module with a different implementation of the same function and specify it instead. For example, assume you want to use a different formula to add up the numbers, and you create another library module named <code>
+/my.xqy</code>
+ that has the following code (it multiplies the second number by two before adding it to the first):</Body>
+<Code>
+<A ID="pgfId-1061997"></A>
+xquery version &quot;1.0-ml&quot;;
+module namespace my=&quot;my-namespace&quot;;
+
+declare function my:add($x,$y) {$x+ (2 * $y)};
+(: /my.xqy :)</Code>
+<Body>
+<A ID="pgfId-1061986"></A>
+You can now call the <code>
+my:sum-sequence</code>
+ function specifying your new implementation of the <code>
+my:add</code>
+ function as follows:</Body>
+<Code>
+<A ID="pgfId-1061961"></A>
+xquery version &quot;1.0-ml&quot;;
+import module namespace my=&quot;my-namespace&quot; at &quot;/sum.xqy&quot;;
+
+let $fn := xdmp:function(xs:QName(&quot;my:add&quot;), &quot;/my.xqy&quot;)
+return my:sum-sequence($fn,(1 to 100), 2, 1)</Code>
+<Body>
+<A ID="pgfId-1061953"></A>
+This returns 10102 using the new formula. This technique makes it possible for the caller to specify a completely different implementation of the specified function that is passed. </Body>
+</XML>

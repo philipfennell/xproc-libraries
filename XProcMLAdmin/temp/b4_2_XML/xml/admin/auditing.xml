@@ -1,0 +1,1119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="auditing.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1041811"></A>
+<A ID="81935"></A>
+Auditing Events</Heading-1>
+<pagenum>
+<A ID="pgfId-1041925"></A>
+91</pagenum>
+<Body>
+<A ID="pgfId-1041815"></A>
+MarkLogic Server provides an auditing facility to audit various events such as document read access, server startup, server shutdown, document permission changes, and so on. These audit records are logged to audit files stored under the MarkLogic Server data directory for each instance of MarkLogic Server. This chapter describes the auditing features and includes the following parts:</Body>
+<Body-bullet>
+<A ID="pgfId-1049578"></A>
+<A href="auditing.xml#id(36095)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Overview of Auditing</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049582"></A>
+<A href="auditing.xml#id(15948)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Auditable Events</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049956"></A>
+<A href="auditing.xml#id(21916)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Configuring Auditing for a Group</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1038444"></A>
+<A ID="36095"></A>
+Overview of Auditing</Heading-2>
+<Body>
+<A ID="pgfId-1049961"></A>
+Auditing in MarkLogic Server allows you to audit events to a log file. You can choose from a large list of events to audit, and can restrict audit events based on various identities (user, role, or document URI). This section describes the logging capabilities of MarkLogic Server and includes the following parts:</Body>
+<Body-bullet>
+<A ID="pgfId-1050013"></A>
+<A href="auditing.xml#id(37964)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Audit Log Files</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050021"></A>
+<A href="auditing.xml#id(23562)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Restricting Audit Events</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050305"></A>
+<A href="auditing.xml#id(64001)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Audit Successful, Unsuccessful, or Both Types of Events</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050026"></A>
+<A href="auditing.xml#id(64665)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Enabled at the Group Level</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1049981"></A>
+<A ID="37964"></A>
+Audit Log Files</Heading-3>
+<Body>
+<A ID="pgfId-1050221"></A>
+When auditing is enabled, audit events are written to the <code>
+AuditLog.txt</code>
+ file. Each host in a cluster maintains its own audit log files. Some actions might trigger multiple audit events, and those events might be logged over multiple hosts, as events are audited on the host in which the event occurs. For more information about the audit events, see <A href="auditing.xml#id(15948)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Auditable Events' on page&#160;86</A>. Note the following about the audit log files:</Body>
+<Body-bullet>
+<A ID="pgfId-1050222"></A>
+Writes messages to <code>
+AuditLog.txt</code>
+ file for various events.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049608"></A>
+Each event has time, event, user, role, and any information relevant to the event (for example, document URI for document-read event).</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049992"></A>
+You can configure how often to rotate the audit files (similar to the log files, as described in <A href="logfiles.xml#id(25791)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Log Files' on page&#160;266</A>).</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050158"></A>
+The Audit log files are stored in the same directory as the Access log files and the Error log files (<code>
+ErrorLog.txt</code>
+), which is in the <Emphasis>
+&lt;marklogic-data-dir&gt;</Emphasis>
+<code>
+/Logs</code>
+ directory. These files are private to the host in which the audit event occurred. </Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050926"></A>
+You may view the current or any archived file log at any time using standard text file viewing tools. Additionally, you can access the log files from the Log tab on the main page of the Admin Interface. </Body-bullet>
+<Body>
+<A ID="pgfId-1050208"></A>
+The following table shows the location of the Audit log files on the various platforms.</Body>
+<TableAnchor>
+<A ID="pgfId-1050186"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1050171"></A>
+Platform</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1050173"></A>
+Audit File</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050175"></A>
+Microsoft Windows </CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050177"></A>
+<code>
+C:\Program Files\MarkLogic\Data\Logs\AuditLog.txt</code>
+</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050179"></A>
+Red Hat Linux</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050181"></A>
+<code>
+/var/opt/MarkLogic/Logs/AuditLog.txt</code>
+</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050183"></A>
+Sun Solaris</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050185"></A>
+<code>
+/var/opt/MARKlogic/Logs/AuditLog.txt</code>
+</CellBody>
+</CELL>
+</ROW>
+</TABLE>
+<Heading-3>
+<A ID="pgfId-1049985"></A>
+<A ID="23562"></A>
+Restricting Audit Events</Heading-3>
+<Body>
+<A ID="pgfId-1050277"></A>
+You can configure auditing to restrict events that are audited based on the following criteria:</Body>
+<Body-bullet>
+<A ID="pgfId-1049609"></A>
+You can select which events to audit.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1051098"></A>
+You can include or exclude events by user name. For included users, only events initiated by the named users are audited. For excluded users, only events initiated by users other that the named users are audited. </Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050278"></A>
+You can include or exclude events by role. For included roles, only events initiated by users with the included roles are audited. For excluded roles, only events initiated by users who do not have the excluded roles are audited. </Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050287"></A>
+You can include or exclude events by outcome of event (success/failure/both).</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050294"></A>
+You can include or exclude events by document URI. Documents URIs are audited if any fragment from that document is loaded into memory, and that audit event is written to the audit log on the host in which the forest that contains the document resides.</Body-bullet>
+<Body>
+<A ID="pgfId-1050315"></A>
+For the procedure to set up auditing, see <A href="auditing.xml#id(15082)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Configuring Auditing to Audit Certain Events and Set Up Certain Restrictions' on page&#160;91</A>.</Body>
+<Heading-3>
+<A ID="pgfId-1049625"></A>
+<A ID="64001"></A>
+Audit Successful, Unsuccessful, or Both Types of Events</Heading-3>
+<Body>
+<A ID="pgfId-1050033"></A>
+You can choose to audit only unsuccessful, only successful, or both types of events. If you audit many events and/or if you audit both successful and unsuccessful events, then you may end up auditing a lot of events. It is not really a problem to audit many events, but it might make your audit logs get very large very fast. For the procedure to set up auditing, see <A href="auditing.xml#id(15082)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Configuring Auditing to Audit Certain Events and Set Up Certain Restrictions' on page&#160;91</A>.</Body>
+<Heading-3>
+<A ID="pgfId-1050032"></A>
+<A ID="64665"></A>
+Enabled at the Group Level</Heading-3>
+<Body>
+<A ID="pgfId-1050002"></A>
+You can enable or disable auditing for each group. If auditing is enabled for a group, any configured auditable event for that group is audited. For details on the procedure to enable auditing, see <A href="auditing.xml#id(68339)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Enabling Auditing for a Group' on page&#160;90</A>.</Body>
+<Heading-2>
+<A ID="pgfId-1049584"></A>
+<A ID="15948"></A>
+Auditable Events</Heading-2>
+<Body>
+<A ID="pgfId-1050228"></A>
+There are many auditable events in MarkLogic Server. When auditing is enabled, any enabled auditable events are written to the <code>
+AuditLog.txt</code>
+ file. In a clustered environment, audit events are written to the audit log on the host in which the event occurs. Some activities might result in audit events that are distributed over multiple hosts, because events are audited on the host in which the event occurs. For example, the document access audit events are audited on the data-node where the forest containing the document is hosted, therefore if a query that updates a document is run, it could cause (depending on the audit configuration and the cluster configuration) audit events to occur on the node in which the query is evaluated (the evaluation-node) and on one or more data-nodes where the affected documents are hosted.</Body>
+<Body>
+<A ID="pgfId-1049588"></A>
+The following table lists the auditable events you can enable in MarkLogic Server. </Body>
+<TableAnchor>
+<A ID="pgfId-1049629"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1049632"></A>
+Event</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1049634"></A>
+Description</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1050347"></A>
+URI Restrictions</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1050349"></A>
+Role/User Restrictions</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1050543"></A>
+Success or Failure Restrictions</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1049636"></A>
+amp-usage</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049638"></A>
+Audits the URI of an amp when it is evaluated.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050351"></A>
+Yes, based on the URI of the amp</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050353"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050545"></A>
+Success Only</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1049640"></A>
+audit-configuration-change</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049642"></A>
+Audits the success or failure of a change to a auditing configuration. </CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050355"></A>
+N/A</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050357"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050547"></A>
+Yes</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1049644"></A>
+audit-shutdown</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049646"></A>
+Audits when the audit system is disabled.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050359"></A>
+N/A</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050361"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050549"></A>
+Yes</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1049648"></A>
+audit-startup</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049650"></A>
+Audits when the audit system is enabled. Note that this event does not occur when MarkLogic Server starts up, only when the audit system is enabled.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050363"></A>
+N/A</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050365"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050551"></A>
+Yes</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1049652"></A>
+authentication-failure</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049654"></A>
+Audits failed authentication attempts.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050367"></A>
+N/A</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050369"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050553"></A>
+Failure Only</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1049656"></A>
+concurrent-request-denial</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049658"></A>
+Audits when a request is denied because the concurrent request limit on the App Server was reached.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050371"></A>
+N/A</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050373"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050555"></A>
+Failure Only</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1049660"></A>
+configuration-change</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049662"></A>
+Audits the success or failure of a change to a configuration file, including the path to the configuration file that changed.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050375"></A>
+N/A</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050377"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050557"></A>
+Yes</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1049664"></A>
+document-execute</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049666"></A>
+Audits when a document in a database is executed (for example, an XQuery document), and includes the document URI in the audit record.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050379"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050381"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050559"></A>
+Success Only</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1049668"></A>
+document-insert</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049670"></A>
+Audits when a new document is created, and includes the document URI in the audit record.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050383"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050385"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050561"></A>
+Success Only</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1049672"></A>
+document-read</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049674"></A>
+Audits when a document is read, and includes the document URI in the audit record.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050387"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050389"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050563"></A>
+Success Only</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1049676"></A>
+document-update</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049910"></A>
+Audits when a document is updated, and includes the document URI in the audit record.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050391"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050393"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050565"></A>
+Success Only</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1050786"></A>
+estimate</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050788"></A>
+Audits when an <code>
+xdmp:estimate</code>
+ expression is evaluated.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050790"></A>
+N/A</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050792"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050794"></A>
+Success Only</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1050807"></A>
+eval</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050809"></A>
+Audits when a path expression that accesses the database is evaluated.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050811"></A>
+N/A</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050813"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050815"></A>
+Success Only</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1050821"></A>
+exists</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050823"></A>
+Audits when an <code>
+xdmp:exists</code>
+ expression is evaluated.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050825"></A>
+N/A</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050827"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050829"></A>
+Success Only</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1049680"></A>
+lexicon-read</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049682"></A>
+Audits when a value lexicon (for example, <code>
+cts:element-values</code>
+) call is used. </CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050395"></A>
+N/A</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050397"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050567"></A>
+Success Only</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1049696"></A>
+no-permission</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049698"></A>
+Audits when an operation fails because of a <code>
+SEC-PERMDENIED</code>
+ exception, which happens when an operation on a document (insert, update, or execute) is attempted without the needed permissions. </CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050411"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050413"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050575"></A>
+Failure Only</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1049700"></A>
+no-privilege</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049702"></A>
+Audits when a user has insufficient privileges to perform a particular function.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050415"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050417"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050577"></A>
+Failure Only</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1049704"></A>
+permissions-change</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049706"></A>
+Audits when permissions on a document are modified.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050419"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050421"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050579"></A>
+Yes</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1049708"></A>
+request-blackout-denial</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049710"></A>
+Audits when a request is denied due to a request blackout period.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050423"></A>
+N/A</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050425"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050581"></A>
+Failure Only (when denied)</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1049767"></A>
+role-change-failure</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049769"></A>
+Audits when an attempt to add or remove a role from a user fails.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050427"></A>
+N/A</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050429"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050583"></A>
+Failure Only</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1050965"></A>
+search</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050967"></A>
+Audits when a <code>
+cts:search</code>
+ expression is evaluated.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050969"></A>
+N/A</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050971"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050973"></A>
+Success Only</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1050894"></A>
+security-access</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1051008"></A>
+Audits when one of the following security-related functions are called: <code>
+xdmp:can-grant-roles</code>
+, <code>
+xdmp:has-privilege</code>
+, <code>
+xdmp:user-roles</code>
+, <code>
+xdmp:role-roles</code>
+, <code>
+xdmp:privilege-roles</code>
+, <code>
+xdmp:amp-roles</code>
+, <code>
+xdmp:get-current-role</code>
+, <code>
+xdmp:user</code>
+, <code>
+xdmp:role</code>
+, <code>
+xdmp:amp</code>
+.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050901"></A>
+N/A</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050903"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050905"></A>
+Yes</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1050839"></A>
+server-restart</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050843"></A>
+Audits when MarkLogic Server is restarted with a clean restart (for example, from the Admin Interface).</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050846"></A>
+N/A</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050848"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050850"></A>
+Success Only</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1050852"></A>
+server-shutdown</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050856"></A>
+Audits when MarkLogic Server is shut down with a clean shutdown (for example, from the shutdown scripts or from the Admin Interface).</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050859"></A>
+N/A</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050861"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050863"></A>
+Success Only</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1050865"></A>
+server-startup</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050869"></A>
+Audits when MarkLogic Server starts up.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050872"></A>
+N/A</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050874"></A>
+N/A</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050876"></A>
+Success Only</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1049771"></A>
+user-configuration-change</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049773"></A>
+Audits when anything in a user configuration changes.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050431"></A>
+N/A</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050433"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050585"></A>
+Yes</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1049775"></A>
+user-role-addition</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049777"></A>
+Audits when a role is added to a user.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050435"></A>
+N/A</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050437"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050587"></A>
+Yes</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CodeLeft>
+<A ID="pgfId-1049779"></A>
+user-role-removal</CodeLeft>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1049781"></A>
+Audits when a role is removed from a user.</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050439"></A>
+N/A</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050441"></A>
+Yes</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050589"></A>
+Yes</CellBody>
+</CELL>
+</ROW>
+</TABLE>
+<Heading-2>
+<A ID="pgfId-1049589"></A>
+<A ID="21916"></A>
+Configuring Auditing for a Group</Heading-2>
+<Body>
+<A ID="pgfId-1038460"></A>
+Auditing is configured at the group level using the Auditing page of the Admin Interface. For details on groups, see <A href="groups.xml#id(34776)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Groups' on page&#160;25</A>. This section describes the following audit configuration procedures:</Body>
+<Body-bullet>
+<A ID="pgfId-1050093"></A>
+<A href="auditing.xml#id(68339)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Enabling Auditing for a Group</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050101"></A>
+<A href="auditing.xml#id(51136)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Disabling Auditing for a Group</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050310"></A>
+<A href="auditing.xml#id(15082)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Configuring Auditing to Audit Certain Events and Set Up Certain Restrictions</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1041724"></A>
+<A ID="68339"></A>
+Enabling Auditing for a Group</Heading-3>
+<Body>
+<A ID="pgfId-1050066"></A>
+Perform the following steps to enable auditing for a group:</Body>
+<Number1>
+<A ID="pgfId-1050042"></A>
+Access the Admin Interface with a browser.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1050050"></A>
+Open the Audit Configuration screen (Group &gt; <Emphasis>
+group_name</Emphasis>
+ &gt; Auditing).</Number>
+<Number>
+<A ID="pgfId-1050054"></A>
+Select True for the Audit Enabled radio button.</Number>
+<Number>
+<A ID="pgfId-1050057"></A>
+Configure any audit events and/or audit restrictions you want.</Number>
+<Number>
+<A ID="pgfId-1050065"></A>
+Click OK.</Number>
+</NumberList>
+<Heading-3>
+<A ID="pgfId-1050067"></A>
+<A ID="51136"></A>
+Disabling Auditing for a Group</Heading-3>
+<Body>
+<A ID="pgfId-1050073"></A>
+Perform the following steps to disable auditing for a group:</Body>
+<Number1>
+<A ID="pgfId-1050074"></A>
+Access the Admin Interface with a browser.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1050075"></A>
+Open the Audit Configuration screen (Group &gt; <Emphasis>
+group_name</Emphasis>
+ &gt; Auditing).</Number>
+<Number>
+<A ID="pgfId-1050076"></A>
+Select False for the Audit Enabled radio button.</Number>
+<Number>
+<A ID="pgfId-1050078"></A>
+Click OK.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1050071"></A>
+This will immediately disable auditing for the group. Any settings you had configured will remain, but will not be in effect until you enable auditing again.</EndList-root>
+<Heading-3>
+<A ID="pgfId-1050106"></A>
+<A ID="15082"></A>
+Configuring Auditing to Audit Certain Events and Set Up Certain Restrictions</Heading-3>
+<Body>
+<A ID="pgfId-1050112"></A>
+The following is the general procedure for configuring audit events and audit restrictions. Your procedure will vary depending on what events and restrictions you choose to configure.</Body>
+<Number1>
+<A ID="pgfId-1050115"></A>
+Access the Admin Interface with a browser.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1050116"></A>
+Open the Audit Configuration screen (Group &gt; <Emphasis>
+group_name</Emphasis>
+ &gt; Auditing).</Number>
+<Number>
+<A ID="pgfId-1050127"></A>
+Under Audit Events, choose the events you want audited. For a description of each event, see <A href="auditing.xml#id(15948)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Auditable Events' on page&#160;86</A>.</Number>
+<Number>
+<A ID="pgfId-1050133"></A>
+Under Audit Restrictions, enter any restrictions you want. For details on audit restrictions, see <A href="auditing.xml#id(23562)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Restricting Audit Events' on page&#160;85</A>.</Number>
+<Number>
+<A ID="pgfId-1050124"></A>
+Click OK to save your changes.</Number>
+</NumberList>
+</XML>

@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="groups.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1038002"></A>
+<A ID="34776"></A>
+Groups</Heading-1>
+<pagenum>
+<A ID="pgfId-1042915"></A>
+30</pagenum>
+<Body>
+<A ID="pgfId-1038003"></A>
+This chapter describes Groups in MarkLogic Server, and includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1046440"></A>
+<A href="groups.xml#id(58562)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Overview of Groups</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1046610"></A>
+<A href="groups.xml#id(46797)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Example</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1046444"></A>
+<A href="groups.xml#id(90097)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Procedures for Configuring and Managing Groups</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1051932"></A>
+This chapter describes how to use the Admin Interface to create and configure groups. For details on how to create and configure groups programmatically, see <A href="../AdminAPI/configure.xml#id(52519)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating and Configuring Groups</Hyperlink>
+</A> in the <Emphasis>
+Scripting Administrative Tasks Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1046493"></A>
+<A ID="58562"></A>
+Overview of Groups</Heading-2>
+<Body>
+<A ID="pgfId-1046494"></A>
+The following are the basic definitions for Group, Host, and cluster:</Body>
+<Body-bullet>
+<A ID="pgfId-1046528"></A>
+A G<Emphasis>
+roup</Emphasis>
+ is a set of similarly configured Hosts within a cluster. </Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1046525"></A>
+A <Emphasis>
+Host</Emphasis>
+ is an instance of MarkLogic Server running on a single machine.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1038005"></A>
+A <Emphasis>
+cluster</Emphasis>
+ is a set of Hosts that work together.</Body-bullet>
+<Body>
+<A ID="pgfId-1038006"></A>
+For Standard Edition configurations, you can only use one group at a time (because there is only one host). For Enterprise Edition configurations with multiple hosts, you can have as many group configurations as makes sense in your environment.</Body>
+<Body>
+<A ID="pgfId-1046544"></A>
+Groups allow you to have several configurations, each of which applies to a distinct set of Hosts. Different configurations are often needed when different hosts perform different tasks, or when the hosts have different system capabilities (disk space, memory, and so on). In Enterprise Edition clusters, a common configuration is to have one group defined for the <Emphasis>
+evaluator</Emphasis>
+ nodes (hosts that service query requests) and another group defined for the <Emphasis>
+data</Emphasis>
+ nodes (hosts to which forests are attached). </Body>
+<Body>
+<A ID="pgfId-1046532"></A>
+HTTP, XDBC, and WebDAV servers are defined at the Group level and apply to all hosts within the group. Schemas and namespaces can also be defined at the group level to apply group-wide. </Body>
+<Body>
+<A ID="pgfId-1046628"></A>
+The Group configuration page allows you to define configuration information for memory settings, SMTP server settings, and other configuration settings. The values for the settings are set at installation time based on your system memory configuration at the time of the installation. For a description of each configuration option, see the help tab of the group configuration page in the Admin Interface.</Body>
+<Heading-2>
+<A ID="pgfId-1038008"></A>
+<A ID="46797"></A>
+Example</Heading-2>
+<Body>
+<A ID="pgfId-1046621"></A>
+The relationships between a cluster, a Group and a Host in MarkLogic Server may be best illustrated with an example.</Body>
+<Body>
+<A ID="pgfId-1038009"></A>
+In this example, each machine is set up as a Host within the Example Cluster. </Body>
+<Body>
+<A ID="pgfId-1038010"></A>
+Hosts E1, E2 and E3 belong to a Group called Evaluator-Nodes. They are configured with HTTP servers and XDBC servers to run user applications. All Hosts in Evaluator-Nodes have the same MarkLogic Server configuration. </Body>
+<Body>
+<A ID="pgfId-1038011"></A>
+Hosts D1, D2 and D3 belong to a Group called Data-Nodes. Hosts in Data-Nodes are configured with data forests and interact with Evaluator-Nodes to service data requests. See the sections on Databases, Forests and Hosts for details on configuring data forests. </Body>
+<Body>
+<A ID="pgfId-1042384"></A>
+<IMAGE xml:link="simple" href="groups-1.gif" show="embed" actuate="auto"/>
+</Body>
+<Body>
+<A ID="pgfId-1050828"></A>
+For more information about clusters, see the <Emphasis>
+Scalability, Availability, and Failover Guide</Emphasis>
+.</Body>
+<Note>
+<A ID="pgfId-1038016"></A>
+If you are administering a single-host, Standard Edition MarkLogic Server environment, the host is automatically added to a Default group during the installation process. You will only have one host in the group and will not be able to add other hosts to the group. To set up a multiple-host cluster, Enterprise Edition is required.</Note>
+<Heading-2>
+<A ID="pgfId-1038017"></A>
+<A ID="90097"></A>
+Procedures for Configuring and Managing Groups</Heading-2>
+<Body>
+<A ID="pgfId-1046450"></A>
+The following procedures describe how to create and manage groups in MarkLogic Server:</Body>
+<Body-bullet>
+<A ID="pgfId-1038021"></A>
+<A href="groups.xml#id(69248)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating a New Group</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1038025"></A>
+<A href="groups.xml#id(41540)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Viewing Group Settings</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1038029"></A>
+<A href="groups.xml#id(57691)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Deleting a Group</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1051758"></A>
+<A href="groups.xml#id(82620)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Enabling SSL communication over XDQP</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1042513"></A>
+<A href="groups.xml#id(99479)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Configuring an SMTP Server</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1046778"></A>
+<A href="groups.xml#id(12315)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Restarting All Hosts in a Group</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1038030"></A>
+<A ID="69248"></A>
+Creating a New Group</Heading-3>
+<Body>
+<A ID="pgfId-1038031"></A>
+To create a new group, perform the following steps:</Body>
+<Number1>
+<A ID="pgfId-1038032"></A>
+Log into the Admin Interface.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1046667"></A>
+Click the Groups icon on the left tree menu.</Number>
+<Number>
+<A ID="pgfId-1038033"></A>
+Click the Create tab on the Group Summary page. The Create Group page displays.</Number>
+</NumberList>
+<Body>
+<A ID="pgfId-1038038"></A>
+<IMAGE xml:link="simple" href="images/create_group.gif" show="embed" actuate="auto"/>
+</Body>
+<NumberList>
+<Number>
+<A ID="pgfId-1038039"></A>
+Go to the Group Name field and enter a short hand name for the group.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1038040"></A>
+MarkLogic Server will use this name to refer to the group.</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1038041"></A>
+You can change the value of List Cache Size, Compressed Tree Cache Size and Expanded Tree Cache Size or leave the defaults. They specify the amount of memory dedicated to caching term list, tree data in compressed form and tree data in expanded form. </Number>
+<Number>
+<A ID="pgfId-1038042"></A>
+System Log Level specifies the minimum log level messages sent to the operating system. Log levels are listed in decreasing level of log details. You may change the system log level or leave it at the default level.</Number>
+<Number>
+<A ID="pgfId-1038043"></A>
+File Log Level specifies the minimum log level messages sent to the log file. Log levels are listed in decreasing level of log details. You may change the file log level or leave it at the default level.</Number>
+<Number>
+<A ID="pgfId-1038044"></A>
+The Rotate Log Files field specifies how often to start a new log file. You may change this field or use the default value provided.</Number>
+<Number>
+<A ID="pgfId-1038045"></A>
+The Keep Log Files field specifies how many log files are kept. You may change this field or use the default value provided.</Number>
+<Number>
+<A ID="pgfId-1051388"></A>
+Set Failover Enable to true if you want to enable failover for the hosts in the group. To use failover, you must also enable failover for individual forests. If you set Failover Enable to false, failover is disabled for all the hosts in the group, regardless of their forest configurations.</Number>
+<Number>
+<A ID="pgfId-1051449"></A>
+The SSL Enabled option and XDQP SSL Ciphers field are to enable SSL for XDQP. </Number>
+<Number>
+<A ID="pgfId-1038046"></A>
+Click OK.</Number>
+</NumberList>
+<Note>
+<A ID="pgfId-1050996"></A>
+For information about auditing, including how to configure various audit events, see <A href="auditing.xml#id(81935)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Auditing Events' on page&#160;84</A>.</Note>
+<Body>
+<A ID="pgfId-1038047"></A>
+Adding a group is a 'hot' administrative task; the changes are reflected immediately without a restart.</Body>
+<Heading-3>
+<A ID="pgfId-1038048"></A>
+<A ID="41540"></A>
+Viewing Group Settings</Heading-3>
+<Body>
+<A ID="pgfId-1038049"></A>
+To view the settings for a particular group, perform the following steps:</Body>
+<Number1>
+<A ID="pgfId-1046752"></A>
+Log into the Admin Interface.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1038050"></A>
+Click the Groups icon on the left tree menu.</Number>
+<Number>
+<A ID="pgfId-1038051"></A>
+Click the Configure tab at the top right.</Number>
+<Number>
+<A ID="pgfId-1038052"></A>
+Locate the group for which you want to view settings.</Number>
+<Number>
+<A ID="pgfId-1038053"></A>
+Click the icon for this group. </Number>
+<Number>
+<A ID="pgfId-1038054"></A>
+View the settings.</Number>
+</NumberList>
+<Heading-3>
+<A ID="pgfId-1038055"></A>
+<A ID="57691"></A>
+Deleting a Group</Heading-3>
+<Body>
+<A ID="pgfId-1038056"></A>
+You must drop all hosts assigned to a group before you can delete a group. To delete a group, perform the following steps:</Body>
+<Number1>
+<A ID="pgfId-1046741"></A>
+Log into the Admin Interface.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1038057"></A>
+Click the Groups icon on the left tree menu.</Number>
+<Number>
+<A ID="pgfId-1038058"></A>
+Click the Configure tab at the top right.</Number>
+<Number>
+<A ID="pgfId-1038059"></A>
+Locate the Group to be deleted.</Number>
+<Number>
+<A ID="pgfId-1038060"></A>
+Click on Hosts to check that there is no host assigned to the group. All hosts assigned to a group must be dropped before the group can be deleted. Dropping a host from a group does not drop the host from the cluster.</Number>
+<Number>
+<A ID="pgfId-1038061"></A>
+Click the icon for this group again.</Number>
+<Number>
+<A ID="pgfId-1038062"></A>
+ Click Delete. Deleting a group deletes it from the system.</Number>
+<Number>
+<A ID="pgfId-1038063"></A>
+A confirmation message displays. Click OK to permanently delete the group.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1038065"></A>
+Deleting a group is a hot operation; the server does not need to restart to reflect your changes.</EndList-root>
+<Heading-3>
+<A ID="pgfId-1051729"></A>
+<A ID="82620"></A>
+Enabling SSL communication over XDQP </Heading-3>
+<Body>
+<A ID="pgfId-1051730"></A>
+To enable encrypted SSL communication between hosts in the group, Set XDQP SSL enabled to true. All communications to and from hosts in the group will be secured, even if the other end of the socket is in a group that does not have XDQP SSL enabled. </Body>
+<Body>
+<A ID="pgfId-1051811"></A>
+The SSL keys and certificates used by the hosts are automatically generated when you install or upgrade MarkLogic Server. No outside authority is used to sign certificates used between servers communicating over the internal XDQP connections in a cluster. Such certificates are self-signed and trusted by each server in the cluster. </Body>
+<Body>
+<A ID="pgfId-1051820"></A>
+For details on configuring SSL on MarkLogic Server, see <A href="SSL.xml#id(85783)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Configuring SSL on App Servers' on page&#160;58</A>.</Body>
+<Body>
+<A ID="pgfId-1051737"></A>
+<IMAGE xml:link="simple" href="images/SSL_XDQP.gif" show="embed" actuate="auto"/>
+</Body>
+<Heading-3>
+<A ID="pgfId-1035177"></A>
+<A ID="99479"></A>
+Configuring an SMTP <A ID="marker-1042797"></A>
+Server</Heading-3>
+<Body>
+<A ID="pgfId-1042517"></A>
+The installation process configures an SMTP server based on the environment at installation time. A single SMTP server is configured for all of the hosts in a group. The SMTP configuration is used when applications use the <code>
+xdmp:email</code>
+ function.</Body>
+<Body>
+<A ID="pgfId-1046726"></A>
+To change the SMTP server or the SMTP timeout for the system (the time after which SMTP requests fail with an error), perform the following steps:</Body>
+<Number1>
+<A ID="pgfId-1042527"></A>
+Log into the Admin Interface.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1042772"></A>
+Click the Groups icon on the left tree menu.</Number>
+<Number>
+<A ID="pgfId-1042782"></A>
+Click the Configure tab at the top right.</Number>
+<Number>
+<A ID="pgfId-1042780"></A>
+In the SMTP Relay field, enter the hostname for your SMTP server.</Number>
+<Number>
+<A ID="pgfId-1042786"></A>
+In the SMTP Timeout field, enter the time (in seconds) after which requests will time out.</Number>
+<Number>
+<A ID="pgfId-1042787"></A>
+Click OK.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1042790"></A>
+Changing any SMTP settings is a hot operation; the server does not need to restart to reflect your changes.</EndList-root>
+<Heading-3>
+<A ID="pgfId-1046779"></A>
+<A ID="12315"></A>
+Restarting All Hosts in a Group</Heading-3>
+<Body>
+<A ID="pgfId-1046783"></A>
+Perform the following steps to restart all the hosts in a group from the Admin Interface:</Body>
+<Number1>
+<A ID="pgfId-1046791"></A>
+Click the Groups icon on the left tree menu.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1046824"></A>
+Click the name of the group you want to restart, either from the menu tree of from the Group Summary page.</Number>
+<Number>
+<A ID="pgfId-1046792"></A>
+Click the Status tab on the top right.</Number>
+<Number>
+<A ID="pgfId-1046793"></A>
+Click Restart.</Number>
+<Number>
+<A ID="pgfId-1046797"></A>
+A confirmation message displays while restarting. Click OK to restart all of the hosts in the MarkLogic Server group.</Number>
+</NumberList>
+<Note>
+<A ID="pgfId-1051838"></A>
+The restart operation normally completes within a few seconds. It is possible, however, for it to take longer under some conditions (for example, if the Security database needs to run recovery or if the connectivity between hosts in a cluster is slow). If it takes longer than a few seconds for MarkLogic Server to restart, than the Admin Interface might return a <code>
+503: Service Unavailable</code>
+ message. If you encounter this situation, wait several seconds and then reload the Admin Interface.</Note>
+</XML>

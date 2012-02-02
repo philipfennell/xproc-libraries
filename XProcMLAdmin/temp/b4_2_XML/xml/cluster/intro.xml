@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="intro.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1040610"></A>
+Introduction--About This Guide</Heading-1>
+<pagenum>
+<A ID="pgfId-1044007"></A>
+6</pagenum>
+<Body>
+<A ID="pgfId-1040681"></A>
+This <Emphasis>
+Scalability, Availability, and Failover Guide</Emphasis>
+ guide describes some of the features and characteristics that make MarkLogic Server scale to extremely large amounts of content. This documents assumes you are familiar with the installation and administration concepts and procedures for MarkLogic Server. For details on the installation procedure (including details on installing a cluster), see the <Emphasis>
+Installation Guide</Emphasis>
+. For details on MarkLogic Server concepts and administration procedures, see the <Emphasis>
+Administrator's Guide</Emphasis>
+. For details on the overall MarkLogic Server cluster architecture and terminology, see <A href="distributed.xml#id(13921)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Getting Started with Enterprise Edition Distributed Deployments' on page 13</A>.</Body>
+<Body>
+<A ID="pgfId-1053189"></A>
+The topics of scalability and availability are combined in this guide because they tend to overlap each other. Additionally, the topic of clustering is covered because it is the mechanism used to scale a MarkLogic Server deployment. This guide is useful to anyone interested in the scalability and high-availability features of MarkLogic Server, and it also goes into details about planning for and configuring failover.</Body>
+<Body>
+<A ID="pgfId-1052823"></A>
+The following chapters in this guide supplement the material in the <Emphasis>
+Administrator's Guide</Emphasis>
+, <Emphasis>
+Application Developer's Guide</Emphasis>
+, and the <Emphasis>
+Installation Guide</Emphasis>
+:</Body>
+<Body-bullet>
+<A ID="pgfId-1053137"></A>
+<A href="scalability.xml#id(88605)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Scalability Considerations in MarkLogic Server' on page 7</A> describes some of the motivations for why you might need scalability, describes the general concept of high availability as well as outlines some of the high-availability features in MarkLogic Server, and provides some rule-of-thumb guidelines for sizing systems.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053147"></A>
+<A href="distributed.xml#id(13921)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Getting Started with Enterprise Edition Distributed Deployments' on page 13</A> explains the high-level concepts of MarkLogic Server clustrers.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059526"></A>
+<A href="clustering.xml#id(12050)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Clustering in MarkLogic Server' on page 23</A> reviews the basics of how MarkLogic Server clusters operate.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053160"></A>
+<A href="failover.xml#id(82157)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'High Availability of Data Nodes With Failover' on page 26</A> describes the two types of failover, including describing the problems it addresses and listing the requirements for using it.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053173"></A>
+<A href="config_cluster.xml#id(79252)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Configuring a Cluster' on page 39</A> describes the basic steps needed to configure a MarkLogic Server cluster.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059803"></A>
+<A href="config-local-failover.xml#id(18635)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Configuring Local-Disk Failover for a Forest' on page 43</A> provides the detailed steps to configure local-disk failover. This includes procedures to set up failover-enabled forests. </Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053180"></A>
+<A href="config_failover.xml#id(18635)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Configuring Shared-Disk Failover for a Forest' on page 47</A> provides the detailed steps to configure shared-disk failover. This includes procedures to set up failover-enabled forests.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059787"></A>
+<A href="config-both-failover.xml#id(18635)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Other Failover Configuration Tasks' on page 51</A> includes tasks applicable to both types of failover, including procedures to migrate forests that are not failover-enabled to become failover-enabled.</Body-bullet>
+</XML>

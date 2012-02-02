@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="error.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1044208"></A>
+<A ID="74588"></A>
+Debugging and Recovering from Error Conditions</Heading-1>
+<pagenum>
+<A ID="pgfId-1045136"></A>
+48</pagenum>
+<Body>
+<A ID="pgfId-1044209"></A>
+This chapter describes application debugging and server trace events in the MarkLogic Server Content Processing Framework, and includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1045252"></A>
+<A href="error.xml#id(74745)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Database Online Events</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050380"></A>
+<A href="error.xml#id(99472)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Disabling Content Processing Triggers</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1045256"></A>
+<A href="error.xml#id(26638)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Content Processing Framework Trace Events</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050613"></A>
+<A href="error.xml#id(76653)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Examining the Host and Task Server Status Pages For Tasks in the Queue</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049020"></A>
+<A href="error.xml#id(82265)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Find Errors in the ErrorLog.txt Log File</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1045260"></A>
+<A href="error.xml#id(33964)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Examining Properties Documents</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049084"></A>
+<A href="error.xml#id(13652)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Find Documents in the Error State</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1049932"></A>
+<A ID="74745"></A>
+Database Online Events</Heading-2>
+<Body>
+<A ID="pgfId-1049933"></A>
+The Content Processing Framework includes a mechanism for continuing processing in the event of a database becoming unavailable (from MarkLogic Server becoming unavailable, for example). When a database becomes available again, the Content Processing Framework catches the event and resumes processing where it left off. For example, if a pipeline defined five phases of processing and the database became unavailable during the processing, some documents might have completed their processing, some might be on phase two of processing, some might be on phase three, and so on. Because the state is stored in the properties document corresponding to each document, when the database starts back up, each document will continue from where it left off. This is the reason why you must call <code>
+cpf:success</code>
+ and <code>
+cpf:failure</code>
+ in your action modules, as describes in <A href="modules.xml#id(91800)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Action Modules Use try/catch With cpf:success and cpf:failure' on page&#160;33</A>. </Body>
+<Body>
+<A ID="pgfId-1050315"></A>
+The database online events are part of the Status Change Pipeline, and the processing will automatically continue when the database becomes available again.</Body>
+<Note>
+<A ID="pgfId-1050473"></A>
+The database online event causes the Content Processing Framework to look for unprocessed documents in the domain scope when the database comes online (for example, when MarkLogic Server restarts). Therefore, if you set up a domain with a scope that includes existing, unprocessed documents, those documents will be processed the first time the database online event is triggered. For details on domains, see <A href="domains.xml#id(11600)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Understanding and Using Domains' on page&#160;14</A>.</Note>
+<Heading-2>
+<A ID="pgfId-1050317"></A>
+<A ID="99472"></A>
+Disabling Content Processing Triggers</Heading-2>
+<Body>
+<A ID="pgfId-1050382"></A>
+If you want to temporarily disable content processing for a database, you can disable the triggers for that database. You can disable any or all of them. For example, if you want to disable only the restart triggers (which will make it so nothing happens after the database comes online, for example after a restart of the server), you can disable the <code>
+cpf:restart</code>
+ trigger. </Body>
+<Body>
+<A ID="pgfId-1050396"></A>
+To disable content processing triggers, perform the following steps:</Body>
+<Number1>
+<A ID="pgfId-1050404"></A>
+Open the Admin Interface to the database page for the database in which you want to disable content processing triggers.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1050421"></A>
+In the Admin Interface menu, click Triggers for the database in which you want to disable content processing triggers.</Number>
+<Number>
+<A ID="pgfId-1050429"></A>
+On the Trigger Summary page, click the link corresponding to the content processing trigger you want to disable. For example, if you want to disable the <code>
+cpf:restart</code>
+ trigger for the trigger with scope <code>
+/myDocuments/</code>
+, click that link.</Number>
+<Number>
+<A ID="pgfId-1050437"></A>
+Find the <code>
+enable</code>
+ buttons on the Trigger Configuration page and click the <code>
+false</code>
+ button.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1050444"></A>
+<IMAGE xml:link="simple" href="images/trigger_disable.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1050445"></A>
+Click OK.</Number>
+</NumberList>
+<Body>
+<A ID="pgfId-1050452"></A>
+This will disable the trigger, and will have the effect of stopping content processing for that event (in the example above, for the restart event).</Body>
+<Body>
+<A ID="pgfId-1050456"></A>
+To enable the trigger again (and enable content processing again for future events), go to the same Admin Interface page and select the <code>
+enable true</code>
+ button.</Body>
+<Heading-2>
+<A ID="pgfId-1050381"></A>
+<A ID="26638"></A>
+Content Processing Framework Trace Events</Heading-2>
+<Body>
+<A ID="pgfId-1050318"></A>
+There are trace events for the Content Processing Framework to help you debug your content processing applications. The trace events make it easy to see when documents are changed as a result of module actions from pipelines. This section describes the Content Processing Framework trace events and provides a procedure for how to configure them. The following sections are included:</Body>
+<Body-bullet>
+<A ID="pgfId-1049808"></A>
+<A href="error.xml#id(38802)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+List of Trace Events</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049815"></A>
+<A href="error.xml#id(38147)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Using the Server Trace Events</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050260"></A>
+<A href="error.xml#id(80032)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Sample Scenario for Trace Events</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050265"></A>
+<A href="error.xml#id(30892)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating Your Own Trace Events</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1049200"></A>
+<A ID="38802"></A>
+List of Trace Events</Heading-3>
+<Body>
+<A ID="pgfId-1049185"></A>
+This section lists the trace events to support debugging of content processing applications.</Body>
+<Body>
+<A ID="pgfId-1049904"></A>
+The following events cover the preconditions for the trigger events:</Body>
+<Body-bullet>
+<A ID="pgfId-1049128"></A>
+<code>
+CPF on-create</code>
+</Body-bullet>
+<Body-indent>
+<A ID="pgfId-1049129"></A>
+This event is generated whenever the preconditions for the on-create trigger are satisfied.</Body-indent>
+<Body-bullet>
+<A ID="pgfId-1049131"></A>
+<code>
+CPF on-delete</code>
+</Body-bullet>
+<Body-indent>
+<A ID="pgfId-1049132"></A>
+This event is generated whenever the preconditions for the on-delete trigger are satisfied.</Body-indent>
+<Body-bullet>
+<A ID="pgfId-1049134"></A>
+<code>
+CPF on-update</code>
+</Body-bullet>
+<Body-indent>
+<A ID="pgfId-1049135"></A>
+This event is generated whenever the preconditions for the on-update trigger are satisfied.</Body-indent>
+<Body-bullet>
+<A ID="pgfId-1049137"></A>
+<code>
+CPF on-status-enter</code>
+</Body-bullet>
+<Body-indent>
+<A ID="pgfId-1049138"></A>
+This event is generated whenever the preconditions for the on-status-enter trigger are satisfied.</Body-indent>
+<Body-bullet>
+<A ID="pgfId-1049140"></A>
+<code>
+CPF on-state-enter</code>
+</Body-bullet>
+<Body-indent>
+<A ID="pgfId-1049141"></A>
+This event is generated whenever the preconditions for the on-state-enter trigger are satisfied.</Body-indent>
+<Body-bullet>
+<A ID="pgfId-1051384"></A>
+<code>
+CPF Condition Invoke</code>
+</Body-bullet>
+<Body-indent>
+<A ID="pgfId-1051385"></A>
+This event generates a trace for every condition CPF attempts. Note that this can event generate a lot of messages, so only use this if you need to debug your conditions.</Body-indent>
+<Body-bullet>
+<A ID="pgfId-1051407"></A>
+<code>
+CPF Condition Result</code>
+</Body-bullet>
+<Body-indent>
+<A ID="pgfId-1051408"></A>
+This event generates a trace for every result of an attempted CPF condition. Note that this event can generate a lot of messages, so only use this if you need to debug your conditions.</Body-indent>
+<Body>
+<A ID="pgfId-1049304"></A>
+The preconditions include more than the conditions which cause a particular trigger to fire (although they recheck the trigger conditions as well, because there might be a lag between when the trigger fired and when the its module executed, and the triggering condition might no longer be true). For example, the <code>
+on-state-enter</code>
+ trigger requires that the document also have an <code>
+active</code>
+ processing status.</Body>
+<Body>
+<A ID="pgfId-1049912"></A>
+The following events cover action and state/status changes that occur during processing:</Body>
+<Body-bullet>
+<A ID="pgfId-1049151"></A>
+<code>
+CPF Action Invoke</code>
+</Body-bullet>
+<Body-indent>
+<A ID="pgfId-1049152"></A>
+This event is generated whenever a Content Processing Framework trigger invokes a pipeline action.</Body-indent>
+<Body-bullet>
+<A ID="pgfId-1049154"></A>
+<code>
+CPF Action Complete</code>
+</Body-bullet>
+<Body-indent>
+<A ID="pgfId-1049155"></A>
+This event is generated whenever a Content Processing Framework trigger completes an invoked action.</Body-indent>
+<Body-bullet>
+<A ID="pgfId-1049157"></A>
+<code>
+CPF State Change</code>
+</Body-bullet>
+<Body-indent>
+<A ID="pgfId-1049158"></A>
+This event is generated whenever the state of a document is set (from a <code>
+cpf:document-set-state</code>
+ operation).</Body-indent>
+<Body-bullet>
+<A ID="pgfId-1049160"></A>
+<code>
+CPF Status Change</code>
+</Body-bullet>
+<Body-indent>
+<A ID="pgfId-1049161"></A>
+This event is generated whenever the processing status of a document is set (from a <code>
+cpf:document-set-processing-status</code>
+ operation).</Body-indent>
+<Body-bullet>
+<A ID="pgfId-1050117"></A>
+<code>
+CPF Link Change</code>
+</Body-bullet>
+<Body-indent>
+<A ID="pgfId-1050118"></A>
+This event is generated whenever a <code>
+lnk:link</code>
+ property changes between documents by using the <code>
+lnk:insert</code>
+, <code>
+lnk:create</code>
+, or <code>
+lnk:remove</code>
+ module functions. </Body-indent>
+<Body-bullet>
+<A ID="pgfId-1051236"></A>
+<code>
+CPF</code>
+</Body-bullet>
+<Body-indent>
+<A ID="pgfId-1051237"></A>
+This event enables all of the <code>
+CPF*</code>
+ events except <code>
+CPF Condition Invoke</code>
+ and <code>
+CPF Condition Result</code>
+. Note that this will generate a significant number of log messages, especially if you are processing a large number of documents.</Body-indent>
+<Heading-3>
+<A ID="pgfId-1048941"></A>
+<A ID="38147"></A>
+Using the Server Trace Events</Heading-3>
+<Body>
+<A ID="pgfId-1049722"></A>
+To use the trace events for content processing, you must enable tracing (at the group level) for your configuration and set events. Perform the following to enable and set trace events:</Body>
+<Number1>
+<A ID="pgfId-1049730"></A>
+Log into the Admin Interface.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1049749"></A>
+Select Groups &gt; <Emphasis>
+group_name</Emphasis>
+ &gt; Diagnostics.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1049754"></A>
+The Diagnostics Configuration page appears.</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1049755"></A>
+Click the <code>
+true</code>
+ button for <code>
+trace events activated</code>
+.</Number>
+<Number>
+<A ID="pgfId-1049772"></A>
+Enter the trace events (as described in <A href="error.xml#id(38802)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'List of Trace Events' on page&#160;43</A>) you want to enable.</Number>
+<Number>
+<A ID="pgfId-1049780"></A>
+Click the OK button to activate the events.</Number>
+</NumberList>
+<Body>
+<A ID="pgfId-1049783"></A>
+After you configure the trace events, when any of the configured events occur, a line is added to the <code>
+ErrorLog.txt</code>
+ file, indicating which document is involved the event.</Body>
+<Note>
+<A ID="pgfId-1049790"></A>
+The trace events are designed as development and debugging tools, and they might slow the overall performance of MarkLogic Server. Also, enabling many trace events will produce a large quantity of messages, especially if you are processing a high volume of documents. When you are not debugging, disable the trace event for maximum performance.</Note>
+<Heading-3>
+<A ID="pgfId-1049578"></A>
+<A ID="80032"></A>
+Sample Scenario for Trace Events</Heading-3>
+<Body>
+<A ID="pgfId-1049876"></A>
+Suppose you are debugging a content processing application. You might enable <code>
+CPF Action Invoke</code>
+ to verify that the actions you thought should take place did in fact take place. You might enable <code>
+CPF Action Complete</code>
+ (which includes the elapsed time) to figure out which steps in your application are taking most of the time, so you can tune it.</Body>
+<Body>
+<A ID="pgfId-1049877"></A>
+But suppose you notice something is wrong; the application appears to skip processing for some documents. You can then enable <code>
+CPF on-state-enter</code>
+ to see if the document is passing the preconditions of the trigger. Similarly, you can enable <code>
+CPF State Change</code>
+ to follow the state changes defined in your pipeline.</Body>
+<Body>
+<A ID="pgfId-1049898"></A>
+The trace events allow you to follow the processing of your content processing application in as much detail as you need.</Body>
+<Heading-3>
+<A ID="pgfId-1050266"></A>
+<A ID="30892"></A>
+Creating Your Own Trace Events</Heading-3>
+<Body>
+<A ID="pgfId-1050270"></A>
+You can add your own trace events to your code with the <code>
+xdmp:trace</code>
+ function. When the <code>
+xdmp:trace</code>
+ function is called and trace events are enabled, a message is logged to the <code>
+ErrorLog.txt</code>
+ file. For the syntax of xdmp:trace, see the <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1049871"></A>
+<A ID="76653"></A>
+Examining the Host and Task Server Status Pages For Tasks in the Queue</Heading-2>
+<Body>
+<A ID="pgfId-1050615"></A>
+The Host Status page in the Admin Interface shows information for any tasks that are in the task server queue for that host. The Task Server Status page also shows information about tasks in the task server queue. Tasks are added to the task queue during content processing, and you can use the Host Status page to monitor how many tasks are in the queue.</Body>
+<Body>
+<A ID="pgfId-1050648"></A>
+To view the Host Status page in the Admin Interface, click the Hosts menu item, then click the name of the host in which the content processing application is running. Then click the Status tab to view the Host Status page. The Task Server status appears in the second table, about two-thirds of the way down the page. The following screen shot shows the task Server portion of the Host status page:</Body>
+<Body>
+<A ID="pgfId-1050649"></A>
+<IMAGE xml:link="simple" href="images/task_status.gif" show="embed" actuate="auto"/>
+</Body>
+<Body>
+<A ID="pgfId-1050657"></A>
+The following table shows the meaning of the fields in the Task Server portion of the Host Status page:</Body>
+<TableAnchor>
+<A ID="pgfId-1050658"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1050661"></A>
+Task Server Status Field</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1050663"></A>
+Description</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050665"></A>
+Current Tasks</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050667"></A>
+The number of tasks currently being evaluated.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050669"></A>
+Tasks Queued</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050671"></A>
+The number of tasks waiting to be evaluated.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050673"></A>
+Queue Size</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050675"></A>
+The maximum size of the task queue. This limit is configurable on the Task Server Configuration page in the Admin Interface.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050677"></A>
+Ratio</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050679"></A>
+The ratio of the size of the queue to the number of tasks in the queue.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050681"></A>
+Task Rate</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050683"></A>
+A moving average that is the approximate number of tasks being executed per second.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050685"></A>
+Oldest Task</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050687"></A>
+The longest time that a currently evaluating task has been running.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050689"></A>
+Deepest Task</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1050691"></A>
+The largest task depth of the currently evaluating tasks. The depth is determined based on a task that is spawned by another task that is in turn spawned by another task, and so on.</CellBody>
+</CELL>
+</ROW>
+</TABLE>
+<Body>
+<A ID="pgfId-1050730"></A>
+The Task Server Status page (Groups &gt; <Emphasis>
+group_name</Emphasis>
+ &gt; Task Server &gt; Status tab) also shows information about tasks that are currently running in the task server.</Body>
+<Heading-2>
+<A ID="pgfId-1050651"></A>
+<A ID="82265"></A>
+Find Errors in the ErrorLog.txt Log File</Heading-2>
+<Body>
+<A ID="pgfId-1049579"></A>
+Errors that occur in content processing are logged to the server log file. Examine any errors in the <code>
+Logs/ErrorLog.txt</code>
+ file. </Body>
+<Heading-2>
+<A ID="pgfId-1049603"></A>
+<A ID="33964"></A>
+Examining Properties Documents</Heading-2>
+<Body>
+<A ID="pgfId-1049604"></A>
+The Content Processing Framework stores information about content processing in the properties document corresponding to the URI for each document. For details about properties documents, see the 'Properties Documents and Directories' chapter in the <Emphasis>
+Application Developer's Guide</Emphasis>
+.</Body>
+<Body>
+<A ID="pgfId-1049605"></A>
+The following is a sample properties document for a document that has completed content processing:</Body>
+<Code>
+<A ID="pgfId-1049606"></A>
+&lt;prop:properties&gt;
+&#160;&#160;&lt;cpf:processing-status&gt;done&lt;/cpf:processing-status&gt;
+&#160;&#160;&lt;cpf:last-updated&gt;2005-03-16T16:56:09.466262-08:00
+&#160;&#160;&#160;&#160;&lt;/cpf:last-updated&gt;
+&#160;&#160;&lt;cpf:state&gt;http://marklogic.com/states/final&lt;/cpf:state&gt;
+&#160;&#160;&lt;lnk:link from=&quot;http://myDomainScope/myDocument_doc.xhtml&quot;
+&#160;&#160;&#160;&#160;&#160;to=&quot;http://myDomainScope/myDocument.doc&quot; rel=&quot;source&quot;
+&#160;&#160;&#160;&#160;&#160;rev=&quot;conversion&quot; strength=&quot;strong&quot;/&gt;
+&#160;&#160;&lt;lnk:link from=&quot;http://myDomainScope/myDocument_doc_parts/css.xml&quot;
+&#160;&#160;&#160;&#160;to=&quot;http://myDomainScope/myDocument.doc&quot; rel=&quot;source&quot;
+&#160;&#160;&#160;&#160;rev=&quot;stylesheet&quot; strength=&quot;strong&quot;/&gt;
+&#160;&#160;&lt;prop:last-modified&gt;2005-03-16T18:34:40.71377-08:00
+&#160;&#160;&#160;&#160;&lt;/prop:last-modified&gt;
+&lt;/prop:properties&gt;</Code>
+<Note>
+<A ID="pgfId-1050132"></A>
+If a document fails a processing step (when <code>
+cpf:failure</code>
+ is called), the error that caused the failure is stored in the properties document.</Note>
+<Heading-2>
+<A ID="pgfId-1049580"></A>
+<A ID="13652"></A>
+Find Documents in the Error State</Heading-2>
+<Body>
+<A ID="pgfId-1049581"></A>
+When a document fails to complete a pipeline or enters some other error condition, the Content Processing Framework places the document in an error state. Because the states are stored as properties, you can easily query for documents in the error state. The following query finds all documents that are in the error state:</Body>
+<Code>
+<A ID="pgfId-1049582"></A>
+declare namespace cpf=&quot;http://marklogic.com/cpf&quot;
+declare namespace prop=&quot;http://marklogic.com/xdmp/property&quot;
+
+&lt;errorReport&gt;
+{
+(: set $dir to the document scope for your domain :)
+let $dir := &quot;http://myDomainScope/&quot;
+let $all :=
+&#160;&#160;for $x in xdmp:directory($dir)
+&#160;&#160;(: only find the documents in the error state :)
+&#160;&#160;where xdmp:document-properties(xdmp:node-uri($x))//cpf:state/text() 
+&#160;&#160;&#160;&#160;&#160;&#160;eq &quot;http://marklogic.com/states/error&quot;
+&#160;&#160;return
+&#160;&#160;(: return the document uri and the properties document :)
+&#160;&#160;&lt;errorState&gt;{
+&#160;&#160;&#160;&#160;(&lt;uri&gt;{xdmp:node-uri($x)}&lt;/uri&gt; ,
+&#160;&#160;&#160;&#160;xdmp:document-properties(xdmp:node-uri($x))/*)
+&#160;&#160;}&lt;/errorState&gt;
+return
+(: count the number of documents in the error state :)
+&#160;&#160;(&lt;countOfErrorStateDocuments&gt;{count($all/prop:properties)
+&#160;&#160;}&lt;/countOfErrorStateDocuments&gt;
+,
+$all)
+}
+&lt;/errorReport&gt;
+</Code>
+<Note>
+<A ID="pgfId-1050158"></A>
+This sample query works for the states defined in the Default Conversion Option. If you want to search only for <code>
+cpf:error</code>
+ properties, you can write a query using the following expression:</Note>
+<Code>
+<A ID="pgfId-1050180"></A>
+&#160;&#160;&#160;&#160;&#160;declare namespace cpf=&quot;http://marklogic.com/cpf&quot;
+
+&#160;&#160;&#160;&#160;&#160;xdmp:document-properties()//cpf:error</Code>
+</XML>

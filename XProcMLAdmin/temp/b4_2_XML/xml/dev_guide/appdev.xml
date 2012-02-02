@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="appdev.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1053802"></A>
+<A ID="71050"></A>
+ Developing Applications in MarkLogic Server</Heading-1>
+<pagenum>
+<A ID="pgfId-1053806"></A>
+11</pagenum>
+<Body>
+<A ID="pgfId-1049471"></A>
+This chapter describes application development in MarkLogic Server in general terms, and includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1053734"></A>
+<A href="appdev.xml#id(34787)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Overview of MarkLogic Server Application Development</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054662"></A>
+<A href="appdev.xml#id(30112)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Skills Needed to Develop MarkLogic Server Applications</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053738"></A>
+<A href="appdev.xml#id(10659)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Where to Find Specific Information</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1059179"></A>
+This <Emphasis>
+Application Developer's Guide</Emphasis>
+ provides general information about creating XQuery applications using MarkLogic Server. For information about developing search application using the powerful XQuery search features of MarkLogic Server, see the <Emphasis>
+Search Developer's Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1054048"></A>
+<A ID="34787"></A>
+Overview of MarkLogic Server Application Development</Heading-2>
+<Body>
+<A ID="pgfId-1055106"></A>
+MarkLogic Server provides a platform to build content application. Developers build applications using XQuery both to search the content and as a programming language in which to develop the applications. The applications can integrate with other environments via web services or via an XCC interface from Java or .NET. But it is possible to create entire applications using only MarkLogic Server, and programmed entirely in XQuery.</Body>
+<Body>
+<A ID="pgfId-1055549"></A>
+This <Emphasis>
+Application Developer's Guide</Emphasis>
+ focuses primarily on techniques, design patterns, and concepts needed to use XQuery to build content and search applications in MarkLogic Server.</Body>
+<Heading-2>
+<A ID="pgfId-1055105"></A>
+<A ID="30112"></A>
+Skills Needed to Develop MarkLogic Server Applications</Heading-2>
+<Body>
+<A ID="pgfId-1055429"></A>
+The following are skills and experience useful in developing applications with MarkLogic Server. You do not need to have all of these skills to get started, but these are skills that you can build over time as you gain MarkLogic application development experience.</Body>
+<Body-bullet>
+<A ID="pgfId-1055576"></A>
+Web development skills (xHTML, HTTP, cross-browser issues, CSS, Javascript, and so on), especially if you are developing applications which run on an HTTP App Server.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055583"></A>
+Overall understanding and knowledge of XML.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055567"></A>
+XQuery skills. To get started with XQuery, see <Emphasis>
+XQuery and XSLT Reference Guide</Emphasis>
+.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055594"></A>
+Understanding of search engines and full-text queries.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055571"></A>
+Java or .Net experience, if you are using XCC to develop applications.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055572"></A>
+General application development techniques, such as solidifying application requirements, source code control, and so on.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055606"></A>
+If you will be deploying large-scale applications, administration on operations techniques such as creating and managing large filesystems, managing multiple machines, network bandwidth issues, and so on.</Body-bullet>
+<Heading-2>
+<A ID="pgfId-1055142"></A>
+<A ID="10659"></A>
+Where to Find Specific Information</Heading-2>
+<Body>
+<A ID="pgfId-1055307"></A>
+MarkLogic Server includes a full set of documentation, available at online at <Hyperlink>
+<A href="http://developer.marklogic.com/pubs" xml:link="simple" show="replace" actuate="user" CLASS="URL">http://developer.marklogic.com/pubs</A></Hyperlink>
+. This <Emphasis>
+Application Developer's Guide</Emphasis>
+ provides concepts and design patterns used in developing MarkLogic Server applications. The following is a list of pointers where you can find technical information:</Body>
+<Body-bullet>
+<A ID="pgfId-1055630"></A>
+For information about installing and upgrading MarkLogic Server, see the <Emphasis>
+Installation Guide</Emphasis>
+. Additionally, for a list of new features and any known incompatibilities with other releases, see the <Emphasis>
+Release Notes</Emphasis>
+. </Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055643"></A>
+For information about creating databases, forests, App Servers, users, privileges, and so on, see the <Emphasis>
+Administrator's Guide</Emphasis>
+.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055647"></A>
+For information on how to use security in MarkLogic Server, see <Emphasis>
+Understanding and Using Security Guide</Emphasis>
+.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055654"></A>
+For information on creating pipeline processes for document conversion and other purposes, see <Emphasis>
+Content Processing Framework Guide</Emphasis>
+.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055697"></A>
+For syntax and usage information on individual XQuery functions, including the XQuery standard functions, the MarkLogic Server built-in extension functions for updates, search, HTTP server functionality, and other XQuery library functions, see the <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055752"></A>
+For information on using XCC to access content in MarkLogic Server from Java or .Net, see the <Emphasis>
+XCC Developer's Guide</Emphasis>
+.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055658"></A>
+For information on how languages affect searches, see <A href="../search-dev-guide/languages.xml#id(40505)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Language Support in MarkLogic Server</Hyperlink>
+</A> in the <Emphasis>
+Search Developer's Guide</Emphasis>
+. It is important to understand how languages affect your searches regardless of the language of your content.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055671"></A>
+For information about developing search applications, see the <Emphasis>
+Search Developer's Guide</Emphasis>
+.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059165"></A>
+For information on what constitutes a transaction in MarkLogic Server, see <A href="transactions.xml#id(44680)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Understanding Transactions in MarkLogic Server' on page&#160;12</A> in this <Emphasis>
+Application Developer's Guide</Emphasis>
+.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055690"></A>
+For other developer topics, review the contents for this <Emphasis>
+Application Developer's Guide</Emphasis>
+.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055742"></A>
+For performance-related issues, see the <Emphasis>
+Query Performance and Tuning Guide</Emphasis>
+.</Body-bullet>
+<Body>
+<A ID="pgfId-1055325"></A>
+</Body>
+</XML>

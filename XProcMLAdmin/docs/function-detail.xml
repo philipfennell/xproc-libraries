@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table border="0" width="100%" class="mainbody"
+	cellspacing="0" cellpadding="0">
+	
+	<tr class="mainbody">
+		<td><img src="images/varspace.gif" height="12"/>
+		</td>
+	</tr>
+	
+	<tr class="mainbody">
+		<td>
+			<!-- Function Signiture -->
+			<table>
+				<tr>
+					<td colspan="2"
+						style="font-size:12pt;font-family:Courier">
+						<a id="admin:appserver-add-namespace"/><b><font
+							color="#c00831">
+							admin:appserver-add-namespace</font></b>( </td>
+				</tr>
+				<tr>
+					<td width="20"/>
+					<td style="font-size:11pt;font-family:Courier">
+						$config as element(configuration), </td>
+				</tr>
+				<tr>
+					<td width="20"/>
+					<td style="font-size:11pt;font-family:Courier">
+						$appserver-id as xs:unsignedLong, </td>
+				</tr>
+				<tr>
+					<td width="20"/>
+					<td style="font-size:11pt;font-family:Courier">
+						$namespaces as element(gr:namespace)* </td>
+				</tr>
+				<tr>
+					<td colspan="2"
+						style="font-size:11pt;font-family:Courier">)&#160;
+						as &#160; element(configuration)</td>
+				</tr>
+			</table>
+			
+		</td>
+	</tr>
+	
+	<tr class="mainbody">
+		<td><img src="images/varspace.gif" height="12"
+		/></td>
+	</tr>
+	
+	<!-- Summary. -->
+	<tr class="mainbody">
+		<td style="font-size:10pt;font-family:Arial">
+			<img src="images/varspace.gif" width="8"/>
+			<b>Summary:</b>
+			<div
+				style="margin-left:.5in; margin-right:8px; font-family:arial;                        font-size:10pt">
+				<br/> Add one or more namespaces to an App Server
+				configuration, which will predefine the
+				namespace(s) for all requests evaluated against
+				the App Server. </div><br/>
+		</td>
+	</tr>
+	
+	<!-- Parameters. -->
+	<tr class="mainbody">
+		<td style="font-size:10pt;font-family:Arial">
+			<img src="images/varspace.gif" width="8"/>
+			<b>Parameters:</b>
+			
+			<table>
+				<tr class="mainbody">
+					<td style="font-size:11pt;font-family:Arial">
+						<img src="images/varspace.gif" width="8"/>
+						<div style="margin-left:.5in; margin-right:8px">
+							<font style="font-size:11pt;font-family:Courier">
+								$config : </font>
+							<font style="font-family:arial;font-size:10pt">
+								The configuration for the cluster, typically the
+								result of <code>admin:get-configuration()</code>
+								call. </font>
+						</div>
+					</td>
+				</tr>
+			</table>
+			
+			<table>
+				<tr class="mainbody">
+					<td style="font-size:11pt;font-family:Arial">
+						<img src="images/varspace.gif" width="8"/>
+						<div style="margin-left:.5in; margin-right:8px">
+							<font style="font-size:11pt;font-family:Courier">
+								$appserver-id : </font>
+							<font style="font-family:arial;font-size:10pt">
+								The ID of the App Server. Typically, this is the
+								result of an <code>admin:appserver-get-id</code>
+								call. </font>
+						</div>
+					</td>
+				</tr>
+			</table><table>
+				<tr class="mainbody">
+					<td style="font-size:11pt;font-family:Arial">
+						<img src="images/varspace.gif" width="8"/>
+						<div style="margin-left:.5in; margin-right:8px">
+							<font style="font-size:11pt;font-family:Courier">
+								$namespaces : </font>
+							<font style="font-family:arial;font-size:10pt">
+								<p> A list of namespaces to add. Each namespace
+									specification has the following form: </p>
+								<pre xml:space="preserve">
+  &lt;namespace xmlns="http://marklogic.com/xdmp/group"&gt;
+    &lt;prefix&gt;myprefix&lt;/prefix&gt;
+    &lt;namespace-uri&gt;http://myuri/forthisprefix&lt;/namespace-uri&gt;		    
+  &lt;/namespace&gt;
+	 </pre>
+								Typically the result of an
+								<code>admin:group-namespace</code> call. </font>
+						</div>
+					</td>
+				</tr>
+			</table><br/>
+		</td>
+	</tr>
+	
+	
+	
+	
+	
+	<tr class="mainbody">
+		<td><img src="images/varspace.gif" width="8"/>
+			<font style="font-size:10pt;font-family:Arial"
+				><b>Example:</b></font>
+			<div
+				style="margin-left:.5in; margin-right:8px; font-size:9pt;                          font-family:Courier">
+				<pre xml:space="preserve">
+  xquery version "1.0-ml";
+
+  import module namespace admin = "http://marklogic.com/xdmp/admin" 
+		  at "/MarkLogic/admin.xqy";
+
+  let $config := admin:get-configuration()
+  return
+  admin:appserver-add-namespace($config, 
+    admin:appserver-get-id($config,(), "Docs"), 
+    &lt;namespace xmlns="http://marklogic.com/xdmp/group"&gt;
+      &lt;prefix&gt;myprefix&lt;/prefix&gt;
+      &lt;namespace-uri&gt;http://myuri/forthisprefix&lt;/namespace-uri&gt;		    
+    &lt;/namespace&gt;)
+
+  =&gt; The XML for new configuration with this namespace added.  Use 
+     this as the argument to admin:save-configuration to change 
+     the configuration.
+  </pre>
+			</div>
+		</td>
+	</tr>
+	
+	<tr class="mainbody">
+		<td/>
+	</tr>
+</table>

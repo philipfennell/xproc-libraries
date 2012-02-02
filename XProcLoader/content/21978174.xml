@@ -1,0 +1,134 @@
+<MedlineCitation Owner="NASA" Status="Completed">
+		<MedlineID>21978174</MedlineID>
+		<PMID>11982026</PMID>
+		<DateCreated>
+			   <Year>2002</Year>
+			   <Month>04</Month>
+			   <Day>30</Day>
+		</DateCreated>
+		<DateCompleted>
+			   <Year>2002</Year>
+			   <Month>05</Month>
+			   <Day>24</Day>
+		</DateCompleted>
+		<DateRevised>
+			   <Year>2002</Year>
+			   <Month>05</Month>
+			   <Day>31</Day>
+		</DateRevised>
+		<Article>
+			   <Journal>
+				     <ISSN>0075-9422</ISSN>
+				     <JournalIssue>
+					       <Volume>6</Volume>
+					       <PubDate>
+						         <Year>1968</Year>
+					       </PubDate>
+				     </JournalIssue>
+			   </Journal>
+			   <ArticleTitle>Microbiological studies on the radiation environment of the ionosphere and
+				stratosphere.</ArticleTitle>
+			   <Pagination>
+				     <MedlinePgn>115-22</MedlinePgn>
+			   </Pagination>
+			   <Abstract>
+				     <AbstractText>Rocket, balloon and laboratory experiments have been performed in
+					order to study the survival chances of microorganisms, which exist under the
+					environmental conditions of ionosphere and stratosphere. The main results are:
+					1. Not only near the earth, but also in the stratosphere and even in the
+					ionosphere, microorganisms are endangered primarily by UV- and EUV-light
+					irradiation. 2. The observed effect of more penetrating kinds of radiation was
+					relatively unimportant. High-vacuum and temperature effects have not been
+					observed at all. Even membrane filters and thin protein layers protected the
+					exposed spores of Bacillus subtilis var. niger (= Bac. globigii) in a clear-cut
+					manner. 3. UV-light with a wavelength between 200 and 300 nm reduces the number
+					of cells able to divide much quicker, than EUV-light of the same energy level
+					does, but damages caused by EUV-light can not be reversed by photoreactivation.
+					4. Microbes which have been damaged by solar radiation, can be photoreactivated
+					to a degree. Photoreactivation is high after exposure near the Earth and
+					significant after exposure within the stratosphere. 5. After exposure to
+					ionospheric irradiations no changes in the antigenic behavior of E. coli cells
+					could be detected.</AbstractText>
+			   </Abstract>
+			   <Affiliation>Institut fur Aerobiologie der Fraunhofer-Gesellschaft zur Forderung der
+				angewandten Forschung e.V., Grafschaft, Federal Republic of Germany.</Affiliation>
+			   <AuthorList CompleteYN="Y">
+				     <Author>
+					       <LastName>Petras</LastName>
+					       <ForeName>E</ForeName>
+					       <Initials>E</Initials>
+				     </Author>
+				     <Author>
+					       <LastName>Bisa</LastName>
+					       <ForeName>K</ForeName>
+					       <Initials>K</Initials>
+				     </Author>
+			   </AuthorList>
+			   <Language>eng</Language>
+			   <PublicationTypeList>
+				     <PublicationType>Journal Article</PublicationType>
+			   </PublicationTypeList>
+		</Article>
+		<MedlineJournalInfo>
+			   <Country>Netherlands</Country>
+			   <MedlineTA>Life Sci Space Res</MedlineTA>
+			   <NlmUniqueID>1250331</NlmUniqueID>
+		</MedlineJournalInfo>
+		<CitationSubset>S</CitationSubset>
+		<MeshHeadingList>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="N">Altitude</DescriptorName>
+			   </MeshHeading>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="N">Atmosphere</DescriptorName>
+			   </MeshHeading>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="N">Bacillus</DescriptorName>
+				     <QualifierName MajorTopicYN="N">growth &amp; development</QualifierName>
+				     <QualifierName MajorTopicYN="Y">radiation effects</QualifierName>
+			   </MeshHeading>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="N">Bacillus subtilis</DescriptorName>
+				     <QualifierName MajorTopicYN="N">growth &amp; development</QualifierName>
+				     <QualifierName MajorTopicYN="Y">radiation effects</QualifierName>
+			   </MeshHeading>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="N">Colony Count, Microbial</DescriptorName>
+			   </MeshHeading>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="N">Cosmic Radiation</DescriptorName>
+			   </MeshHeading>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="N">Escherichia coli</DescriptorName>
+				     <QualifierName MajorTopicYN="N">growth &amp; development</QualifierName>
+				     <QualifierName MajorTopicYN="Y">radiation effects</QualifierName>
+			   </MeshHeading>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="N">Radiation Protection</DescriptorName>
+			   </MeshHeading>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="N">Radiation Tolerance</DescriptorName>
+			   </MeshHeading>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="N">Solar Activity</DescriptorName>
+			   </MeshHeading>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="Y">Space Flight</DescriptorName>
+			   </MeshHeading>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="N">Support, Non-U.S. Gov't</DescriptorName>
+			   </MeshHeading>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="Y">Ultraviolet Rays</DescriptorName>
+			   </MeshHeading>
+			   <MeshHeading>
+				     <DescriptorName MajorTopicYN="N">Weightlessness</DescriptorName>
+			   </MeshHeading>
+		</MeshHeadingList>
+		<OtherID Source="NASA">00027670</OtherID>
+		<SpaceFlightMission>Balloon Flight</SpaceFlightMission>
+		<SpaceFlightMission>Flight Experiment</SpaceFlightMission>
+		<SpaceFlightMission>Sounding Rocket</SpaceFlightMission>
+		<SpaceFlightMission>short duration</SpaceFlightMission>
+		<SpaceFlightMission>unmanned</SpaceFlightMission>
+	</MedlineCitation>

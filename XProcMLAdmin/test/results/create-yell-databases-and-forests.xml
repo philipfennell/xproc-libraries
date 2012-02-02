@@ -1,0 +1,17 @@
+<c:results xmlns:c="http://www.w3.org/ns/xproc-step">
+   <ml:connection xmlns:ml="http://www.marklogic.com" user="admin" password="admin"
+                  host="localhost"
+                  port="8003"
+                  debug="false"
+                  no-request="false"/>
+   <ml:connection xmlns:ml="http://www.marklogic.com" user="admin" password="admin"
+                  host="localhost"
+                  port="8003"
+                  debug="false"
+                  no-request="false"/>
+   <ml:connection xmlns:ml="http://www.marklogic.com" user="admin" password="admin"
+                  host="localhost"
+                  port="8003"
+                  debug="false"
+                  no-request="false"/>
+</c:results>

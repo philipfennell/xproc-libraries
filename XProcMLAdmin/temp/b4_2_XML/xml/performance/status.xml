@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="status.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1053802"></A>
+<A ID="37719"></A>
+Monitoring MarkLogic Server Performance</Heading-1>
+<pagenum>
+<A ID="pgfId-1053806"></A>
+41</pagenum>
+<Body>
+<A ID="pgfId-1049471"></A>
+This chapter provides an overview to various ways to monitor the status in MarkLogic Server, both through the Admin Interface and through Server Monitoring APIs designed to report status of various parts of the system. This chapter includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1053734"></A>
+<A href="status.xml#id(84157)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Ways to Monitor Performance and Activity</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054662"></A>
+<A href="status.xml#id(61508)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Server Monitoring APIs</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1055142"></A>
+<A ID="84157"></A>
+Ways to Monitor Performance and Activity</Heading-2>
+<Body>
+<A ID="pgfId-1055680"></A>
+This section describes the following ways to monitor various activity on MarkLogic Server:</Body>
+<Body-bullet>
+<A ID="pgfId-1055681"></A>
+<A href="status.xml#id(72340)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Server Logs</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055685"></A>
+<A href="status.xml#id(83500)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Status Screens in the Admin Interface</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055691"></A>
+<A href="status.xml#id(80312)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Create Your Own Server Reports</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1055663"></A>
+<A ID="72340"></A>
+Server Logs</Heading-3>
+<Body>
+<A ID="pgfId-1055763"></A>
+The logs for MarkLogic Server are an important source of information about activity on the server, particularly information about error conditions. The logs are all stored in the <code>
+Logs</code>
+ directory under the MarkLogic Server data directory (typically <code>
+c:\Program&#160;Files\MarkLogic\Data\Logs</code>
+ in windows, <code>
+/var/opt/MarkLogic/Logs</code>
+ under UNIX-based systems). There are two types of logs:</Body>
+<Body-bullet>
+<A ID="pgfId-1055667"></A>
+<code>
+ErrorLog.txt</code>
+, which logs MarkLogic Server exceptions, startup activity, and so on.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1056126"></A>
+<code>
+&lt;port_no&gt;_AccessLog.txt</code>
+, which logs access requests (for example, HTTP requests) for the App Server running at the specified port.</Body-bullet>
+<Body>
+<A ID="pgfId-1056138"></A>
+You can configure how long to keep a log before starting a new one, at which level to log activity, and how many old log files to keep before deleting (they have a number appended to their name, for example, <code>
+ErrorLog_5.txt</code>
+ indicates 5 new log files have been created since this one was used). For more details on configuring the log files, see the <Emphasis>
+Administrator's Guide</Emphasis>
+.</Body>
+<Body>
+<A ID="pgfId-1056158"></A>
+Another option you can configure, at the App Server level, is for any uncaught application exceptions to be written to the <code>
+ErrorLog.txt</code>
+ file. This way, if your application throws an exception (for example, if it has a syntax error), the error message is logged in addition to being sent to the client. This is useful in debugging, especially if queries are being generated via user activity on a browser or through a WebDAV client.</Body>
+<Body>
+<A ID="pgfId-1056174"></A>
+You can also code your own log messages into an application using <code>
+xdmp:log</code>
+. You can use <code>
+xdmp:log</code>
+ to log any message at any level, and that message is written to the <code>
+ErrorLog.txt</code>
+ file when it is called. Log messages are useful in debugging during development, and are also useful in logging certain activities in production. </Body>
+<Body>
+<A ID="pgfId-1056195"></A>
+For operational purposes, some developers write scripts or programs to monitor the logs for specific messages. Then, if the specific message is logged, the script or program can send some sort of alert out (for example, page someone or send a message to someone). </Body>
+<Body>
+<A ID="pgfId-1056202"></A>
+The logs contain important information that can be used in monitoring MarkLogic Server. The logs can be a powerful tool in an overall monitoring policy. How you use that information depends on your requirements. </Body>
+<Note>
+<A ID="pgfId-1056257"></A>
+There must be sufficient disk space on the filesystem in which the log files reside. If there is no space left on the log file device, MarkLogic Server will abort. Additionally, if there is no disk space available for the log files, MarkLogic Server will fail to start.</Note>
+<Heading-3>
+<A ID="pgfId-1055662"></A>
+<A ID="83500"></A>
+Status Screens in the Admin Interface</Heading-3>
+<Body>
+<A ID="pgfId-1055307"></A>
+The Admin Interface includes many pages that list current activity and status for various parts of MarkLogic Server. To access the status pages, click the status tab in the part of the Admin Interface to which you want to find current system information.</Body>
+<Body>
+<A ID="pgfId-1055853"></A>
+<IMAGE xml:link="simple" href="images/status_tab.gif" show="embed" actuate="auto"/>
+</Body>
+<Body>
+<A ID="pgfId-1055854"></A>
+The following table lists the status pages available in the Admin Interface, along with the location path to the status tab in the Admin Interface and a description of each page.</Body>
+<TableAnchor>
+<A ID="pgfId-1055770"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1055776"></A>
+Name</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1055778"></A>
+Location</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1055780"></A>
+Description</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1055782"></A>
+System Status</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1055784"></A>
+Configure &gt; Status</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1055786"></A>
+Provides a summary of all information throughout the entire MarkLogic Server cluster, including host, App Server, database, and forest information. Also includes buttons to restart or shutdown all of the hosts in the cluster.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1055788"></A>
+Group Status</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1059719"></A>
+Groups &gt; <Emphasis>
+group_name</Emphasis>
+ &gt; Status</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1055792"></A>
+Provides a summary of all information throughout the MarkLogic Server group, including host, App Server, database, and forest information. Also includes buttons to restart or shutdown all of the hosts in the group.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1055794"></A>
+Host Status</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1059743"></A>
+Hosts &gt; <Emphasis>
+host_name</Emphasis>
+ &gt; Status</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1055798"></A>
+Provides a summary of the current conditions on the host, including information about App Servers, forests, and active queries. Also includes buttons to enter a new license key, restart, or shutdown the host.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1055800"></A>
+App Server Status</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1059761"></A>
+Groups &gt; <Emphasis>
+group_name</Emphasis>
+ &gt; App Servers &gt; <Emphasis>
+app_server_name </Emphasis>
+&gt; Status</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1055804"></A>
+Shows information about activity on the App Server, including queries active on each host and the ability to cancel the queries.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1055806"></A>
+Task Server Status</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1059789"></A>
+Groups &gt; <Emphasis>
+group_name</Emphasis>
+ &gt; Task Server &gt; Status</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1055810"></A>
+Shows information about activity on the task servers for the group, including the number of requests being processed and the number of tasks queued on the task server.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1055812"></A>
+Database Status</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1059808"></A>
+Databases &gt; <Emphasis>
+db_name</Emphasis>
+ &gt; Status</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1055816"></A>
+Shows activity on the specified database. Shows if any merges are in progress and if reindexing is in progress, and gives estimates about how long they will take. Shows information about the database, including the number of documents, number of fragments, and its size. Optionally shows forest status information.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1055818"></A>
+Forest Status</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1059829"></A>
+Forests &gt; <Emphasis>
+forest_name</Emphasis>
+ &gt; Status</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1055822"></A>
+Shows information and activity about the specified forest, including merge activity, number of stands, size, space available, and so on. Also includes a button to restart the forest, which forces the forest to go offline. Once it is offline, it will automatically attempts to rejoin the host, resulting in a restart of the forest. If failover is enabled, a restarted forest will first attempt to join the primary host.</CellBody>
+</CELL>
+</ROW>
+</TABLE>
+<Heading-3>
+<A ID="pgfId-1055686"></A>
+<A ID="80312"></A>
+Create Your Own Server Reports</Heading-3>
+<Body>
+<A ID="pgfId-1055690"></A>
+The status pages in the Admin Interface provide a lot of detail about many parts of the system. If you want information about MarkLogic Server status in a different form, however, or if you want to combine it with some other application-specific information, you can build your own server reports using the Server Monitoring APIs. For more details, see the next section.</Body>
+<Heading-2>
+<A ID="pgfId-1055646"></A>
+<A ID="61508"></A>
+Server Monitoring APIs</Heading-2>
+<Body>
+<A ID="pgfId-1055653"></A>
+The Server Monitoring APIs are XQuery functions that return XML representations of current activity of various parts of MarkLogic Server. Because they are XQuery functions, you can build any application you deem necessary with them. For example, perhaps you want a summary page that shows some different information then the system status page in the Admin Interface, or perhaps you want to combine some of that information with some content from your application. Perhaps you want to integrate it with a site-wide monitoring system. Whatever your requirements, because the APIs return XML, it is easy to write an application to display the information in whatever way fits your needs. </Body>
+<Body>
+<A ID="pgfId-1056279"></A>
+The following are the monitoring functions available:</Body>
+<Body-bullet>
+<A ID="pgfId-1055692"></A>
+<code>
+xdmp:forest-counts</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055699"></A>
+<code>
+xdmp:forest-status</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055708"></A>
+<code>
+xdmp:host-status</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055735"></A>
+<code>
+xdmp:request-cancel</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055713"></A>
+<code>
+xdmp:request-status</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055727"></A>
+<code>
+xdmp:server-status</code>
+</Body-bullet>
+<Body>
+<A ID="pgfId-1056084"></A>
+The <code>
+xdmp:forest-counts</code>
+ function can take some time to compute on large systems, as it must query the forest to determine some of the counts. You can limit the work it performs with the optional second argument. For more details about syntax and usage of these functions, see the Server Monitoring functions in the <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+. </Body>
+</XML>

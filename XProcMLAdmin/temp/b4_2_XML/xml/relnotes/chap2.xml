@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="chap2.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1040610"></A>
+<A ID="_Toc71544039"></A>
+Installation and Upgrade</Heading-1>
+<Body>
+<A ID="pgfId-1051416"></A>
+This chapter describes the supported platforms and upgrade paths for MarkLogic Server, and has the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1051417"></A>
+<A href="chap2.xml#id(92831)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Supported Platforms</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1051421"></A>
+<A href="chap2.xml#id(72376)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Upgrade Support</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1051422"></A>
+<A ID="92831"></A>
+Supported Platforms</Heading-2>
+<pagenum>
+<A ID="pgfId-1043366"></A>
+9</pagenum>
+<Body>
+<A ID="pgfId-1040611"></A>
+This release of MarkLogic Server is supported on the following platforms:</Body>
+<Body-bullet>
+<A ID="pgfId-1051375"></A>
+Microsoft Windows Server 2008 (x86), Microsoft Windows 2003 Server (x86), Microsoft Windows XP SP2, Microsoft Windows Vista 32-bit Edition (x86)*</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1051376"></A>
+Microsoft Windows Server 2008 (x64), Windows 2003 Server 64-bit Edition (x64), Windows Vista 64-bit Edition (x64)*</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1051377"></A>
+Sun Solaris 10 (64-bit SPARC)</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1051378"></A>
+Sun Solaris 10 (x64)</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1051379"></A>
+Red Hat Enterprise Linux 5 (x86)** ***</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1051753"></A>
+Red Hat Enterprise Linux 5 (x64)** *** ****</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1051380"></A>
+CentOS 5 (x64)** *** </Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1051970"></A>
+Mac OS X 10.6*****</Body-bullet>
+<Body>
+<A ID="pgfId-1051631"></A>
+* Microsoft Windows Vista is supported for development only. 
+If MarkLogic Server fails to start up on Windows with the error 'the application failed to initialize properly (0xc0150002)', then a dependency is missing from your environment and you need to download and install one of the following DLLs:
+32-bit versions of Windows require the DLL at the following link: <Hyperlink>
+<A href="http://www.microsoft.com/downloads/details.aspx?familyid=200B2FD9-AE1A-4A14-984D-389C36F85647&amp;displaylang=en" xml:link="simple" show="replace" actuate="user" CLASS="URL">http://www.microsoft.com/downloads/details.aspx?familyid=200B2FD9-AE1A-4A14-984D-389C36F85647&amp;displaylang=en</A></Hyperlink>
+. 
+64-bit versions of Windows require the following DLL: <Hyperlink>
+<A href="http://www.microsoft.com/downloads/details.aspx?FamilyID=eb4ebe2d-33c0-4a47-9dd4-b9a6d7bd44da&amp;DisplayLang=en" xml:link="simple" show="replace" actuate="user" CLASS="URL">http://www.microsoft.com/downloads/details.aspx?FamilyID=eb4ebe2d-33c0-4a47-9dd4-b9a6d7bd44da&amp;DisplayLang=en</A></Hyperlink>
+.</Body>
+<Body>
+<A ID="pgfId-1051382"></A>
+** The deadline I/O scheduler is required on Red Hat Linux platforms. The deadline scheduler is optimized to ensure efficient disk I/O for multi-threaded processes, and MarkLogic Server can have many simultaneous threads. For information on the deadline scheduler, see the Red Hat documentation (for example, <Hyperlink>
+<A href="http://www.redhat.com/docs/wp/performancetuning/iotuning/iosubsystem-scheduler-deadline.html" xml:link="simple" show="replace" actuate="user" CLASS="URL">http://www.redhat.com/docs/wp/performancetuning/iotuning/iosubsystem-scheduler-deadline.html</A></Hyperlink>
+, <Hyperlink>
+<A href="http://www.redhat.com/docs/wp/performancetuning/iotuning/iosubsystem-scheduler-selection.html" xml:link="simple" show="replace" actuate="user" CLASS="URL">http://www.redhat.com/docs/wp/performancetuning/iotuning/iosubsystem-scheduler-selection.html</A></Hyperlink>
+, and <Hyperlink>
+<A href="http://www.redhat.com/magazine/008jun05/features/schedulers/" xml:link="simple" show="replace" actuate="user" CLASS="URL">http://www.redhat.com/magazine/008jun05/features/schedulers/</A></Hyperlink>
+).</Body>
+<Body>
+<A ID="pgfId-1051698"></A>
+***The <code>
+redhat-lsb</code>
+ and the <code>
+glibc</code>
+ packages are required on Red Hat Linux. Additionally, on 64-bit Red Hat Linux, both the 32-bit and the 64-bit <code>
+glibc</code>
+ packages are required.</Body>
+<Body>
+<A ID="pgfId-1051389"></A>
+****Red Hat Linux 5 (x64) is also supported in a VMWare ESX 3.0.2, ESX 3.5.3, or ESX&#160;4.0 (installed on bare metal) environment.</Body>
+<Body>
+<A ID="pgfId-1051993"></A>
+*****Mac OS X is supported for development only. Conversion (Office and PDF) and entity enrichment are not available on Mac OS X. Mac OS X 10.6 (Snow Leopard) is required.</Body>
+<Heading-2>
+<A ID="pgfId-1051429"></A>
+<A ID="72376"></A>
+Upgrade Support</Heading-2>
+<Body>
+<A ID="pgfId-1051343"></A>
+This section describes upgrade support to 4.2. For details on installing MarkLogic Server and for the upgrade procedure, see the <Emphasis>
+Installation Guide</Emphasis>
+. </Body>
+<Body>
+<A ID="pgfId-1047659"></A>
+Upgrading is supported from 4.0-1 or later. If you are running a release prior to 4.0, you must first upgrade to 4.0 or 4.1 before upgrading to 4.2. If you are upgrading an Enterprise Edition cluster, you must first upgrade the node in which the Security database forest is located before you upgrade other nodes in the cluster. </Body>
+<Body>
+<A ID="pgfId-1047928"></A>
+An upgrade from 4.0 or 4.1 to 4.2 will reindex any databases that have <code>
+reindex enable</code>
+ set to <code>
+true</code>
+. If you choose not to reindex your databases, they will run in either 3.0, 3.1, 3.2, 4.0, or 4.1 compatibility mode, depending on the version of MarkLogic Server in which they were last loaded or reindexed. Running in compatibility mode will disable certain 4.2 features and may treat all content in the database as English language content. For details on database compatibility, see the <Emphasis>
+Installation Guide</Emphasis>
+.</Body>
+<Body>
+<A ID="pgfId-1046976"></A>
+There are some known incompatibilities between 4.1 and 4.2. You might need to make some minor code changes to your 4.1 applications before they can run correctly in 4.2. For details on the incompatibilities, see <A href="chap4.xml#id(_Toc71544047)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Known Incompatibilities with Previous Releases' on page&#160;20</A>. For instructions on upgrading to 4.2, including information about database compatibility between 4.2 and 4.1, see the <Emphasis>
+Installation Guide</Emphasis>
+.</Body>
+</XML>

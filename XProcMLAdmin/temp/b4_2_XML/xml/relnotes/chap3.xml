@@ -1,0 +1,873 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="chap3.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1040610"></A>
+<A ID="40102"></A>
+New Features in Release 4.2</Heading-1>
+<pagenum>
+<A ID="pgfId-1044007"></A>
+19</pagenum>
+<Body>
+<A ID="pgfId-1040681"></A>
+This chapter describes the new features in Release 4.2 of MarkLogic Server. The feature descriptions are divided into the following categories:</Body>
+<Body-bullet>
+<A ID="pgfId-1049715"></A>
+<A href="chap3.xml#id(63233)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Replication</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1052161"></A>
+<A href="chap3.xml#id(89896)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+XSLT</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049257"></A>
+<A href="chap3.xml#id(52820)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Application Services Features</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1061381"></A>
+<A href="chap3.xml#id(68687)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Database and Administrative Features</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059463"></A>
+<A href="chap3.xml#id(46640)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Search and Analytics Features</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059473"></A>
+<A href="chap3.xml#id(35911)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Welcome Page</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059483"></A>
+<A href="chap3.xml#id(23412)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Amazon ec2 Management API</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1060826"></A>
+<A href="chap3.xml#id(38006)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+XQuery Enhancements</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1062858"></A>
+<A href="chap3.xml#id(14136)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Documentation Enhancements</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1053751"></A>
+<A ID="63233"></A>
+Replication</Heading-2>
+<Body>
+<A ID="pgfId-1053752"></A>
+MarkLogic Server 4.2 includes support for replication. Replication allows asynchronous, document-level, filtered replication between two domains (usually two databases or directories). Replication is highly configurable, providing a wide array of functionality to replicate all or part of the content of one database into another. Replication is an important part of any enterprise-grade disaster recovery solution. Replication is also useful when scaling out, to push information close to your users. Replication makes it easy to replicate a database (or any part of a database) on one MarkLogic Server cluster to another database on either the same or on another MarkLogic Server cluster. You use Admin Interface and the Admin API to configure flexible replication. You can configure what domains to replicate and apply filters to limit documents that are replicated based on arbitrary XQuery code. You can configure replication to push changes from the master or, in secure environments, to pull changes from the replica. A replication target configuration may also include a scheduled task to handle retries and zero day replication. All of these features provides an extremely flexible set of tools to replicate whichever documents that you need. Because of this flexibility, it is known as <Emphasis>
+flexible replication</Emphasis>
+. To enable replication, a license key that includes flexible replication is required. For details on replication, including detailed information on how to set it up, see the <Emphasis>
+Flexible Replication Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1058858"></A>
+<A ID="89896"></A>
+XSLT</Heading-2>
+<Body>
+<A ID="pgfId-1058891"></A>
+MarkLogic Server 4.2 includes XSLT 2.0, with XSLT 1.0 compatibility mode. You can invoke XSLT using the <code>
+xdmp:xslt-invoke</code>
+ and <code>
+xdmp:xslt-eval</code>
+ functions. XSLT is a popular language for creating applications that transform XML from one structure to another. In MarkLogic Server 4.2, you can combine XQuery and XSLT in your application, using whichever language that best fits the task you are performing. You can import XQuery library modules into XSLT stylesheets, making the functions and variables from the XQuery library available in your XSTL stylesheet, and you can import stylesheets into XQuery modules. All of the MarkLogic Server built-in functions are available in both XQuery and XSLT. For more details on XSLT in MarkLogic Server, see the <Emphasis>
+XQuery and XSLT Reference Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1058938"></A>
+<A ID="52820"></A>
+Application Services Features</Heading-2>
+<Body>
+<A ID="pgfId-1058957"></A>
+4.2 expands MarkLogic Application Services to add Information Studio and expands on Application Builder. This section highlights some of the new features in Application Services and includes the following parts:</Body>
+<Body-bullet>
+<A ID="pgfId-1061546"></A>
+<A href="chap3.xml#id(30014)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Information Studio to Collect and Transform Content</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1061556"></A>
+<A href="chap3.xml#id(17383)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Application Builder Enhancements</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1061563"></A>
+<A href="chap3.xml#id(73342)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Search, Info, and InfoDev APIs</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1061494"></A>
+<A ID="30014"></A>
+Information Studio to Collect and Transform Content</Heading-3>
+<Body>
+<A ID="pgfId-1061505"></A>
+4.2 introduces Information Studio, which is an application designed to make it easy to load content into MarkLogic Server and create simple or complicated transformations to perform during the loading process. Information Studio provides easy-to-use tools to:</Body>
+<Body-bullet>
+<A ID="pgfId-1063149"></A>
+Load content from a directory from the filesystem.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1063171"></A>
+Load content from a remote machine using a drag-and-drop interface.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1063178"></A>
+Create flows to define a multi-step loading process.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1063185"></A>
+Customize a loading process (a content <Emphasis>
+collector</Emphasis>
+) and make it available in the user interface.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1063218"></A>
+Create and configure databases you need for your content.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1063195"></A>
+Add arbitrary XSLT to a create simple or complex <Emphasis>
+transformers</Emphasis>
+.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1063205"></A>
+Track the progress of large multi-step loads, making it easy to see progress and errors.</Body-bullet>
+<Body>
+<A ID="pgfId-1063156"></A>
+For details, see the <Emphasis>
+Information Studio Developer's Guide</Emphasis>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1061512"></A>
+<A ID="17383"></A>
+Application Builder Enhancements</Heading-3>
+<Body>
+<A ID="pgfId-1061522"></A>
+Application Builder was introduced in 4.1, and it makes it easy to build search and analytics applications. In 4.2, Application Builder has been expanded to include the following:</Body>
+<Body-bullet>
+<A ID="pgfId-1063229"></A>
+The ability to customize an application and have the customization survive re-deployment via the Application Builder.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1063246"></A>
+The addition of element and properties constraints as constraint types.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1063301"></A>
+Many usability improvements.</Body-bullet>
+<Body>
+<A ID="pgfId-1063253"></A>
+For details on Application Builder, see the <Emphasis>
+Application Builder Developer's Guide</Emphasis>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1061529"></A>
+<A ID="73342"></A>
+Search, Info, and InfoDev APIs</Heading-3>
+<Body>
+<A ID="pgfId-1061539"></A>
+In addition to the Search API (which was introduced in 4.1), Application Services now includes XQuery libraries to load content and make it easy to programmatically perform common tasks such as creating a database. The Information Studio and the Information Studio Developer APIs allow you to script information studio tasks as well as provide APIs that make it easy to write collectors to load content and transformers to transform content.</Body>
+<Body>
+<A ID="pgfId-1063323"></A>
+In addition to the new <code>
+info</code>
+ and <code>
+info-</code>
+dev libraries, the <code>
+search</code>
+ library includes the following enhancements:</Body>
+<Body-bullet>
+<A ID="pgfId-1063277"></A>
+Element constraints, which allow you to constrain against content within the scope of an element.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1063291"></A>
+Properties constraints, which allow you to constrain against matches in properties documents.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1063343"></A>
+A proximity operator to perform near queries (<code>
+wolf near fox</code>
+).</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1063360"></A>
+Range constraint operators to constrain queries to ranges of values.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1063929"></A>
+Geospatial constraints to build facets out of geospatial data.</Body-bullet>
+<Body>
+<A ID="pgfId-1063373"></A>
+For details, see the <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+, the <Emphasis>
+Information Studio Developer's Guide</Emphasis>
+, and <A href="../search-dev-guide/search-api.xml#id(71050)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Search API: Understanding and Using</Hyperlink>
+</A> in the <Emphasis>
+Search Developer's Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1061306"></A>
+<A ID="68687"></A>
+Database and Administrative Features</Heading-2>
+<Body>
+<A ID="pgfId-1062270"></A>
+The following database and administrative features are included in MarkLogic Server 4.2:</Body>
+<Body-bullet>
+<A ID="pgfId-1063836"></A>
+<A href="chap3.xml#id(15640)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Local-Disk Failover</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1062987"></A>
+<A href="chap3.xml#id(26296)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Compartment Security</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1063000"></A>
+<A href="chap3.xml#id(24379)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Database Rollback</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1063007"></A>
+<A href="chap3.xml#id(50004)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Standalone Properties</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1063026"></A>
+<A href="chap3.xml#id(55643)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Language/Encoding Detection</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1063037"></A>
+<A href="chap3.xml#id(43066)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Bulk Load Tuning Parameters</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1063048"></A>
+<A href="chap3.xml#id(86902)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Range Index on List Types (NMTOKEN)</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1064014"></A>
+<A href="chap3.xml#id(83766)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Expanded Host Timing Information in xdmp:server-status</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1064587"></A>
+<A href="chap3.xml#id(91484)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Password Policy Plugins</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1064695"></A>
+<A href="chap3.xml#id(80448)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Merge Priority Database Option</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1064750"></A>
+<A href="chap3.xml#id(92141)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Range Index Optimize Database Option</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1064862"></A>
+<A href="chap3.xml#id(57777)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Mac OS X Supported for Development Use</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1063855"></A>
+<A ID="15640"></A>
+Local-Disk Failover</Heading-2>
+<Body>
+<A ID="pgfId-1063862"></A>
+MarkLogic Server 4.2 includes a second type of failover: <Emphasis>
+local-disk failover</Emphasis>
+. In MarkLogic Server 4.1, you can set up a forest on a shared clustered filesystem and, if the primary host for the forest becomes unavailable, another host will take control of the forest. The type of failover in 4.1 is referred to as <Emphasis>
+shared-disk failover</Emphasis>
+. 4.2 adds <Emphasis>
+local-disk failover</Emphasis>
+, which allows you to configure other forests on other hosts, and those forests will maintain replicas of the primary forest. In the event of the host for the primary forest becoming unavailable, MarkLogic Server will automatically transfer control to the replica forest (that is, it will fail the forest over to the replica forest, which runs on another host in the cluster). For details on both shared-disk failover and local-disk failover, including a discussion of the pros and cons of each failover type, see the <Emphasis>
+Scalability, Availability, and Failover Guide</Emphasis>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1062263"></A>
+<A ID="26296"></A>
+Compartment Security</Heading-3>
+<Body>
+<A ID="pgfId-1061351"></A>
+4.2 extends the MarkLogic Server security model with <Emphasis>
+compartment security</Emphasis>
+. A compartment is a name associated with a role, and that name is used as an additional check when accessing documents in a database or when using URI privileges. If you do not use compartments, then there is no change in the security model. If you do use compartment security, then you can require that a user passes multiple permission checks to access a document. Without compartment security, if a a user satisfies at least one permission check, then the user can access the document. To enable compartment security, a license key that includes compartment security is required. For details, see <A href="../security/compartment.xml#id(17367)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Compartment Security</Hyperlink>
+</A> in the <Emphasis>
+Understanding and Using Security Guide</Emphasis>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1058964"></A>
+<A ID="24379"></A>
+Database Rollback</Heading-3>
+<Body>
+<A ID="pgfId-1062045"></A>
+You can rollback one or more forests in a database to a point in time using the new <code>
+xdmp:forest-rollback</code>
+ built-in function. Doing a rollback to a point-in-time is much faster than doing a database restore, and it is a good way to reset the system to a known state. For more details, see the <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+ and <A href="../dev_guide/point_in_time.xml#id(84726)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Rolling Back a Forest to a Particular Timestamp</Hyperlink>
+</A> in <Emphasis>
+Application Developer's Guide</Emphasis>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1059032"></A>
+<A ID="50004"></A>
+Standalone Properties</Heading-3>
+<Body>
+<A ID="pgfId-1061994"></A>
+4.2 allows you to have a properties document without having a corresponding document at the same URI. Previously, you needed to create the document, either before or at the same time as creating the properties document. A standalone properties document is useful retaining metadata about a deleted document or for storing information (such as RDF tuples) in a compact form. For details, see <A href="../dev_guide/properties.xml#id(10714)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Standalone Properties Documents</Hyperlink>
+</A> in the <Emphasis>
+Application Developer's Guide</Emphasis>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1061983"></A>
+<A ID="55643"></A>
+Language/Encoding Detection</Heading-3>
+<Body>
+<A ID="pgfId-1062254"></A>
+4.2 includes the <code>
+xdmp:encoding-language-detect</code>
+ function, which provides an XML report with information about the language and encoding of a document. Additionally, <code>
+xdmp:document-load</code>
+, <code>
+xdmp:document-get</code>
+, <code>
+fn:unparsed-text</code>
+, and the <code>
+xdmp:http-*</code>
+ functions all have an <code>
+&lt;encoding&gt;auto&lt;/encoding&gt;</code>
+ option which will automatically set the encoding during loading. For details, see <A href="../dev_guide/loading.xml#id(44534)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Specifying Encoding and Language During Loads</Hyperlink>
+</A> in the <Emphasis>
+Application Developer's Guide</Emphasis>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1062289"></A>
+<A ID="43066"></A>
+Bulk Load Tuning Parameters</Heading-3>
+<Body>
+<A ID="pgfId-1062303"></A>
+You can now configure transaction journal writes and transaction locks to be more lax for faster bulk loading. This is useful when you do not need transactional integrity because you can start over if something goes wrong. For details, see <A href="../dev_guide/loading.xml#id(19846)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Understanding the Locking and Journaling Database Settings for Bulk Loads</Hyperlink>
+</A> in the <Emphasis>
+Application Developer's Guide</Emphasis>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1062247"></A>
+<A ID="86902"></A>
+Range Index on List Types (NMTOKEN)</Heading-3>
+<Body>
+<A ID="pgfId-1062353"></A>
+You can now create range indexes on list types. You choose the type of the range index when creating the index, and each item in the list will be indexed as a single value. </Body>
+<Heading-3>
+<A ID="pgfId-1064025"></A>
+<A ID="83766"></A>
+Expanded Host Timing Information in xdmp:server-status</Heading-3>
+<Body>
+<A ID="pgfId-1064035"></A>
+The <code>
+xdmp:server-status</code>
+ built-in now includes more information about activity on each host in a cluster. It provides output to show the time the App Server spends communicating with each host in the cluster. The <code>
+xdmp:query-meters</code>
+ and <code>
+xdmp:host-status</code>
+ built-ins provide similar host-communication timings. For details on the output of <code>
+xdmp:server-status</code>
+, see <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1064598"></A>
+<A ID="91484"></A>
+Password Policy Plugins</Heading-3>
+<Body>
+<A ID="pgfId-1064608"></A>
+MarkLogic Server 4.2 includes a plugin framework to allow you to register capabilities, and then implement those capabilities as XQuery modules which are evaluated by the plugin framework. You can use this framework to create plugins that check a password when it is set by a user. For example, you can write a plugin to check that the password has a certain number of characters or includes special characters, and if it does not, return an error. Some sample password plugin code is included in the <code>
+Samples</code>
+ directory. For details on the password plugin samples and on the plugin framework, see <A href="../dev_guide/plugins.xml#id(56695)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Plugin Framework</Hyperlink>
+</A> in the <Emphasis>
+Application Developer's Guide</Emphasis>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1064678"></A>
+<A ID="80448"></A>
+Merge Priority Database Option</Heading-3>
+<Body>
+<A ID="pgfId-1064679"></A>
+There is new database option, <code>
+merge priority</code>
+, that allows you to set the CPU priority given to merges. To make merges get a lower CPU priority, set the option to <code>
+lower</code>
+, which will give merges a lower CPU priority than requests against that server. This can be a useful tool if database merges are slowing down queries on your system(s) too much. You can set the <code>
+merge priority</code>
+ in the Admin Interface on the Merge Policy page (under the database page) or using the <code>
+admin:database-set-merge-priority</code>
+ and <code>
+admin:database-get-merge-priority</code>
+ Admin API functions.</Body>
+<Heading-3>
+<A ID="pgfId-1064714"></A>
+<A ID="92141"></A>
+Range Index Optimize Database Option</Heading-3>
+<Body>
+<A ID="pgfId-1064728"></A>
+There is a new database option, <code>
+range index optimize</code>
+, which specifies whether range indexes should be optimized to make lexicon (and therefore facet) resolution as fast as possible (<code>
+facet-time</code>
+) or to use less memory (<code>
+memory-size</code>
+). This allows you to make the choice in the trade-off between speed and memory usage. If you do not need to conserve memory, then continue to use the default of <code>
+facet-time</code>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1064873"></A>
+<A ID="57777"></A>
+Mac OS X Supported for Development Use</Heading-3>
+<Body>
+<A ID="pgfId-1064883"></A>
+MarkLogic Server 4.2 is available for development use only on Mac OS X 10.6. It uses the native 64-bit capabilities of Mac OS X. Conversion and entity extraction are not available on Mac&#160;OS&#160;X. For details about requirements and installing MarkLogic Server on Mac&#160;OS&#160;X or on any of the supported platforms, see the <Emphasis>
+Installation Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1064681"></A>
+<A ID="46640"></A>
+Search and Analytics Features</Heading-2>
+<Body>
+<A ID="pgfId-1062069"></A>
+The following are search-related features in MarkLogic Server 4.2:</Body>
+<Body-bullet>
+<A ID="pgfId-1062643"></A>
+<A href="chap3.xml#id(70708)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Faster Calculation of Aggregates</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1062657"></A>
+<A href="chap3.xml#id(75328)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Results Clustering</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1062668"></A>
+<A href="chap3.xml#id(59134)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Proximity Boosting in Relevance Calculations</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1062679"></A>
+<A href="chap3.xml#id(72470)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+cts:distinctive-terms and cts:similar-query</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1062690"></A>
+<A href="chap3.xml#id(48952)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Search Plan Information With xdmp:plan</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1062701"></A>
+<A href="chap3.xml#id(88980)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Term Frequency Normalization</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1062712"></A>
+<A href="chap3.xml#id(33890)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+cts:document-fragment-query</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1062723"></A>
+<A href="chap3.xml#id(37177)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Fast Sampling With score-random</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1062734"></A>
+<A href="chap3.xml#id(20591)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Cardinality Selection with min-occurs and max-occurs</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1062058"></A>
+<A ID="70708"></A>
+Faster Calculation of Aggregates</Heading-3>
+<Body>
+<A ID="pgfId-1061903"></A>
+The W3C XQuery standard aggregate functions (<code>
+fn:avg</code>
+, <code>
+fn:max</code>
+, <code>
+fn:min</code>
+, and <code>
+fn:sum</code>
+) are faster in 4.2 than in previous releases, and they are particularly faster when computing aggregates based on sequences returned from the lexicon function (for example, <code>
+cts:element-values</code>
+).</Body>
+<Body>
+<A ID="pgfId-1061927"></A>
+Additionally, the following new functions take sequences of values from the lexicon functions and take into account frequency (the number of occurrences per fragment) when calculating the aggregates:</Body>
+<Body-bullet>
+<A ID="pgfId-1061910"></A>
+<code>
+cts:sum</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1062084"></A>
+<code>
+cts:avg</code>
+</Body-bullet>
+<Body>
+<A ID="pgfId-1062088"></A>
+For details on these functions, see the <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1062118"></A>
+<A ID="75328"></A>
+Results Clustering</Heading-3>
+<Body>
+<A ID="pgfId-1064306"></A>
+4.2 introduces <code>
+cts:cluster</code>
+, which provides output that allows you to cluster search results into groups of similar documents with labels. You can use the output from <code>
+cts:cluster</code>
+ to build a user interface that shows search results in categories, where results in a category are statistically similar to each other. For details, see <A href="../search-dev-guide/clusterer.xml#id(16886)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Results Clustering Using cts:cluster</Hyperlink>
+</A> in the <Emphasis>
+Search Developer's Guide</Emphasis>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1062128"></A>
+<A ID="59134"></A>
+Proximity Boosting in Relevance Calculations</Heading-3>
+<Body>
+<A ID="pgfId-1064322"></A>
+With MarkLogic 4.2 a search may optionally boost the score of a search result based on the proximity of terms; that is, terms found close to each other will score higher than terms found farther apart.  There is a distance-weight option on the leaf-level cts:query constructors which allows you to specify the level of proximity boost for a query. For proximity boosting to work you must have the index option word positions set to true. </Body>
+<Body>
+<A ID="pgfId-1062111"></A>
+With MarkLogic 4.2 a search may optionally boost the score of a search result based on the proximity of terms; that is, terms found close to each other will score higher than terms found farther apart.  There is a <code>
+distance-weight</code>
+ option on the leaf-level <code>
+cts:query</code>
+ constructors which allows you to specify the level of proximity boost for a query. To use proximity boosting, you must have the word positions For proximity boosting to work you must have the index option <code>
+word positions</code>
+ database option set to <code>
+true</code>
+. For details, see <A href="../search-dev-guide/relevance.xml#id(34743)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Proximity Boosting With the distance-weight Option</Hyperlink>
+</A> in the <Emphasis>
+Search Developer's Guide</Emphasis>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1062147"></A>
+<A ID="72470"></A>
+cts:distinctive-terms and cts:similar-query</Heading-3>
+<Body>
+<A ID="pgfId-1064448"></A>
+4.2 includes introduces <code>
+cts:distinctive-terms</code>
+, which allows you to find the most 'relevant' terms that make the nodes similar. Additionally, you can now pass options to <code>
+cts:similar-query</code>
+ to use the options introduced in <code>
+cts:distinctive-terms</code>
+. The <code>
+cts:distinctive-terms</code>
+ options allow you to pass in database indexing options, which can affect the results by considering search terms applicable to those index options. For more information, see the <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+ and <A href="../search-dev-guide/similar.xml#id(91115)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Distinctive Terms and cts:similar-query</Hyperlink>
+</A> in the <Emphasis>
+Search Developer's Guide</Emphasis>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1062166"></A>
+<A ID="48952"></A>
+Search Plan Information With xdmp:plan</Heading-3>
+<Body>
+<A ID="pgfId-1062158"></A>
+4.2 includes the <code>
+xdmp:plan</code>
+ function, which returns information on how a search or an XPath expression is evaluated. It returns information similar to the information logged by <code>
+xdmp:query-trace</code>
+, as well as information on the query terms that are selected. For more details, see the <Emphasis>
+Query Performance and Tuning Guide</Emphasis>
+ and the <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1062180"></A>
+<A ID="88980"></A>
+Term Frequency Normalization</Heading-3>
+<Body>
+<A ID="pgfId-1064533"></A>
+When documents are very different in size, larger documents tend to contain more occurrences of any term than shorter ones, which causes large documents to float to the top of a relevance-ranked search results list. To balance this effect <code>
+tf</code>
+ (term-frequency) may be normalized according to the length of the document. This feature lets you control how much <code>
+tf</code>
+ is affected by result length, to tune your search results ordering. The <code>
+tf normalization</code>
+ option on the database configuration controls this setting. </Body>
+<Body>
+<A ID="pgfId-1062197"></A>
+In 4.1, an option to set the term frequency normalization (<code>
+tf normalization</code>
+) to <code>
+unscaled-log</code>
+ was introduced; <code>
+unscaled-log</code>
+ does no scaling based on document size. In 4.2, there are four new intermediate settings, which have varying degrees of scaling. If you change this setting in the database and <code>
+reindexer enable</code>
+ is set to <code>
+true</code>
+, then the database will reindex. Setting the <code>
+tf normalization</code>
+ option to any of the scaled options will take into account the size of the document, not just the term frequency in the document, as part of the relevance calculation. The default value is <code>
+scaled-log</code>
+, which has the strongest amount of scaling for document size. </Body>
+<Heading-3>
+<A ID="pgfId-1062190"></A>
+<A ID="33890"></A>
+cts:document-fragment-query</Heading-3>
+<Body>
+<A ID="pgfId-1062207"></A>
+4.2 introduces a new <code>
+cts:query</code>
+ constructor, <code>
+cts:document-fragment-query</code>
+. Just as <code>
+cts:properties-query</code>
+ allows you to add property constraints when searching against documents, <code>
+cts:document-fragment-query</code>
+ allows you to add document constraints when searching against properties. </Body>
+<Heading-3>
+<A ID="pgfId-1062215"></A>
+<A ID="37177"></A>
+Fast Sampling With score-random</Heading-3>
+<Body>
+<A ID="pgfId-1062216"></A>
+A new scoring algorithm for <code>
+cts:search</code>
+, <code>
+score-random</code>
+, allows you to sort a search in random order, making it very efficient to get random samples from a search result.</Body>
+<Heading-3>
+<A ID="pgfId-1062235"></A>
+<A ID="20591"></A>
+Cardinality Selection with min-occurs and max-occurs</Heading-3>
+<Body>
+<A ID="pgfId-1062236"></A>
+You can now constrain searches to return results only if the search terms appear a minimum or a maximum number of times. There are new options to the <code>
+cts:query</code>
+ constructors to support this functionality.</Body>
+<Heading-2>
+<A ID="pgfId-1062089"></A>
+<A ID="35911"></A>
+Welcome Page</Heading-2>
+<Body>
+<A ID="pgfId-1061651"></A>
+4.2 includes a new Welcome Page running on the Docs App Server on port 8000. The Welcome Page includes links to Application Services, links to the documentation, and other useful information. It is a useful starting point for using MarkLogic Server. The XQuery use-cases demo is still available under the Welcome Page. For more details, see <A href="../gs/StartPage.xml#id(66089)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+MarkLogic Server Entry Page</Hyperlink>
+</A> in <Emphasis>
+Getting Started with MarkLogic Server</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1061653"></A>
+<A ID="23412"></A>
+Amazon ec2 Management API</Heading-2>
+<Body>
+<A ID="pgfId-1061666"></A>
+4.2 includes an XQuery API used to manage Amazon ec2 hosts. The API allows you to write XQuery scripts to configure instances on ec2. For details on the API, see the Module: Elastic Compute Cloud API documentation in the <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1061659"></A>
+<A ID="38006"></A>
+XQuery Enhancements</Heading-2>
+<Body>
+<A ID="pgfId-1061654"></A>
+This section details various XQuery enhancements in 4.2, and includes the following enhancements:</Body>
+<Body-bullet>
+<A ID="pgfId-1060137"></A>
+<A href="chap3.xml#id(93680)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+xdmp:output Prolog Options For Serialization</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1060361"></A>
+<A href="chap3.xml#id(55996)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+New Built-In Functions</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1061067"></A>
+<A href="chap3.xml#id(41305)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Import XSLT Stylesheets and Use Imported Functions and Variables</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1059141"></A>
+<A ID="93680"></A>
+xdmp:output Prolog Options For Serialization</Heading-3>
+<Body>
+<A ID="pgfId-1062404"></A>
+You can set an option in the XQuery prolog to set the serialization mode for a query. These options support the various XSLT serialization methods from within XQuery. The serialization options include indenting, HTML, and many other options. For details, see <A href="../xquery/langoverview.xml#id(47415)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Declaring Options</Hyperlink>
+</A> in the <Emphasis>
+XQuery and XSLT Reference Guide</Emphasis>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1060996"></A>
+<A ID="55996"></A>
+New Built-In Functions</Heading-3>
+<Body>
+<A ID="pgfId-1062422"></A>
+There are many new built-in functions in 4.2, available in both XQuery and XSLT, including the following:</Body>
+<Body-bullet>
+<A ID="pgfId-1062504"></A>
+<code>
+xdmp:parse-dateTime</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1062505"></A>
+<code>
+xdmp:parse-yymmdd</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1062433"></A>
+<code>
+xdmp:lock-for-update</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1064003"></A>
+xdmp:get-server-field, xdmp:set-server-field, xdmp:get-server-field-names</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1062461"></A>
+and many more...</Body-bullet>
+<Body>
+<A ID="pgfId-1062468"></A>
+For details, see the <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1063428"></A>
+<A ID="41305"></A>
+Import XSLT Stylesheets and Use Imported Functions and Variables</Heading-3>
+<Body>
+<A ID="pgfId-1063442"></A>
+4.2 allows you to import an XSLT stylesheet into your XQuery program. You then can use any functions and variables defined in the stylesheet from within the XQuery program. Similarly, you can import an XQuery library into an XSLT stylesheet and use its functions and variables in the stylesheet. For details, see <A href="../xquery/enhanced.xml#id(_Toc61258626)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+MarkLogic Server Enhanced XQuery Language</Hyperlink>
+</A> in the <Emphasis>
+XQuery and XSLT Reference Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1062794"></A>
+<A ID="14136"></A>
+Documentation Enhancements</Heading-2>
+<Body>
+<A ID="pgfId-1062798"></A>
+MarkLogic Server includes a comprehensive set of documentation. 4.2 includes the following enhancements to the documentation:</Body>
+<Body-bullet>
+<A ID="pgfId-1062799"></A>
+<A href="chap3.xml#id(96592)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+New Scripting Administrative Tasks Guide</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1062800"></A>
+<A href="chap3.xml#id(73509)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Expanded Getting Started Guide</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1062801"></A>
+<A href="chap3.xml#id(62953)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+New Flexible Replication Guide</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1063500"></A>
+<A href="chap3.xml#id(82761)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Expanded Application Services Documentation</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1063511"></A>
+<A href="chap3.xml#id(64855)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Documentation for the New 4.2 APIs</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1063522"></A>
+<A href="chap3.xml#id(88389)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+XSLT and XQuery</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1062805"></A>
+For a list of what is in the documentation, see <A href="other.xml#id(_Toc71544051)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Documentation' on page&#160;30</A>. To download the documentation, go to <Hyperlink>
+<A href="http://developer.marklogic.com/pubs" xml:link="simple" show="replace" actuate="user" CLASS="URL">developer.marklogic.com/pubs</A></Hyperlink>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1062807"></A>
+<A ID="96592"></A>
+New Scripting Administrative Tasks Guide</Heading-3>
+<Body>
+<A ID="pgfId-1062808"></A>
+The information about using the Admin API and other APIs to script administrative tasks has been expanded and moved from the <Emphasis>
+Administrator's Guide</Emphasis>
+ to the new <Emphasis>
+Scripting Administrative Tasks Guide</Emphasis>
+. This guide describes how to use the various administrative APIs and includes sample code for a wide variety of activities, including scripting CPF configurations.</Body>
+<Heading-3>
+<A ID="pgfId-1062815"></A>
+<A ID="73509"></A>
+Expanded Getting Started Guide</Heading-3>
+<Body>
+<A ID="pgfId-1062819"></A>
+The <Emphasis>
+Getting Started with MarkLogic Server</Emphasis>
+ guide has been expanded to include more exercises appropriate to a new user of MarkLogic Server.</Body>
+<Heading-3>
+<A ID="pgfId-1062823"></A>
+<A ID="62953"></A>
+New Flexible Replication Guide</Heading-3>
+<Body>
+<A ID="pgfId-1062824"></A>
+A new guide, the <Emphasis>
+Flexible Replication Guide</Emphasis>
+, describes in detail how to setup and use replication. </Body>
+<Heading-3>
+<A ID="pgfId-1062825"></A>
+<A ID="82761"></A>
+Expanded Application Services Documentation</Heading-3>
+<Body>
+<A ID="pgfId-1062826"></A>
+The Application Services documentation has been expanded as follows:</Body>
+<Body-bullet>
+<A ID="pgfId-1062830"></A>
+Additions to the <Emphasis>
+Application Builder Developer's Guide</Emphasis>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1062834"></A>
+A new <Emphasis>
+Information Studio Developer's Guide</Emphasis>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1063472"></A>
+New API documentation for the Information Studio and Information Studio developer APIs.</Body-bullet>
+<Heading-3>
+<A ID="pgfId-1062835"></A>
+<A ID="64855"></A>
+Documentation for the New 4.2 APIs</Heading-3>
+<Body>
+<A ID="pgfId-1062836"></A>
+There are several hundred new XQuery/XSLT functions available in 4.2. For details, see the <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1062837"></A>
+<A ID="88389"></A>
+XSLT and XQuery</Heading-3>
+<Body>
+<A ID="pgfId-1062841"></A>
+The <Emphasis>
+XQuery Reference Guide</Emphasis>
+ has been renamed to <Emphasis>
+XQuery and XSLT Reference Guide</Emphasis>
+, and describes both the MarkLogic extensions to XQuery as well as the extensions to XSLT. Additionally, this guide has background information about XQuery, XPath, and XSLT.</Body>
+</XML>

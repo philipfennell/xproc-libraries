@@ -1,0 +1,1851 @@
+<apidoc:module name="DLSModule" category="Library Services" lib="dls" bucket="XQuery Library Modules" xmlns:apidoc="http://marklogic.com/xdmp/apidoc">
+	<apidoc:summary category="Library Services" 
+	   bucket="XQuery Library Modules">
+		<p>The Library Services API module is 
+			used to place documents under library service control,
+			and allows you to perform functions such as checking
+			in a document, checking out a document, and so on. </p>	
+		<p>The Library Services API is installed as the following file:</p>
+         <code><em>install_dir</em>/Modules/MarkLogic/dls.xqy</code> 
+ 
+      <p>where <code><em>install_dir</em></code> is the directory in which 
+	      MarkLogic Server is installed.</p>
+      <p> To use the <code>dls.xqy</code> module in your own XQuery modules, 
+	      include the following line in your XQuery prolog:</p>
+      <pre xml:space="preserve"><code>import module namespace dls = "http://marklogic.com/xdmp/dls" 
+              at "/MarkLogic/dls.xqy";</code></pre>
+      <p>The library uses the <code>dls:</code> namespace, which is 
+	      <em>not</em> predefined in the server.</p>
+      <p>Mark Logic recommends enabling the URI Lexicon when using 
+	       Library Services; the URI lexicon will 
+	      improve performance, especially when the database grows to
+	      a large number of documents.</p>
+   </apidoc:summary>
+   <apidoc:summary category="Library Services" 
+	   bucket="XQuery Library Modules" subcategory="Document Management">
+	   Document Management functions.
+   </apidoc:summary>
+    <apidoc:summary category="Library Services" 
+	   bucket="XQuery Library Modules" subcategory="Document Update">
+	   Document Update functions.
+   </apidoc:summary>
+   <apidoc:summary category="Library Services" 
+	   bucket="XQuery Library Modules" subcategory="cts:query Constructor">
+	   Functions to return <code>cts:query</code> constructors.
+   </apidoc:summary>
+   <apidoc:summary category="Library Services" 
+	   bucket="XQuery Library Modules" subcategory="Retention Policy">
+	   Retention policy functions.
+   </apidoc:summary>
+   <apidoc:summary category="Library Services" 
+	   bucket="XQuery Library Modules" subcategory="XInclude">
+	   XInclude functions.
+   </apidoc:summary>
+
+   <apidoc:function name="document-history" lib="dls" 
+	   category="Library Services" bucket="XQuery Library Modules"
+	   subcategory="Document Management">
+	  <apidoc:summary>Returns the version history of the document located at the
+	  specified URI. 
+	  </apidoc:summary>
+    <apidoc:params>
+     <apidoc:param name="uri" type="xs:string">The URI of the document.</apidoc:param>
+    </apidoc:params>
+    <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+    <apidoc:return> element(dls:document-history)</apidoc:return>
+
+    <apidoc:example><pre xml:space="preserve"><![CDATA[
+   xquery version "1.0-ml";
+   import module namespace dls = "http://marklogic.com/xdmp/dls" 
+		  at "/MarkLogic/dls.xqy";
+
+   dls:document-history("/foo/bar/baz.xml")
+
+   =>
+
+   <dls:document-history uri="/foo/bar/baz.xml" xmlns:dls="http://marklogic.com/xdmp/dls">
+   <dls:version>
+    <dls:version-id>1</dls:version-id>
+    <dls:document-uri>/foo/bar/baz.xml</dls:document-uri>
+    <dls:latest>false</dls:latest>
+    <dls:created>2009-04-07T13:54:26.721-07:00</dls:created>
+    <dls:replaced>2009-04-14T13:52:21.674-07:00</dls:replaced>
+    <dls:author>10677693687367813363</dls:author>
+    <dls:annotation>part insert</dls:annotation>
+    <dls:deleted>false</dls:deleted>
+  </dls:version><dls:version>
+    <dls:version-id>2</dls:version-id>
+    <dls:document-uri>/foo/bar/baz.xml</dls:document-uri>
+    <dls:latest>true</dls:latest>
+    <dls:created>2009-04-14T13:52:21.674-07:00</dls:created>
+    <dls:author>10677693687367813363</dls:author>
+    <dls:annotation>Changed the title from Baz Gets Down</dls:annotation>
+    <dls:deleted>false</dls:deleted>
+  </dls:version>
+  </dls:document-history>
+    ]]></pre></apidoc:example>
+
+  </apidoc:function>
+
+  <apidoc:function name="document-manage" lib="dls" 
+	  category="Library Services" bucket="XQuery Library Modules"
+	   subcategory="Document Management">
+	  <apidoc:summary>This function places a document under management.  A
+		  document must first be managed before it can be checked out.
+		  The document at the specified URI will become version 1 of 
+		  this managed document.
+	  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">The URI of 
+		    the document.</apidoc:param>
+    <apidoc:param name="deep" type="xs:boolean">Specifies whether to manage 
+	    this document as well as any documents for which this document 
+	    has XInclude references to.  Specify <code>true</code> to manage
+	    all XInclude references or <code>false</code> to not manage
+	    any included documents.  The default is <code>false</code>.
+    </apidoc:param>
+    <apidoc:param name="annotation" type="item()*" optional="true">
+        Any comments you want to add to the properties.</apidoc:param>
+  </apidoc:params>
+  <apidoc:return>empty-sequence()</apidoc:return>
+     <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  dls:document-manage("/foo/bar/baz.xml", 
+                      fn:false(), 
+                      "Baz is now a managed document") 
+      
+  (: Makes 'baz.xml' a managed document, but not its referenced documents. :)
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="document-unmanage" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	   subcategory="Document Management">
+	<apidoc:summary>Removes the specified document from management.
+	You must have update permissions on the document to unmanage the document.
+       	</apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">The URI of 
+		    the document.</apidoc:param>
+    <apidoc:param name="deep" type="xs:boolean">Specifies whether to unmanage 
+	    this document as well as any documents for which this document 
+	    has XInculde references to.  Specify <code>true</code> to unmanage
+	    all XInclude references or <code>false</code> to leave
+	    any included documents as managed documents.  The default is 
+	    <code>false</code>.</apidoc:param>
+    <apidoc:param name="remove-versions" type="xs:boolean">Specify
+	    <code>true</code> to delete all but the latest version
+	    during the unmanage operation, <code>false</code> to
+	    leave any older versions in the database as unmanaged documents.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>empty-sequence()</apidoc:return>
+    <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[ 
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  dls:document-unmanage("/foo/bar/baz.xml", fn:false(), fn:true()) 
+
+  (: Unmanages 'baz.xml', but maintains management of its referenced
+     documents. All versions but the latest version of this document 
+     are deleted. :)
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+<apidoc:function name="document-checkout" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	   subcategory="Document Management">
+  <apidoc:summary>This function checks out (locks) the document at the 
+  specified URI to prevent other users from modifying the document. An 
+  exception is thrown if the document does not yet exist or does exist 
+  but is not managed.
+</apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">The URI of the document to check out.
+    </apidoc:param>
+    <apidoc:param name="deep" type="xs:boolean">If set to <code>true</code>, then 
+    any documents 
+    directly or indirectly included by the specified document are also checked out.
+    </apidoc:param>
+    <apidoc:param name="annotation" type="item()?" optional="true">Any comments you
+        want to add to the document's <code>active-lock</code> element.</apidoc:param>
+    <apidoc:param name="timeout" type="xs:unsignedLong?" optional="true">The duration of the
+    checkout, in seconds.  For infinite, omit this parameter or specify ().</apidoc:param>
+  </apidoc:params>
+  <apidoc:return>empty-sequence()</apidoc:return>
+     <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  dls:document-checkout("/foo/bar/baz.xml", fn:true(), "updating doc", 3600)
+
+  (: Checks out the 'baz'xml' document, and all of its included documents,
+     for one hour. :)
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="document-checkin" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	   subcategory="Document Management">
+  <apidoc:summary>This function checks in (unlocks) the document at the 
+  specified URI to allow other users to modify the document.  This function 
+  does not create a new version of the document.  You must explicitly use 
+  <code>dls:document-update()</code> to create new versions of a document.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">The URI of 
+		    the document.</apidoc:param>
+    <apidoc:param name="deep" type="xs:boolean"> If set to <code>true</code>, 
+    then any documents directly or indirectly included by the specified document 
+    are also checked in.</apidoc:param>
+  </apidoc:params>
+  <apidoc:return>empty-sequence()</apidoc:return>
+    <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  dls:document-checkin("/foo/bar/baz.xml", fn:true())
+
+  (: Checks in 'baz.xml' and all of its included documents. :) 
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+<apidoc:function name="document-version-as-of" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	   subcategory="Document Management">
+  <apidoc:summary>This function returns the most recent version of a document 
+  as of a point in time.</apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">The URI of the document.</apidoc:param>
+    <apidoc:param name="as-of" type="xs:dateTime">The date and time from which you want
+     to retrieve the most recent version of the document.</apidoc:param>
+  </apidoc:params>
+  <apidoc:return>document-node()</apidoc:return>
+     <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege> 
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  dls:document-version-as-of(
+                   "/foo/bar/baz.xml",
+                    xs:dateTime("2009-04-07T09:43:16.531-07:00")) 
+
+  (: Returns the most recent version of the 'baz.xml' document since the 
+     specified date and time. :)
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="document-version" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	   subcategory="Document Management">
+  <apidoc:summary>This function returns a particular version of a managed document. 
+  An error is thrown if there is no such version.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">The URI of 
+		    the document.</apidoc:param>
+    <apidoc:param name="version-number" type="xs:unsignedInt">The version of the
+    document to be returned.</apidoc:param>
+  </apidoc:params>
+  <apidoc:return>document-node()</apidoc:return>
+    <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  dls:document-update(
+           "/foo/bar/baz.xml",
+            dls:document-version( "/foo/bar/baz.xml", 1),
+            "restoring from version 1", 
+            fn:true() )
+
+  (: Restores version 1 of the 'baz.xml' document. :) 
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="document-version-uris" lib="dls" 
+  category="Library Services" bucket="XQuery Library Modules"
+     subcategory="Document Management">
+     <apidoc:summary>This function returns the URIs of all versions of a 
+	     managed document.  No URIs of deleted versions are returned.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">The URI of 
+        the document.</apidoc:param>
+  </apidoc:params>
+  <apidoc:return>xs:string*</apidoc:return>
+    <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  dls:document-version-uris("/foo/bar/baz.xml")
+
+  (: Returns the URIs of all versions of the '/foo/bar/baz.xml' document. :) 
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="document-version-delete" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	   subcategory="Document Management">
+  <apidoc:summary>This function removes the specified version of the managed 
+   document at the specified URI. This overrides any configured retention policies 
+   and should be used with care.   You must have update permissions on the document 
+   version in order to delete it.
+  <p/>
+   If you set <code>$retain-history</code> to <code>true</code>, you can use 
+   <code>xdmp:document-properties</code> to view the deleted document's properties
+    fragment in the database.  For example, if you had deleted version 1 of 
+    <code>/foo/bar/baz.xml</code>, you can view its properties by calling:
+    <p/> 
+    <code>xdmp:document-properties("/foo/bar/baz.xml_versions/1-baz.xml")</code>
+   </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">The URI of 
+		    the document.</apidoc:param>
+    <apidoc:param name="version" type="xs:integer">The version of the document to
+    be deleted.</apidoc:param>
+    <apidoc:param name="retain-history" type="xs:boolean">Determines whether or not
+    to retain the document's properties fragment in the database.  Set to 
+    <code>true</code> to retain the deleted document's properties in order to track 
+    when the document was deleted and by whom.  Otherwise, set to <code>false</code>.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>empty-sequence()</apidoc:return>
+    <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  dls:document-version-delete("/foo/bar/baz.xml", 1, fn:true())
+
+  (: Deletes version 1 of the 'baz.xml' document and records it in the document
+     history. :)
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+<apidoc:function name="document-versions-query" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	   subcategory="cts:query Constructor">
+  <apidoc:summary>This function returns a query that matches any version 
+  of the specified URI. If the URI contains either of the wildcard characters 
+  '?' or '*', then the search is wildcarded. Specifying '*' matches any 
+  numbered version of any managed document.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">The URI of the document.</apidoc:param>
+  </apidoc:params>
+  <apidoc:return>cts:properties-query</apidoc:return>
+     <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  cts:search(fn:doc(), dls:document-versions-query("/foo/bar/baz.xml"))
+
+  (: Returns the contents of all versions of the 'baz.xml' document. :)
+     ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+<apidoc:function name="document-version-uri" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	   subcategory="Document Management">
+  <apidoc:summary>This function returns the URI of the specified version of the
+  document located at the specified URI.  The specified version of the document 
+  may, or may not, actually exist.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="document-uri" type="xs:string">The URI of the latest
+    version of the document.</apidoc:param>
+    <apidoc:param name="version" type="xs:integer">The version of the document
+    for which to return the URI.</apidoc:param>
+  </apidoc:params>
+  <apidoc:return>xs:string</apidoc:return>
+    <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  dls:document-version-uri("/foo/bar/baz.xml", 2)
+
+  =>
+
+  /foo/bar/baz.xml_versions/2-baz.xml
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="document-delete" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	   subcategory="Document Management">
+  <apidoc:summary>This function removes the specified managed document.
+  You must have update permissions on the document to delete it.
+   <p/>
+   If you set <code>$retain-history</code> to <code>true</code>, you can use 
+   <code>xdmp:document-properties</code> to view the deleted document's properties
+    fragment in the database. 
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">The URI of 
+		    the document.</apidoc:param>
+    <apidoc:param name="keep-old-versions" type="xs:boolean">
+    Determines whether to keep old versions of the document.  Set to
+    <code>false</code> to delete all of the versions of the document.
+    </apidoc:param>
+    <apidoc:param name="retain-history" type="xs:boolean">
+    Determines whether to retain the deleted document's property fragment 
+    in the database.  Set to <code>true</code> to 
+    retain the property fragment, or <code>false</code> to delete. 
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>empty-sequence()</apidoc:return>
+    <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  dls:document-delete("/foo/bar/baz.xml", fn:false(), fn:true())
+
+  (: Deletes all versions of the 'baz.xml' document and retains the
+     property fragment for each version. :)
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+<apidoc:function name="document-is-managed" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	   subcategory="Document Management">
+  <apidoc:summary>This function determines whether or not the document at
+  the specified URI is managed.  This function returns <code>true</code> if 
+  the document at the URI is either a managed document or a numbered version 
+  of a managed document. Otherwise <code>false</code> is returned.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">The URI of the document to test.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>xs:boolean</apidoc:return>
+    <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  dls:document-is-managed("/foo/bar/baz.xml")
+
+  (: Returns true if document is managed.  Otherwise false. :)
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+<apidoc:function name="retention-rule" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	subcategory="Retention Policy">
+  <apidoc:summary>This function creates and returns a retention rule element. 
+   Use <code>dls:insert-retention-rule</code> to insert the retention rule into 
+   the database.
+   <p></p>
+   Specifying multiple constraints implies AND between them. For example, 
+   specifying both <code>$num-versions</code> and <code>$duration</code>
+   retains a numbered 
+   version only if it is both one of the N most recent versions and it was 
+   created more recently than "now - duration." If neither 
+   <code>$num-versions</code> or <code>$duration</code> is specified, 
+   then any numbered version matching the document query is kept forever.
+   <p></p>
+   The <code>$document-query-text</code> parameter is intended to be 
+   used for the human readable form of a query that was used to produce the 
+   corresponding <code>cts:query</code>. This may be the text that a user 
+   typed into a search text field in the UI. This parameter does NOT affect 
+   the retention policy.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="name" type="xs:string">
+    The name of the retention rule.  The name must be unique to this rule.
+    </apidoc:param>
+    <apidoc:param name="comment" type="item()*">
+    Comment that describes this retention rule.
+    </apidoc:param>
+    <apidoc:param name="num-versions" type="xs:unsignedInt?">
+    The number of most recent versions to be retained.  This means to keep versions 
+    greater than (but not equal to) num-versions - current-version, if they still exist.
+    </apidoc:param>
+    <apidoc:param name="duration" type="xs:duration?">
+    Retain all versions that were created on or after the duration date/time.
+    </apidoc:param>
+    <apidoc:param name="document-query-text" type="xs:string?">
+    Comment that describes the document query.
+    </apidoc:param>
+    <apidoc:param name="document-query" type="cts:query?">
+    The document query.  Typically returned by a Query Constructor Function.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>element(dls:retention-rule)</apidoc:return>
+    <apidoc:privilege>The <code>dls-admin</code> role is required to run 
+  this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-admin</code>
+    </apidoc:privilege>
+    <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+  import module namespace dls="http://marklogic.com/xdmp/dls" 
+              at "/MarkLogic/dls.xqy";
+
+  dls:retention-rule(
+      "All Versions Retention Rule",
+      "Retain all versions of all documents",
+      (),
+      (),
+      "Locate all of the documents",
+      cts:and-query(() ) 
+
+  (: Returns a retention rule in XML format. :)
+   ]]></pre>
+  </apidoc:example>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  dls:retention-rule(
+      "Rule1",
+      "Keep the five most recent versions of Jim's documents that are 
+         15 days old or newer",
+      5,
+      xs:duration("P15D"),
+      "Locate documents authored by Jim",
+      dls:author-query(xdmp:user("Jim"))))
+
+  (: Returns a retention rule in XML format. :)
+    ]]></pre>
+  </apidoc:example>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  dls:retention-rule(
+      "Rule2",
+      "Keep the five most recent versions of Jim's documents in the 'foo' 
+         collection that are 15 days old or newer",
+      5,
+      xs:duration("P15D"),
+      "Locate documents in the 'foo' collection authored by Jim",
+       cts:and-query((
+          cts:collection-query("http://marklogic.com/documents/foo"),
+          dls:author-query(xdmp:user("Jim")) )) )
+
+  (: Returns a retention rule in XML format. :)
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+<apidoc:function name="retention-rule-insert" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	subcategory="Retention Policy">
+  <apidoc:summary>This function inserts retention rules into the database. 
+  They will be readable by the dls-user role and modifiable/deletable by 
+  the dls-admin role. 
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="rules" type="element(dls:retention-rule)*">The retention
+    rule to be inserted.</apidoc:param>
+  </apidoc:params>
+  <apidoc:return>empty-sequence()</apidoc:return>
+    <apidoc:privilege>The <code>dls-admin</code> role is required to run 
+  this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-admin</code>
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  dls:retention-rule-insert(( 
+    dls:retention-rule(
+      "Rule1",
+      "Keep the five most recent versions of Jim's documents that are 15 days old or newer",
+      5,
+      xs:duration("P15D"),
+      "Locate all documents authored by Jim",
+      dls:author-query(xdmp:user("Jim"))),
+
+   dls:retention-rule(
+     "Rule2",
+     "Retain the five most recent versions of documents that match the query below",
+      5,
+      (),
+      "Locate only docs that include 'Baz' and 'Disco'" ,
+      cts:and-query((
+        cts:word-query("Baz"),
+        cts:word-query("Disco"))) ) ))
+
+  (: Inserts the retention rules, 'Rule1' and 'Rule2', into the database. :)
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="retention-rules" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	   subcategory="Retention Policy">
+  <apidoc:summary>
+  This function returns the specified retention rules from the database. 
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="names" type="xs:string*">
+    The names of the retention rules to be returned.  The name can include wild cards.
+    For example, a <code>*</code> can be used to retrieve all of the retention rules.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>element(dls:retention-rule)*</apidoc:return>
+   <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    <p/>
+    You must have <code>read</code> permissions on the rentention-rule 
+    document to see the rules.
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  dls:retention-rules("Rule1")
+
+  (: Returns the 'Rule1' retention rule in XML format. :)
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="retention-rule-remove" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	subcategory="Retention Policy">
+  <apidoc:summary>This function removes the specified retention rules from the database.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="names" type="xs:string*">The names of the retention rules to be
+    removed.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>empty-sequence()</apidoc:return>
+    <apidoc:privilege>The <code>dls-admin</code> role is required to run 
+  this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-admin</code>
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  dls:retention-rule-remove(("Rule1", "Rule2"))
+
+  (: Removes the retention rules, 'Rule1' and 'Rule2'. :)
+    ]]></pre>
+  </apidoc:example>
+    <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  dls:retention-rule-remove(fn:data(dls:retention-rules("*")//dls:name))
+  
+  (: Removes all of the retention rules. :)
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="document-retention-rules" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	subcategory="Retention Policy">
+  <apidoc:summary>This function returns the retention rules that apply to the
+  document at the specified URI. This allows users to determine why a version 
+  of a document is being retained. 
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">The URI of the document.
+    The URI must identify a numbered version of a managed document or an 
+    error is thrown.
+  </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>element(dls:retention-rule)*</apidoc:return>
+   <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  dls:document-retention-rules("/foo/bar/baz.xml")
+
+  (: Returns all of the retention rules that apply to the 'baz.xml' document. :)
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="purge" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	subcategory="Retention Policy">
+  <apidoc:summary>This function deletes all numbered versions of managed documents and
+   its referenced documents (such as <code>/foo/bar.xml_versions/1-bar.xml</code>), as 
+   specified by the rention policy set by one or more <code>dls:retention-rule</code>
+   functions. Documents are deleted if they
+   have no retention rule causing them to be kept and if they are not included 
+   by some document that cannot yet be deleted. If <code>$delete</code> is 
+   <code>false</code>, the document versions are not actually deleted and instead 
+   a list of the documents that would have been deleted is returned. This function 
+   returns a list of URIs that it would/did delete.
+   <p/>
+   If you set <code>$retain-history</code> to <code>true</code>, you can use 
+   <code>xdmp:document-properties</code> to view the deleted document's properties
+   fragment in the database. 
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="delete" type="xs:boolean">Determines whether or not to delete the
+    documents. Set to <code>true</code> to delete the documents or <code>false</code> 
+    to list which documents would have been deleted.
+    </apidoc:param>
+    <apidoc:param name="retain-history" type="xs:boolean">
+    Determines whether to retain the deleted documents' property fragments in the database. 
+    Set to <code>true</code> to retain the property fragments, or <code>false</code> to delete. 
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>xs:string*</apidoc:return>
+    <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  dls:document-purge(fn:true(), fn:true())
+
+  (: Deletes all of the versions of the 'baz.xml' document and its 
+     referenced documents. :) 
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+<apidoc:function name="document-purge" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	subcategory="Retention Policy">
+  <apidoc:summary>This function deletes all numbered versions of the specified
+   managed document and its referenced documents, as specified by the rention 
+   policies set by <code>dls:retention-rule</code>.  The document versions are
+   deleted if they
+   have no retention rule causing them to be kept and if they are not included 
+   by documents that cannot yet be deleted. If <code>$delete</code> is 
+   <code>false</code>, the document's versions are not actually deleted and instead 
+   a list of the documents that would have been deleted is returned. 
+   <p/>
+   If you set <code>$retain-history</code> to <code>true</code>, you can use 
+   <code>xdmp:document-properties</code> to view the deleted document's properties
+   fragment in the database. 
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">The URI of the document to be purged.
+    </apidoc:param>
+    <apidoc:param name="delete" type="xs:boolean">Determines whether or not to delete the
+    documents. Set to <code>true</code> to remove the documents or <code>false</code> 
+    to list which documents would have been deleted.
+    </apidoc:param>
+    <apidoc:param name="retain-history" type="xs:boolean">
+    Determines whether to retain the deleted document's property fragment 
+    in the database.  Set to <code>true</code> to 
+    retain the property fragment, or <code>false</code> to delete. 
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>xs:string*</apidoc:return>
+   <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  dls:document-purge("/foo/bar/baz.xml", fn:false(), fn:true())
+
+  (: Returns the versions of the 'baz.xml' document and its referenced 
+     documents, as specified by the rention policy. :)   
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="as-of-query" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	subcategory="cts:query Constructor">
+  <apidoc:summary>This function returns a query that matches the most recent 
+  numbered version of documents that were created before the specified date and time.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="when" type="xs:dateTime">The date and time before which the
+    documents were created.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>cts:properties-query</apidoc:return>
+   <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  cts:search(fn:doc(), dls:as-of-query(xs:dateTime(fn:current-dateTime())))
+  
+  (: Returns the versions of the managed documents that were created before the
+     specified date and time. :)
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+<apidoc:function name="author-query" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	subcategory="cts:query Constructor">
+  <apidoc:summary>
+  This function returns a query that matches documents authored by the specified user.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="author" type="xs:unsignedLong">
+    The id of the user who authored the documents.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>cts:properties-query</apidoc:return>
+   <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  cts:search(fn:doc(), dls:author-query(xdmp:user("Jim")))
+
+  (: Returns all of the documents authored by 'Jim'. :)
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="document-version-query" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	subcategory="cts:query Constructor">
+  <apidoc:summary>This function returns a query that matches the specified version of 
+  the managed documents. 
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="version" type="xs:unsignedLong">
+    The version of the managed documents.  
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>cts:properties-query</apidoc:return>
+   <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  cts:search(fn:doc(), dls:document-version-query(3))
+
+  (: Returns Version 3 of all of the managed documents in the database. :)
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+<apidoc:function name="documents-query" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	subcategory="cts:query Constructor">
+  <apidoc:summary>This function returns a query that matches the latest versions of
+  the managed documents in the database.</apidoc:summary>
+  <apidoc:params/>
+  <apidoc:return>cts:properties-query</apidoc:return>
+   <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  cts:search(fn:doc(), dls:documents-query()) 
+ 
+  (: Returns the latest versions of the managed documents in the database. :)
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+<apidoc:function name="link-expand" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	subcategory="XInclude">
+  <apidoc:summary>This function performs a single level expansion of a single 
+  XInclude reference. Any XInclude references in the referenced node are not expanded. 
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="context" type="node()">The node that contains
+    the XInclude reference.</apidoc:param>
+    <apidoc:param name="ref" type="element(xi:include)">The XInclude reference to be 
+    expanded.
+    </apidoc:param>
+    <apidoc:param name="restriction" type="cts:query?">Restriction that control which
+      documents may be considered for inclusion. An exact URI match is first considered 
+      if it matches the specified restrictions, followed by the most recent numbered 
+      version of that URI that matches the restrictions. 
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>node()*</apidoc:return>
+   <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  declare namespace xi="http://www.w3.org/2001/XInclude";
+
+  let $node := fn:doc("/foo/bar/baz.xml")
+
+  return dls:link-expand($node, 
+                         $node/BOOK/xi:include[1], 
+                         dls:documents-query())
+
+  (: Returns the first referenced node in the 'BOOK' element in the 
+     latest version of the 'baz.xml' document. :)
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+<apidoc:function name="link-references" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	subcategory="XInclude">
+  <apidoc:summary>This function returns a list of all the distinct URIs of documents
+    referenced (either directly or indirectly) in the expansion of the node. The URIs
+    are mapped according to the specified restrictions. 
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="node" type="node()">The node to be expanded.</apidoc:param>
+    <apidoc:param name="restriction" type="cts:query?">Restriction that control which
+      documents may be considered for inclusion. An exact URI match is first considered 
+      if it matches the specified restrictions, followed by the most recent numbered 
+      version of that URI that matches the restrictions. 
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>xs:string*</apidoc:return>
+   <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  let $node := fn:doc("/foo/bar/baz.xml")
+
+  return dls:link-references($node, dls:document-version-query(4))
+
+  (: Returns the URIs of the referenced nodes in Version 4 of the 'baz.xml' 
+     document and all of the referenced nodes referenced from its referenced 
+     nodes. :)
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+<apidoc:function name="node-expand" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	subcategory="XInclude">
+  <apidoc:summary>This function recursively examines the node for XInclude references
+    and expands them, following the rules of the XInclude specification. The result is
+    a node in which all the XInclude references have been resolved, or an error if
+    there were unresolvable references with no fallback specifications. The URIs are
+    mapped according to the specified restrictions.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="node" type="node()">The node to be expanded.</apidoc:param>
+    <apidoc:param name="restriction" type="cts:query?">Restriction that control which
+      documents may be considered for inclusion. An exact URI match is first considered 
+      if it matches the specified restrictions, followed by the most recent numbered 
+      version of that URI that matches the restrictions. 
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>node()</apidoc:return>
+   <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+    <apidoc:usage>
+    This function cannot expand root node documents that contain XInclude links 
+    to specific versioned documents. You must use <code>xinc:node-expand</code>
+    to expand such documents.
+    </apidoc:usage>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  let $node := fn:doc("/foo/bar/baz.xml")
+
+  return dls:node-expand(
+               $node, 
+               dls:as-of-query(xs:dateTime("2009-04-06T09:39:33.576-07:00")))
+
+  (: Returns the contents of the 'baz.xml' document version that was created 
+     before the specified date, along with all of its referenced nodes. :)
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+<apidoc:function name="document-add-collections" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	   subcategory="Document Update">
+  <apidoc:summary>
+  This function adds the named document to the specified collections. 
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">The URI of 
+     the document to be added to the collection.</apidoc:param>
+    <apidoc:param name="collections" type="xs:string*">A set of collection URIs.</apidoc:param>
+  </apidoc:params>
+  <apidoc:return>empty-sequence()</apidoc:return>
+    <apidoc:privilege>
+    The <code>dls-user</code> role is required to run this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+     <p/>
+    For each collection 
+    that is protected, the user must have permissions to update that collection or
+    the privilege: 
+    <br/> 
+    <code>http://marklogic.com/xdmp/privileges/any-collection</code>
+    <p/> 
+    For each unprotected collection, the user must have the privilege:<br/> 
+    <code>http://marklogic.com/xdmp/privileges/unprotected-collections</code>
+    <p/>
+    The document must specify <code>dls-user(update)</code> permission.  
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  dls:document-add-collections(
+        "/foo/bar/baz.xml",
+        "http://marklogic.com/documents/foo")
+
+  (: Adds 'bax.xml' to the 'foo' collection. :)
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+<apidoc:function name="document-add-permissions" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	   subcategory="Document Update">
+  <apidoc:summary> 
+    This function adds the specified permissions for the named document.  Any 
+     permissions that were previously set for the document are retained.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">The URI of 
+		    the document.</apidoc:param>
+    <apidoc:param name="permissions" type="element(sec:permission)*">
+    The permissions to be added for the document.</apidoc:param>
+  </apidoc:params>
+  <apidoc:return>empty-sequence()</apidoc:return>
+  <apidoc:privilege>
+   The <code>dls-user</code> role is required to run this function, or the privilege:<br/>
+   <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+   <p/>
+   The document must specify <code>dls-user(update)</code> permission.
+  </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  dls:document-add-permissions("/foo/bar/baz.xml", 
+                               (xdmp:permission("dls-user", "read"),
+                                xdmp:permission("dls-user", "update")))
+  
+  (: Adds the specified permissions to the list of permissions for the 'baz.xml'
+     document. :)
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="document-get-permissions" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	   subcategory="Document Update">
+  <apidoc:summary> 
+	  This function gets the permissions for the specified document  
+	  from the point of view of the Library Services API.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">The URI of 
+		    the document.</apidoc:param>
+  </apidoc:params>
+  <apidoc:return>element(sec:permission)*</apidoc:return>
+  <apidoc:privilege>
+	  The <code>dls-user</code> role is required to run this function, 
+	  or the privilege:<br/>
+   <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+  </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  dls:document-get-permissions("/foo/bar/baz.xml")
+  
+  (: Returns the permissions for the 'baz.xml' document. :)
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="document-add-properties" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	   subcategory="Document Update">
+  <apidoc:summary>This function adds the specified properties to any existing properties 
+   associated with the named document. </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">The URI of 
+		    the document.</apidoc:param>
+    <apidoc:param name="properties" type="element()*">The properties to add.</apidoc:param>
+  </apidoc:params>
+  <apidoc:return>empty-sequence()</apidoc:return>
+   <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+    <apidoc:usage>
+      You cannot add any property nodes to the DLS namespace.
+    </apidoc:usage>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  xdmp:document-add-properties(
+              "/foo/bar/baz.xml", 
+              (<priority>1</priority>,
+               <status>unedited</status>))
+
+  (: The <priority> and <status> properties are added to the 'baz.xml' document. :)
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+<apidoc:function name="document-set-collections" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	   subcategory="Document Update">
+  <apidoc:summary>
+  This function sets the named document to the specified collections.   Any previously set
+  collections for the document that are not specified are removed.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">The URI of 
+		    the document to be set to the collection.</apidoc:param>
+    <apidoc:param name="collections" type="xs:string*">A set of collection URIs.</apidoc:param>
+  </apidoc:params>
+  <apidoc:return>empty-sequence()</apidoc:return>
+   <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  dls:document-set-collections(
+          "/foo/bar/baz.xml",
+          "http://marklogic.com/documents/foo")
+
+  (: Sets 'bax.xml' to the 'foo' collection. :)
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+<apidoc:function name="document-set-permissions" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	   subcategory="Document Update">
+  <apidoc:summary>This function sets the specified permissions for the named document.  
+  Any unspecified permissions that were previously set for the document are removed.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">The URI of 
+		    the document.</apidoc:param>
+    <apidoc:param name="permissions" type="element(sec:permission)*">The permissions 
+    to be set for the document.</apidoc:param>
+  </apidoc:params>
+  <apidoc:return>empty-sequence()</apidoc:return>
+  <apidoc:privilege>
+     The <code>dls-user</code> role is required to run this function, or the privilege:<br/>
+   <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+   <p/>
+   The document must specify <code>dls-user(update)</code> permission.
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  dls:document-set-permissions("/foo/bar/baz.xml", 
+                               (xdmp:permission("dls-user", "read"),
+                                xdmp:permission("dls-user", "update"),
+                                xdmp:permission("Developer", "read"),
+                                xdmp:permission("Developer", "update")))
+
+  (: Sets the permissions on the 'baz.xml' document. :)
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+<apidoc:function name="document-set-properties" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	   subcategory="Document Update">
+  <apidoc:summary>This function sets the properties of a document to the given 
+  sequence of elements.  With the exception of the Library Services properties, any properties 
+   that already exist on the document are replaced.
+   To preserve existing document properties, use <code>dls:document-add-properties</code>. 
+   Each element QName is the property name and the element value is the property value. 
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">The URI of 
+		    the document.</apidoc:param>
+    <apidoc:param name="properties" type="element()*">The peroperties to be set
+    for the document.</apidoc:param>
+  </apidoc:params>
+  <apidoc:return>empty-sequence()</apidoc:return>
+   <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    <P/>
+    Modifying properties requires update permissions on a document. 
+    </apidoc:privilege>
+  <apidoc:usage>
+      You cannot set any property nodes in the DLS namespace.
+  </apidoc:usage>    
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  xdmp:document-set-properties(
+              "/foo/bar/baz.xml", 
+              (<priority>1</priority>,
+               <status>unedited</status>))
+
+  (: The <priority> and <status> properties are set to the 'baz.xml' document. :)
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+<apidoc:function name="document-set-property" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	   subcategory="Document Update">
+  <apidoc:summary>This function sets a property on a document. If any properties 
+  with the same property QName exist, they are replaced with the new property. 
+  If no properties exist with the same QName, the new property is added.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">The URI of the document.</apidoc:param>
+    <apidoc:param name="property" type="element()">The property to set.</apidoc:param>
+  </apidoc:params>
+  <apidoc:return>empty-sequence()</apidoc:return>
+   <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+      <apidoc:usage>
+      You cannot set any property nodes in the DLS namespace.
+  </apidoc:usage>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  dls:document-set-property(
+              "/foo/bar/baz.xml", 
+              <priority>1</priority>)
+
+  (: The <priority> property is set to the 'baz.xml' document. :)
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+<apidoc:function name="document-set-quality" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	   subcategory="Document Update">
+  <apidoc:summary>This function sets the quality of the document with the given
+   URI. If the quality of the document is positive, the relevance score of the 
+   document is increased in text search functions. The converse is true for 
+   "negative" quality.</apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">The URI of the document.</apidoc:param>
+    <apidoc:param name="quality" type="xs:int">The quality to which to set the document. 
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>empty-sequence()</apidoc:return>
+   <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  dls:document-set-quality("/foo/bar/baz.xml", 10)
+
+  (: Sets the quality of the 'baz.xml' document to 10. :)
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+<apidoc:function name="document-remove-collections" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	   subcategory="Document Update">
+  <apidoc:summary>This function removes the named document from the 
+  specified collection.</apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">
+    The URI of the document.
+    </apidoc:param>
+    <apidoc:param name="collections" type="xs:string*">
+    The collection from which to remove the document.
+  </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>empty-sequence()</apidoc:return>
+   <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+  at "/MarkLogic/dls.xqy";
+
+    dls:document-remove-collections(
+        "/foo/bar/baz.xml",
+        "http://marklogic.com/documents/foo")
+
+  (: Removes 'bax.xml' from the 'foo' collection. :)
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+<apidoc:function name="document-remove-permissions" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	   subcategory="Document Update">
+  <apidoc:summary>This function removes the specified permissions from the
+  named document.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">
+    The URI of the document.</apidoc:param>
+    <apidoc:param name="permissions" type="element(sec:permission)*">
+    The permissions to be removed from the document.</apidoc:param>
+  </apidoc:params>
+  <apidoc:return>empty-sequence()</apidoc:return>
+   <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  dls:document-remove-permissions(
+                   "/foo/bar/baz.xml", 
+                   (xdmp:permission("Developer", "read"),
+                    xdmp:permission("Developer", "update")))
+  
+  (: Removes the specified permissions from the list of permissions for 
+     the 'baz.xml' document. :)
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+<apidoc:function name="document-remove-properties" lib="dls" 
+	category="Library Services" bucket="XQuery Library Modules"
+	   subcategory="Document Update">
+  <apidoc:summary>This function removes the specified properties from the
+  named document</apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">
+    The URI of the document.</apidoc:param>
+    <apidoc:param name="property-names" type="xs:QName*">
+    The properties to be removed.</apidoc:param>
+  </apidoc:params>
+  <apidoc:return>empty-sequence()</apidoc:return>
+   <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+      <apidoc:usage>
+      You cannot remove any property nodes from the DLS namespace.
+  </apidoc:usage>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  dls:document-remove-properties(
+         "/foo/bar/baz.xml", 
+         (fn:QName("http://marklogic.com/xdmp/property", "priority"),
+          fn:QName("http://marklogic.com/xdmp/property", "status")))
+
+  (: The <priority> and <status> properties are removed from the 
+     'baz.xml' document. :)
+    ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+<apidoc:function name="document-update" lib="dls" category="Library Services" 
+bucket="XQuery Library Modules" subcategory="Document Update">
+  <apidoc:summary>This function updates the managed document at the specified URI
+   with the specified contents.  This function does an implicit <code>dls:document-purge</code>
+   and returns the URI of any version of the document purged as 
+   the result of the established retention policy.
+   <p/>
+   You must first check out the document
+   with <code>dls:document-checkout</code> before you can update, 
+   otherwise an exception is thrown.  If the document does not exist, then an 
+   exception is thrown.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">
+    The URI of the document.</apidoc:param>
+    <apidoc:param name="doc" type="node()">
+    The new contents of the document.
+    </apidoc:param>
+    <apidoc:param name="annotation" type="item()*">Any comments you
+    want to add to the new versions of the documents.</apidoc:param>
+    <apidoc:param name="retain-history" type="xs:boolean">Determines whether or not
+    to retain the document's properties fragment in the database.  Set to 
+    <code>true</code> to retain the original document's properties in order to track 
+    when the document was updated and by whom.  Otherwise, set to <code>false</code>.
+    </apidoc:param> 
+    <apidoc:param name="permissions" type="element(sec:permission)*" optional="true">
+    The permissions to be set on the updated document.
+    If not supplied, the your default permissions are applied. The default value 
+    used for this parameter can be obtained by calling 
+    <code>xdmp:default-collections()</code>. A document that is updated by a 
+    non-admin user (that is, by any user who does not have the admin role) must
+    have at least one update permission, otherwise the creation will throw an 
+    <code>XDMP-MUSTHAVEUPDATE</code> exception. 
+    </apidoc:param>
+    <apidoc:param name="collections" type="xs:string*" optional="true">
+    The collection URIs for the collections to which the updated document is to belong. 
+    If not supplied, the document maintains its current collections.
+    For each collection that is protected, you must have permissions to update 
+    that collection or have the any-collection privilege. For each unprotected 
+    collection, you must have the unprotected-collections privilege. The default 
+    value used for this parameter can be obtained by calling 
+    <code>xdmp:default-collections()</code>. 
+    </apidoc:param>
+    <apidoc:param name="quality" type="xs:integer?" optional="true">
+    Specifies the quality of the updated document.  A positive value increases 
+    the relevance score of the document in text search functions. The converse 
+    is true for a negative value. The default value is 0. 
+    </apidoc:param>
+    <apidoc:param name="forest-ids" type="xs:unsignedLong*" optional="true">
+    Specifies the ID of the forest in which the updated document is inserted. 
+    If this parameter is not specified, the updated document will remain in the
+    original document's forest. If no such 
+    forest exists or if no such forest is attached to the context database, an error 
+    is raised. If multiple forests are specified, the document is inserted into one 
+    of the specifed forests. If the document exists and the forest in which it is 
+    stored is set to delete-only, then you must set this parameter to include one or 
+    more forests that allow updates, otherwise an exception is thrown. 
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>xs:string*</apidoc:return>
+   <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace admin = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/admin.xqy";
+
+  let $bazbook :=  
+  <BOOK>
+    <TITLE>Baz Goes to the Disco</TITLE>
+    <CHAPTER1>
+      <TITLE>Baz Wakes Up</TITLE>
+      <PARA>
+        Baz woke up this afternoon to the sound of James Brown.  Soon
+        Baz was feeling a little funky, so he put on his cleanest
+        propeller hat and headed out in search of a Disco.
+      </PARA>
+    </CHAPTER1>
+  </BOOK> 
+      
+  return
+    dls:document-update(
+	"/foo/bar/baz.xml",
+	$bazbook,
+	"Changed the title from Baz Feelin' Funky",
+	fn:true())
+  
+  (: Updates the contents of 'baz.xml'. :)
+   ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="break-checkout" lib="dls" category="Library Services" bucket="XQuery Library Modules" subcategory="Document Management">
+  <apidoc:summary>This function breaks (unlocks) a checked-out document</apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">The URI of the checked out document.</apidoc:param>
+    <apidoc:param name="deep" type="xs:boolean">
+    If set to <code>true</code>, then the checkout is broken for any checked-out documents 
+    that are directly or indirectly included by the specified document.
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>empty-sequence()</apidoc:return>
+    <apidoc:privilege>The <code>dls-admin</code> role is required to run 
+     this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-admin</code>
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace admin = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/admin.xqy";
+
+  dls:break-checkout("/foo/bar/baz.xml", fn:true())
+
+  (: This breaks the checkout of the 'baz.xml' document. :)
+   ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+<apidoc:function name="document-extract-part" lib="dls" category="Library Services" 
+bucket="XQuery Library Modules" subcategory="XInclude">
+  <apidoc:summary>
+  This function extracts an element from an existing document and creates a 
+  new document from the
+  extracted element. The extracted element is removed from the root node document 
+  and replaced by an XInclude to the new 
+  document. A new version of the root node document is created.
+  You must have already performed a 
+  <code>dls:document-checkout</code> of the document that contains the element to be 
+  extracted. 
+  <p></p>
+  The <code>$new-uri</code> must be an absolute path and is initially not checked out.
+  This will create a new version of both the original document and the newly 
+  included document, with <code>$annotation</code> being used to create 
+  a <code>dls:annotation</code> property on each of them.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="new-uri" type="xs:string">The URI for the new document.
+    </apidoc:param>
+    <apidoc:param name="element" type="element()">The element to be extracted
+    and used to create the new document.
+    This element can be one of XML format, binary (BLOB) format, or text 
+    (CLOB) format. </apidoc:param>
+    <apidoc:param name="annotation" type="item()*">Any comments you
+    want to add to the new versions of the documents.</apidoc:param>
+    <apidoc:param name="retain-history" type="xs:boolean">Determines whether or not
+    to retain the document's properties fragment in the database.  Set to 
+    <code>true</code> to retain the original document's properties in order to track 
+    when the document was updated and by whom.  Otherwise, set to <code>false</code>.
+    </apidoc:param> 
+    <apidoc:param name="permissions" type="element(sec:permission)*" optional="true">
+    The permissions to be set on the new document.
+    If not supplied, the your default permissions are applied. The default value 
+    used for this parameter can be obtained by calling 
+    <code>xdmp:default-collections()</code>. A document that is created by a 
+    non-admin user (that is, by any user who does not have the admin role) must
+    have at least one update permission, otherwise the creation will throw an 
+    <code>XDMP-MUSTHAVEUPDATE</code> exception. 
+    </apidoc:param>
+    <apidoc:param name="collections" type="xs:string*" optional="true">
+    The collection URIs for the collections to which the new document is to belong. 
+    If not supplied, the document is added to your current default collections.
+    For each collection that is protected, you must have permissions to update 
+    that collection or have the any-collection privilege. For each unprotected 
+    collection, you must have the unprotected-collections privilege. The default 
+    value used for this parameter can be obtained by calling 
+    <code>xdmp:default-collections()</code>. 
+    </apidoc:param>
+    <apidoc:param name="quality" type="xs:integer?" optional="true">
+    Specifies the quality of the document created from the extracted element. 
+    A positive value increases 
+    the relevance score of the document in text search functions. The converse 
+    is true for a negative value. The default value is 0. 
+    </apidoc:param>
+    <apidoc:param name="forest-ids" type="xs:unsignedLong*" optional="true">
+    Specifies the ID of the forest in which the document created from the extracted 
+    element is inserted. If the document already exists in the database and if this 
+    parameter is not specified, it will remain in its existing forest. If no such 
+    forest exists or if no such forest is attached to the context database, an error 
+    is raised. If multiple forests are specified, the document is inserted into one 
+    of the specifed forests. If the document exists and the forest in which it is 
+    stored is set to delete-only, then you must set this parameter to include one or 
+    more forests that allow updates, otherwise an exception is thrown. 
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>xs:string*</apidoc:return>
+   <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace admin = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/admin.xqy";
+
+  dls:document-extract-part("/foo/bar/baz-chapter1.xml", 
+      fn:doc("/foo/bar/baz.xml")//CHAPTER1, 
+      "part insert",
+      fn:true(),
+      (xdmp:permission("dls-user","insert"),
+       xdmp:permission("dls-user","read"),
+       xdmp:permission("dls-user","update"),
+       xdmp:permission("admin","insert"),
+       xdmp:permission("admin","read"),
+       xdmp:permission("admin","update")))
+
+  (: Extracts the <CHAPTER1> element from the 'baz.xml' file and creates a new document,
+     named 'baz-chapter1.xml', containing the extracted element. :)
+   ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+
+<apidoc:function name="document-checkout-status" lib="dls" category="Library Services" bucket="XQuery Library Modules" subcategory="Document Management">
+  <apidoc:summary>This function returns a <code>checkout</code> element containing the
+  checkout status of the specified document.</apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">The URI of the document.</apidoc:param>
+  </apidoc:params>
+  <apidoc:return>element(dls:checkout)?</apidoc:return>
+   <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace admin = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/admin.xqy";
+
+  dls:document-checkout-status("/foo/bar/baz.xml")
+
+  =>
+
+  <dls:checkout xmlns:dls="http://marklogic.com/xdmp/dls">
+    <dls:document-uri>/foo/bar/baz.xml</dls:document-uri>
+    <dls:annotation>updating doc</dls:annotation>
+    <dls:timeout>3600</dls:timeout>
+    <dls:timestamp>1239057381</dls:timestamp>  
+    <sec:user-id xmlns:sec="http://marklogic.com/xdmp/security">10677693687367813363</sec:user-id>
+  </dls:checkout>
+   ]]></pre>
+   <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+  </apidoc:example>
+</apidoc:function>
+<apidoc:function name="document-include-query" lib="dls" category="Library Services" 
+bucket="XQuery Library Modules" subcategory="cts:query Constructor">
+  <apidoc:summary>This function returns a query that matches any managed document that has 
+   an XInclude link that exactly matches the specified URI.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">The URI of the linked-to document.</apidoc:param>
+  </apidoc:params>
+  <apidoc:return>cts:query</apidoc:return>
+   <apidoc:privilege>The <code>dls-user</code> role is required to run 
+    this function, or the privilege:<br/>
+    <code>http://marklogic.com/xdmp/privileges/dls-user</code>
+    </apidoc:privilege>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml";
+
+  import module namespace admin = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/admin.xqy";
+
+  cts:search(fn:doc(), dls:document-include-query("/foo.xml"))
+
+  (: Returns the contents of the documents that contain an XInclude to the
+     '/foo.xml' document. :)
+   ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+<apidoc:function name="document-insert-and-manage" lib="dls" category="Library Services" 
+bucket="XQuery Library Modules" subcategory="Document Management">
+  <apidoc:summary>This function inserts a document into the database and places the document under 
+   management.
+  </apidoc:summary>
+  <apidoc:params>
+    <apidoc:param name="uri" type="xs:string">The URI of the document. </apidoc:param>
+    <apidoc:param name="deep" type="xs:boolean">Specifies whether to manage 
+     this document as well as any documents for which this document 
+     has XInclude references to.  Specify <code>true</code> to manage
+     all XInclude references or <code>false</code> to not manage
+     any included documents.  The default is <code>false</code>.
+    </apidoc:param>
+    <apidoc:param name="doc" type="node()">The contents of the document (root node). The document
+    root node can be one of XML format, binary (BLOB) format, or text (CLOB) format. 
+    </apidoc:param>
+    <apidoc:param name="annotation" type="item()*" optional="true">
+     Any comments you want to add to the properties.</apidoc:param>
+    <apidoc:param name="permissions" type="element(sec:permission)*" optional="true">
+    Security permission elements corresponding to the permissions
+    for the document. If not supplied, the current user's default 
+    permissions are applied.  The default value used for $permissions
+    can be obtained by calling xdmp:default-permissions(). A document that is 
+    created by a non-admin user (that is, by any user who does not have the 
+    <code>admin</code> role) must have at least one update permission, 
+    otherwise the creation will throw an <code>XDMP-MUSTHAVEUPDATE</code>
+    exception.  
+    </apidoc:param>
+    <apidoc:param name="collections" type="xs:string*" optional="true">
+    The collection URIs for collections to which this document 
+    belongs.  If not supplied, the document is added to the current
+    user's default collections.  For each collection that is protected, the 
+    user must have permissions to update that collection or have the 
+    <code>any-collection</code> privilege. For each unprotected collection, 
+    the user must have the <code>unprotected-collections</code> privilege.
+    The default value used for $collections can be obtained by calling 
+    <code>xdmp:default-collections()</code>.
+    </apidoc:param>
+    <apidoc:param name="quality" type="xs:integer?" optional="true">
+    The quality of this document.  A positive value increases 
+    the relevance score of the document in text search functions.  
+    The converse is true for a negative value.  The default value is 0.
+    </apidoc:param>
+    <apidoc:param name="forest-ids" type="xs:unsignedLong*" optional="true">
+    Specifies the ID of the forest in which this document is inserted.  
+    If the document already exists in the database and if $forest-ids is
+    not specified, it will remain in its existing forest.  If no such 
+    forest exists or if no such forest is attached to the context database, 
+    an error is raised.  If multiple forests are specified, the document 
+    is inserted into one of the specifed forests.  If the document exists
+    and the forest in which it is stored is set to delete-only, then you
+    must set $forest-ids to include one or more forests that allow updates, 
+    otherwise an exception is thrown. 
+    </apidoc:param>
+  </apidoc:params>
+  <apidoc:return>xs:string*</apidoc:return>
+  <apidoc:example><pre xml:space="preserve"><![CDATA[
+  xquery version "1.0-ml"; 
+
+  import module namespace dls = "http://marklogic.com/xdmp/dls" 
+      at "/MarkLogic/dls.xqy";
+
+  let $contents :=   
+    <BOOK>
+      <TITLE>Baz Goes to the Disco</TITLE>
+      <CHAPTER1>
+         <TITLE>Baz Wakes Up to James Brown and Feels Funky</TITLE>
+      </CHAPTER1>
+    </BOOK> 
+
+   return
+      dls:document-insert-and-manage(
+         "/foo/bar/baz.xml",
+         fn:true(),
+         $contents) 
+
+   (: Inserts 'baz.xml' into the database and places the document under management. :)
+   ]]></pre>
+  </apidoc:example>
+</apidoc:function>
+</apidoc:module>

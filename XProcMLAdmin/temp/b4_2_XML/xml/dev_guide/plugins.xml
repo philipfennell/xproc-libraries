@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="plugins.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1053802"></A>
+<A ID="56695"></A>
+Plugin Framework</Heading-1>
+<pagenum>
+<A ID="pgfId-1060423"></A>
+129</pagenum>
+<Body>
+<A ID="pgfId-1060424"></A>
+This chapter describes the plugin framework in MarkLogic Server, and includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1053734"></A>
+<A href="plugins.xml#id(17396)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+How MarkLogic Server Plugins Work</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054928"></A>
+<A href="plugins.xml#id(45670)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Writing Plugin Modules</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1060481"></A>
+<A href="plugins.xml#id(91783)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Password Plugin Sample</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1060734"></A>
+The plugin framework is used in Information Studio, and it allows developers to extend the functionality of Information Studio with their own customized functionality. For details on using plugins with Information Studio to create custom collectors and transformers, see <A href="../info_studio/plugins.xml#id(74246)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating Custom Collectors and Transformers</Hyperlink>
+</A> in the <Emphasis>
+Information Studio Developer's Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1054048"></A>
+<A ID="17396"></A>
+How MarkLogic Server Plugins Work</Heading-2>
+<Body>
+<A ID="pgfId-1059732"></A>
+Plugins allow you to provide functionality to all of the applications in your MarkLogic Server cluster without the application having to call any code. This section describes the plugin framework in MarkLogic Server and includes the following parts:</Body>
+<Body-bullet>
+<A ID="pgfId-1061041"></A>
+<A href="plugins.xml#id(18569)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Overview of Plugins</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1061055"></A>
+<A href="plugins.xml#id(76134)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+The plugin API</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1060952"></A>
+<A ID="18569"></A>
+Overview of Plugins</Heading-3>
+<Body>
+<A ID="pgfId-1061090"></A>
+Plugins are used to automatically perform some functionality before any request is evaluated. A plugin is an XQuery main module, and it can therefore perform arbitrary work. The plugin framework evaluates the main modules in the <code>
+&lt;marklogic-dir&gt;/Plugins</code>
+ directory before each request is evaluated.</Body>
+<Body>
+<A ID="pgfId-1061122"></A>
+Consider the following notes about how the plugin framework works:</Body>
+<Body-bullet>
+<A ID="pgfId-1061123"></A>
+After MarkLogic Server starts up, each module in the <code>
+Plugins</code>
+ directory is evaluated before the first request against each App Server is evaluated on each node in the cluster. This process repeats again after the <code>
+Plugins</code>
+ directory is modified. </Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1062945"></A>
+When using an Enterprise Edition cluster, any files added to the <code>
+Plugins</code>
+ directory must be added to the <code>
+Plugins</code>
+ directory on each node in a MarkLogic Server cluster.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1061124"></A>
+Any errors (for example, syntax errors) in a plugin module are thrown whenever any request is made to any App Server in the cluster (including the Admin Interface). It is therefore extremely important that you test the plugin modules before deploying them to the <code>
+MarkLogic/Plugins</code>
+ directory. If there are any errors in a plugin module, you must fix them before you will be able to successfully evalate any requests against any App Server.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1061128"></A>
+Plugins are cached and, for performance reasons, MarkLogic Server only checks for updates once per second, and only refreshes the cache after the <code>
+Plugins</code>
+ directory is modified; it does not check for modifications of the individual files in the <code>
+Plugins</code>
+ directory. If you are using an editor to modify a plugin that creates a new file (which in turn modifies the directory) upon each update, then MarkLogic Server will see the update within the next second. If your editor modifies the file in place, then you will have to touch the directory to change the modification date for the latest changes to be loaded (alternatively, you can restart MarkLogic Server). If you delete a plugin from the <code>
+Plugins</code>
+ directory, it remains registered on any App Servers that have already evaluated the plugin until either you restart MarkLogic Server or another plugin registers with the same name on each App Server. </Body-bullet>
+<Heading-3>
+<A ID="pgfId-1060791"></A>
+<A ID="76134"></A>
+The plugin API</Heading-3>
+<Body>
+<A ID="pgfId-1060909"></A>
+The <code>
+plugin:register</code>
+ function is the mechanism that a plugin module uses to make plugin functionality available anywhere in a MarkLogic Server cluster. The other functions in the <code>
+plugin</code>
+ API are used to implement the register capability. The <code>
+plugin</code>
+ API uses the <code>
+xdmp:set-server-field</code>
+ family of functions to register the ID and capabilities of each plugin. This API, in combination with the plugin framework that scans the <code>
+Plugins</code>
+ directory, allows you to create functionality that is available to all App Servers in a MarkLogic Server cluster.</Body>
+<Body>
+<A ID="pgfId-1061276"></A>
+With the plugin API, you can register a set of plugins, and then you can ask for all of the plugins with a particular capability, and the functionality delivered by each plugin is available to your application. Information Studio uses this mechanism in its user interface to offer collectors and transformers.</Body>
+<Heading-2>
+<A ID="pgfId-1060292"></A>
+<A ID="45670"></A>
+Writing Plugin Modules</Heading-2>
+<Body>
+<A ID="pgfId-1060672"></A>
+A plugin module is just an XQuery main module, so in that sense, you can put any main module in the Plugin directory and you have a plugin. So it really depends what you are trying to accomplish. </Body>
+<WarningList>
+<Warning>
+<A ID="pgfId-1061163"></A>
+Any errors in a plugin module will cause all requests to hit the error. It is therefore extremely important to test your plugins before deploying them in a production environment.</Warning>
+</WarningList>
+<Body>
+<A ID="pgfId-1060679"></A>
+Information Studio uses plugins for its collectors and transformers, and you can use this mechanism to extend Information Studio with your own custom collectors and transformers. For details, see <A href="../info_studio/plugins.xml#id(74246)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating Custom Collectors and Transformers</Hyperlink>
+</A> in the <Emphasis>
+Information Studio Developer's Guide</Emphasis>
+. </Body>
+<Body>
+<A ID="pgfId-1062762"></A>
+To use a plugin, you must deploy the plugin main module to the Plugins directory. To deploy a plugin to a MarkLogic Server cluster, you must copy the plugin main module to the plugin directory of each host in the cluster.</Body>
+<WarningList>
+<Warning>
+<A ID="pgfId-1062785"></A>
+Any plugin module you write should have a unique filename. Do not modify any of the plugin files that MarkLogic ships in the <code>
+&lt;marklogic-dir&gt;/Plugins</code>
+ directory. Any changes you make to MarkLogic-installed files in the <code>
+Plugins</code>
+ directory will be overridden after each upgrade of MarkLogic Server.</Warning>
+</WarningList>
+<Heading-2>
+<A ID="pgfId-1062767"></A>
+<A ID="91783"></A>
+Password Plugin Sample</Heading-2>
+<Body>
+<A ID="pgfId-1062768"></A>
+This section describes the password plugin and provides a sample of how to modify it, and contains the following parts:</Body>
+<Body-bullet>
+<A ID="pgfId-1061742"></A>
+<A href="plugins.xml#id(49038)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Understanding the Password Plugin</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1061756"></A>
+<A href="plugins.xml#id(72532)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Modifying the Password Plugin</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1061732"></A>
+<A ID="49038"></A>
+Understanding the Password Plugin</Heading-3>
+<Body>
+<A ID="pgfId-1060723"></A>
+One use case for a plugin is to check passwords for things like number of characters, special characters, and so on. Included in the <code>
+&lt;marklogic-dir&gt;/Samples/Plugins</code>
+ directory are sample plugin modules for password checking.</Body>
+<Body>
+<A ID="pgfId-1061290"></A>
+When a password is set using the security XQuery library (<code>
+security.xqy</code>
+), it calls the plugin to check the password using the plugin capability with the following URI:</Body>
+<Code>
+<A ID="pgfId-1062550"></A>
+http://marklogic.com/xdmp/security/password-check</Code>
+<Body>
+<A ID="pgfId-1062557"></A>
+When no plugins are registered with the above capability in the <code>
+&lt;marklogic-dir&gt;/Plugins</code>
+ directory, then no other work is done upon setting a password. If you include plugins that register with the above <code>
+password-check</code>
+ capability in the <code>
+&lt;marklogic-dir&gt;/Plugins</code>
+ directory, then the module(s) are run when you set a password. If multiple plugins are registered with that capability, then they will all run. The order in which they run is undetermined, so the code should be designed such that the order does not matter. </Body>
+<Body>
+<A ID="pgfId-1062573"></A>
+There is a sample included that checks for a minimum length and a sample included that checks to see if the password contains digits. You can create your own plugin module to perform any sort of password checking you require (for example, check for a particular length, the existence of various special characters, repeated charatcers, upper or lower case, and so on). </Body>
+<Body>
+<A ID="pgfId-1062713"></A>
+Additionally, you can write a plugin to save extra history in the Security database user document, which stores information that you can use or update in your password checking code. The element you can use to store information for password checking applications is <code>
+sec:password-extra</code>
+. You can use the <code>
+sec:user-set-password-extra</code>
+ and <code>
+sec:user-set-password-extra</code>
+ functions (in <code>
+security.xqy</code>
+) to modify the <code>
+sec:password-extra</code>
+ element in the user document. Use these APIs to create elements as children of the <code>
+sec:password-extra</code>
+ element.</Body>
+<Body>
+<A ID="pgfId-1061770"></A>
+If you look at the <code>
+&lt;marklogic-dir&gt;/Samples/Plugins/password-check-minimum-length.xqy</code>
+ file, you will notice that it is a main module with a function that returns empty on success, and an error message if the password is less than a minimum number of characters. In the body of the main module, the plugin is registered with a map that includes its capability (it could register several capabilities, but this only registers one) and a unique name (in this case, the name of the xqy file:</Body>
+<Code>
+<A ID="pgfId-1062635"></A>
+let $map := map:map(),
+      $_ := map:put($map, &quot;http://marklogic.com/xdmp/security/password-check&quot;,
+                    xdmp:function(xs:QName(&quot;pwd:minimum-length&quot;)))
+return
+&#160;&#160;plugin:register($map, &quot;password-check-minimum-length.xqy&quot;)</Code>
+<Body>
+<A ID="pgfId-1061791"></A>
+This registers the function <code>
+pwd:minimum-length</code>
+ with the <code>
+http://marklogic.com/xdmp/security/password-check</code>
+ capability, and this particular plugin is called each time a password is set. </Body>
+<Note>
+<A ID="pgfId-1062993"></A>
+You should use a unique name to register your plugin (the second argument to <code>
+plugin:register</code>
+). If the name is used by another plugin, only one of them will end up being registered (because the other one will overwrite the registration).</Note>
+<Body>
+<A ID="pgfId-1062459"></A>
+If you want to implement your own logic that is performed when a password is checked (both on creating a user and on changing the password), then you can write a plugin, as described in the next section.</Body>
+<Heading-3>
+<A ID="pgfId-1061677"></A>
+<A ID="72532"></A>
+Modifying the Password Plugin</Heading-3>
+<Body>
+<A ID="pgfId-1061688"></A>
+The following example shows how to use the sample plugins to check for a minimum password length and to ensure that it contains at least on numeric character. </Body>
+<WarningList>
+<Warning>
+<A ID="pgfId-1062771"></A>
+Any errors in a plugin module will cause all requests to hit the error. It is therefore extremely important to test your plugins before deploying them in a production environment.</Warning>
+</WarningList>
+<Body>
+<A ID="pgfId-1062776"></A>
+To use and modify the sample password plugins, perform the following steps:</Body>
+<Number1>
+<A ID="pgfId-1062777"></A>
+Copy the <code>
+&lt;marklogic-dir&gt;Samples/Plugins/password-check-*.xqy</code>
+ files to the <code>
+Plugins</code>
+ directory. For example:</Number1>
+<Code>
+<A ID="pgfId-1061842"></A>
+cd /opt/MarkLogic/Plugins
+cp ../Samples/Plugins/password-check-*.xqy .</Code>
+<Body-indent>
+<A ID="pgfId-1061849"></A>
+If desired, rename the files when you copy them.</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1063030"></A>
+If you want to modify any of the files (for example, <code>
+password-check-minimum-length</code>
+), open them in a text editor.</Number>
+<Number>
+<A ID="pgfId-1061902"></A>
+Make any changes you desire. For example, to change the minimum length, find the <code>
+pwd:minimum-length</code>
+ function and change the 4 to a 6 (or to whatever you prefer). When you are done, the body of the function looks as follows:</Number>
+</NumberList>
+<Code>
+<A ID="pgfId-1062049"></A>
+if (fn:string-length($password) &lt; 6) 
+then &quot;password too short&quot;
+else ()</Code>
+<Body-indent>
+<A ID="pgfId-1062105"></A>
+This checks that the password contains at least 6 characters.</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1063016"></A>
+Optionally, if you have renamed the files, change the second parameter to <code>
+plugin:register</code>
+ to the name you called the plugin files in the first step. For example, if you named the plugin file <code>
+my-password-plugin.xqy</code>
+, change the <code>
+plugin:register</code>
+ call as follows:</Number>
+</NumberList>
+<Code>
+<A ID="pgfId-1063062"></A>
+plugin:register($map, &quot;my-password-plugin.xqy&quot;)</Code>
+<NumberList>
+<Number>
+<A ID="pgfId-1062028"></A>
+Save your changes to the file.</Number>
+<Warning>
+<A ID="pgfId-1063103"></A>
+If you made a typo or some other mistake that causes a syntax error in the plugin, any request you make to any App Server will throw an exception. If that happens, edit the file to correct any errors.</Warning>
+<Number>
+<A ID="pgfId-1063108"></A>
+If you are using an Enterprise Edition cluster, copy your plugin to the <code>
+Plugins</code>
+ directory on each host in your cluster.</Number>
+<Number>
+<A ID="pgfId-1063138"></A>
+Test your code to make sure it works the way you intend.</Number>
+</NumberList>
+<Body>
+<A ID="pgfId-1062377"></A>
+The next time you try and change a password, your new checks will be run. For example, if you try to make a single-character password, it will be rejected.</Body>
+</XML>

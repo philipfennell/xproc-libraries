@@ -1,0 +1,12 @@
+<c:test-results xmlns:c="http://www.w3.org/ns/xproc-step">
+			<configuration xmlns:mla="http://www.marklogic.com/admin" xmlns:ml="http://www.marklogic.com"
+                  xmlns:cxml="http://xmlcalabash.com/ns/extensions/marklogic"/>
+		<mla:forest xmlns:mla="http://www.marklogic.com/admin" name="swansea"
+               host="hp6910-772.marklogic.com"
+               data-dir=""/>
+				<mla:forests xmlns:mla="http://www.marklogic.com/admin">
+					
+					<mla:forest name="cardiff" host="hp6910-772.marklogic.com" data-dir=""/>
+					<mla:forest name="newport" host="hp6910-772.marklogic.com" data-dir=""/>
+				</mla:forests>
+			</c:test-results>

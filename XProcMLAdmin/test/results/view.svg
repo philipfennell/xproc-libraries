@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     version="1.1"
+     width="676"
+     height="600">
+   <style type="text/css">
+				.connection {
+					visibility:visible;
+				}
+				
+			</style>
+   <g transform="translate(242,186)">
+      <g class="input source" transform="translate(248, 0)">
+         <g transform="translate(0,0)">
+            <path fill="none" stroke="#999999" stroke-width="3px" id="d12e19"
+                  d="m0,0 l0,0 c0,100 0,100 -248,100"/>
+         </g>
+         <g font-size="12px" font-family="sans-serif" font-weight="bold" fill="#000000"
+            stroke="none"
+            transform="translate(-180,0)">
+            <text x="0" y="-7">p:input</text>
+            <line fill="#FFFFFF" stroke="#000000" stroke-width="1px" stroke-dasharray="2,2"
+                  x1="0"
+                  y1="0"
+                  x2="180"
+                  y2="0"/>
+            <text font-style="italic" font-weight="normal" x="0" y="16">source</text>
+         </g>
+         <rect fill="#FFFFFF" stroke="#999999" stroke-width="3px" x="-6" y="-6" width="12"
+               height="12"
+               rx="2"
+               ry="2"/>
+      </g>
+      <g class="input model" transform="translate(310, -62)">
+         <g transform="translate(0,0)">
+            <path fill="none" stroke="#999999" stroke-width="3px" id="d12e28"
+                  d="m0,0 l0,62 c0,100 0,100 -310,100"/>
+         </g>
+         <g font-size="12px" font-family="sans-serif" font-weight="bold" fill="#000000"
+            stroke="none"
+            transform="translate(-180,0)">
+            <text x="0" y="-7">p:input</text>
+            <line fill="#FFFFFF" stroke="#000000" stroke-width="1px" stroke-dasharray="2,2"
+                  x1="0"
+                  y1="0"
+                  x2="180"
+                  y2="0"/>
+            <text font-style="italic" font-weight="normal" x="0" y="16">model</text>
+         </g>
+         <rect fill="#FFFFFF" stroke="#999999" stroke-width="3px" x="-6" y="-6" width="12"
+               height="12"
+               rx="2"
+               ry="2"/>
+      </g>
+      <g class="input controls" transform="translate(372, -124)">
+         <g transform="translate(0,0)">
+            <path fill="none" stroke="#999999" stroke-width="3px" id="d12e49"
+                  d="m0,0 l0,224 c0,100 0,100 -372,100"/>
+         </g>
+         <g font-size="12px" font-family="sans-serif" font-weight="bold" fill="#000000"
+            stroke="none"
+            transform="translate(-180,0)">
+            <text x="0" y="-7">p:input</text>
+            <line fill="#FFFFFF" stroke="#000000" stroke-width="1px" stroke-dasharray="2,2"
+                  x1="0"
+                  y1="0"
+                  x2="180"
+                  y2="0"/>
+            <text font-style="italic" font-weight="normal" x="0" y="16">controls</text>
+         </g>
+         <rect fill="#FFFFFF" stroke="#999999" stroke-width="3px" x="-6" y="-6" width="12"
+               height="12"
+               rx="2"
+               ry="2"/>
+      </g>
+      <g class="output result" transform="translate(124, 300)">
+         <path fill="none" stroke="#999999" stroke-width="3px" id="d12e59"
+               d="m-124,-100 c0,100 124,0 124,100 l0,0"/>
+         <g transform="translate(0,0)">
+            <g font-size="12px" font-family="sans-serif" font-weight="bold" fill="#000000"
+               stroke="none"
+               transform="translate(-180,0)">
+               <text x="0" y="-7">p:output</text>
+               <line fill="#FFFFFF" stroke="#000000" stroke-width="1px" stroke-dasharray="2,2"
+                     x1="0"
+                     y1="0"
+                     x2="180"
+                     y2="0"/>
+               <text font-style="italic" font-weight="normal" x="0" y="16">result</text>
+            </g>
+            <rect fill="#FFFFFF" stroke="#999999" stroke-width="3px" x="-6" y="-6" width="12"
+                  height="12"
+                  rx="2"
+                  ry="2"/>
+         </g>
+      </g>
+      <g fill="#FFFFFF" stroke="#999999" stroke-width="3px" id="add-model"
+         transform="translate(0, 100)">
+         <path fill="none" stroke="#999999" stroke-width="3px" id="d12e40" class="connection"
+               d="M0,0 L0,100"/>
+         <g font-size="12px" font-family="sans-serif" font-weight="bold" fill="#000000"
+            stroke="none"
+            transform="translate(-180,0)">
+            <text x="0" y="-7">p:insert</text>
+            <line fill="#FFFFFF" stroke="#000000" stroke-width="1px" stroke-dasharray="2,2"
+                  x1="0"
+                  y1="0"
+                  x2="180"
+                  y2="0"/>
+            <circle fill="#FFFFFF" stroke="#999999" stroke-width="3px" id="add-modelSymbol"
+                    cx="180"
+                    cy="0"
+                    r="6"/>
+            <text font-style="italic" font-weight="normal" x="0" y="16">add-model</text>
+         </g>
+      </g>
+      <g fill="#FFFFFF" stroke="#999999" stroke-width="3px" id="add-controls"
+         transform="translate(0, 200)">
+         <g font-size="12px" font-family="sans-serif" font-weight="bold" fill="#000000"
+            stroke="none"
+            transform="translate(-180,0)">
+            <text x="0" y="-7">p:insert</text>
+            <line fill="#FFFFFF" stroke="#000000" stroke-width="1px" stroke-dasharray="2,2"
+                  x1="0"
+                  y1="0"
+                  x2="180"
+                  y2="0"/>
+            <circle fill="#FFFFFF" stroke="#999999" stroke-width="3px" id="add-controlsSymbol"
+                    cx="180"
+                    cy="0"
+                    r="6"/>
+            <text font-style="italic" font-weight="normal" x="0" y="16">add-controls</text>
+         </g>
+      </g>
+   </g>
+</svg>

@@ -1,0 +1,1 @@
+<ml:connection xmlns:ml="http://www.marklogic.com" dry-run="no" debug="no" host="localhost" port="8003" user="admin" database-id="13708092977653821056" password="admin"/>

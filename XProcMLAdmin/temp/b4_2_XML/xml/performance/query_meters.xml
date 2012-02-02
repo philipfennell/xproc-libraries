@@ -1,0 +1,889 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="query_meters.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1044036"></A>
+<A ID="53138"></A>
+Tuning Queries with query-meters and query-trace </Heading-1>
+<pagenum>
+<A ID="pgfId-1051393"></A>
+26</pagenum>
+<Body>
+<A ID="pgfId-1048473"></A>
+MarkLogic Server is designed for very fast query performance over large amounts of data. While query performance is usually very fast, sometimes you will issue queries that do not perform as well as you would like. MarkLogic Server includes functions to help you optimize the performance of queries.</Body>
+<Body>
+<A ID="pgfId-1049752"></A>
+This chapter describes how to use the <code>
+xdmp:query-meters()</code>
+ and <code>
+xdmp:query-trace()</code>
+ functions to understand and tune the performance of queries. It includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1049756"></A>
+<A href="query_meters.xml#id(37027)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Indexes, XPath Expressions, and Query Performance</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049775"></A>
+<A href="query_meters.xml#id(78913)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Understanding query-meters Output</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049760"></A>
+<A href="query_meters.xml#id(10519)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Understanding query-trace Output</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059452"></A>
+<A href="query_meters.xml#id(37327)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Using xdmp:plan to View the Evaluation Plan</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049764"></A>
+<A href="query_meters.xml#id(39027)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Examples</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049768"></A>
+<A href="query_meters.xml#id(86781)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+General Methodology for Tuning a Query</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1049745"></A>
+<A ID="37027"></A>
+Indexes, XPath Expressions, and Query Performance</Heading-2>
+<Body>
+<A ID="pgfId-1049771"></A>
+When you load data into a MarkLogic Server database, indexes are created based on the index configuration for that database. The indexes help to optimize searches, XPath expressions, and other query patterns. </Body>
+<Body>
+<A ID="pgfId-1048480"></A>
+Sometimes, however, a query cannot use the indexes, and that leads to slower performance. In these cases, there are two main types of things you can do to speed up the query performance:</Body>
+<Body-bullet>
+<A ID="pgfId-1048489"></A>
+Rewrite the query so it makes better use of the indexes.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049630"></A>
+Add more indexes.</Body-bullet>
+<Body>
+<A ID="pgfId-1048490"></A>
+The <code>
+xdmp:query-meters()</code>
+ and <code>
+xdmp:query-trace()</code>
+ functions provide information to help you determine where the problem areas in the query are, and can help you determine ways to easily and, in many cases, dramatically improve query performance. Understanding the output of these functions is the key to analyzing a query and tuning it for maximum performance.</Body>
+<Body>
+<A ID="pgfId-1049318"></A>
+To use these functions in a query:</Body>
+<Body-bullet>
+<A ID="pgfId-1049314"></A>
+Add <code>
+xdmp:query-meters()</code>
+ to the end of a query, with the concatenate operator (<code>
+,</code>
+) before the function.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049315"></A>
+Add <code>
+xdmp:query-trace(true())</code>
+ to the beginning of the portion of the query you want to analyze, with the concatenate operator (<code>
+,</code>
+) after the function. Then add <code>
+xdmp:query-trace(false())</code>
+ at the end of the portion of the query you want to analyze, with the concatenate operator (<code>
+,</code>
+) before the function.</Body-bullet>
+<Heading-2>
+<A ID="pgfId-1048443"></A>
+<A ID="78913"></A>
+Understanding query-meters Output</Heading-2>
+<Body>
+<A ID="pgfId-1048447"></A>
+The <code>
+xdmp:query-meters()</code>
+ function provides statistics about query execution. To use <code>
+xdmp:query-meters()</code>
+, concatenate the <code>
+xdmp:query-meters()</code>
+ function to the end of your query. For example, the following query produces both the initial query results and the <code>
+query-meters</code>
+ output:</Body>
+<Code>
+<A ID="pgfId-1048787"></A>
+doc(&quot;/myDocuments/hello.xml&quot;)//a/b/c
+, xdmp:query-meters()</Code>
+<Body>
+<A ID="pgfId-1048809"></A>
+The result is a sequence of <code>
+c</code>
+ nodes from the <code>
+/myDocuments/hello.xml</code>
+ document followed by a <code>
+qm:query-meters</code>
+ node containing the <code>
+query-meters</code>
+ output.</Body>
+<Body>
+<A ID="pgfId-1050609"></A>
+For its function signature, see the <Hyperlink>
+<A href="http://xqzone.marklogic.com/pubs/2.2/apidocs/Extension.html#query-meters" xml:link="simple" show="replace" actuate="user" CLASS="URL">xdmp:query-meters() function</A></Hyperlink>
+ in <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+. </Body>
+<Body>
+<A ID="pgfId-1048835"></A>
+The following subsections describe the output of the <code>
+xdmp:query-meters()</code>
+ function:</Body>
+<Body-bullet>
+<A ID="pgfId-1048817"></A>
+<A href="query_meters.xml#id(86970)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Output From xdmp:query-meters()</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1048825"></A>
+<A href="query_meters.xml#id(47791)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Understanding the Cache Statistics</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1048788"></A>
+<A ID="86970"></A>
+Output From xdmp:query-meters()</Heading-3>
+<Body>
+<A ID="pgfId-1048796"></A>
+The <code>
+xdmp:query-meters()</code>
+ function produces an XML document that conforms to the <code>
+query-meters.xsd</code>
+ schema. The <code>
+query-meters.xsd</code>
+ schema is loaded into the schemas database and is copied to the <code>
+&lt;install_dir&gt;/Config</code>
+ directory at installation time.</Body>
+<Body>
+<A ID="pgfId-1048808"></A>
+The output shows elapsed time for the query, hits and misses from the various query caches, and information about fragments and documents the query accessed. The fragment output prints one element per fragment root name (not one element per fragment). The document output prints one element per document URI. For sample <code>
+xdmp:query-meters()</code>
+ output, see <A href="query_meters.xml#id(77334)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Sample xdmp:query-meters Output' on page&#160;23</A>.</Body>
+<Heading-3>
+<A ID="pgfId-1048826"></A>
+<A ID="47791"></A>
+Understanding the Cache Statistics</Heading-3>
+<Body>
+<A ID="pgfId-1048830"></A>
+There are several elements in the <code>
+xdmp:query-meters()</code>
+ output that list the number of hits and misses on the query caches. Cache hits are good, and indicate the query is running in an optimized fashion. Cache misses indicate that the query could not retrieve its results directly from the cache, and had to read the data from disk. Because disk I/O is expensive relative to reading from memory, cache misses indicate that the query might be able to be optimized, either by rewriting the parts of the query that have cache misses to better take advantage of the indexes or by adding indexes that the query can use.</Body>
+<Body>
+<A ID="pgfId-1048690"></A>
+MarkLogic Server has several different caches used for query processing. In general, these caches load index data into memory, providing optimized query processing for a large variety of queries.</Body>
+<Body>
+<A ID="pgfId-1048906"></A>
+The <code>
+xdmp:query-meters()</code>
+ function lists hits and misses for the following caches:</Body>
+<Body-bullet>
+<A ID="pgfId-1048691"></A>
+list cache</Body-bullet>
+<Body-indent>
+<A ID="pgfId-1048919"></A>
+The <Emphasis>
+list cache</Emphasis>
+ holds search term lists in memory and helps optimize XPath expressions and text searches.</Body-indent>
+<Body-bullet>
+<A ID="pgfId-1048698"></A>
+compressed tree cache</Body-bullet>
+<Body-indent>
+<A ID="pgfId-1048924"></A>
+The <Emphasis>
+compressed tree cache</Emphasis>
+ holds compressed XML tree data in memory. The data is cached in memory in the same compressed format that is stored on disk.</Body-indent>
+<Body-bullet>
+<A ID="pgfId-1048699"></A>
+expanded tree cache</Body-bullet>
+<Body-indent>
+<A ID="pgfId-1048928"></A>
+The <Emphasis>
+expanded tree cache</Emphasis>
+ holds the uncompressed XML data in memory (in its expanded format).</Body-indent>
+<Body-bullet>
+<A ID="pgfId-1048700"></A>
+in-memory cache</Body-bullet>
+<Body-indent>
+<A ID="pgfId-1048932"></A>
+The <Emphasis>
+in-memory cache</Emphasis>
+ holds data that was recently added to the system and is still in an in-memory stand; that is, it holds data that has not yet been written to disk.</Body-indent>
+<Body-bullet>
+<A ID="pgfId-1048701"></A>
+value cache</Body-bullet>
+<Body-indent>
+<A ID="pgfId-1048936"></A>
+The <Emphasis>
+value cache</Emphasis>
+ exists only for the duration of a query. It holds typed values and optimizes queries that perform frequent conversion of nodes to typed values. Each miss for the value cache indicates that an XML node must be converted to a typed value.</Body-indent>
+<Body-bullet>
+<A ID="pgfId-1048702"></A>
+regular expression cache</Body-bullet>
+<Body-indent>
+<A ID="pgfId-1048940"></A>
+The <Emphasis>
+regular expression cache</Emphasis>
+ (<code>
+regexp-cache</code>
+) exists only for the duration of a query. It holds compiled regular expressions, and optimizes queries that use a regular expression multiple times.</Body-indent>
+<Body-bullet>
+<A ID="pgfId-1048703"></A>
+link cache</Body-bullet>
+<Body-indent>
+<A ID="pgfId-1048967"></A>
+The <Emphasis>
+link cache</Emphasis>
+ exists only for the duration of a query. The link cache holds the relationships between parent and child nodes, reusing that relationship throughout the query execution to optimize query processing.</Body-indent>
+<Body>
+<A ID="pgfId-1048911"></A>
+The cache hits and misses are also broken down by fragment and by document. Each fragment element represents all of the fragments with the specified name. Each document element represents a document with the specified URI. The fragment and document elements of the <code>
+xdmp:query-meters()</code>
+ output show cache hits and misses for the expanded tree cache. These statistics can help you isolate which documents or fragments are being optimally processed. If a given document or fragment gets cache misses, you might be able to add indexes or rewrite the query to speed performance.</Body>
+<Body>
+<A ID="pgfId-1048990"></A>
+To help tune query performance, run the <code>
+xdmp:query-meters()</code>
+ function with your query and look for cache misses in the <code>
+xdmp:query-meters()</code>
+ output; cache misses indicate areas where the query can be tuned (either by rewriting or by adding indexes) for better performance.</Body>
+<Heading-2>
+<A ID="pgfId-1048529"></A>
+<A ID="10519"></A>
+Understanding query-trace Output</Heading-2>
+<Body>
+<A ID="pgfId-1049011"></A>
+The <code>
+xdmp:query-trace()</code>
+ function logs output to the <code>
+&lt;data_dir&gt;/Logs/ErrorLog.txt</code>
+ file during query execution. To start query tracing, concatenate the <code>
+xdmp:query-trace(true())</code>
+ function at the part of your query where you want the tracing to begin, and add <code>
+xdmp:query-trace(false())</code>
+ where you want tracing to stop. For example, the following query produces results for the query and logs the <code>
+query-trace</code>
+ output to the <code>
+ErrorLog.txt</code>
+ file:</Body>
+<Code>
+<A ID="pgfId-1049012"></A>
+xdmp:query-trace(true()),
+doc(&quot;/myDocuments/hello.xml&quot;)//a/b/c
+, xdmp:query-trace(false())</Code>
+<Body>
+<A ID="pgfId-1048860"></A>
+For its function signature, see the <Hyperlink>
+<A href="http://xqzone.marklogic.com/pubs/2.2/apidocs/Extension.html#query-trace" xml:link="simple" show="replace" actuate="user" CLASS="URL">xdmp:query-trace() function</A></Hyperlink>
+ in <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+.</Body>
+<Body>
+<A ID="pgfId-1049344"></A>
+The following subsections describe the output of the <code>
+xdmp:query-trace()</code>
+ function:</Body>
+<Body-bullet>
+<A ID="pgfId-1049347"></A>
+<A href="query_meters.xml#id(95477)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+What query-trace Logs</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049355"></A>
+<A href="query_meters.xml#id(27932)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Interpreting the Log Messages</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049514"></A>
+<A href="query_meters.xml#id(17135)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Fully Searchable Paths and cts:search Operations</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1048855"></A>
+<A ID="95477"></A>
+What query-trace Logs</Heading-3>
+<Body>
+<A ID="pgfId-1049337"></A>
+The <code>
+xdmp:query-trace()</code>
+ function prints INFO-level messages to the log file while a query is executing. It prints one log message for each XPath expression, and at least one log message for each step in the XPath expression. It also prints messages for predicates and other parts of query evaluation. It logs these messages for each fragment the query accesses. Therefore, <code>
+xdmp:query-trace()</code>
+ can potentially log a very large number of messages to the log file, particularly for queries that access large numbers of fragments and/or contain very deep XPath expressions. For example, if a query has an XPath expression with 10 steps and accesses 1,000 documents (assume each document is in its own fragment), <code>
+xdmp:query-trace()</code>
+ will potentially log over 10,000 messages (10 steps times 1,000 documents). </Body>
+<Body>
+<A ID="pgfId-1050732"></A>
+The <code>
+xdmp:query-trace()</code>
+ function logs the following information about the query processing and execution:</Body>
+<Body-bullet>
+<A ID="pgfId-1050680"></A>
+<A href="query_meters.xml#id(65055)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+XPath Expression Analysis Messages</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050683"></A>
+<A href="query_meters.xml#id(61898)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Constraint Analysis Messages</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050688"></A>
+<A href="query_meters.xml#id(77299)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Search Execution Messages</Hyperlink>
+</A></Body-bullet>
+<Heading-4>
+<A ID="pgfId-1050663"></A>
+<A ID="65055"></A>
+XPath Expression Analysis Messages</Heading-4>
+<Body>
+<A ID="pgfId-1050664"></A>
+The <code>
+xdmp:query-trace()</code>
+ function prints INFO-level messages to the log file about the XPath expressions in the query. The messages log whether an XPath expression is <code>
+searchable</code>
+. A <code>
+searchable</code>
+ expression is one which can be optimized by using the indexes. The <code>
+query-trace</code>
+ output shows which steps in the XPath expression are or are not <code>
+searchable</code>
+ with the indexes. </Body>
+<Body>
+<A ID="pgfId-1049381"></A>
+For query tuning, the most important thing the log output has is the information about whether an expression is <code>
+searchable</code>
+ or not. In general, <code>
+searchable</code>
+ expressions can use the indexes to execute, and therefore execute fast. Expressions that are <code>
+unsearchable</code>
+ cannot use the indexes, and must fetch the data from disks. For a summary of how to read the log messages, see <A href="query_meters.xml#id(27932)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Interpreting the Log Messages' on page&#160;21</A>.</Body>
+<Heading-4>
+<A ID="pgfId-1050649"></A>
+<A ID="61898"></A>
+Constraint Analysis Messages</Heading-4>
+<Body>
+<A ID="pgfId-1050653"></A>
+The constraint analysis phase of the <code>
+query-trace</code>
+ output prints log messages about predicates in XPath expressions and <code>
+where</code>
+ clauses. At the beginning of each constraint analysis section, you will see a message similar to the following:</Body>
+<Code>
+<A ID="pgfId-1050751"></A>
+2004-12-06 11:57:18.325 Info: line 21: Gathering constraints.</Code>
+<Body>
+<A ID="pgfId-1050778"></A>
+The output logs one message for each step in the XPath expression that contributes to the constraint. It only prints messages about constraints that can be evaluated using the indexes; unoptimized constraints do not generate any <code>
+query-trace</code>
+ output. When the predicate constraint is reached, the log shows a message similar to the following:</Body>
+<Code>
+<A ID="pgfId-1050790"></A>
+2004-12-15 10:44:57.734 Info: line 2: Comparison contributed hash value constraint: Heading-2 = &quot;hello&quot;</Code>
+<Body>
+<A ID="pgfId-1050785"></A>
+This message corresponds to an XPath expression with a predicate like the following:</Body>
+<Code>
+<A ID="pgfId-1050796"></A>
+doc(&quot;/myDocuments/hello.xml&quot;)/XML//Heading-2[. = &quot;hello&quot;]</Code>
+<Body>
+<A ID="pgfId-1050797"></A>
+The log message text <code>
+hash value constraint</code>
+ indicates that the optimizer used the standard indexes (word search, stemmed search, and so on, as set up in the database configuration) to evaluate this predicate. Equality constraints on predicates use the standard indexes for evaluation, and this makes the evaluation perform fast.</Body>
+<Body>
+<A ID="pgfId-1050807"></A>
+Inequality constraints such as greater than (<code>
+gt</code>
+ or <code>
+&gt;</code>
+) and less than (<code>
+lt</code>
+ or <code>
+&lt;</code>
+) cannot be evaluated using the standard indexes. For inequality constraints to be optimized, you must have an element (range) index on the element used in the comparison. If you have an inequality constraint and have an element index on the element used in the comparison, the log shows a message similar to the following for the constraint <code>
+Heading-2&#160;&gt;&#160;&quot;hello&quot;</code>
+:</Body>
+<Code>
+<A ID="pgfId-1050825"></A>
+2004-12-15 10:44:57.734 Info: line 2: Comparison contributed range value constraint: Heading-2 &gt; &quot;hello&quot;</Code>
+<Body>
+<A ID="pgfId-1050823"></A>
+The log message text <code>
+range value constraint</code>
+ indicates that the optimizer used an element index to evaluate the query.</Body>
+<Note>
+<A ID="pgfId-1050839"></A>
+If neither the standard indexes nor an element index is used to evaluate a constraint, no such log message appears, and the constraint is not optimized.</Note>
+<Heading-4>
+<A ID="pgfId-1050710"></A>
+<A ID="77299"></A>
+Search Execution Messages</Heading-4>
+<Body>
+<A ID="pgfId-1050714"></A>
+The <code>
+xdmp:query-trace()</code>
+ function also logs detailed information about how many fragments are used to evaluate a query. These messages show the number of fragments that are filtered. When a fragment is filtered, it means that the indexes found a possible match for the query in that fragment, and the fragment must then be retrieved to make sure it meets all of the query criteria. In a well-optimized query, the number of fragments filtered will be close to the number of fragments that satisfy the query.</Body>
+<Body>
+<A ID="pgfId-1051511"></A>
+If a query returns no results, or if it can be answered directly from the indexes, there will be no fragments filtered, and the log shows messages similar to the following:</Body>
+<Code>
+<A ID="pgfId-1050849"></A>
+2004-12-15 10:44:57.367 Info: line 2: Executing search.
+2004-12-15 10:44:57.367 Info: line 2: Selected 0 fragments to filter</Code>
+<Body>
+<A ID="pgfId-1050844"></A>
+If the query results come from a single fragment, and the query uses either the standard or element (range) indexes for its evaluation, the log shows messages similar to the following:</Body>
+<Code>
+<A ID="pgfId-1050859"></A>
+2004-12-15 11:14:10.926 Info: line 2: Executing search.
+2004-12-15 11:14:10.926 Info: line 2: Selected 1 fragment to filter</Code>
+<Body>
+<A ID="pgfId-1050854"></A>
+The line that says <code>
+Selected 1 fragment to filter</code>
+ indicates how many candidate fragment references were returned from the index resolution stage of query processing. For a query that makes good use of the indexes, the number of fragments filtered is close to the number of fragments returned in the query results. For example, if there are 45 fragments that match a given query, and if <code>
+xdmp:query-trace()</code>
+ shows 45 fragments filtered, then that query is making good use of the indexes (because it does not have to filter any fragments that end up not contributing to the query result).</Body>
+<Body>
+<A ID="pgfId-1051534"></A>
+In most cases, the smaller the number of fragments selected to filter, the faster the query performs. An exception to this is if you are doing unfiltered searches, as unfiltered search skip the filtering stage of query processing. For details on unfiltered searches, see <A href="unfiltered.xml#id(38698)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Fast Pagination and Unfiltered Searches' on page&#160;10</A>.</Body>
+<Heading-3>
+<A ID="pgfId-1049338"></A>
+<A ID="27932"></A>
+Interpreting the Log Messages</Heading-3>
+<Body>
+<A ID="pgfId-1049333"></A>
+The messages written to the log from the <code>
+xdmp:query-trace()</code>
+ function help you to determine if there are ways to optimize the performance of a query. The following is a summary of some important things to look for when interpreting the <code>
+xdmp:query-trace()</code>
+ output:</Body>
+<Body-bullet>
+<A ID="pgfId-1048665"></A>
+The output is written to the <code>
+ErrorLog.txt</code>
+ file.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1048764"></A>
+Log messages with the term <code>
+searchable</code>
+ are good--this means indexes can be used to execute this part of the query (which in turn means the query will execute fast).</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1048669"></A>
+Suspect problem areas when you see log messages with the term <code>
+unsearchable</code>
+--this means the indexes cannot be used to execute this part of the query.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1048763"></A>
+Log messages with the term <code>
+does not use indexes</code>
+ mean that there might be XPath steps below this step that are <code>
+searchable</code>
+, but this step or predicate will not be resolved directly from the indexes (known as <Emphasis>
+conditionally searchable</Emphasis>
+). This is not necessarily bad, as searches with steps that do not use the indexes can still be fast, but it is not as good as <code>
+searchable</code>
+.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050892"></A>
+Log messages with the term <code>
+comparison contributed </code>
+<Bold>
+hash</Bold>
+<code>
+ value</code>
+ constraint indicate that this predicate used the standard indexes to execute (which in turn indicates an optimized predicate evaluation).</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050908"></A>
+Log messages with the term <code>
+comparison contributed </code>
+<Bold>
+range</Bold>
+<code>
+ value</code>
+ constraint indicate that this predicate used an element (range) index to execute (which in turn indicates an optimized predicate evaluation).</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050922"></A>
+No <code>
+hash</code>
+ or <code>
+range</code>
+ message in the constraint section indicates that the constraint needed to scan the fragment to execute, and could not be optimized from the indexes.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050867"></A>
+In the execution phase, the <code>
+xdmp:query-trace</code>
+ output has a log message indicating the number of fragments filtered. In a fully optimized query, that number is equal to the number of fragments that the query returns (the number you would get if you wrapped the search portion of the query in an <code>
+xdmp:estimate</code>
+ call). As the number of fragments filtered increases, and particularly as the number of fragments filtered grows past the number of fragments that ultimately match the query, the amount of work needed to execute the query increases (which in turn causes performance to slow).</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1048772"></A>
+XPath predicates that cross fragment boundaries are <code>
+unsearchable</code>
+ (cannot use indexes). For example, if a document is fragmented at the <code>
+b</code>
+ element, then you should make sure predicates do not cross the b boundary. Therefore, the following expression:</Body-bullet>
+<Code>
+<A ID="pgfId-1051561"></A>
+/a/b[c=&quot;1&quot;]/../d</Code>
+<Body-indent>
+<A ID="pgfId-1051566"></A>
+will run faster than the following expression:</Body-indent>
+<Code>
+<A ID="pgfId-1051565"></A>
+/a[b/c=&quot;1&quot;]/d</Code>
+<Heading-3>
+<A ID="pgfId-1049431"></A>
+<A ID="17135"></A>
+Fully Searchable Paths and cts:search Operations</Heading-3>
+<Body>
+<A ID="pgfId-1049435"></A>
+Queries that use the built-in search operation <code>
+cts:search</code>
+ require that the XPath expression searched is <Emphasis>
+fully searchable</Emphasis>
+. A fully searchable path is one that has no steps that are <code>
+unsearchable</code>
+ and whose last step is <code>
+searchable</code>
+. Some steps of the XPath expression might not use an index directly (that is, they are <Emphasis>
+conditionally searchable</Emphasis>
+), but as long as <Emphasis>
+no</Emphasis>
+ steps are <code>
+unsearchable</code>
+ and the <Emphasis>
+last</Emphasis>
+ step is <code>
+searchable</code>
+, it is said to be fully searchable. You can use the <code>
+xdmp:query-trace()</code>
+ function to see if the path is fully searchable. If there are no entries in the <code>
+xdmp:query-trace()</code>
+ output indicating that a step is <code>
+unsearchable</code>
+, then that path is fully searchable. Queries that use <code>
+cts:search</code>
+ on <code>
+unsearchable</code>
+ XPath expressions will fail with an an error message. You can often make the path expressions fully searchable by rewriting the query or adding new indexes.</Body>
+<Body>
+<A ID="pgfId-1055077"></A>
+A <Emphasis>
+partially searchable</Emphasis>
+ XPath expression is one whose first step is searchable, but does not otherwise meet the requirements to be fully searchable. Partially searchable expressions will use the indexes for XPath evaluation, but will not be allowed as the first parameter to <code>
+cts:search</code>
+.</Body>
+<Body>
+<A ID="pgfId-1049455"></A>
+XPath expressions must be fully searchable for optimizing <code>
+order by</code>
+ expressions, too. For details on optimizing <code>
+order by</code>
+ expressions, see <A href="order_by.xml#id(33564)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Optimizing Order By Expressions With Range Indexes' on page&#160;27</A>.</Body>
+<Heading-2>
+<A ID="pgfId-1048454"></A>
+<A ID="37327"></A>
+Using xdmp:plan to View the Evaluation Plan</Heading-2>
+<Body>
+<A ID="pgfId-1059470"></A>
+You can use the <code>
+xdmp:plan</code>
+ built-in function to see the search and execution plan for a query. It takes an XQuery expression, and it it returns an XML report providing information about how the indexes will be used if you were to run the expression. It provides much of the information shown in <code>
+xdmp:query-trace</code>
+, as well as some more information about the query terms selected from the index. The <code>
+xdmp:plan</code>
+ output is useful in determining if an expression is optimized properly and if your range indexes are being used as you expect them to be. </Body>
+<Body>
+<A ID="pgfId-1059518"></A>
+Running an <code>
+xdmp:plan</code>
+ on a search is similar to running an <code>
+xdmp:estimate</code>
+ on a search, and the results of the estimate are included in the <code>
+xdmp:plan</code>
+ output. If the search cannot be run in a plan or estimate, then it will throw an <code>
+XDMP-UNSEARCHABLE</code>
+ exception. For more details and the signature of <code>
+xdmp:plan</code>
+, see the <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+. </Body>
+<Heading-2>
+<A ID="pgfId-1059463"></A>
+<A ID="39027"></A>
+Examples</Heading-2>
+<Body>
+<A ID="pgfId-1048452"></A>
+This section shows sample output from the <code>
+xdmp:query-meters()</code>
+ and <code>
+xdmp:query-trace()</code>
+ functions. The following examples are included:</Body>
+<Body-bullet>
+<A ID="pgfId-1049407"></A>
+<A href="query_meters.xml#id(77334)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Sample xdmp:query-meters Output</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049415"></A>
+<A href="query_meters.xml#id(84776)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Sample xdmp:query-trace Output</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049420"></A>
+<A href="query_meters.xml#id(13833)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Logging Both query-meters and query-trace Output</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1048457"></A>
+<A ID="77334"></A>
+Sample xdmp:query-meters Output</Heading-3>
+<Body>
+<A ID="pgfId-1049390"></A>
+The following listing shows sample output from the <code>
+xdmp:query-meters()</code>
+ function:</Body>
+<Code>
+<A ID="pgfId-1048715"></A>
+&lt;qm:query-meters&#160;xsi:schemaLocation=&quot;http://marklogic.com/xdmp/query-meters&#160;query-meters.xsd&quot;
+&#160;xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+&#160;xmlns:qm=&quot;http://marklogic.com/xdmp/query-meters&quot;&gt;
+&#160;&#160;&lt;qm:elapsed-time&gt;PT0S&lt;/qm:elapsed-time&gt;
+&#160;&#160;&lt;qm:list-cache-hits&gt;5&lt;/qm:list-cache-hits&gt;
+&#160;&#160;&lt;qm:list-cache-misses&gt;0&lt;/qm:list-cache-misses&gt;
+&#160;&#160;&lt;qm:in-memory-list-hits&gt;0&lt;/qm:in-memory-list-hits&gt;
+&#160;&#160;&lt;qm:expanded-tree-cache-hits&gt;1&lt;/qm:expanded-tree-cache-hits&gt;
+&#160;&#160;&lt;qm:expanded-tree-cache-misses&gt;0&lt;/qm:expanded-tree-cache-misses&gt;
+&#160;&#160;&lt;qm:compressed-tree-cache-hits&gt;0&lt;/qm:compressed-tree-cache-hits&gt;
+&#160;&#160;&lt;qm:compressed-tree-cache-misses&gt;0&lt;/qm:compressed-tree-cache-misses&gt;
+&#160;&#160;&lt;qm:in-memory-compressed-tree-hits&gt;0
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/qm:in-memory-compressed-tree-hits&gt;
+&#160;&#160;&lt;qm:value-cache-hits&gt;0&lt;/qm:value-cache-hits&gt;
+&#160;&#160;&lt;qm:value-cache-misses&gt;0&lt;/qm:value-cache-misses&gt;
+&#160;&#160;&lt;qm:regexp-cache-hits&gt;0&lt;/qm:regexp-cache-hits&gt;
+&#160;&#160;&lt;qm:regexp-cache-misses&gt;0&lt;/qm:regexp-cache-misses&gt;
+&#160;&#160;&lt;qm:link-cache-hits&gt;0&lt;/qm:link-cache-hits&gt;
+&#160;&#160;&lt;qm:link-cache-misses&gt;0&lt;/qm:link-cache-misses&gt;
+&#160;&#160;&lt;qm:fragments-added&gt;0&lt;/qm:fragments-added&gt;
+&#160;&#160;&lt;qm:fragments-deleted&gt;0&lt;/qm:fragments-deleted&gt;
+&#160;&#160;&lt;qm:fragments&gt;
+&#160;&#160;&#160;&#160;&lt;qm:fragment&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;qm:root&#160;xmlns=&quot;&quot;&gt;root_name&lt;/qm:root&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;qm:expanded-tree-cache-hits&gt;1&lt;/qm:expanded-tree-cache-hits&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;qm:expanded-tree-cache-misses&gt;0&lt;/qm:expanded-tree-cache-misses&gt;
+&#160;&#160;&#160;&#160;&lt;/qm:fragment&gt;
+&#160;&#160;&lt;/qm:fragments&gt;
+&#160;&#160;&lt;qm:documents&gt;
+&#160;&#160;&#160;&#160;&lt;qm:document&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;qm:uri&gt;/myDocuments/hello.xml&lt;/qm:uri&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;qm:expanded-tree-cache-hits&gt;1&lt;/qm:expanded-tree-cache-hits&gt;
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;qm:expanded-tree-cache-misses&gt;0&lt;/qm:expanded-tree-cache-misses&gt;
+&#160;&#160;&#160;&#160;&lt;/qm:document&gt;
+&#160;&#160;&lt;/qm:documents&gt;
+&lt;/qm:query-meters&gt;</Code>
+<Heading-3>
+<A ID="pgfId-1047981"></A>
+<A ID="84776"></A>
+Sample xdmp:query-trace Output</Heading-3>
+<Body>
+<A ID="pgfId-1049302"></A>
+The following sample query:</Body>
+<Code>
+<A ID="pgfId-1049090"></A>
+xdmp:query-trace(true()),
+doc(&quot;/myDocs/file.xml&quot;)//Node-2</Code>
+<Body>
+<A ID="pgfId-1049042"></A>
+produces the following <code>
+xdmp:query-trace</code>
+ output in the <code>
+ErrorLog.txt</code>
+ file:</Body>
+<Code>
+<A ID="pgfId-1049100"></A>
+2004-12-08 15:27:27.926 Info: line 2: Analyzing path: &#160;&#160;&#160;&#160;&#160;doc(&quot;/myDocs/file.xml&quot;)/descendant::Node-2
+2004-12-08 15:27:27.926 Info: line 2: Step 1 is searchable: &#160;&#160;&#160;&#160;&#160;doc(&quot;/myDocs/file.xml&quot;)
+2004-12-08 15:27:27.926 Info: line 2: Step 2 axis does not use 
+&#160;&#160;&#160;&#160;&#160;indexes: descendant
+2004-12-08 15:27:27.926 Info: line 2: Step 2 test is searchable: Node-2
+2004-12-08 15:27:27.926 Info: line 2: Step 2 is searchable:
+&#160;&#160;&#160;&#160;&#160;descendant::Node-2
+2004-12-08 15:27:27.926 Info: line 2: Path is searchable.
+2004-12-08 15:27:27.926 Info: line 2: Gathering constraints.
+2004-12-08 15:27:27.926 Info: line 2: Step 2 test contributed 1 
+&#160;&#160;&#160;&#160;&#160;constraint: Node-2
+2004-12-08 15:27:27.926 Info: line 2: Executing search.
+2004-12-08 15:27:27.926 Info: line 2: Selected 1 fragment to filter</Code>
+<Heading-3>
+<A ID="pgfId-1049037"></A>
+<A ID="13833"></A>
+Logging Both query-meters and query-trace Output</Heading-3>
+<Body>
+<A ID="pgfId-1049116"></A>
+You can use the <code>
+xdmp:log()</code>
+ function to write the <code>
+xdmp:query-meters()</code>
+ output to the log file with the <code>
+xdmp:query-trace()</code>
+ output as follows:</Body>
+<Code>
+<A ID="pgfId-1049128"></A>
+xdmp:log(&quot;
+****
+**** Begin query trace and meter log
+****
+&quot;),
+xdmp:query-trace(true()),
+doc(&quot;/myDocs/file.xml&quot;)//Heading-2[. = &quot;hello&quot;]
+,
+xdmp:log(xdmp:query-meters())
+,
+xdmp:log(&quot;
+****
+**** End query trace and meter log
+****
+&quot;)</Code>
+<Body>
+<A ID="pgfId-1049123"></A>
+This query produces log output in the <code>
+ErrorLog.txt</code>
+ file like the following:</Body>
+<Code>
+<A ID="pgfId-1051274"></A>
+2004-12-08 15:48:01.502 Info: 
+
+****
+**** Begin query trace and meter log
+****
+
+004-12-08 15:48:01.502 Info: line 9: Analyzing path:
+&#160;&#160;&#160;&#160;&#160;doc(&quot;/myDocs/file.xml&quot;)/descendant::Node-1
+2004-12-08 15:48:01.502 Info: line 9: Step 1 is searchable:
+&#160;&#160;&#160;&#160;&#160;doc(&quot;/myDocs/file.xml&quot;)
+004-12-08 15:48:01.502 Info: line 2: Step 2 axis does not use 
+&#160;&#160;&#160;&#160;&#160;indexes: descendant
+004-12-08 15:48:01.502 Info: line 2: Step 2 test is searchable: Node-2
+004-12-08 15:48:01.502 Info: line 2: Step 2 is searchable:
+&#160;&#160;&#160;&#160;&#160;descendant::Node-2
+004-12-08 15:48:01.502 Info: line 2: Path is searchable.
+004-12-08 15:48:01.502 Info: line 2: Gathering constraints.
+2004-12-08 15:48:01.502 Info: line 2: Step 2 test contributed 1 
+&#160;&#160;&#160;&#160;&#160;constraint: Node-2
+2004-12-08 15:48:01.502 Info: line 2: Executing search.
+004-12-08 15:48:01.502 Info: line 2: Selected 1 fragment to filter
+2004-12-08 15:48:01.502 Info: &lt;qm:query-meters xsi:schemaLocation=&quot;http://marklogic.com/xdmp/query-meters query-meters.xsd&quot;
+ xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+ xmlns:qm=&quot;http://marklogic.com/xdmp/query-meters&quot;&gt;
+&#160;&#160;&lt;qm:elapsed-time&gt;PT0.01S&lt;/qm:elapsed-time&gt;
+&#160;&#160;&lt;qm:list-cache-hits&gt;4&lt;/qm:list-cache-hits&gt;
+&#160;&#160;&lt;qm:list-cache-misses&gt;0&lt;/qm:list-cache-misses&gt;
+&#160;&#160;&lt;qm:in-memory-list-hits&gt;0&lt;/qm:in-memory-list-hits&gt;
+&#160;&#160;&lt;qm:expanded-tree-cache-hits&gt;0&lt;/qm:expanded-tree-cache-hits&gt;
+&#160;&#160;&lt;qm:expanded-tree-cache-misses&gt;0&lt;/qm:expanded-tree-cache-misses&gt;
+&#160;&#160;&lt;qm:compressed-tree-cache-hits&gt;0&lt;/qm:compressed-tree-cache-hits&gt;
+&#160;&#160;&lt;qm:compressed-tree-cache-misses&gt;0&lt;/qm:compressed-tree-cache-misses&gt;
+&#160;&#160;&lt;qm:in-memory-compressed-tree-hits&gt;0&lt;/qm:in-memory-compressed-tree-hits&gt;
+&#160;&#160;&lt;qm:value-cache-hits&gt;0&lt;/qm:value-cache-hits&gt;
+&#160;&#160;&lt;qm:value-cache-misses&gt;0&lt;/qm:value-cache-misses&gt;
+&#160;&#160;&lt;qm:regexp-cache-hits&gt;0&lt;/qm:regexp-cache-hits&gt;
+&#160;&#160;&lt;qm:regexp-cache-misses&gt;0&lt;/qm:regexp-cache-misses&gt;
+&#160;&#160;&lt;qm:link-cache-hits&gt;0&lt;/qm:link-cache-hits&gt;
+&#160;&#160;&lt;qm:link-cache-misses&gt;0&lt;/qm:link-cache-misses&gt;
+&#160;&#160;&lt;qm:fragments-added&gt;0&lt;/qm:fragments-added&gt;
+&#160;&#160;&lt;qm:fragments-deleted&gt;0&lt;/qm:fragments-deleted&gt;
+&#160;&#160;&lt;qm:fragments/&gt;
+&#160;&#160;&lt;qm:documents/&gt;
+&lt;/qm:query-meters&gt;
+2004-12-08 15:48:01.502 Info: 
+
+****
+**** End query trace and meter log
+****</Code>
+<Heading-2>
+<A ID="pgfId-1049510"></A>
+<A ID="86781"></A>
+General Methodology for Tuning a Query</Heading-2>
+<Body>
+<A ID="pgfId-1049560"></A>
+The following are general steps you can take to analyze and tune query performance. These steps represent a methodology; the actual steps you take will depend on your application and queries.</Body>
+<Number1>
+<A ID="pgfId-1049564"></A>
+Identify the application where you see query performance slower than you expect.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1049568"></A>
+In the application, break apart different parts of the query into separate queries and run them separately.</Number>
+<Number>
+<A ID="pgfId-1049569"></A>
+If you identify code that appears to run slowly, append <code>
+xdmp:query-meters()</code>
+ to the end of the code and run it again. For details, see <A href="query_meters.xml#id(78913)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Understanding query-meters Output' on page&#160;16</A>.</Number>
+<Number>
+<A ID="pgfId-1049578"></A>
+In the <code>
+xdmp:query-meters()</code>
+ output, record the elapsed time and look for cache misses. </Number>
+<Number>
+<A ID="pgfId-1049639"></A>
+Run the query several times and compare the <code>
+xdmp:query-meters()</code>
+ output between the different runs. There are some query caches that are populated when a query runs the first time, and can improve the performance of subsequent query runs.</Number>
+<Number>
+<A ID="pgfId-1049583"></A>
+Continue to try and simplify the query, helping to isolate where it might be running slow.</Number>
+<Number>
+<A ID="pgfId-1049584"></A>
+When you have isolated the query down to as simple a case as possible, add <code>
+xdmp:query-trace(true())</code>
+ to the beginning of the query and run it again. For details, see <A href="query_meters.xml#id(10519)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Understanding query-trace Output' on page&#160;18</A>.</Number>
+<Number>
+<A ID="pgfId-1049593"></A>
+Examine the <code>
+query-trace</code>
+ output in the <code>
+ErrorLog.txt</code>
+ file. Look for XPath steps that are <code>
+unsearchable</code>
+.</Number>
+<Number>
+<A ID="pgfId-1049603"></A>
+If you find <code>
+unsearchable</code>
+ steps, see if there are ways to rewrite the query so those steps become <code>
+searchable</code>
+. </Number>
+<Number>
+<A ID="pgfId-1050962"></A>
+Examine the <code>
+constraints</code>
+ entries of the <code>
+query-trace</code>
+ log output. For details, see <A href="query_meters.xml#id(61898)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Constraint Analysis Messages' on page&#160;19</A>.</Number>
+<Number>
+<A ID="pgfId-1050969"></A>
+Check the <code>
+query-trace</code>
+ log output for the number of fragments used to filter. This number should be the close to or the same as the number of fragments that match the searchable expression (the number returned from <code>
+xdmp:estimate</code>
+) if the query is well optimized. </Number>
+<Number>
+<A ID="pgfId-1049606"></A>
+Check your indexing options. Add indexes if the proper indexes are not built. For example, if stemmed or word indexes are not built, many XPath steps will be <code>
+unsearchable</code>
+. Also, if your query contains inequality constraints, you will need element (range) indexes to optimize those constraints.</Number>
+<Number>
+<A ID="pgfId-1049619"></A>
+After making query and/or index changes, rerun the query with <code>
+xdmp:query-meters()</code>
+ to see if the execution time has decreased and the number of cache misses has decreased.</Number>
+<Number>
+<A ID="pgfId-1050975"></A>
+Continue iteratively with this methodology until you are satisfied that the query execution is fast and well optimized.</Number>
+</NumberList>
+</XML>

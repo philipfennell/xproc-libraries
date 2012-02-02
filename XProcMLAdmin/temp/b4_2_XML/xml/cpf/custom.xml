@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="custom.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1044208"></A>
+<A ID="52182"></A>
+Using the Framework to Create Custom Applications</Heading-1>
+<pagenum>
+<A ID="pgfId-1045136"></A>
+38</pagenum>
+<Body>
+<A ID="pgfId-1044209"></A>
+This chapter describes ways to use the MarkLogic Server Content Processing Framework to create custom applications that run your own modules. It includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1045252"></A>
+<A href="custom.xml#id(94030)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Install Content Processing Framework in Database</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1045256"></A>
+<A href="custom.xml#id(92571)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Decide on the Stages and Logic for Your Processing</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049020"></A>
+<A href="custom.xml#id(47660)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Create and Load Your Pipelines</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1045260"></A>
+<A href="custom.xml#id(97484)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Create and Load Your Modules</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049084"></A>
+<A href="custom.xml#id(76922)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Design Patterns For Content Applications</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1050774"></A>
+<A href="custom.xml#id(39840)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Microsoft Office 2007 Documents</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054143"></A>
+<A href="custom.xml#id(49403)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Other CPF Applications Included With MarkLogic Server</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1045274"></A>
+<A ID="94030"></A>
+Install Content Processing Framework in Database</Heading-2>
+<Body>
+<A ID="pgfId-1049561"></A>
+You must install the Content Processing Framework in each database that contains documents you want to process. This section describes the procedure for installing the Status Change Handling Pipeline in a database, which enables you to create applications using the Content Processing Framework.</Body>
+<Note>
+<A ID="pgfId-1049565"></A>
+If you are using the Default Conversion Option, follow the installation steps in <A href="default.xml#id(64749)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'The Default Conversion Option' on page&#160;49</A> instead of the steps in this section. The installation process for the Default Conversion Option includes the installation of the Status Change Handling Pipeline, so the following procedure is not needed. </Note>
+<Body>
+<A ID="pgfId-1049572"></A>
+Perform the following steps to install the Content Processing Framework in a database:</Body>
+<Number1>
+<A ID="pgfId-1049579"></A>
+If it is not already installed, install MarkLogic Server.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1049580"></A>
+Open the Admin Interface to the database page for the database in which you want to install the Content Processing Framework. </Number>
+<Number>
+<A ID="pgfId-1049581"></A>
+On the database configuration page, select a <code>
+triggers database</code>
+ to use with your database (for example, <Emphasis>
+Triggers</Emphasis>
+). You can use any database for the triggers database. It can be the same database as the one you are configuring (for example, you can set the <Emphasis>
+Documents</Emphasis>
+ database as the triggers database for the <Emphasis>
+Documents</Emphasis>
+ database) or it can be a different database (for example, the <Emphasis>
+Triggers</Emphasis>
+ database created as part of the installation process).</Number>
+<Number>
+<A ID="pgfId-1049582"></A>
+Click OK to apply the changes to the database configuration.</Number>
+<Number>
+<A ID="pgfId-1049583"></A>
+Click the Content Processing link under the database to which you want to install the Content Processing Framework. The Content Processing Summary page appears.</Number>
+<Number>
+<A ID="pgfId-1049584"></A>
+On the Content Processing Summary page, click the Install tab. The Content Processing Installation page appears.</Number>
+<Number>
+<A ID="pgfId-1049790"></A>
+On the Content Processing Installation page, select <code>
+false</code>
+ for the <code>
+enable conversion</code>
+ option and click Install. </Number>
+</NumberList>
+<Note>
+<A ID="pgfId-1049824"></A>
+If you have purchased the Default Conversion Option and select <code>
+true</code>
+ for the <code>
+enable conversion</code>
+ option, the default conversion pipelines and domain will be installed (in addition to the Content Processing Framework). If you have not purchased the Default Conversion Option, the <code>
+enable conversion</code>
+ option will be greyed out.</Note>
+<NumberList>
+<Number>
+<A ID="pgfId-1049801"></A>
+Click OK to confirm the installation of content processing in your database.</Number>
+<Number>
+<A ID="pgfId-1049892"></A>
+When the installation is complete, the Content Processing Summary page appears. It should show content processing installed in your database. </Number>
+<Number>
+<A ID="pgfId-1049901"></A>
+On Content Processing Summary page, click the default domain for your database (for example, <Emphasis>
+Default Documents</Emphasis>
+ if you chose the <Emphasis>
+Documents</Emphasis>
+ database).</Number>
+<Number>
+<A ID="pgfId-1049914"></A>
+On the Domain Configuration Page, modify any of the default values as needed to partition the data to which your processing will occur. The default values set the document scope to include any documents whose URI begins with a&#160;<code>
+/</code>
+ and to use modules that are in the database defined as the modules database whose URI begins with a&#160;<code>
+/</code>
+. For details on setting the domain values, see <A href="domains.xml#id(10566)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Creating and Modifying Domains' on page&#160;17</A>.</Number>
+<Number>
+<A ID="pgfId-1049975"></A>
+Attach any relavant pipelines to the domain, as described in <A href="domains.xml#id(40535)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Attaching and Detaching Pipelines to Domains' on page&#160;18</A>.</Number>
+</NumberList>
+<Body>
+<A ID="pgfId-1049896"></A>
+The Content Processing Framework is now installed for the database.</Body>
+<Heading-2>
+<A ID="pgfId-1049898"></A>
+<A ID="92571"></A>
+Decide on the Stages and Logic for Your Processing</Heading-2>
+<Body>
+<A ID="pgfId-1049351"></A>
+The Content Processing Framework makes it easy to set up content processing applications that have multiple processing stages. The number of stages you need depends on the processing you need to do. Also, the number of passes you need to make through a document might contribute to the number of stages needed in your application because each stage can only result in a single update transaction to the document (see <A href="modules.xml#id(89535)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Action Modules Must Be a Single Transaction' on page&#160;34</A>).</Body>
+<Body>
+<A ID="pgfId-1049668"></A>
+Pipeline actions are typically called based on a condition, so you need to decide on the logic for your conditions as well as your actions.</Body>
+<Heading-2>
+<A ID="pgfId-1049352"></A>
+<A ID="47660"></A>
+Create and Load Your Pipelines</Heading-2>
+<Body>
+<A ID="pgfId-1049605"></A>
+You must create and load any pipelines to define your content processing. Pipelines are XML documents that describe the conditions, actions, and states for your content processing application. For details on how to create and load pipelines, see <A href="pipelines.xml#id(80553)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Understanding and Using Pipelines' on page&#160;19</A>.</Body>
+<Heading-2>
+<A ID="pgfId-1049357"></A>
+<A ID="97484"></A>
+Create and Load Your Modules</Heading-2>
+<Body>
+<A ID="pgfId-1049614"></A>
+You must develop XQuery modules for any conditions or actions referenced in your pipelines. The XQuery modules are where the work of your content processing occurs. For the rules about condition and action modules, see <A href="modules.xml#id(43994)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Developing Modules to Process Content' on page&#160;31</A>.</Body>
+<Body>
+<A ID="pgfId-1049643"></A>
+You should store your modules in the modules database and document root configured in the <code>
+evaluation context</code>
+ for the domain to which the pipeline is attached.</Body>
+<Heading-2>
+<A ID="pgfId-1049227"></A>
+<A ID="76922"></A>
+Design Patterns For Content Applications</Heading-2>
+<Body>
+<A ID="pgfId-1049462"></A>
+The Content Processing Framework uses post-commit triggers to move content processing from one stage to another. Consequently, applications with complex sets of pipelines process certain things asynchronously. When you are designing applications with the Content Processing Framework, it is important to think through the consequences of this. </Body>
+<Body>
+<A ID="pgfId-1049723"></A>
+The following are example scenarios which can cause asynchronous processing to occur in applications:</Body>
+<Body-bullet>
+<A ID="pgfId-1049725"></A>
+Suppose you update documents B and C while you are processing document A. Because you cannot guarantee which update will finish first, and which trigger action will execute first, document B might end up being processed before document C, or it might end up being processed after document C. </Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049734"></A>
+Suppose documents B and C are both processing, and each process ends up changing a property on document A to a different value. After both transactions complete, the value of the property on document A will depend on whether document B or document C committed its processing first. Also, each update to document A will trigger an update action on document A.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1049955"></A>
+Suppose a delete of document A triggers an action to occur which cleans up links to document A. Before the action transaction occurs, however, suppose document A is created again, triggering a different action. In this case, it would be a good idea for the delete action to check and make sure the document still does not exist before cleaning up links. </Body-bullet>
+<Body>
+<A ID="pgfId-1049726"></A>
+These scenarios are not necessarily bad, but they can cause unexpected behavior if you do not properly understand them at application design time. Your applications either need to avoid these types of scenarios or they need to be designed to handle them.</Body>
+<Heading-2>
+<A ID="pgfId-1050718"></A>
+<A ID="39840"></A>
+Microsoft Office 2007 Documents</Heading-2>
+<Body>
+<A ID="pgfId-1050729"></A>
+Microsoft Office 2007 uses a zip format to package up documents, and inside the zip file is XML content. MarkLogic Server includes the ability to zip and unzip documents directly from XQuery. The zip APIs are <code>
+xdmp:zip-create</code>
+, <code>
+xdmp:zip-get</code>
+, and <code>
+xdmp:zip-manifest</code>
+. You can use these APIs to write applications that use Word 2007 (or other Office 2007) content in a MarkLogic Server database. </Body>
+<Body>
+<A ID="pgfId-1054038"></A>
+There is a pipeline installed with CPF called the <code>
+Office OpenXML Extract</code>
+ pipeline. This pipeline unzips and extracts Word 2007 documents (with a <code>
+.docx</code>
+ file extension) and then saves the extracted XML documents in the database.</Body>
+<Body>
+<A ID="pgfId-1054056"></A>
+There is another pipeline called <code>
+WordprocessingML Process</code>
+ which takes the <code>
+document.xml</code>
+ part of the extracted Word 2007 documents and does some processing on it to make it more searchable. The <code>
+document.xml</code>
+ part of the extracted Word 2007 document sometimes breaks words into multiple elements, and this pipeline and its associated actions put the broken words back together, which makes them easier to search.</Body>
+<Body>
+<A ID="pgfId-1050770"></A>
+You can create custom pipelines to process other Office 2007 documents that perform similar actions to the other OpenXML pipelines. Because Office 2007 documents are already XML documents, you can do many things with them.</Body>
+<Heading-2>
+<A ID="pgfId-1054078"></A>
+<A ID="49403"></A>
+Other CPF Applications Included With MarkLogic Server</Heading-2>
+<Body>
+<A ID="pgfId-1054085"></A>
+In addition to the conversion application (see <A href="default.xml#id(64749)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'The Default Conversion Option' on page&#160;49</A>), there are several other CPF applications that ship with MarkLogic Server. The following are the pipelines for these applications:</Body>
+<Body-bullet>
+<A ID="pgfId-1054089"></A>
+<code>
+Alerting</code>
+ (for alerting applications, as described in <A href="../search-dev-guide/alerts.xml#id(86523)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Creating Alerting Applications</Hyperlink>
+</A> in the <Emphasis>
+Search Developer's Guide</Emphasis>
+)</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054093"></A>
+<code>
+XInclude Processing</code>
+ (for modular documents, as described in <A href="../dev_guide/mod-docs.xml#id(86523)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Reusing Content With Modular Document Applications</Hyperlink>
+</A> in the <Emphasis>
+Application Developer's Guide</Emphasis>
+)</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054197"></A>
+<code>
+Entity Enrichment</code>
+ (for finding entities in a document and enriching the XML with markup, as described in <A href="../search-dev-guide/entity.xml#id(64092)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Marking Up Documents With Entity Enrichment</Hyperlink>
+</A> in the <Emphasis>
+Search Developer's Guide</Emphasis>
+)</Body-bullet>
+<Body>
+<A ID="pgfId-1054155"></A>
+These applications are all designed to be used together, if you desire. To use these applications together, simply attach any of these the pipelines that you want to run (along with the <code>
+Status Change Handling</code>
+ pipeline) to a domain. They will execute in the following order: conversion, entity enrichment, modular documents, and finally alerting.</Body>
+<Body>
+<A ID="pgfId-1054129"></A>
+Additionally, there are some sample applications that use CPF. The sample applications are for demonstration purposes only, and are not designed to be put into production; see the <code>
+samples-license.txt</code>
+ file in the <code>
+&lt;</code>
+<Emphasis>
+marklogic-dir</Emphasis>
+<code>
+&gt;/Samples</code>
+ directory for more information. </Body>
+</XML>

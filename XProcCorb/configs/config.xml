@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config xmlns="http://xmlcalabash.com/ns/extensions/marklogic"
+		xml:base="../">
+	<user>admin</user>
+	<password>admin</password>
+	<host>127.0.0.1</host>
+	<port>8010</port>
+	<content-database>swansea</content-database>
+	<uri-query href="queries/uris.xqy"/>
+	<transform-query href="queries/transform.xqy"/>
+</config>

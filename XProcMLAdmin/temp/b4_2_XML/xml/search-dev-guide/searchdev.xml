@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="searchdev.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1059272"></A>
+Developing Search Applications in MarkLogic Server</Heading-1>
+<pagenum>
+<A ID="pgfId-1059276"></A>
+13</pagenum>
+<Body>
+<A ID="pgfId-1059280"></A>
+This chapter provides an overview of developing search applications in MarkLogic Server, and includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1059281"></A>
+<A href="searchdev.xml#id(35075)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Overview of Search Features in MarkLogic Server</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059282"></A>
+<A href="searchdev.xml#id(24832)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Where to Find Search Information</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1054048"></A>
+<A ID="35075"></A>
+Overview of Search Features in MarkLogic Server</Heading-2>
+<Body>
+<A ID="pgfId-1055106"></A>
+MarkLogic Server includes rich full-text search features. All of the search features are implemented as extension functions available in XQuery. This section provides a brief overview some of the main search features in MarkLogic Server and includes the following parts:</Body>
+<Body-bullet>
+<A ID="pgfId-1059380"></A>
+<A href="searchdev.xml#id(45860)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Search API Library Module</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059911"></A>
+<A href="searchdev.xml#id(45243)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Built-In Search Functions in the cts and xdmp Namespaces</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059922"></A>
+<A href="searchdev.xml#id(59977)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Full XPath Search Support</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059933"></A>
+<A href="searchdev.xml#id(38990)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Lexicon and Range Index-Based APIs</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059944"></A>
+<A href="searchdev.xml#id(22648)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Stemming, Wildcard, Spelling, and Much More Functionality</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059955"></A>
+<A href="searchdev.xml#id(10458)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Alerting API and Built-Ins</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1059311"></A>
+<A ID="45860"></A>
+Search API Library Module</Heading-3>
+<Body>
+<A ID="pgfId-1059323"></A>
+The Search API is an XQuery library module designed to simplify creating search applications. The Search API makes it easy to create complex search applications that include faceted navigation, complex and extensible search grammar, and many other search features. The Search API uses the core text search capabilities of MarkLogic Server, but abstracts those APIs from the developer. It is designed to be easy to use in the normal cases, and to be flexible enough to allow complex customization. For details on the Search API, see <A href="searchdev.xml#id(45860)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Search API Library Module' on page&#160;11</A>.</Body>
+<Heading-3>
+<A ID="pgfId-1059393"></A>
+<A ID="45243"></A>
+Built-In Search Functions in the cts and xdmp Namespaces</Heading-3>
+<Body>
+<A ID="pgfId-1059394"></A>
+The core search functionality in MarkLogic Server are a set of built-in XQuery functions to perform full-text search. The <code>
+cts:search</code>
+ function returns nodes matching a <code>
+cts:query</code>
+, which is a composable search query which allows you to perform fine-grained searches. MarkLogic Server is designed to scale to extremely large databases (100s of terabytes or more), and the search operates directly against the database, no matter what the database size. As part of loading a document, full-text indexes are created making arbitrary searches fast. Searches automatically use the indexes, and the <code>
+xdmp:estimate</code>
+ function and the <code>
+unfiltered</code>
+ option to <code>
+cts:search</code>
+ allow you to return results directly out of the indexes in MarkLogic Server.</Body>
+<Body>
+<A ID="pgfId-1059444"></A>
+The built-in search capabilities are designed to be extensible and to work in a large number of applications. For example, the Search API is built using the core text search features such as <code>
+cts:search</code>
+, <code>
+cts:word-query</code>
+, <code>
+cts:element-value-query</code>
+, and so on. </Body>
+<Heading-3>
+<A ID="pgfId-1059330"></A>
+<A ID="59977"></A>
+Full XPath Search Support</Heading-3>
+<Body>
+<A ID="pgfId-1059467"></A>
+MarkLogic Server implements the XQuery language, which includes XPath 2.0. XPath expressions are searches which can search across the entire database. For example, consider the following XPath expression:</Body>
+<Code>
+<A ID="pgfId-1059494"></A>
+/my-node/my-child[fn:contains(., &quot;hello&quot;)]</Code>
+<Body>
+<A ID="pgfId-1059505"></A>
+This expression searches across the entire database returning <code>
+my-child</code>
+ nodes that match the expression. XPath expressions take full advantage of the indexes in the database and are designed to be fast.</Body>
+<Heading-3>
+<A ID="pgfId-1059460"></A>
+<A ID="38990"></A>
+Lexicon and Range Index-Based APIs</Heading-3>
+<Body>
+<A ID="pgfId-1059340"></A>
+MarkLogic Server has range indexes which index named XML structures such as elements and attributes. There are also range indexes over geospatial values. Each of these range indexes has lexicon APIs associated with them. The lexicon APIs allow you to return values directly from the indexes. Lexicons are very useful in constructing facets and in finding fast counts of element or attribute values. The Search API makes extensive use of the lexicon APIs. For details about lexicons, see <A href="lexicon.xml#id(29002)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Browsing With Lexicons' on page&#160;80</A>.</Body>
+<Heading-3>
+<A ID="pgfId-1059347"></A>
+<A ID="22648"></A>
+Stemming, Wildcard, Spelling, and Much More Functionality</Heading-3>
+<Body>
+<A ID="pgfId-1059357"></A>
+MarkLogic Server search supports a wide range of full-text features. These features include stemming, wildcarded searches, diacritic-sensitive/insensitive searches, case-sensitive/insensitive searches, spelling correction functions, thesaurus functions, geospatial searches, advanced language and collation support, and much more. These features are all designed to build off of each other and work together in an extensible and flexible way. </Body>
+<Heading-3>
+<A ID="pgfId-1055142"></A>
+<A ID="10458"></A>
+Alerting API and Built-Ins</Heading-3>
+<Body>
+<A ID="pgfId-1059625"></A>
+You can create applications that notify users when new content is available that matches a predefined query. There is an API to help build these applications as well as a built-in <code>
+cts:query</code>
+ constructor (<code>
+cts:reverse-query</code>
+) and indexing support to build large and scalable alerting applications. For details on alerting applications, see <A href="alerts.xml#id(86523)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Creating Alerting Applications' on page&#160;119</A>.</Body>
+<Heading-2>
+<A ID="pgfId-1059611"></A>
+<A ID="24832"></A>
+Where to Find Search Information</Heading-2>
+<Body>
+<A ID="pgfId-1059200"></A>
+The <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+ contains the XQuery function signatures and descriptions, as well as many code examples. This <Emphasis>
+Search Developer's Guide</Emphasis>
+ contains descriptions and technical details about the search features in MarkLogic Server, including:</Body>
+<Body-bullet>
+<A ID="pgfId-1055307"></A>
+<A href="search-api.xml#id(71050)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Search API: Understanding and Using' on page&#160;14</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059701"></A>
+<A href="cts_query.xml#id(51991)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Composing cts:query Expressions' on page&#160;56</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059714"></A>
+<A href="relevance.xml#id(86523)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Relevance Scores: Understanding and Customizing' on page&#160;70</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059734"></A>
+<A href="lexicon.xml#id(29002)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Browsing With Lexicons' on page&#160;80</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059761"></A>
+<A href="rangequery.xml#id(19990)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Using Range Queries in cts:query Expressions' on page&#160;92</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059744"></A>
+<A href="highlight.xml#id(12896)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Highlighting Search Term Matches' on page&#160;96</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059754"></A>
+<A href="geospatial.xml#id(86523)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Geospatial Search Applications' on page&#160;104</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059774"></A>
+<A href="entity.xml#id(64092)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Marking Up Documents With Entity Enrichment' on page&#160;116</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059784"></A>
+<A href="alerts.xml#id(86523)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Creating Alerting Applications' on page&#160;119</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059794"></A>
+<A href="count_estimate.xml#id(49739)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Using fn:count vs. xdmp:estimate' on page&#160;130</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059804"></A>
+<A href="stemming.xml#id(90878)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Understanding and Using Stemmed Searches' on page&#160;135</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059814"></A>
+<A href="wildcard.xml#id(66341)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Understanding and Using Wildcard Searches' on page&#160;139</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059824"></A>
+<A href="collections.xml#id(19337)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Collections' on page&#160;148</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059834"></A>
+<A href="thesaurus.xml#id(64032)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Using the Thesaurus Functions' on page&#160;156</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059848"></A>
+<A href="spelling.xml#id(88029)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Using the Spelling Correction Functions' on page&#160;164</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059858"></A>
+<A href="languages.xml#id(40505)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Language Support in MarkLogic Server' on page&#160;198</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1059868"></A>
+<A href="encodings_collations.xml#id(40505)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Encodings and Collations' on page&#160;209</A></Body-bullet>
+<Body>
+<A ID="pgfId-1059878"></A>
+For other information about developing applications in MarkLogic Server, see the <Emphasis>
+Application Developer's Guide</Emphasis>
+. For information about XQuery in MarkLogic Server, see the <Emphasis>
+XQuery and XSLT Reference Guide</Emphasis>
+.</Body>
+</XML>

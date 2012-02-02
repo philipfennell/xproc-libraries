@@ -1,0 +1,95 @@
+<mla:result xmlns:mla="http://www.marklogic.com/admin">
+   <ml:connection xmlns:ml="http://www.marklogic.com" user="admin" password="admin"
+                  host="localhost"
+                  port="8003"
+                  debug="no"
+                  dry-run="yes">
+                     
+                  
+                     
+                  
+                     
+                  
+                     
+                  
+                     
+                  
+                     
+                  
+                     
+                  
+                     
+                  
+                     
+                  
+                     
+                  
+                     
+                  
+                     
+                  
+                     
+                  
+                     
+                  
+                     
+                  
+                     
+                  
+                     
+                  
+                     
+                  
+                     <ml:action xmlns:admin="http://marklogic.com/xdmp/admin"
+                 xmlns:c="http://www.w3.org/ns/xproc-step"
+                 xmlns:cx="http://xmlcalabash.com/ns/extensions"
+                 xmlns:cxml="http://xmlcalabash.com/ns/extensions/marklogic"
+                 xmlns:cxu="http://xmlcalabash.com/ns/extensions/xmlunit"/>
+                  </ml:connection>
+   <ml:connection xmlns:ml="http://www.marklogic.com" user="admin" password="admin"
+                  host="localhost"
+                  port="8003"
+                  debug="no"
+                  dry-run="yes">
+                     
+                  
+                     
+                  
+                     
+                  
+                     
+                  
+                     
+                  
+                     
+                  
+                     <ml:action xmlns:admin="http://marklogic.com/xdmp/admin"
+                 xmlns:c="http://www.w3.org/ns/xproc-step"
+                 xmlns:cx="http://xmlcalabash.com/ns/extensions"
+                 xmlns:cxml="http://xmlcalabash.com/ns/extensions/marklogic"
+                 xmlns:cxu="http://xmlcalabash.com/ns/extensions/xmlunit"/>
+                  </ml:connection>
+   <ml:connection xmlns:ml="http://www.marklogic.com" user="admin" password="admin"
+                  host="localhost"
+                  port="8003"
+                  debug="no"
+                  dry-run="yes">
+                     
+                  
+                     
+                  
+                     
+                  
+                     
+                  
+                     
+                  
+                     
+                  
+                     <ml:action xmlns:admin="http://marklogic.com/xdmp/admin"
+                 xmlns:c="http://www.w3.org/ns/xproc-step"
+                 xmlns:cx="http://xmlcalabash.com/ns/extensions"
+                 xmlns:cxml="http://xmlcalabash.com/ns/extensions/marklogic"
+                 xmlns:cxu="http://xmlcalabash.com/ns/extensions/xmlunit"/>
+                  </ml:connection>
+</mla:result>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="intro.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1048410"></A>
+<A ID="_Toc72300159"></A>
+Introduction</Heading-1>
+<pagenum>
+<A ID="pgfId-1064511"></A>
+13</pagenum>
+<Body>
+<A ID="pgfId-1048411"></A>
+MarkLogic Server is a powerful software solution for harnessing your digital content base. MarkLogic Server enables you to build complex applications that interact with large volumes of XML, SGML, HTML and other popular content formats. MarkLogic Server's unique architecture ensures that your applications are both scalable and high-performance, delivering query results at search-engine speeds while providing transactional integrity over the underlying content repository.</Body>
+<Heading-2>
+<A ID="pgfId-1048413"></A>
+<A ID="_Toc72300160"></A>
+Objectives</Heading-2>
+<Body>
+<A ID="pgfId-1048414"></A>
+This document describes administrative tasks required to manage the operation of MarkLogic Server on your system. </Body>
+<Heading-2>
+<A ID="pgfId-1048416"></A>
+<A ID="_Toc72300161"></A>
+Audience</Heading-2>
+<Body>
+<A ID="pgfId-1048417"></A>
+This document is intended for a technical audience, specifically the system administrator in charge of MarkLogic Server.</Body>
+<Heading-2>
+<A ID="pgfId-1048419"></A>
+<A ID="_Toc72300162"></A>
+Scope and Requirements</Heading-2>
+<Body>
+<A ID="pgfId-1048420"></A>
+This guide explains administrative tasks for MarkLogic Server running on all platforms. For details on the supported platforms, see the <Emphasis>
+Installation Guide</Emphasis>
+ and the <Emphasis>
+Release Notes</Emphasis>
+.</Body>
+<Body>
+<A ID="pgfId-1048424"></A>
+This document only explains the administrative tasks for the software. To learn how to get started using the software, or how to install the software, refer to the appropriate documents:</Body>
+<Body-bullet>
+<A ID="pgfId-1048425"></A>
+<Emphasis>
+Getting Started With MarkLogic Server</Emphasis>
+ </Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1048426"></A>
+<Emphasis>
+MarkLogic Server Installation Guide</Emphasis>
+</Body-bullet>
+<Body>
+<A ID="pgfId-1048434"></A>
+This document assumes that you have successfully completed all the tasks in <Emphasis>
+Getting Started with MarkLogic&#160;Server</Emphasis>
+. If not, be sure to complete these basic tasks before doing any administrative work for MarkLogic Server. For a list of features in this release, a list of known incompatibilities with previous releases, and a list of all MarkLogic Server documentation, see the <Emphasis>
+Release Notes</Emphasis>
+.</Body>
+</XML>

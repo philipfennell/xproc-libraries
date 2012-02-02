@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="profile.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1053802"></A>
+<A ID="94939"></A>
+Profiling Requests to Evaluate Performance</Heading-1>
+<pagenum>
+<A ID="pgfId-1053806"></A>
+37</pagenum>
+<Body>
+<A ID="pgfId-1049471"></A>
+This chapter describes how to use the Performance Profiler built-in functions to examine the evaluation characteristics of XQuery requests in MarkLogic Server, and includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1053734"></A>
+<A href="profile.xml#id(92903)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Overview of MarkLogic Server Profiling</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1054662"></A>
+<A href="profile.xml#id(12542)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Profile APIs</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1053738"></A>
+<A href="profile.xml#id(14632)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Profiling Examples</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1054048"></A>
+<A ID="92903"></A>
+Overview of MarkLogic Server Profiling</Heading-2>
+<Body>
+<A ID="pgfId-1055523"></A>
+MarkLogic Server accepts XQuery requests on HTTP and XDBC servers, and those requests evaluate the XQuery program on the fly. To help understand the performance characteristics of these requests, MarkLogic Server includes an API to gather statistics about XQuery program evaluation. The statistics include time spent in various parts of the program and counts of how many times various expressions are called. The result of all of these statistics allow you to build a <Emphasis>
+profile</Emphasis>
+ of the performance characteristics. This section provides an overview of the query profile capabilities in MarkLogic Server and includes the following subsections:</Body>
+<Body-bullet>
+<A ID="pgfId-1056184"></A>
+<A href="profile.xml#id(35056)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Definitions and Terminology</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1056188"></A>
+<A href="profile.xml#id(43111)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+MarkLogic Server Profiling Requirements Capabilities</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1056192"></A>
+<A ID="35056"></A>
+Definitions and Terminology</Heading-3>
+<Body>
+<A ID="pgfId-1056193"></A>
+The following table lists some terms and their definitions used in describing the profile API.</Body>
+<TableAnchor>
+<A ID="pgfId-1056239"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1056196"></A>
+Term</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1056198"></A>
+Definition</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1056200"></A>
+<Emphasis>
+XQuery Program</Emphasis>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1056202"></A>
+The XQuery main module fully expanded with any XQuery library modules needed for its evaluation. An XQuery program is sometimes referred to as a query, a statement, or a request. For more details on this terminology, see <A href="../dev_guide/transactions.xml#id(44680)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Understanding Transactions in MarkLogic Server</Hyperlink>
+</A> in the <Emphasis>
+Application Developer's Guide</Emphasis>
+.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1056210"></A>
+<Emphasis>
+profiler</Emphasis>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1056212"></A>
+An application which measures the performance characteristics of a running program (in the case MarkLogic Server, of an XQuery program).</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1056217"></A>
+<Emphasis>
+expression</Emphasis>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1056219"></A>
+The basic parse element of an XQuery program. Expressions can represent literal values, arithmetic operations, functions, function calls, and so on. Expressions can contain other expressions.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1056221"></A>
+<Emphasis>
+shallow time</Emphasis>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1056223"></A>
+The time spent evaluating a specific expression, not including time spent evaluating any expressions contained within the specific expression.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1056225"></A>
+<Emphasis>
+deep time</Emphasis>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1056227"></A>
+The total time spent evaluating an expression, including time spent evaluating any expressions contained within the specific expression.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1056229"></A>
+<Emphasis>
+elapsed time</Emphasis>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1056231"></A>
+Both shallow and deep time are expressed in elapsed wall clock time.</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1056233"></A>
+<Emphasis>
+profile report</Emphasis>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1056235"></A>
+An XML report containing statistics for all of the expressions evaluated while profiling was enabled. For a sample profile report, see <A href="profile.xml#id(55633)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Simple Enable and Disable Example' on page&#160;35</A>.</CellBody>
+</CELL>
+</ROW>
+</TABLE>
+<Heading-3>
+<A ID="pgfId-1056045"></A>
+<A ID="43111"></A>
+MarkLogic Server Profiling Requirements Capabilities</Heading-3>
+<Body>
+<A ID="pgfId-1056250"></A>
+The profile API in MarkLogic Server is not in itself a query profile application (a <Emphasis>
+profiler</Emphasis>
+), but you could use the profile API to build such a profiler application. Such an application would measure the performance characteristics of an XQuery program. You can also simply use the profile API to generate profile reports and then either manually analyze the reports or use XQuery to extract details and format the reports.</Body>
+<Body>
+<A ID="pgfId-1056280"></A>
+To use the profile API, you must first enable profiling on the App Server in which your XQuery program is serviced (or on the task server if you are profiling spawned queries). The profile allow option must be set to true.</Body>
+<Body>
+<A ID="pgfId-1056281"></A>
+<IMAGE xml:link="simple" href="images/profile_allow.gif" show="embed" actuate="auto"/>
+</Body>
+<Body>
+<A ID="pgfId-1056282"></A>
+Once profiling is enabled, you can use the <code>
+prof:enable</code>
+, <code>
+prof:report</code>
+, and other profile APIs to generate profiling statistics for the evaluation of individual XQuery programs. </Body>
+<Body>
+<A ID="pgfId-1056294"></A>
+Profiling helps you to see where a query is spending its processing time. The statistics are gathered for activity in the evaluation portion of the query, at the individual expression level. Time spent in the data node portion of the query (time spent gathering content from the forests) is included in the expression time for the expression that requested the content from the forest (for example, a <code>
+cts:search</code>
+). For each expression, the profile report shows the shallow time and the deep time (see <A href="profile.xml#id(35056)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Definitions and Terminology' on page&#160;32</A> for these definitions).</Body>
+<Body>
+<A ID="pgfId-1056308"></A>
+All profiling information is gathered on a per-request basis; there is no notion of profiling a set of requests, although it is possible to write an application that performs that kind of aggregation.</Body>
+<Heading-2>
+<A ID="pgfId-1055512"></A>
+<A ID="12542"></A>
+Profile APIs</Heading-2>
+<Body>
+<A ID="pgfId-1055106"></A>
+The following functions are included in the Performance Profiler APIs:</Body>
+<Body-bullet>
+<A ID="pgfId-1056732"></A>
+<code>
+prof:allowed</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1056336"></A>
+<code>
+prof:disable</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1056340"></A>
+<code>
+prof:enable</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1056341"></A>
+<code>
+prof:eval</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1056342"></A>
+<code>
+prof:invoke</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1056343"></A>
+<code>
+prof:report</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1056344"></A>
+<code>
+prof:reset</code>
+</Body-bullet>
+<Body>
+<A ID="pgfId-1056345"></A>
+For details on the APIs and for their function signatures, see the <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+. Note the following about the profile APIs.</Body>
+<Body-bullet>
+<A ID="pgfId-1055588"></A>
+If profiling is not enabled on the App Server and in the XQuery program (via <code>
+prof:enable</code>
+), then profile APIs do not do anything except return the empty sequence.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055589"></A>
+You can profile the currently running request (<code>
+prof:enable(xdmp:request())</code>
+), an evaluated request (<code>
+prof:eval</code>
+), or an invoked module (<code>
+prof:invoke</code>
+). To profile other requests, you need to debug the request, and debugging is not supported in MarkLogic Server 3.2.; if you try to profile another request, MarkLogic Server throws the <code>
+DBG-NOTSTOPPED</code>
+ exception.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055616"></A>
+Constants (for example, <code>
+47</code>
+ or <code>
+&quot;hello&quot;</code>
+) do not show up in the profile report.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055623"></A>
+Constructed elements do not show up in the profile report.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055670"></A>
+Profile time starts after the static analysis phase of query evaluation; it does not include the query parsing time.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055590"></A>
+All of the profile APIs are in the <code>
+http://marklogic.com/xdmp/profile</code>
+ namespace. The <code>
+prof</code>
+ prefix is bound to this namespace, and is pre-configured in MarkLogic Server (so there is no need to define this namespace in your XQuery prolog).</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1056683"></A>
+If you profile a request besides the currently running request, or if you start a new request for profiling using <code>
+prof:eval</code>
+ or <code>
+prof:invoke</code>
+, you need one of the privileges <code>
+http://marklogic.com/xdmp/privileges/profile-my-requests</code>
+ (to profile a request issued by the same user ID) or <code>
+http://marklogic.com/xdmp/privileges/profile-any-requests</code>
+ (to profile a request issued by any user ID). If you are profiling the currently running request, no privileges are required.</Body-bullet>
+<Heading-2>
+<A ID="pgfId-1054588"></A>
+<A ID="14632"></A>
+Profiling Examples</Heading-2>
+<Body>
+<A ID="pgfId-1055637"></A>
+The following are code examples showing some simple usage patterns for the profile API. For details on the APIs, see the <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+. This section shows the following examples:</Body>
+<Body-bullet>
+<A ID="pgfId-1056009"></A>
+<A href="profile.xml#id(55633)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Simple Enable and Disable Example</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1056017"></A>
+<A href="profile.xml#id(18227)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Returning a Part of the Profile Report</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1055686"></A>
+<A ID="55633"></A>
+Simple Enable and Disable Example</Heading-3>
+<Body>
+<A ID="pgfId-1055685"></A>
+The following examples show simple uses for the profile API.</Body>
+<Code>
+<A ID="pgfId-1055325"></A>
+let $req := xdmp:request()
+let $dummy1 := prof:enable($req)
+let $version := xdmp:version()
+let $node := 
+&#160;&#160;&lt;foo&gt;
+&#160;&#160;&#160;&#160;&lt;version&gt;{$version}&lt;/version&gt;
+&#160;&#160;&#160;&#160;&lt;request&gt;{$req}&lt;/request&gt;
+&#160;&#160;&lt;/foo&gt;
+let $dummy2 := prof:disable($req)
+let $dummy3 := fn:current-dateTime()
+let $dummy4 := prof:enable($req)
+let $dummy5 := 47
+let $dummy6 := $node/foo/request
+let $dummy6 := prof:disable($req)
+
+return 
+prof:report($req)</Code>
+<Body>
+<A ID="pgfId-1055690"></A>
+This query returns the following report:</Body>
+<Code>
+<A ID="pgfId-1056567"></A>
+&lt;prof:report 
+&#160;&#160;xsi:schemaLocation=&quot;http://marklogic.com/xdmp/profile profile.xsd&quot;
+&#160;&#160;xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+&#160;&#160;xmlns:prof=&quot;http://marklogic.com/xdmp/profile&quot;&gt;
+  &lt;prof:metadata&gt;
+    &lt;prof:overall-elapsed&gt;PT0S&lt;/prof:overall-elapsed&gt;
+    &lt;prof:created&gt;2007-03-19T14:20:18.763-07:00&lt;/prof:created&gt;
+    &lt;prof:server-version&gt;3.2-20070319&lt;/prof:server-version&gt;
+  &lt;/prof:metadata&gt;
+  &lt;prof:histogram&gt;
+    &lt;prof:expression&gt;
+      &lt;prof:expr-id&gt;6467258264555963988&lt;/prof:expr-id&gt;
+      &lt;prof:expr-source&gt;xdmp:version()&lt;/prof:expr-source&gt;
+      &lt;prof:uri/&gt;
+      &lt;prof:line&gt;3&lt;/prof:line&gt;
+      &lt;prof:count&gt;1&lt;/prof:count&gt;
+      &lt;prof:shallow-time&gt;PT0S&lt;/prof:shallow-time&gt;
+      &lt;prof:deep-time&gt;PT0S&lt;/prof:deep-time&gt;
+    &lt;/prof:expression&gt;
+    &lt;prof:expression&gt;
+      &lt;prof:expr-id&gt;127913224145561857&lt;/prof:expr-id&gt;
+      &lt;prof:expr-source&gt;prof:disable($req)&lt;/prof:expr-source&gt;
+      &lt;prof:uri/&gt;
+      &lt;prof:line&gt;9&lt;/prof:line&gt;
+      &lt;prof:count&gt;1&lt;/prof:count&gt;
+      &lt;prof:shallow-time&gt;PT0S&lt;/prof:shallow-time&gt;
+      &lt;prof:deep-time&gt;PT0S&lt;/prof:deep-time&gt;
+    &lt;/prof:expression&gt;
+    &lt;prof:expression&gt;
+      &lt;prof:expr-id&gt;8377097069965042614&lt;/prof:expr-id&gt;
+      &lt;prof:expr-source&gt;prof:disable($req)&lt;/prof:expr-source&gt;
+      &lt;prof:uri/&gt;
+      &lt;prof:line&gt;14&lt;/prof:line&gt;
+      &lt;prof:count&gt;1&lt;/prof:count&gt;
+      &lt;prof:shallow-time&gt;PT0S&lt;/prof:shallow-time&gt;
+      &lt;prof:deep-time&gt;PT0S&lt;/prof:deep-time&gt;
+    &lt;/prof:expression&gt;
+    &lt;prof:expression&gt;
+      &lt;prof:expr-id&gt;10959125668150171452&lt;/prof:expr-id&gt;
+      &lt;prof:expr-source&gt;prof:enable($req)&lt;/prof:expr-source&gt;
+      &lt;prof:uri/&gt;
+      &lt;prof:line&gt;2&lt;/prof:line&gt;
+      &lt;prof:count&gt;1&lt;/prof:count&gt;
+      &lt;prof:shallow-time&gt;PT0S&lt;/prof:shallow-time&gt;
+      &lt;prof:deep-time&gt;PT0S&lt;/prof:deep-time&gt;
+    &lt;/prof:expression&gt;
+    &lt;prof:expression&gt;
+      &lt;prof:expr-id&gt;1823871875827665493&lt;/prof:expr-id&gt;
+      &lt;prof:expr-source&gt;$node/child::foo/child::request
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/prof:expr-source&gt;
+      &lt;prof:uri/&gt;
+      &lt;prof:line&gt;14&lt;/prof:line&gt;
+      &lt;prof:count&gt;1&lt;/prof:count&gt;
+      &lt;prof:shallow-time&gt;PT0S&lt;/prof:shallow-time&gt;
+      &lt;prof:deep-time&gt;PT0S&lt;/prof:deep-time&gt;
+    &lt;/prof:expression&gt;
+    &lt;prof:expression&gt;
+      &lt;prof:expr-id&gt;16669888445989754369&lt;/prof:expr-id&gt;
+      &lt;prof:expr-source&gt;prof:enable($req)&lt;/prof:expr-source&gt;
+      &lt;prof:uri/&gt;
+      &lt;prof:line&gt;11&lt;/prof:line&gt;
+      &lt;prof:count&gt;1&lt;/prof:count&gt;
+      &lt;prof:shallow-time&gt;PT0S&lt;/prof:shallow-time&gt;
+      &lt;prof:deep-time&gt;PT0S&lt;/prof:deep-time&gt;
+    &lt;/prof:expression&gt;
+  &lt;/prof:histogram&gt;
+&lt;/prof:report&gt;</Code>
+<Body>
+<A ID="pgfId-1055638"></A>
+You might note that the times are all zero. That is because this example does a trivial amount of work, and each expression took less than a millisecond to complete. But it does illustrate some things that are useful when looking at the report:</Body>
+<Body-bullet>
+<A ID="pgfId-1055953"></A>
+The <code>
+fn:current-dateTime()</code>
+ function does not appear in the report, because profiling was disabled at this stage of the XQuery program.</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055964"></A>
+The expressions are not necessarily in the order they are in the XQuery program. If you want them in order, you can take the <code>
+prof:expression</code>
+ elements and order them by the <code>
+prof:line</code>
+ element (or one of the time elements, or whatever makes sense for your reports).</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1055963"></A>
+While the expression 47 occurs while profiling is enabled, it does not show up in the output because it is just a constant, and constants do not appear in the profile report.</Body-bullet>
+<Heading-3>
+<A ID="pgfId-1055666"></A>
+<A ID="18227"></A>
+Returning a Part of the Profile Report</Heading-3>
+<Body>
+<A ID="pgfId-1055974"></A>
+Because the profile report is XML, you can use XQuery to manipulate the report to suit your needs. The following example returns only a expression elements of the profile report, wraps it in an element, and orders it by the deep time element.</Body>
+<Code>
+<A ID="pgfId-1055976"></A>
+xquery version &quot;1.0-ml&quot;;
+
+let $req := xdmp:request()
+let $dummy := prof:enable($req)
+let $foo := for $i in fn:doc() return xdmp:node-uri($i)
+let $dummy2 := prof:disable($req)
+return &lt;foo&gt;{
+   for $j in prof:report($req)//*:expression
+     order by xs:dayTimeDuration($j/*:deep-time)
+     return $j
+}&lt;/foo&gt;</Code>
+<Body>
+<A ID="pgfId-1056024"></A>
+To see the results, copy the code and run it against MarkLogic Server. You will need to enable profiling on the HTTP Server Configuration page, otherwise the report will be empty.</Body>
+</XML>

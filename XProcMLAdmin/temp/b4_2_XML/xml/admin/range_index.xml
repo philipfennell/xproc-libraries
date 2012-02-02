@@ -1,0 +1,1000 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="range_index.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1038002"></A>
+<A ID="21361"></A>
+Element and Attribute Range Indexes and Lexicons</Heading-1>
+<pagenum>
+<A ID="pgfId-1038622"></A>
+245</pagenum>
+<Body>
+<A ID="pgfId-1038003"></A>
+MarkLogic Server allows you to create, at the database level, indexes and lexicons on elements and attributes according to their QNames. This chapter describes these range indexes and lexicons. The following sections are included:</Body>
+<Body-bullet>
+<A ID="pgfId-1044089"></A>
+<A href="range_index.xml#id(93351)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Understanding Element and Attribute Range Indexes</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044505"></A>
+<A href="range_index.xml#id(90556)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Using Range Indexes for Element and Attribute Value Lexicons</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044093"></A>
+<A href="range_index.xml#id(61128)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Understanding Element and Attribute Word Lexicons</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044060"></A>
+<A href="range_index.xml#id(10364)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Viewing Element Range Index Settings</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044064"></A>
+<A href="range_index.xml#id(51346)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Defining Element Range Indexes</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044068"></A>
+<A href="range_index.xml#id(39460)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Viewing Attribute Range Index Settings</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044072"></A>
+<A href="range_index.xml#id(63906)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Defining Attribute Range Indexes</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044076"></A>
+<A href="range_index.xml#id(30265)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Viewing Element Word Lexicon Settings</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1048813"></A>
+<A href="range_index.xml#id(24878)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Defining Element Word Lexicons</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1048794"></A>
+<A href="range_index.xml#id(78595)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Viewing Attribute Word Lexicon Settings</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1048856"></A>
+<A href="range_index.xml#id(24586)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Defining Attribute Word Lexicons</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1048799"></A>
+<A href="range_index.xml#id(63327)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Defining Element or Attribute Value Lexicons</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1048803"></A>
+<A href="range_index.xml#id(31140)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Deleting Range Indexes or Lexicons</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1050280"></A>
+This chapter describes how to use the Admin Interface to create range indexes and lexicons. For details on how to create range indexes programmatically, see <A href="../AdminAPI/configure.xml#id(80248)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Adding Indexes to a Database</Hyperlink>
+</A> in the <Emphasis>
+Scripting Administrative Tasks Guide</Emphasis>
+.</Body>
+<Heading-2>
+<A ID="pgfId-1044047"></A>
+<A ID="93351"></A>
+Understanding Element and Attribute Range Indexes</Heading-2>
+<Body>
+<A ID="pgfId-1038004"></A>
+MarkLogic Server maintains a universal index for every database to rapidly search the text, structure, and combinations of the text and structure that are found within collections of XML documents. </Body>
+<Body>
+<A ID="pgfId-1044102"></A>
+In some cases, however, XML documents can incorporate numeric or date information. Queries against these documents may include search conditions based on inequalities (for example, <code>
+price&#160;&lt;&#160;100.00 </code>
+or <code>
+date&#160;</code>
+≥<code>
+&#160;thisQtr</code>
+). Specifying range indexes for these elements and/or attributes will substantially accelerate the evaluation of these queries. </Body>
+<Body>
+<A ID="pgfId-1044963"></A>
+Defining a range index on an element or attribute also allows you to use the range query constructors (<code>
+cts:element-range-query</code>
+ and <code>
+cts:element-attribute-range-query</code>
+) in <code>
+cts:search</code>
+ operations, making it easy to compose complex range-query expressions to use in searches. For details, see the <A href="../search-dev-guide/rangequery.xml#id(19990)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Using Range Queries in cts:query Expressions</Hyperlink>
+</A> chapter in the <Emphasis>
+Search Developer's Guide</Emphasis>
+.</Body>
+<Body>
+<A ID="pgfId-1044809"></A>
+Similarly, you can create range indexes on elements or attributes of type <code>
+xs:string</code>
+, and these indexes can accelerate the performance of queries that sort by the string values, and are also used for lexicon queries (see <A href="range_index.xml#id(61128)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Understanding Element and Attribute Word Lexicons' on page&#160;235</A>).</Body>
+<Body>
+<A ID="pgfId-1044756"></A>
+If you specify a range index on an element, and if you have elements of that name that have complex content (for example, elements with child elements), the content is indexed based on a casting of the element to the specified type of the range index. For example, if you specify a range index of type <code>
+xs:string</code>
+ on an element named <code>
+h1</code>
+, then the following element:</Body>
+<Code>
+<A ID="pgfId-1044760"></A>
+&lt;h1&gt;This is a &lt;b&gt;bold&lt;/b&gt; title.&lt;/h1&gt;</Code>
+<Body>
+<A ID="pgfId-1044761"></A>
+is indexed with the value of <code>
+This is a bold title</code>
+, which is the value returned by casting the <code>
+h1</code>
+ element to <code>
+xs:string</code>
+. This behavior allows you to index values of complex elements without pre-processing the content.</Body>
+<Body>
+<A ID="pgfId-1043359"></A>
+Also, range indexes can improve the performance of queries that sort the results using an <code>
+order by</code>
+ clause and return a subset of the data (for example, the first ten items). For details on this order by optimization using range indexes, see <A href="../performance/order_by.xml#id(33564)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Optimizing Order By Expressions With Range Indexes</Hyperlink>
+</A> in the <Emphasis>
+Query Performance and Tuning Guide</Emphasis>
+ guide. </Body>
+<Body>
+<A ID="pgfId-1038005"></A>
+MarkLogic Server supports range indexes for both elements and attributes across a wide spectrum of XML data types. For the most part, this list conforms to the XML totally ordered data types:</Body>
+<TableAnchor>
+<A ID="pgfId-1038107"></A>
+</TableAnchor>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1043223"></A>
+Type</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1043225"></A>
+Description</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043227"></A>
+<code>
+int</code>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043229"></A>
+Positive and negative integers</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043231"></A>
+<code>
+unsignedInt</code>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043233"></A>
+Positive integers (including 0)</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043235"></A>
+<code>
+long</code>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043237"></A>
+Large positive and negative integers</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043239"></A>
+<code>
+unsignedLong</code>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043241"></A>
+Large positive integers (including 0)</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043243"></A>
+<code>
+float</code>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043245"></A>
+32-bit floating point numbers</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043307"></A>
+<code>
+double</code>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043323"></A>
+64-bit floating point numbers</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043303"></A>
+<code>
+decimal</code>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043329"></A>
+Large floating point numbers</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043299"></A>
+<code>
+dateTime</code>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043333"></A>
+Combined date and time</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043259"></A>
+<code>
+time</code>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043261"></A>
+Time (including timezone) </CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043263"></A>
+<code>
+date</code>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043265"></A>
+Full date (year, month, day)</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043267"></A>
+<code>
+gYearMonth</code>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043269"></A>
+Year and month only</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043271"></A>
+<code>
+gYear</code>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043273"></A>
+Year only</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043275"></A>
+<code>
+gMonth</code>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043277"></A>
+Month only</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043279"></A>
+<code>
+gDay</code>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043281"></A>
+Day only</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043283"></A>
+<code>
+yearMonthDuration</code>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043285"></A>
+Duration of years and months</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043287"></A>
+<code>
+dayTimeDuration</code>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043289"></A>
+Duration of days and time</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043291"></A>
+<code>
+string</code>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043293"></A>
+String character data</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043342"></A>
+<code>
+anyURI</code>
+</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1043344"></A>
+A URI string</CellBody>
+</CELL>
+</ROW>
+</TABLE>
+<Body>
+<A ID="pgfId-1038109"></A>
+It is important to note that the date and time types listed above adhere to the XML specification for dates and times. At present, other date and time formats are not supported by MarkLogic Server range indexes. For a more detailed description of the definition of these data types, consult the W3C XML Schema documents.</Body>
+<Body>
+<A ID="pgfId-1038110"></A>
+Range indexes must be specified manually using the Admin Interface. Specifying a range index requires an element name, a namespace for that element name, and the data type found in that element.</Body>
+<Body>
+<A ID="pgfId-1038111"></A>
+Range indexes are constructed during the document loading process, and are automatically kept in sync through subsequent updates to indexed data. Consequently, element and attribute range indexes should be specified for a database before any XML documents containing those elements and/or attributes are loaded into that database, otherwise the content must be either reindexed or reloaded to take advantage of the new range indexes.</Body>
+<Body>
+<A ID="pgfId-1045057"></A>
+When creating range index with a scalar type of string (<code>
+xs:string</code>
+), you specify a collation as well as the element/attribute QNames. The collation specifies the unique ordering for the string values. You can have multiple range indexes on the same element or attribute with different collations; that is, the collation is part of the unique identifier for the string range index. For details about collations, see the <A href="../search-dev-guide/languages.xml#id(40505)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Language Support in MarkLogic Server</Hyperlink>
+</A> chapter in the <Emphasis>
+Search Developer's Guide</Emphasis>
+.</Body>
+<Body>
+<A ID="pgfId-1044941"></A>
+Range indexes use disk space and consume memory. That is the trade-off for improved performance. Additionally, if you have a large amount of range index data and if your system is updated regularly, you might need to increase the size of your journals. For details on the database journal settings, see <A href="databases.xml#id(59939)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Memory and Journal Settings' on page&#160;104</A>.</Body>
+<Heading-2>
+<A ID="pgfId-1038133"></A>
+<A ID="90556"></A>
+Using Range Indexes for Element and Attribute Value Lexicons</Heading-2>
+<Body>
+<A ID="pgfId-1044502"></A>
+In addition to speeding up sorting and comparison queries, MarkLogic Server uses range indexes to resolve element and attribute value lexicon queries. These are queries that use the following search APIs:</Body>
+<Body-bullet>
+<A ID="pgfId-1044514"></A>
+<code>
+cts:element-attribute-values</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044527"></A>
+<code>
+cts:element-attribute-value-match</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044515"></A>
+<code>
+cts:element-values</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044531"></A>
+<code>
+cts:element-value-match</code>
+</Body-bullet>
+<Body>
+<A ID="pgfId-1044536"></A>
+In order to use any of these APIs, you must create a range indexes on the element(s) and/or attribute(s) specified in the query. The type of the range index must match the type specified in the lexicon AP. For details about lexicons, see the <A href="../search-dev-guide/lexicon.xml#id(29002)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Browsing With Lexicons</Hyperlink>
+</A> chapter of the <Emphasis>
+Search Developer's Guide</Emphasis>
+. For more details on the lexicon APIs, see the <Emphasis>
+MarkLogic XQuery and XSLT Function Reference</Emphasis>
+. </Body>
+<Heading-2>
+<A ID="pgfId-1044501"></A>
+<A ID="61128"></A>
+Understanding Element and Attribute Word Lexicons</Heading-2>
+<Body>
+<A ID="pgfId-1044084"></A>
+MarkLogic Server allows you to create a word lexicon that is restricted to a particular element or attribute. The element word lexicon and the attribute word lexicon store all of the unique words that are stored in the specified element or attribute. The words are stored case-sensitive and diacritic sensitive, so the words <code>
+Ford</code>
+ and <code>
+ford</code>
+ would be separate entries in the lexicon. To use the element or attribute word lexicons, use the following search APIs:</Body>
+<Body-bullet>
+<A ID="pgfId-1044132"></A>
+<code>
+cts:element-attribute-words</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044552"></A>
+<code>
+cts:element-attribute-word-match</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044168"></A>
+<code>
+cts:element-words</code>
+</Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1044560"></A>
+<code>
+cts:element-word-match</code>
+</Body-bullet>
+<Heading-2>
+<A ID="pgfId-1044083"></A>
+<A ID="10364"></A>
+Viewing Element Range Index Settings</Heading-2>
+<Body>
+<A ID="pgfId-1038134"></A>
+To view the range index that will be applied to documents as they are loaded or reindexed, perform the following steps:</Body>
+<Number1>
+<A ID="pgfId-1038135"></A>
+Click the Databases icon on the left tree menu.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1043382"></A>
+Locate the database whose range index you want to view, either in the tree menu or in the Database Summary table.</Number>
+<Number>
+<A ID="pgfId-1038138"></A>
+Click the name of the database for which you want to view the range index.</Number>
+<Number>
+<A ID="pgfId-1038139"></A>
+Click the Element Range Indexes icon.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1038140"></A>
+The Element Index Configuration page displays.</EndList-root>
+<Heading-2>
+<A ID="pgfId-1038141"></A>
+<A ID="51346"></A>
+Defining Element Range Indexes</Heading-2>
+<Body>
+<A ID="pgfId-1038142"></A>
+To define a range index for an element, perform the following steps:</Body>
+<Number1>
+<A ID="pgfId-1038143"></A>
+Click the Databases icon on the left frame.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1043469"></A>
+Locate the database for which you want to create a range index, either in the tree menu or in the Database Summary table.</Number>
+<Number>
+<A ID="pgfId-1038146"></A>
+Click the name of the database for which you want to create a range index.</Number>
+<Number>
+<A ID="pgfId-1038147"></A>
+Click the Element Range Indexes icon in the tree menu, under the selected database.</Number>
+<Number>
+<A ID="pgfId-1038148"></A>
+<A ID="73128"></A>
+Click the Add tab. The Element Range Index Configuration page or the Element Word Lexicon Configuration page displays:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1038153"></A>
+<IMAGE xml:link="simple" href="images/range_add.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1045014"></A>
+<A ID="89210"></A>
+Select the type of the XML element for which you want to build a range index.</Number>
+<Number>
+<A ID="pgfId-1048762"></A>
+If the index is of type <code>
+xs:string</code>
+, a collation box appears with a default collation. If you want the index to use a different collation than the default, enter the collation URI. You can click the Collation Builder button for a wizard that constructs the collation URI for you based on the language and other parameters you enter. For details about collations, see the <A href="../search-dev-guide/languages.xml#id(40505)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Language Support in MarkLogic Server</Hyperlink>
+</A> chapter in the <Emphasis>
+Search Developer's Guide</Emphasis>
+.</Number>
+<Number>
+<A ID="pgfId-1038155"></A>
+Enter the namespace URI of the XML element.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1038156"></A>
+Every XML element is associated with a namespace. For the description of the element to be precise, you must specify the namespace of the XML element. The asterisk (*) cannot be used to indicate namespace independence. Leaving the namespace URI field blank specifies the universal unnamed namespace.</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1038157"></A>
+<A ID="69317"></A>
+Enter the element name in the localname field.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1038158"></A>
+The local name is the name of the XML element to be indexed. If you have more than one element of the same type in the same namespace that you want to index, you can provide a comma-separated list of element names.</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1038159"></A>
+<A ID="44834"></A>
+Choose whether to index range value positions for this index. Setting the value to <code>
+true</code>
+ will speed the performance of searches that use <code>
+cts:near-query</code>
+ and <code>
+cts:element-query</code>
+ with this index, but will use more disk space than leaving the positions off (range value positions <code>
+false</code>
+).</Number>
+<Number>
+<A ID="pgfId-1048863"></A>
+To add more indexes, click the More Items button and repeat step <A href="range_index.xml#id(89210)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+6</Hyperlink>
+</A> - step <A href="range_index.xml#id(44834)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+10</Hyperlink>
+</A> for each index as needed.</Number>
+<Number>
+<A ID="pgfId-1038160"></A>
+Scroll to the top or bottom and click OK.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1044295"></A>
+The new element range index or element word lexicon is added to the database. These rules are applied to XML documents loaded into the specified database from this point on.</EndList-root>
+<Note>
+<A ID="pgfId-1038162"></A>
+If you have reindexing enabled for the database and you specify an element that exists in a document, reindexing will run in the background. When the reindexing is complete, the new index will become available to queries.</Note>
+<Heading-2>
+<A ID="pgfId-1038163"></A>
+<A ID="39460"></A>
+Viewing Attribute Range Index Settings</Heading-2>
+<Body>
+<A ID="pgfId-1038164"></A>
+To view the range index that will be applied to documents as they are loaded or reindexed, perform the following steps:</Body>
+<Number1>
+<A ID="pgfId-1038165"></A>
+Click the Databases icon on the left frame.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1043562"></A>
+Locate the database for which you want to view a range index, either in the tree menu or in the Database Summary table.</Number>
+<Number>
+<A ID="pgfId-1043563"></A>
+Click the name of the database for which you want to view a range index.</Number>
+<Number>
+<A ID="pgfId-1043564"></A>
+Click the Attribute Range Indexes icon in the tree menu, under the selected database.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1038170"></A>
+The Attribute Range Index Configuration page displays.</EndList-root>
+<Heading-2>
+<A ID="pgfId-1038171"></A>
+<A ID="63906"></A>
+Defining Attribute Range Indexes</Heading-2>
+<Body>
+<A ID="pgfId-1038172"></A>
+To define a range index for an attribute of a particular element, perform the following steps:</Body>
+<Number1>
+<A ID="pgfId-1038173"></A>
+Click the Databases icon on the left frame.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1043615"></A>
+Locate the database for which you want to create an index, either in the tree menu or in the Database Summary table.</Number>
+<Number>
+<A ID="pgfId-1043616"></A>
+Click the name of the database for which you want to create an index.</Number>
+<Number>
+<A ID="pgfId-1043617"></A>
+Under the selected database, click the Attribute Range Indexes icon in the tree menu for an attribute range index.</Number>
+<Number>
+<A ID="pgfId-1038178"></A>
+<A ID="89849"></A>
+Click the Add tab. The Add Attribute Range Indexes page displays:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1038183"></A>
+<IMAGE xml:link="simple" href="images/range_add_attribute.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1038184"></A>
+<A ID="34518"></A>
+Select the type of the XML attribute for which you want to build an attribute range index.</Number>
+<Number>
+<A ID="pgfId-1045043"></A>
+If the index is of type <code>
+xs:string</code>
+, a collation box appears with a default collation. If you want the index to use a different collation than the default, enter the collation URI. You can click the Collation Builder button for a wizard that constructs the collation URI for you based on the language and other parameters you enter. For details about collations, see the <A href="../search-dev-guide/languages.xml#id(40505)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Language Support in MarkLogic Server</Hyperlink>
+</A> chapter in the <Emphasis>
+Search Developer's Guide</Emphasis>
+.</Number>
+<Number>
+<A ID="pgfId-1038185"></A>
+Enter the namespace URI of the XML element that contains the attribute you want to index into the parent namespace URI field.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1038186"></A>
+Every XML element is associated with a namespace. For the description of the element to be precise, you must specify the namespace of the XML element. The asterisk (*) cannot be used to indicate namespace independence. Leaving the namespace URI field blank specifies the universal unnamed namespace.</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1038187"></A>
+Enter the element name in the parent localname field.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1038188"></A>
+The local name is the name of the XML element that contains the attribute to be indexed. If you have more than one element in the same namespace that contains the attribute you want to index, you can provide a comma-separated list of element names.</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1038189"></A>
+<A ID="44532"></A>
+Enter the namespace URI of the attribute that you want to index into the namespace URI field.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1038190"></A>
+Every XML attribute is associated with a namespace. For the description of the attribute to be precise, you must specify the namespace of the XML attribute. The asterisk (*) cannot be used to indicate namespace independence. Leaving the namespace URI field blank specifies the universal unnamed namespace.</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1038191"></A>
+Enter the attribute name in the localname field.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1038192"></A>
+The local name is the name of the XML attribute to be indexed. If you have more than one attribute in the same namespace within the specified parent element(s) that you want to index, you can provide a comma-separated list of attribute names.</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1048879"></A>
+<A ID="13712"></A>
+Choose whether to index range value positions for this index. Setting the value to <code>
+true</code>
+ will speed the performance of searches that use <code>
+cts:near-query</code>
+ and <code>
+cts:element-query</code>
+ with this index, but will use more disk space than leaving the positions off (range value positions <code>
+false</code>
+).</Number>
+<Number>
+<A ID="pgfId-1038193"></A>
+To add more indexes, click the More Items button and repeat step <A href="range_index.xml#id(34518)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+6</Hyperlink>
+</A> - step <A href="range_index.xml#id(13712)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+12</Hyperlink>
+</A> for each attribute index as needed.</Number>
+<Number>
+<A ID="pgfId-1038194"></A>
+Scroll to the top or bottom and click OK.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1038195"></A>
+The new attribute index is added to the database. These rules are applied to XML documents loaded into the specified database from this point on.</EndList-root>
+<Note>
+<A ID="pgfId-1043653"></A>
+If you have reindexing enabled for the database and you specify an element-attribute pair that exists in a document, reindexing will run in the background. When the reindexing is complete, the new index will become available to queries.</Note>
+<Heading-2>
+<A ID="pgfId-1048824"></A>
+<A ID="30265"></A>
+Viewing Element Word Lexicon Settings</Heading-2>
+<Body>
+<A ID="pgfId-1048825"></A>
+To view the lexicon that will be applied to documents as they are loaded or reindexed, perform the following steps:</Body>
+<Number1>
+<A ID="pgfId-1048826"></A>
+Click the Databases icon on the left tree menu.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1048827"></A>
+Locate the database whose range index or lexicon you want to view, either in the tree menu or in the Database Summary table.</Number>
+<Number>
+<A ID="pgfId-1048828"></A>
+Click the name of the database for which you want to view the lexicon.</Number>
+<Number>
+<A ID="pgfId-1048829"></A>
+Click the Element Word Lexicons icon.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1048830"></A>
+The Element Word Lexicon Configuration page displays.</EndList-root>
+<Heading-2>
+<A ID="pgfId-1048481"></A>
+<A ID="24878"></A>
+Defining Element Word Lexicons</Heading-2>
+<Body>
+<A ID="pgfId-1048482"></A>
+To define a lexicon for an element, perform the following steps:</Body>
+<Number1>
+<A ID="pgfId-1048483"></A>
+Click the Databases icon on the left frame.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1048484"></A>
+Locate the database for which you want to create lexicon, either in the tree menu or in the Database Summary table.</Number>
+<Number>
+<A ID="pgfId-1048485"></A>
+Click the name of the database for which you want to create a lexicon.</Number>
+<Number>
+<A ID="pgfId-1048486"></A>
+Click the Element Word Lexicons icon in the tree menu, under the selected database.</Number>
+<Number>
+<A ID="pgfId-1048488"></A>
+Click the Add tab. The Element Word Lexicon Configuration page displays:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1048492"></A>
+<IMAGE xml:link="simple" href="images/el-word-lex-add.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1048501"></A>
+<A ID="77191"></A>
+Enter the namespace URI of the XML element.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1048502"></A>
+Every XML element is associated with a namespace. For the description of the element to be precise, you must specify the namespace of the XML element. The asterisk (*) cannot be used to indicate namespace independence. Leaving the namespace URI field blank specifies the universal unnamed namespace.</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1048504"></A>
+Enter the element name in the localname field.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1048505"></A>
+The local name is the name of the XML element to be indexed. If you have more than one element of the same type in the same namespace that you want to index, you can provide a comma-separated list of element names.</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1048557"></A>
+<A ID="16958"></A>
+The collation box appears with a default collation. If you want the lexicon to use a different collation than the default, enter the collation URI. You can click the Collation Builder button for a wizard that constructs the collation URI for you based on the language and other parameters you enter. For details about collations, see the <A href="../search-dev-guide/languages.xml#id(40505)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Language Support in MarkLogic Server</Hyperlink>
+</A> chapter in the <Emphasis>
+Search Developer's Guide</Emphasis>
+.</Number>
+<Number>
+<A ID="pgfId-1048512"></A>
+To add more element word lexicons, click the More Items button and repeat step <A href="range_index.xml#id(77191)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+6</Hyperlink>
+</A> - step <A href="range_index.xml#id(16958)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+8</Hyperlink>
+</A> for each lexicon as needed.</Number>
+<Number>
+<A ID="pgfId-1048513"></A>
+Scroll to the top or bottom and click OK.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1048514"></A>
+The new element range index or element word lexicon is added to the database. These rules are applied to XML documents loaded into the specified database from this point on.</EndList-root>
+<Note>
+<A ID="pgfId-1048515"></A>
+If you have reindexing enabled for the database and you specify an element that exists in a document, reindexing will run in the background. When the reindexing is complete, the new index will become available to queries.</Note>
+<Heading-2>
+<A ID="pgfId-1048837"></A>
+<A ID="78595"></A>
+Viewing Attribute Word Lexicon Settings</Heading-2>
+<Body>
+<A ID="pgfId-1048838"></A>
+To view the lexicon that will be applied to documents as they are loaded or reindexed, perform the following steps:</Body>
+<Number1>
+<A ID="pgfId-1048839"></A>
+Click the Databases icon on the left frame.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1048840"></A>
+Locate the database for which you want to view a lexicon, either in the tree menu or in the Database Summary table.</Number>
+<Number>
+<A ID="pgfId-1048841"></A>
+Click the name of the database for which you want to view a lexicon.</Number>
+<Number>
+<A ID="pgfId-1048842"></A>
+Click the Attribute Word Lexicons icon in the tree menu, under the selected database.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1048843"></A>
+The Element-Attribute Word Lexicon page displays.</EndList-root>
+<Heading-2>
+<A ID="pgfId-1048584"></A>
+<A ID="24586"></A>
+Defining Attribute Word Lexicons</Heading-2>
+<Body>
+<A ID="pgfId-1048585"></A>
+To define a lexicon for an attribute of a particular element, perform the following steps:</Body>
+<Number1>
+<A ID="pgfId-1048586"></A>
+Click the Databases icon on the left frame.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1048587"></A>
+Locate the database for which you want to create a lexicon, either in the tree menu or in the Database Summary table.</Number>
+<Number>
+<A ID="pgfId-1048588"></A>
+Click the name of the database for which you want to create a lexicon.</Number>
+<Number>
+<A ID="pgfId-1048589"></A>
+Under the selected database, click the Attribute Word Lexicon icon.</Number>
+<Number>
+<A ID="pgfId-1048591"></A>
+Click the Add tab. The Element-Attribute Word Lexicon Configuration page displays:</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1048694"></A>
+<IMAGE xml:link="simple" href="images/att-word-lex.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1048604"></A>
+<A ID="72078"></A>
+Enter the namespace URI of the XML element that contains the attribute you want to index into the parent namespace URI field.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1048605"></A>
+Every XML element is associated with a namespace. For the description of the element to be precise, you must specify the namespace of the XML element. The asterisk (*) cannot be used to indicate namespace independence. Leaving the namespace URI field blank specifies the universal unnamed namespace.</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1048606"></A>
+Enter the element name in the parent localname field.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1048607"></A>
+The local name is the name of the XML element that contains the attribute to be indexed. If you have more than one element in the same namespace that contains the attribute you want to index, you can provide a comma-separated list of element names.</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1048609"></A>
+Enter the namespace URI of the attribute that you want to index into the namespace URI field.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1048610"></A>
+Every XML attribute is associated with a namespace. For the description of the attribute to be precise, you must specify the namespace of the XML attribute. The asterisk (*) cannot be used to indicate namespace independence. Leaving the namespace URI field blank specifies the universal unnamed namespace.</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1048611"></A>
+Enter the attribute name in the localname field.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1048612"></A>
+The local name is the name of the XML attribute to be indexed. If you have more than one attribute in the same namespace within the specified parent element(s) that you want to index, you can provide a comma-separated list of attribute names.</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1048721"></A>
+<A ID="67846"></A>
+The collation box appears with a default collation. If you want the lexicon to use a different collation than the default, enter the collation URI. You can click the Collation Builder button for a wizard that constructs the collation URI for you based on the language and other parameters you enter. For details about collations, see the <A href="../search-dev-guide/languages.xml#id(40505)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Language Support in MarkLogic Server</Hyperlink>
+</A> chapter in the <Emphasis>
+Search Developer's Guide</Emphasis>
+.</Number>
+<Number>
+<A ID="pgfId-1048619"></A>
+To add more element-attribute word lexicons, click the More Items button and repeat step <A href="range_index.xml#id(72078)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+6</Hyperlink>
+</A> - step <A href="range_index.xml#id(67846)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+10</Hyperlink>
+</A> for each attribute index as needed.</Number>
+<Number>
+<A ID="pgfId-1048620"></A>
+Scroll to the top or bottom and click OK.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1048621"></A>
+The new attribute index or attribute word lexicon is added to the database. These rules are applied to XML documents loaded into the specified database from this point on.</EndList-root>
+<Note>
+<A ID="pgfId-1048622"></A>
+If you have reindexing enabled for the database and you specify an element-attribute pair that exists in a document, reindexing will run in the background. When the reindexing is complete, the new index will become available to queries.</Note>
+<Heading-2>
+<A ID="pgfId-1038197"></A>
+<A ID="63327"></A>
+Defining Element or Attribute Value Lexicons</Heading-2>
+<Body>
+<A ID="pgfId-1044564"></A>
+Element and Attribute value lexicons are implemented using range indexes of type <code>
+xs:string</code>
+ on the element(s) and/or attribute(s) specified in the query. Therefore, to create a value lexicon, you create a range index (element index or attribute index) of type <code>
+xs:string</code>
+ for the specified element(s) and/or attribute(s).</Body>
+<Heading-2>
+<A ID="pgfId-1044563"></A>
+<A ID="31140"></A>
+Deleting Range Indexes or Lexicons</Heading-2>
+<Body>
+<A ID="pgfId-1038198"></A>
+To delete element or attribute indexes or lexicons for a specific database, perform the following steps:</Body>
+<Number1>
+<A ID="pgfId-1038199"></A>
+Click the Databases icon on the left frame.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1043666"></A>
+Locate the database for which you want to delete a range index or lexicon, either in the tree menu or in the Database Summary table.</Number>
+<Number>
+<A ID="pgfId-1043667"></A>
+Click the name of the database for which you want to delete a range index or lexicon.</Number>
+<Number>
+<A ID="pgfId-1038203"></A>
+Determine whether you need to delete an element range index, an attribute range index, an element word lexicon, or an attribute word lexicon.</Number>
+<Number>
+<A ID="pgfId-1038204"></A>
+Click the Element Range Index icon, Attribute Range Index icon, Element Word Lexicon icon, or the Attribute Word Lexicon icon. The configuration page for the appropriate index appears.</Number>
+<Number>
+<A ID="pgfId-1038205"></A>
+Locate the index you want to delete and click Delete.</Number>
+<Number>
+<A ID="pgfId-1038206"></A>
+A confirmation message displays. Confirm the delete and click OK.</Number>
+</NumberList>
+<EndList-root>
+<A ID="pgfId-1038208"></A>
+The index or lexicon is deleted from the database.</EndList-root>
+</XML>

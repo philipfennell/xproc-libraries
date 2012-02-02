@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="intro.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1053666"></A>
+<A ID="15236"></A>
+Application Builder Quick Start</Heading-1>
+<pagenum>
+<A ID="pgfId-1056349"></A>
+16</pagenum>
+<Body>
+<A ID="pgfId-1053667"></A>
+This chapter gets you started using Application Builder. Application Builder is a browser-based application that allows you to create a fully functional search and analytics application very quickly. The generated application is designed to be useful as-is, and is also designed to be extremely extensible, allowing arbitrary customization to the generated application. This chapter gets you started using Application Builder and includes the following sections.</Body>
+<Body-bullet>
+<A ID="pgfId-1064031"></A>
+<A href="intro.xml#id(96009)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Overview of Application Builder</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1064032"></A>
+<A href="intro.xml#id(10407)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Setting Up and Starting Application Services</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1064033"></A>
+<A href="intro.xml#id(21750)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Building the Oscars Sample Application</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1064034"></A>
+<A href="intro.xml#id(89173)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Using the Oscars Sample Application</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1064035"></A>
+<A href="intro.xml#id(14174)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Using Application Builder to Modify the Oscars Sample Application</Hyperlink>
+</A></Body-bullet>
+<Heading-2>
+<A ID="pgfId-1064168"></A>
+<A ID="96009"></A>
+Overview of Application Builder</Heading-2>
+<Body>
+<A ID="pgfId-1063979"></A>
+Application Builder generates custom search applications based on your own content. You can define many aspects of the application, including facets, details of the search result page, and item rendering to control content display. The application that Application Builder generates is a full-featured search application with many high-end search features such as search box with a Google-style search grammar, faceted navigation, and search suggestions. Application Builder generates and deploys your customized application. The generated application is a MarkLogic Server application, so it is designed to scale to huge database sizes and still be fast. </Body>
+<Body>
+<A ID="pgfId-1066130"></A>
+No coding is required to create an application with Application Builder. The user interface is simple, yet allows you to build some very complex components such as facets. The generated application is an XQuery application that uses the Search API. It is designed to either be used as-generated with no additional coding required. It also has extensive hooks so that you can customize it with your own XQuery code, if you so choose. </Body>
+<Body>
+<A ID="pgfId-1066167"></A>
+Building an application is typically an iterative process. A representative set of your content must be loaded in a database, and it should have any needed indexes set up. If your content is not complete or not completely indexed, that is OK, you can still use Application Builder to generate an application and modify the Application Builder application as you modify your content. </Body>
+<Body>
+<A ID="pgfId-1066191"></A>
+You can use Application Builder to generate a sample application based on data about the Oscar awards. For details on the sample application, including step-by--step instructions on creating it with Application Builder, see <A href="intro.xml#id(21750)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Building the Oscars Sample Application' on page&#160;9</A> and <A href="intro.xml#id(89173)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Using the Oscars Sample Application' on page&#160;12</A>.</Body>
+<Heading-2>
+<A ID="pgfId-1067449"></A>
+<A ID="10407"></A>
+Setting Up and Starting Application Services</Heading-2>
+<Body>
+<A ID="pgfId-1067456"></A>
+Application Builder is bundled with MarkLogic Server Application Services. On a fresh installation of 4.2, Application Builder is pre-configured and ready to use. On an upgrade installation, you have to create an App Server and a database before you can use it. This section describes the steps needed in each case to start Application Builder, and includes the following parts:</Body>
+<Body-bullet>
+<A ID="pgfId-1068010"></A>
+<A href="intro.xml#id(23297)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Clean Installation</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1068024"></A>
+<A href="intro.xml#id(24413)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Upgrade Installation</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1067952"></A>
+<A ID="23297"></A>
+Clean Installation</Heading-3>
+<Body>
+<A ID="pgfId-1064080"></A>
+When you install MarkLogic Server for the first time, the installation process creates an HTTP App Server, named <code>
+App-Services</code>
+, on port 8002 for Application Services, as well as a database named <code>
+App-Services</code>
+ to store the Application Builder application documents. For details on installing MarkLogic Server, see <A href="../install_all/procedures.xml#id(28962)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Installing MarkLogic Server</Hyperlink>
+</A> in the <Emphasis>
+Installation Guide</Emphasis>
+.</Body>
+<Note>
+<A ID="pgfId-1067504"></A>
+If you are upgrading a server with an earlier version of Application Builder, the <code>
+App-Builder </code>
+database will be renamed to <code>
+App-Services</code>
+, but all of your application data will remain intact.</Note>
+<Body>
+<A ID="pgfId-1064254"></A>
+To start Application Services, open a browser and go to port 8002 of your server. For example, if your browser is running on the same machine as MarkLogic Server, open the following URL in a browser:</Body>
+<Code>
+<A ID="pgfId-1064273"></A>
+http://localhost:8002</Code>
+<Body>
+<A ID="pgfId-1064283"></A>
+When it prompts you for a username and password, enter user credentials for a user that has either the <code>
+admin</code>
+ role or the <code>
+app-builder</code>
+ role. For details on the roles that Application Builder uses, see <A href="security.xml#id(67890)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Predefined Roles for Application Builder' on page&#160;39</A>.</Body>
+<Heading-3>
+<A ID="pgfId-1067988"></A>
+<A ID="24413"></A>
+Upgrade Installation</Heading-3>
+<Body>
+<A ID="pgfId-1068055"></A>
+If you install MarkLogic Server as an upgrade installation, and if the previous installation did not have Application Builder configured (for example, if you are upgrading from 4.0 or 4.1), then the installation does not create the forest, database, and App Server that Application Builder requires.</Body>
+<Body>
+<A ID="pgfId-1068083"></A>
+The upgrade procedure from either 4.0 or 4.1 to 4.2 is similar:</Body>
+<Body-bullet>
+<A ID="pgfId-1068251"></A>
+If you are upgrading from either 4.0 to 4.2, then the upgrade installation will create a forest and database, named <code>
+App-Services</code>
+. </Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1068187"></A>
+If you are upgrading from 4.1 to 4.2, and if the previous installation had Application Builder configured, then the upgrade installation will rename the <code>
+App-Builder</code>
+ App Server to <code>
+App-Services</code>
+ and will create a forest and database, named <code>
+App-Services</code>
+. Click OK when prompted to move all of the data previously in your <code>
+App-Builder</code>
+ database into the <code>
+App-Services</code>
+ database. You can then delete the <code>
+App-Builder</code>
+ database and forest.</Body-bullet>
+<Body-indent>
+<A ID="pgfId-1068567"></A>
+<IMAGE xml:link="simple" href="images/CopyDatabase.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<Body-bullet>
+<A ID="pgfId-1068296"></A>
+If you are upgrading from 4.1 to 4.2, and if the previous installation did not have Application Builder configured, then the upgrade installation will not create a forest and database, named <code>
+App-Services</code>
+. </Body-bullet>
+<Body>
+<A ID="pgfId-1068278"></A>
+If the upgrade created an <code>
+App-Services</code>
+ forest and database, you must create an HTTP App Server, with the following settings (all other setting can keep their default values):</Body>
+<TABLE>
+<ROW>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1068416"></A>
+Field</CellHeading>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<CellHeading>
+<A ID="pgfId-1068418"></A>
+Setting</CellHeading>
+</TH>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068420"></A>
+Name</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068422"></A>
+App-Services</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068424"></A>
+Root</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068426"></A>
+Apps/</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068428"></A>
+Port </CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068430"></A>
+8002</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068436"></A>
+Database</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068438"></A>
+App-Services</CellBody>
+</CELL>
+</ROW>
+<ROW>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068455"></A>
+Error Handler</CellBody>
+</CELL>
+<CELL ROWSPAN="1" COLSPAN="1">
+<CellBody>
+<A ID="pgfId-1068457"></A>
+/error.xqy</CellBody>
+</CELL>
+</ROW>
+</TABLE>
+<Body>
+<A ID="pgfId-1068047"></A>
+The following is what the configuration for the App-Services server should look like in the Admin Interface. For more information about administration of MarkLogic Server, see the <Emphasis>
+Administrator's Guide</Emphasis>
+.</Body>
+<Body-indent>
+<A ID="pgfId-1068209"></A>
+<IMAGE xml:link="simple" href="images/Create-App-Services-Server.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<Body-indent>
+<A ID="pgfId-1068531"></A>
+<IMAGE xml:link="simple" href="images/Create-App-Services-Server2.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<Heading-2>
+<A ID="pgfId-1064056"></A>
+<A ID="21750"></A>
+Building the Oscars Sample Application</Heading-2>
+<Body>
+<A ID="pgfId-1067057"></A>
+Application Builder allows you to configure and generate applications, and it includes a template to build a sample application based on Oscar awards data from Wikipedia. Building the Oscars sample application is a very simple process of running through the Application Builder wizard. </Body>
+<Note>
+<A ID="pgfId-1068671"></A>
+If you plan to deploy the full data set for the Oscars sample application on a 32-bit Microsoft Windows XP system, you should have at least 3GB of system memory.</Note>
+<Body>
+<A ID="pgfId-1068664"></A>
+To build the Oscars sample application, perform the following:</Body>
+<Number1>
+<A ID="pgfId-1065206"></A>
+Start Application Builder in a browser by going to the following URL:</Number1>
+<Code>
+<A ID="pgfId-1065231"></A>
+http://localhost:8002</Code>
+<Body-indent>
+<A ID="pgfId-1065327"></A>
+If MarkLogic Server is installed on a different host or your App Server is on a different port, substitute the appropriate values for the ones above.</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1068626"></A>
+On the Application Builder Applications screen, click New Sample Application.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1068630"></A>
+<IMAGE xml:link="simple" href="images/app-build-opening-screen.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1068631"></A>
+Enter a name for the application (<code>
+Oscars</code>
+) and select New database. Enter a name for the database (Oscars) and click Create Application.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1065343"></A>
+<IMAGE xml:link="simple" href="images/new-project.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1065350"></A>
+Application Builder creates an Oscars App Server, forest, and database.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1065390"></A>
+<IMAGE xml:link="simple" href="images/oscars-appear.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1065397"></A>
+On the Appearance page, you can change any of the settings you want, or just accept the defaults.</Number>
+<Number>
+<A ID="pgfId-1065428"></A>
+Click the Deploy tab. The Compile and Launch Application page appears.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1065444"></A>
+<IMAGE xml:link="simple" href="images/deploy-page.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1065451"></A>
+On the Compile and Launch Application page, select the New App Server button. Accept the default values or provide the App Server with a name and port number. You can only select existing App Server if there is already an App Server configured for this application.</Number>
+<Number>
+<A ID="pgfId-1065484"></A>
+Click the Deploy button and confirm. Application Builder opens a new window, creates and configures the new App Server, and launches the newly created application in the new window. This may take a short while.</Number>
+<Number>
+<A ID="pgfId-1065496"></A>
+When the new application is complete, it prompts you to log in. Enter a username and password and click OK. For details about controlling access to the built application, see <A href="security.xml#id(87595)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Controlling Access to Application Builder and to Generated Applications' on page&#160;39</A>.</Number>
+</NumberList>
+<Note>
+<A ID="pgfId-1066531"></A>
+When you deploy an application, it opens the newly generated application in a new browser window using a URL with the hostname that is stored in the MarkLogic Server configuration files (the result of an <code>
+xdmp:host-name</code>
+ call). If you are running on a laptop computer that is changing networks, it is possible that the hostname will not be available on your network, resulting in a 404 or similar error when the application launches (because it is trying to access a server name that is not available on your current network). In these cases, substituting <code>
+localhost</code>
+ for the hostname in the URL should allow the application to launch.</Note>
+<NumberList>
+<Number>
+<A ID="pgfId-1065508"></A>
+The Oscars sample application is created with a few sample documents. You can enter search terms or click on the browse links to narrow the results displayed.</Number>
+</NumberList>
+<Body>
+<A ID="pgfId-1065546"></A>
+<IMAGE xml:link="simple" href="images/oscars-app.gif" show="embed" actuate="auto"/>
+</Body>
+<NumberList>
+<Number>
+<A ID="pgfId-1065535"></A>
+If you want to load the full content set, click the Load Full Sample Dataset link toward the bottom of the page. The full dataset is around 20 MB to download. After clicking the link, the data will download and load automatically (internet connection is required). A spinning icon will appear until the load is complete. When it is done, you will notice that the counts have changed and additional facet values are visible.</Number>
+</NumberList>
+<Note>
+<A ID="pgfId-1065519"></A>
+While downloading and loading the sample page, do not navigate away from the page or close the browser window until the spinning icon disappears and the page reloads, otherwise the load might be interrupted.</Note>
+<Heading-2>
+<A ID="pgfId-1065578"></A>
+<A ID="89173"></A>
+Using the Oscars Sample Application</Heading-2>
+<Body>
+<A ID="pgfId-1065592"></A>
+The Oscars sample application allows you to search, browse, and display articles about Oscar award winners from the last nine decades. It is built using the standard features of the Search API, including query text parsing, faceted navigation, snippetting, and many other features. For details about the Search API, see <A href="../search-dev-guide/search-api.xml#id(71050)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Search API: Understanding and Using</Hyperlink>
+</A> in the <Emphasis>
+Search Developer's Guide</Emphasis>
+.</Body>
+<Body>
+<A ID="pgfId-1065616"></A>
+The Oscars sample application is like many search applications, and you should be able to just play around with it to use it. This section walks through the main features of it to highlight some of the things you can create in Application Builder, and includes the following parts:</Body>
+<Body-bullet>
+<A ID="pgfId-1065630"></A>
+<A href="intro.xml#id(43550)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Keyword Searching, Search Suggestions, and Parsing</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1065640"></A>
+<A href="intro.xml#id(41717)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Browsing with Facets</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1065732"></A>
+<A href="intro.xml#id(63969)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Search Result Page</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1065739"></A>
+<A href="intro.xml#id(13633)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Displaying Content Detail</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1065654"></A>
+<A ID="43550"></A>
+Keyword Searching, Search Suggestions, and Parsing</Heading-3>
+<Body>
+<A ID="pgfId-1065789"></A>
+At its most basic, you can enter keywords into the search box and press return to search for matches in the database. For example, a search for raymond shows snippets for the first 10 of 221 results.</Body>
+<Body>
+<A ID="pgfId-1065790"></A>
+<IMAGE xml:link="simple" href="images/rainman.gif" show="embed" actuate="auto"/>
+</Body>
+<Body>
+<A ID="pgfId-1065838"></A>
+As you search, the application provides suggestions for things that might match your search. For example, as you start typing Ingrid Bergman's name, you might see something like the following:</Body>
+<Body>
+<A ID="pgfId-1065839"></A>
+<IMAGE xml:link="simple" href="images/ingrid.gif" show="embed" actuate="auto"/>
+</Body>
+<Body>
+<A ID="pgfId-1065840"></A>
+Because the application is built using the Search API, it uses standard search grammar such as combining multiple terms with AND semantics, treating double-quoted phrases as phrases, and so on. For information about the search grammar for the Search API, see <A href="../search-dev-guide/search-api.xml#id(71050)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Search API: Understanding and Using</Hyperlink>
+</A> in the <Emphasis>
+Search Developer's Guide</Emphasis>
+.</Body>
+<Body>
+<A ID="pgfId-1065854"></A>
+You can also do all of the advanced things such as searching for constraints. For example, the following query text finds everything about the actor Dustin Hoffman:</Body>
+<Code>
+<A ID="pgfId-1065878"></A>
+actor:&quot;Dustin Hoffman&quot;</Code>
+<Body>
+<A ID="pgfId-1065889"></A>
+This is not a standard full-text search, but is a constraint showing all the documents matching where an particular value in the source XML has the content <code>
+Dustin Hoffman</code>
+. You can combine the constraint with other terms to further narrow the results:</Body>
+<Code>
+<A ID="pgfId-1065919"></A>
+buck actor:&quot;Dustin Hoffman&quot;</Code>
+<Body>
+<A ID="pgfId-1065930"></A>
+When you click on any links in the user interface, notice that the query text in the search box shows the current query. </Body>
+<Heading-3>
+<A ID="pgfId-1065671"></A>
+<A ID="41717"></A>
+Browsing with Facets</Heading-3>
+<Body>
+<A ID="pgfId-1065681"></A>
+On the left side of the application are facets that allow you to browse through the content. Each time you click on a facet, it narrows the results to that category, as well as any other categories or search terms that are active.</Body>
+<Body>
+<A ID="pgfId-1065998"></A>
+For example, if you first click on the Best Director browse link, then on the 1980s link, and then on the Won link, you will find all of the Best Director winners from the 1980s.</Body>
+<Body>
+<A ID="pgfId-1065999"></A>
+<IMAGE xml:link="simple" href="images/best-80s.gif" show="embed" actuate="auto"/>
+</Body>
+<Body>
+<A ID="pgfId-1066000"></A>
+Each of the browse facets has a count that shows you how many results match for your current query.</Body>
+<Heading-3>
+<A ID="pgfId-1065746"></A>
+<A ID="63969"></A>
+Search Result Page</Heading-3>
+<Body>
+<A ID="pgfId-1066025"></A>
+The page displaying the search result shows a link with a text summary of the content, highlighted snippets of the content matching your search, and some other information about the search match. When you click on the result link, it takes you to the content detail.</Body>
+<Heading-3>
+<A ID="pgfId-1066014"></A>
+<A ID="13633"></A>
+Displaying Content Detail</Heading-3>
+<Body>
+<A ID="pgfId-1065698"></A>
+The content detail includes the complete content for the search result. The rendering is based on what was configured in the Content Display page in Application Builder. Styling is customized based on any which skin you choose and based on any custom CSS entered from the Appearance page.</Body>
+<Heading-2>
+<A ID="pgfId-1065705"></A>
+<A ID="14174"></A>
+Using Application Builder to Modify the Oscars Sample Application</Heading-2>
+<Body>
+<A ID="pgfId-1065718"></A>
+You can modify the Oscars sample application with Application Builder. This section describes how to add another facet to the application: a year facet. With the year facet, you can drill-down on the decade facet, then drill down on those results with the year facet. The year facet will use the same index as the decade facet.</Body>
+<Body>
+<A ID="pgfId-1065725"></A>
+Perform the following steps to create a year facet in the Oscars sample application.</Body>
+<Number1>
+<A ID="pgfId-1066252"></A>
+Start Application Builder (for example, open <code>
+http://localhost:8002</code>
+ in a browser).</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1066268"></A>
+On the Application Builder Applications page, click edit on the application you used for your Oscars sample application (for example, <code>
+Oscars</code>
+).</Number>
+<Number>
+<A ID="pgfId-1066489"></A>
+Click the Search tab. The Search page appears.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1066490"></A>
+<IMAGE xml:link="simple" href="images/search-constraints.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1066491"></A>
+On the Search page, click the Add New Button.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1066294"></A>
+<IMAGE xml:link="simple" href="images/add-new.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1066301"></A>
+On the New Constraint dialog, click Range.</Number>
+<Number>
+<A ID="pgfId-1066320"></A>
+On the New Constraint dialog, enter <code>
+year</code>
+ for the Name and select <code>
+year</code>
+ for the Source Index.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1066335"></A>
+<IMAGE xml:link="simple" href="images/new-year.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1066342"></A>
+Click Create Range Constraint. Application Builder creates the constraint.</Number>
+<Number>
+<A ID="pgfId-1066368"></A>
+In the application name menu, select Deploy Now.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1066375"></A>
+<IMAGE xml:link="simple" href="images/deploy-now.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1066382"></A>
+Application Builder compiles and deploys the new application code to the modules database of your App Server. In a new window, the following screen appears while it is deploying.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1066404"></A>
+<IMAGE xml:link="simple" href="images/deploing-app.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<EndList-root>
+<A ID="pgfId-1066411"></A>
+When it is done, the newly modified application replaces the status page. Your new year facet appears in the new application page. If you select a particular decade, you can then select the year from the year facet to find the results for a single year from that decade.</EndList-root>
+<Body>
+<A ID="pgfId-1066454"></A>
+<IMAGE xml:link="simple" href="images/year-facet.gif" show="embed" actuate="auto"/>
+</Body>
+<Note>
+<A ID="pgfId-1066597"></A>
+The year facet in this example will be available at all times, whether or not you have clicked on the decade facet. If you want the year facet to only display after you have selected a decade, you need to add some display logic that only displays the year facet after specifying a decade facet value. The Oscars sample application is not set up to do this, but it is possible to modify the built application to create such hierarchical logic. For details on modifying the application, see <A href="custom.xml#id(58638)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Extending Applications Built With Application Builder' on page&#160;41</A>.</Note>
+</XML>

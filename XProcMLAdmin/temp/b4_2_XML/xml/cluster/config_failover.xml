@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="config_failover.css" type="text/css" charset="UTF-8"?>
+<XML>
+<TITLE> </TITLE><Heading-1>
+<A ID="pgfId-1040610"></A>
+<A ID="18635"></A>
+Configuring Shared-Disk Failover for a Forest</Heading-1>
+<pagenum>
+<A ID="pgfId-1043803"></A>
+51</pagenum>
+<Body>
+<A ID="pgfId-1043807"></A>
+This chapter describes the procedure for configuring shared-disk failover for a forest. For details about how failover works and the requirements for failover, see <A href="failover.xml#id(82157)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'High Availability of Data Nodes With Failover' on page 26</A>. For details on configuring local-disk failover, see <A href="config-local-failover.xml#id(18635)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Configuring Local-Disk Failover for a Forest' on page 43</A>. This chapter includes the following sections:</Body>
+<Body-bullet>
+<A ID="pgfId-1047705"></A>
+<A href="config_failover.xml#id(26556)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Setting Up Shared-Disk Failover for a Forest</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1047709"></A>
+<A href="config_failover.xml#id(13214)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Reverting a Failed Over Forest Back to the Primary Host</Hyperlink>
+</A></Body-bullet>
+<Body>
+<A ID="pgfId-1056832"></A>
+For other failover administrative procedures that apply to both local-disk and shared-disk failover, see <A href="config-both-failover.xml#id(18635)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Other Failover Configuration Tasks' on page 51</A>.</Body>
+<Heading-2>
+<A ID="pgfId-1047710"></A>
+<A ID="26556"></A>
+Setting Up Shared-Disk Failover for a Forest</Heading-2>
+<Body>
+<A ID="pgfId-1047714"></A>
+Setting up shared-disk failover for a forest is a relatively simple administrative process. This section describes this procedure. There are two basic parts to the procedure:</Body>
+<Body-bullet>
+<A ID="pgfId-1048577"></A>
+<A href="config_failover.xml#id(69480)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Enabling Failover in a Group</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1056871"></A>
+<A href="config_failover.xml#id(51811)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Setting Journaling Database Option to Strict</Hyperlink>
+</A></Body-bullet>
+<Body-bullet>
+<A ID="pgfId-1048581"></A>
+<A href="config_failover.xml#id(33427)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+Configuring Shared-Disk Failover For a Forest</Hyperlink>
+</A></Body-bullet>
+<Heading-3>
+<A ID="pgfId-1048582"></A>
+<A ID="69480"></A>
+Enabling Failover in a Group</Heading-3>
+<Body>
+<A ID="pgfId-1048586"></A>
+For each group in which you want to host a failover forest, perform the following steps:</Body>
+<Number1>
+<A ID="pgfId-1047754"></A>
+Before setting up failover, ensure that you have met all the requirements for failover, as described in <A href="failover.xml#id(64267)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Requirements for Shared-Disk Failover' on page 34</A>.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1047820"></A>
+In the groups configuration page for the group in which the failover host belongs, make sure the <code>
+failover enable</code>
+ button is set to <code>
+true</code>
+.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1047821"></A>
+<IMAGE xml:link="simple" href="images/fo_group_enable.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<Body-indent>
+<A ID="pgfId-1048628"></A>
+This group-level <code>
+failover enable</code>
+ button provides global control, at the group level, for enabling and disabling failover for all forests in that group.</Body-indent>
+<Body>
+<A ID="pgfId-1056856"></A>
+You can enable or disable failover at the group level at any time. It does not stop you from configuring failover for forests; it only stops failover from actually occurring.</Body>
+<Heading-3>
+<A ID="pgfId-1048605"></A>
+<A ID="51811"></A>
+Setting Journaling Database Option to Strict</Heading-3>
+<Body>
+<A ID="pgfId-1056889"></A>
+In the database in which you plan to attach shared-disk failover forests, MarkLogic recommends setting the <code>
+journaling</code>
+ option to <code>
+strict</code>
+. The <code>
+strict</code>
+ setting does an explicit file sync to the journal before committing the transaction. The default <code>
+fast</code>
+ setting syncs to the operating system, but does not do an explicit file sync, and instead relies on the operating system to write to the disk. If the operating system fails suddenly (for example, a power failure or a system crash) after the transaction is committed but before the journal has been written to disk, in <code>
+fast</code>
+ mode, it is possible to lose a transaction, but in <code>
+strict</code>
+ mode you will not lose any transactions. </Body>
+<Body>
+<A ID="pgfId-1056925"></A>
+Setting the <code>
+journaling</code>
+ option to <code>
+strict</code>
+ will slow each transaction down (because it has to wait for the filesystem to report back that the journal file was written to disk). In some cases, the slowdown can be significant, and in other cases it can be relatively modest, but in all cases it will be slower. If you are doing many small transactions one after another, the slowdown can be considerable. In these cases, the best practice is to batch the updates into larger transactions (for example, update 100 documents per transaction instead of 1 document per transaction). The optimal size of your batches will vary based on the size of your documents, the hardware in which you are running MarkLogic Server, and other factors. You should perform your own performance benchmarks with your own workload to determine your optimum batch size. </Body>
+<Body>
+<A ID="pgfId-1056952"></A>
+The reason for setting the option to <code>
+strict</code>
+ for shared-disk failover is that, with shared-disk failover, you are specifically trying to guard against hosts going down with only a single copy of the data. With local-disk failover, the replica forests each store a copy of the data, so not synchronizing the filesystem for each transaction is less risky (because the master host as well as all of the replica hosts would need to have the operating system fail suddenly in order to potentially lose a transaction), and it therefore tends to be more of an acceptable performance trade-off to set <code>
+journaling</code>
+ to <code>
+fast</code>
+ (although you could use <code>
+strict</code>
+ if you want to be even safer). You should evaluate your requirements and SLAs when making these trade-offs, as what is acceptable for one environment might not be acceptable for another.</Body>
+<Body>
+<A ID="pgfId-1056995"></A>
+To set the <code>
+journaling</code>
+ database option to <code>
+strict</code>
+, perform the following steps:</Body>
+<Number1>
+<A ID="pgfId-1057012"></A>
+In the Admin Interface, navigate to the database configuration page for the database to which you will attach your shared-disk failover forests.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1057022"></A>
+On the database configuration page, find the <code>
+journaling</code>
+ option and set it to <code>
+strict</code>
+.</Number>
+<Number>
+<A ID="pgfId-1057035"></A>
+Click OK to save the changes.</Number>
+</NumberList>
+<Body>
+<A ID="pgfId-1057042"></A>
+All forests attached to this database will use <code>
+strict journaling</code>
+.</Body>
+<Heading-3>
+<A ID="pgfId-1056882"></A>
+<A ID="33427"></A>
+Configuring Shared-Disk Failover For a Forest</Heading-3>
+<Body>
+<A ID="pgfId-1048590"></A>
+To set up failover on a forest, perform the following steps:</Body>
+<Number1>
+<A ID="pgfId-1048598"></A>
+Before setting up failover, ensure that you have met all the requirements for failover, as described in <A href="failover.xml#id(64267)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Requirements for Shared-Disk Failover' on page 34</A> and enable failover for the group, as described in <A href="config_failover.xml#id(69480)" xml:link="simple" show="replace" actuate="user" CLASS="XRef">'Enabling Failover in a Group' on page 47</A>.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1047822"></A>
+Either create a new forest or enable failover for an existing forest with a data directory on a supported CFS. If you are modifying an existing forest, skip to step <A href="config_failover.xml#id(27514)" xml:link="simple" show="replace" actuate="user" CLASS="XRef"><Hyperlink>
+6</Hyperlink>
+</A>. To create a new forest, first click the Forests link in the left tree menu, then click the Create tab. The Create Forest page appears. Note the <code>
+failover enable</code>
+ button and the <code>
+failover hosts</code>
+ section at the bottom.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1047767"></A>
+<IMAGE xml:link="simple" href="images/fo_create_forest.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1047778"></A>
+Enter a name for the forest.</Number>
+<Number>
+<A ID="pgfId-1047779"></A>
+In the Host drop-down list, choose the primary host for this forest. This is the host that will service this forest unless the forest fails over to another host.</Number>
+<Number>
+<A ID="pgfId-1047844"></A>
+Specify a data directory for the forest that is on a supported CFS. For example, if the CFS is mounted to <code>
+/veritas/marklogic</code>
+ on your primary host and all of your failover hosts, specify <code>
+/veritas/marklogic</code>
+.</Number>
+<Number>
+<A ID="pgfId-1047852"></A>
+<A ID="27514"></A>
+Select <code>
+true</code>
+ for <code>
+failover enable</code>
+. Note that <code>
+failover enable</code>
+ must be set to <code>
+true</code>
+ at both the forest and the group level for failover to be active.</Number>
+<Number>
+<A ID="pgfId-1047859"></A>
+In the first drop-down list in the <code>
+failover hosts</code>
+ section, choose a failover host. If you are specifying more than one failover hosts, choose another one in the second list. If you need to add more than two failover hosts, you can do that after initially creating the forest.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1047867"></A>
+<IMAGE xml:link="simple" href="images/fo_create_forest2.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1047868"></A>
+Click OK to create or modify the forest.</Number>
+</NumberList>
+<Body>
+<A ID="pgfId-1047875"></A>
+The forest is now configured with a failover host. You must attach the forest to a database before you can use the forest, but it is ready and set up for failover. </Body>
+<Heading-2>
+<A ID="pgfId-1047715"></A>
+<A ID="13214"></A>
+Reverting a Failed Over Forest Back to the Primary Host</Heading-2>
+<Body>
+<A ID="pgfId-1047719"></A>
+If a forest fails over to a failover host, it will remain mounted locally to the failover host until the host unmounts the forest. If you have a failed over forest and want to revert it back to the primary host (<Emphasis>
+unfailover</Emphasis>
+ the forest), you must either restart the forest or restart the host in which the forest is locally mounted. After restarting, the forest will automatically mount locally on the primary host if the primary host is back online and corrected. To check the status of the hosts in the cluster, see the Cluster Status Page in the Admin Interface.</Body>
+<Body>
+<A ID="pgfId-1047891"></A>
+To restart the forest, perform the following steps:</Body>
+<Number1>
+<A ID="pgfId-1047892"></A>
+Navigate to the Status page for the forest that has failed over. For example, if the forest name is myFailoverForest, click Forests &gt; myFailoverForest in the left tree menu, then click the Status tab.</Number1>
+<NumberList>
+<Number>
+<A ID="pgfId-1047904"></A>
+On the Forest Status page, click the restart button.</Number>
+</NumberList>
+<Body-indent>
+<A ID="pgfId-1047905"></A>
+<IMAGE xml:link="simple" href="images/fo_forest_restart.gif" show="embed" actuate="auto"/>
+</Body-indent>
+<NumberList>
+<Number>
+<A ID="pgfId-1047912"></A>
+Click OK on the Restart Forest confirmation page.</Number>
+<Number>
+<A ID="pgfId-1047973"></A>
+When the Forest Status page returns, if the Mount State is <code>
+unmounted</code>
+, the forest might not have completed mounting. Refresh the page and the Mount State should indicate that the forest is open.</Number>
+</NumberList>
+<Body>
+<A ID="pgfId-1047920"></A>
+The forest is restarted, and if the primary host is available, the primary host will mount the forest. If the primary host is not available, the first failover host will try to mount the forest, and so on until there are no more failover hosts to try. If you look in the <code>
+ErrorLog.txt</code>
+ log file for the primary host, you will see a message similar to the following:</Body>
+<Code>
+<A ID="pgfId-1047929"></A>
+2007-03-28 13:20:29.644 Info: Mounted forest myFailoverForest locally on /veritas/marklogic/Forests/myFailoverForest</Code>
+<Body>
+<A ID="pgfId-1047941"></A>
+If you look at the <code>
+ErrorLog.txt</code>
+ log file for any other host in the cluster, you will see a message similar to the following:</Body>
+<Code>
+<A ID="pgfId-1056705"></A>
+2007-03-28 13:20:29.644 Info: Mounted forest myFailoverForest remotely on seymour.marklogic.com</Code>
+</XML>

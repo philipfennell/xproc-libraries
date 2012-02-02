@@ -1,0 +1,59 @@
+<apidoc:module name="Extensions" category="Extension" lib="xdmp" xmlns:apidoc="http://marklogic.com/xdmp/apidoc">
+  <apidoc:summary category="Extension" subcategory="JSON" lib="xdmp" access="public">
+ <p xmlns="http://www.w3.org/1999/xhtml">The JSON built-in functions serialize XQuery items to JSON and 
+ read a JSON string and create XQuery items from it.  JSON (JavaScript
+ Object Notation) is a data-interchange format popular mechanism for passing
+ data from JavaScript to other programming environments. </p>
+ </apidoc:summary>
+  <apidoc:function name="to-json" type="builtin" lib="xdmp" category="Extension" subcategory="JSON" hidden="false" bucket="MarkLogic Built-In Functions">
+    <apidoc:summary>
+  Returns a string representing a JSON
+  serialization of a given item sequence.  
+</apidoc:summary>
+    <apidoc:params>
+      <apidoc:param name="item" type="item()*" optional="false">
+    The item sequence whose JSON serialization is returned.
+  </apidoc:param>
+    </apidoc:params>
+    <apidoc:return>xs:string</apidoc:return>
+    <apidoc:usage>
+  <p xmlns="http://www.w3.org/1999/xhtml">XML nodes are serialized to JSON strings.</p>
+  <p xmlns="http://www.w3.org/1999/xhtml">JSON has no serialization for infinity, not a number, and negative 0, 
+  therefore if you try and serialize INF, -INF, NaN, or -0 as JSON, an 
+  exception is thrown.  If you want to represent these values in some way in 
+  your serialized JSON, then you can catch the exception (with a try/catch, for
+  example) and provide your own value for it.</p>
+  <p xmlns="http://www.w3.org/1999/xhtml">XQuery maps (<code>map:map</code> types) serialize to JSON name-value
+  pairs.</p>
+</apidoc:usage>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+  xdmp:to-json(("a",fn:false()))
+   =&gt; ["a", false]
+</pre></apidoc:example>
+    <algorithm xmlns="http://www.w3.org/1999/xhtml"></algorithm>
+  </apidoc:function>
+  <apidoc:function name="from-json" type="builtin" lib="xdmp" category="Extension" subcategory="JSON" hidden="false" bucket="MarkLogic Built-In Functions">
+    <apidoc:summary>
+  Parses a string as JSON, returning an item sequence.
+</apidoc:summary>
+    <apidoc:params>
+      <apidoc:param name="arg" type="xs:string" optional="false">
+    JSON input to be parsed.
+  </apidoc:param>
+    </apidoc:params>
+    <apidoc:return>item()*</apidoc:return>
+    <apidoc:usage>
+  <p xmlns="http://www.w3.org/1999/xhtml">JSON objects are parsed as maps.</p>
+  <p xmlns="http://www.w3.org/1999/xhtml">The JSON null value is represented as the empty sequence.</p>
+  <p xmlns="http://www.w3.org/1999/xhtml">Nested arrays in JSON are flattened out.</p>
+  <p xmlns="http://www.w3.org/1999/xhtml">Any codepoints in the JSON string that aren't allowed in XML are
+     rejected and an error is thrown.</p>
+</apidoc:usage>
+    <apidoc:example><pre xml:space="preserve" xmlns="http://www.w3.org/1999/xhtml">
+  xdmp:from-json('["a", false]')
+  =&gt; ("a", fn:false())
+  </pre>
+</apidoc:example>
+    <algorithm xmlns="http://www.w3.org/1999/xhtml"></algorithm>
+  </apidoc:function>
+</apidoc:module>

@@ -1,0 +1,8 @@
+
+			<ml:connection xmlns:mla="http://www.marklogic.com/admin" xmlns:ml="http://www.marklogic.com"
+               user="admin"
+               password="admin"
+               host="localhost"
+               port="8003"
+               debug="false"/>
+		
